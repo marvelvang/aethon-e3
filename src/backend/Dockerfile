@@ -16,5 +16,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=build /app/out .
 
-ENV ASPNETCORE_URLS=http://0.0.0.0:${PORT:-3000}
-ENTRYPOINT ["dotnet", "aethon-e3.api.dll"]
+ENTRYPOINT ["/bin/sh", "-c", "ASPNETCORE_URLS=http://0.0.0.0:${PORT:-3000} exec dotnet aethon-e3.api.dll"]
