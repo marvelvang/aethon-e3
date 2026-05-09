@@ -20,6 +20,7 @@ public class UiStateProjectionService
         return new UiState
         {
             GameStateId     = state.Id,
+            Round           = state.Round,
             Population      = state.Population,
             FreePopulation  = freePopulation,
             BoundPopulation = bound,

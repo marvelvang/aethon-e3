@@ -5,6 +5,7 @@ namespace aethon_e3.core.Projections;
 public class UiState
 {
     public int GameStateId { get; init; }
+    public int Round { get; init; }
     public int Population { get; init; }
     public int FreePopulation { get; init; }
     public int BoundPopulation { get; init; }

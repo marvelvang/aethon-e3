@@ -11,7 +11,7 @@ public class GameApplicationService(
     AppDbContext db,
     GameFactory factory,
     BuildService buildService,
-    TickService tickService,
+    RoundService roundService,
     UiStateProjectionService projectionService)
 {
     public async Task<UiState> CreateGame()
@@ -39,7 +39,7 @@ public class GameApplicationService(
     public async Task<UiState> EndRound(int gameId)
     {
         var state = await LoadState(gameId);
-        tickService.Tick(state);
+        roundService.Simulate(state);
         await db.SaveChangesAsync();
         return projectionService.Project(state);
     }

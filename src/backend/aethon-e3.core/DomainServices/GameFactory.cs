@@ -9,6 +9,7 @@ public class GameFactory
     {
         var state = new GameState
         {
+            Round         = 1,
             Population    = 100,
             ConsumerGoods = 0,
             Industry      = 200
