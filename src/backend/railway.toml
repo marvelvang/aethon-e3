@@ -1,5 +1,4 @@
 [build]
-builder = "NIXPACKS"
 buildCommand = "dotnet publish aethon-e3.api/aethon-e3.api.csproj -c Release -o out"
 
 [deploy]
