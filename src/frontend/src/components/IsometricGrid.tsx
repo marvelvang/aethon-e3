@@ -1,8 +1,13 @@
 import { useEffect, useRef } from 'react'
 import * as PIXI from 'pixi.js'
 import { renderIsometricGrid } from '../pixi/renderIsometricGrid'
+import type { Building } from '../api/gameApi'
 
-export default function IsometricGrid() {
+interface Props {
+  buildings: Building[]
+}
+
+export default function IsometricGrid({ buildings }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -20,7 +25,7 @@ export default function IsometricGrid() {
       autoDensity: true,
     })
 
-    const gridContainer = renderIsometricGrid(app)
+    const gridContainer = renderIsometricGrid(app, buildings)
     const camera = { x: 0, y: 0, scale: 1 }
 
     function applyCamera() {
@@ -130,7 +135,7 @@ export default function IsometricGrid() {
       canvas.removeEventListener('touchend', onTouchEnd)
       app.destroy(false, { children: true, texture: true, baseTexture: true })
     }
-  }, [])
+  }, [buildings])
 
   return (
     <canvas

@@ -1,10 +1,12 @@
 import * as PIXI from 'pixi.js'
+import type { Building } from '../api/gameApi'
 
 const GRID_SIZE = 10
 const TILE_HALF_WIDTH = 32
 const TILE_HALF_HEIGHT = 16
 
 const COLOR_TILE_FILL = 0x9c6b3c
+const COLOR_TILE_FILL_BUILDING = 0x1a6bc4
 const COLOR_TILE_STROKE = 0xe8d5b0
 const STROKE_WIDTH = 1
 
@@ -20,13 +22,15 @@ function tileTopVertex(
   }
 }
 
-export function renderIsometricGrid(app: PIXI.Application): PIXI.Container {
+export function renderIsometricGrid(app: PIXI.Application, buildings: Building[]): PIXI.Container {
   const { width, height } = app.screen
 
   const centerX = width / 2
   const gridVisualHeight =
     (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
   const offsetY = (height - gridVisualHeight) / 2
+
+  const buildingSet = new Set(buildings.map((b) => `${b.x},${b.y}`))
 
   const container = new PIXI.Container()
   app.stage.addChild(container)
@@ -47,8 +51,12 @@ export function renderIsometricGrid(app: PIXI.Application): PIXI.Container {
       const leftX = top.x - TILE_HALF_WIDTH
       const leftY = top.y + TILE_HALF_HEIGHT
 
+      const fillColor = buildingSet.has(`${col},${row}`)
+        ? COLOR_TILE_FILL_BUILDING
+        : COLOR_TILE_FILL
+
       graphics.lineStyle(STROKE_WIDTH, COLOR_TILE_STROKE, 1)
-      graphics.beginFill(COLOR_TILE_FILL)
+      graphics.beginFill(fillColor)
       graphics.drawPolygon([topX, topY, rightX, rightY, bottomX, bottomY, leftX, leftY])
       graphics.endFill()
     }
