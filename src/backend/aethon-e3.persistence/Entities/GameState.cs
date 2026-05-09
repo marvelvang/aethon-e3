@@ -5,6 +5,7 @@ public class GameState
     public const int GridSize = 10;
 
     public int Id { get; set; }
+    public int Round { get; set; }
     public int Population { get; set; }
     public int ConsumerGoods { get; set; }
     public int Industry { get; set; }
