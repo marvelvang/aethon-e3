@@ -1,6 +1,2 @@
-[build]
-buildCommand = "dotnet publish aethon-e3.api/aethon-e3.api.csproj -c Release -o out"
-
 [deploy]
-startCommand = "ASPNETCORE_URLS=http://0.0.0.0:$PORT dotnet out/aethon-e3.api.dll"
 healthcheckPath = "/api/game"
