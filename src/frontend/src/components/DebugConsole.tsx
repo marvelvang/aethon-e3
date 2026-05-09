@@ -23,6 +23,7 @@ function fmt(args: unknown[]): string {
   return args
     .map(a => {
       if (typeof a === 'string') return a
+      if (a instanceof Error) return `${a.name}: ${a.message}${a.stack ? '\n' + a.stack : ''}`
       try { return JSON.stringify(a, null, 2) } catch { return String(a) }
     })
     .join(' ')
