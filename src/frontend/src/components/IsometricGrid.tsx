@@ -1,8 +1,13 @@
 import { useEffect, useRef } from 'react'
 import * as PIXI from 'pixi.js'
 import { renderIsometricGrid } from '../pixi/renderIsometricGrid'
+import type { Building } from '../api/gameApi'
 
-export default function IsometricGrid() {
+interface Props {
+  buildings: Building[]
+}
+
+export default function IsometricGrid({ buildings }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -18,12 +23,12 @@ export default function IsometricGrid() {
       autoDensity: true,
     })
 
-    renderIsometricGrid(app)
+    renderIsometricGrid(app, buildings)
 
     return () => {
       app.destroy(false, { children: true, texture: true, baseTexture: true })
     }
-  }, [])
+  }, [buildings])
 
   return (
     <canvas
