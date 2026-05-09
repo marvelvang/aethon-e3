@@ -25,23 +25,21 @@ export interface UiState {
   }>
 }
 
-async function throwWithBody(label: string, res: Response): Promise<never> {
-  let body = ''
-  try { body = await res.text() } catch { /* ignore */ }
-  throw new Error(`${label} → ${res.status} ${res.statusText}${body ? ': ' + body : ''}`)
+async function fetchJson<T>(label: string, input: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(input, init)
+  if (!res.ok) {
+    let body = ''
+    try { body = await res.text() } catch { /* ignore */ }
+    throw new Error(`${label} → ${res.status} ${res.statusText}${body ? ': ' + body : ''}`)
+  }
+  return res.json() as Promise<T>
 }
 
-async function getGame(id: number): Promise<UiState> {
-  const res = await fetch(`${BASE_URL}/api/game/${id}`)
-  if (!res.ok) await throwWithBody(`GET /api/game/${id}`, res)
-  return res.json() as Promise<UiState>
-}
+const getGame = (id: number) =>
+  fetchJson<UiState>(`GET /api/game/${id}`, `${BASE_URL}/api/game/${id}`)
 
-async function createGame(): Promise<UiState> {
-  const res = await fetch(`${BASE_URL}/api/game`, { method: 'POST' })
-  if (!res.ok) await throwWithBody('POST /api/game', res)
-  return res.json() as Promise<UiState>
-}
+const createGame = () =>
+  fetchJson<UiState>('POST /api/game', `${BASE_URL}/api/game`, { method: 'POST' })
 
 export async function fetchOrCreateGame(): Promise<UiState> {
   try {
