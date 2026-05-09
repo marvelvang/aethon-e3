@@ -25,22 +25,29 @@ export interface UiState {
   }>
 }
 
+async function throwWithBody(label: string, res: Response): Promise<never> {
+  let body = ''
+  try { body = await res.text() } catch { /* ignore */ }
+  throw new Error(`${label} → ${res.status} ${res.statusText}${body ? ': ' + body : ''}`)
+}
+
 async function getGame(id: number): Promise<UiState> {
   const res = await fetch(`${BASE_URL}/api/game/${id}`)
-  if (!res.ok) throw new Error(`GET /api/game/${id} returned ${res.status}`)
+  if (!res.ok) await throwWithBody(`GET /api/game/${id}`, res)
   return res.json() as Promise<UiState>
 }
 
 async function createGame(): Promise<UiState> {
   const res = await fetch(`${BASE_URL}/api/game`, { method: 'POST' })
-  if (!res.ok) throw new Error(`POST /api/game returned ${res.status}`)
+  if (!res.ok) await throwWithBody('POST /api/game', res)
   return res.json() as Promise<UiState>
 }
 
 export async function fetchOrCreateGame(): Promise<UiState> {
   try {
     return await getGame(1)
-  } catch {
+  } catch (getErr) {
+    console.warn('fetchOrCreateGame: getGame(1) failed, trying createGame:', getErr)
     return createGame()
   }
 }
