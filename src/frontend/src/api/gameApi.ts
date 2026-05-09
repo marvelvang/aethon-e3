@@ -1,7 +1,4 @@
-// TODO: Railway external URL eintragen. Interne Railway-URLs (*.railway.internal)
-// funktionieren nicht im Browser – hier muss die öffentliche externe URL stehen.
-// Beispiel: 'https://your-backend.up.railway.app'
-const BASE_URL = ''
+const BASE_URL = 'https://aethon-e3-backend-production.up.railway.app'
 
 export interface Building {
   x: number
