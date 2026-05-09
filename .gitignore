@@ -1,0 +1,95 @@
+# ============================================================
+# .NET / C#
+# ============================================================
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+*.VC.opendb
+*.sdf
+ipch/
+TestResults/
+[Bb]uild/
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Ll]og/
+[Ll]ogs/
+publish/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+.dotnet/
+.mono/
+
+# ============================================================
+# Visual Studio
+# ============================================================
+.vs/
+*.rsuser
+*.MigrationBackup
+*.hdp
+*.map
+*.opendb
+
+# ============================================================
+# Visual Studio Code
+# ============================================================
+.vscode/*
+!.vscode/extensions.json
+
+# ============================================================
+# React / Node.js
+# ============================================================
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnp/
+.pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
+coverage/
+
+# ============================================================
+# OS
+# ============================================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
