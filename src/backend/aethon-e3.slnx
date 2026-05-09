@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="aethon-e3.api/aethon-e3.api.csproj" />
+  <Project Path="aethon-e3.core/aethon-e3.core.csproj" />
+  <Project Path="aethon-e3.persistence/aethon-e3.persistence.csproj" />
 </Solution>

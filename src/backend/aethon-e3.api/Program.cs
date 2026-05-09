@@ -1,6 +1,12 @@
+using aethon_e3.persistence;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseInMemoryDatabase("aethon-e3"));
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
