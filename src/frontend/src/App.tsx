@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import IsometricGrid from './components/IsometricGrid'
+import DebugConsole from './components/DebugConsole'
 import { fetchOrCreateGame, type Building } from './api/gameApi'
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#000000' }}>
       <IsometricGrid buildings={buildings} />
+      <DebugConsole />
     </div>
   )
 }

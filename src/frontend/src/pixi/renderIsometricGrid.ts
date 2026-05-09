@@ -22,7 +22,7 @@ function tileTopVertex(
   }
 }
 
-export function renderIsometricGrid(app: PIXI.Application, buildings: Building[]): void {
+export function renderIsometricGrid(app: PIXI.Application, buildings: Building[]): PIXI.Container {
   const { width, height } = app.screen
 
   const centerX = width / 2
@@ -32,8 +32,11 @@ export function renderIsometricGrid(app: PIXI.Application, buildings: Building[]
 
   const buildingSet = new Set(buildings.map((b) => `${b.x},${b.y}`))
 
+  const container = new PIXI.Container()
+  app.stage.addChild(container)
+
   const graphics = new PIXI.Graphics()
-  app.stage.addChild(graphics)
+  container.addChild(graphics)
 
   for (let row = 0; row < GRID_SIZE; row++) {
     for (let col = 0; col < GRID_SIZE; col++) {
@@ -58,4 +61,6 @@ export function renderIsometricGrid(app: PIXI.Application, buildings: Building[]
       graphics.endFill()
     }
   }
+
+  return container
 }
