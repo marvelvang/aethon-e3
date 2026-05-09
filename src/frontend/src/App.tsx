@@ -8,7 +8,10 @@ export default function App() {
 
   useEffect(() => {
     fetchOrCreateGame()
-      .then((state) => setBuildings(state.buildings))
+      .then((state) => {
+        console.log('Game state loaded:', JSON.stringify(state))
+        setBuildings(state.buildings)
+      })
       .catch((err) => console.error('Failed to load game state:', err))
   }, [])
 

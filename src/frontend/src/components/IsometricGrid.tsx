@@ -9,10 +9,26 @@ interface Props {
 
 export default function IsometricGrid({ buildings }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const appRef = useRef<PIXI.Application | null>(null)
+  const gridRef = useRef<PIXI.Container | null>(null)
+  const camera = useRef({ x: 0, y: 0, scale: 1 })
 
+  function applyCamera() {
+    if (!gridRef.current) return
+    gridRef.current.position.set(camera.current.x, camera.current.y)
+    gridRef.current.scale.set(camera.current.scale)
+  }
+
+  function zoomAt(pivotX: number, pivotY: number, factor: number) {
+    camera.current.x = pivotX + (camera.current.x - pivotX) * factor
+    camera.current.y = pivotY + (camera.current.y - pivotY) * factor
+    camera.current.scale *= factor
+    applyCamera()
+  }
+
+  // Init PIXI once
   useEffect(() => {
     if (!canvasRef.current) return
-
     const canvas = canvasRef.current
 
     const app = new PIXI.Application({
@@ -24,53 +40,30 @@ export default function IsometricGrid({ buildings }: Props) {
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
     })
+    appRef.current = app
 
-    const gridContainer = renderIsometricGrid(app, buildings)
-    const camera = { x: 0, y: 0, scale: 1 }
-
-    function applyCamera() {
-      gridContainer.position.set(camera.x, camera.y)
-      gridContainer.scale.set(camera.scale)
-    }
-
-    function zoomAt(pivotX: number, pivotY: number, factor: number) {
-      camera.x = pivotX + (camera.x - pivotX) * factor
-      camera.y = pivotY + (camera.y - pivotY) * factor
-      camera.scale *= factor
-      applyCamera()
-    }
-
-    // --- Mouse drag ---
     const drag = { active: false, startX: 0, startY: 0, camX: 0, camY: 0 }
+    const pinch = { startDist: 0, startScale: 1, midX: 0, midY: 0, startCamX: 0, startCamY: 0 }
 
     function onMouseDown(e: MouseEvent) {
       drag.active = true
       drag.startX = e.clientX
       drag.startY = e.clientY
-      drag.camX = camera.x
-      drag.camY = camera.y
+      drag.camX = camera.current.x
+      drag.camY = camera.current.y
     }
-
     function onMouseMove(e: MouseEvent) {
       if (!drag.active) return
-      camera.x = drag.camX + (e.clientX - drag.startX)
-      camera.y = drag.camY + (e.clientY - drag.startY)
+      camera.current.x = drag.camX + (e.clientX - drag.startX)
+      camera.current.y = drag.camY + (e.clientY - drag.startY)
       applyCamera()
     }
+    function onMouseUp() { drag.active = false }
 
-    function onMouseUp() {
-      drag.active = false
-    }
-
-    // --- Mouse wheel zoom ---
     function onWheel(e: WheelEvent) {
       e.preventDefault()
-      const factor = Math.pow(2, -e.deltaY / 300)
-      zoomAt(e.clientX, e.clientY, factor)
+      zoomAt(e.clientX, e.clientY, Math.pow(2, -e.deltaY / 300))
     }
-
-    // --- Touch (single-finger pan + two-finger pinch zoom) ---
-    const pinch = { startDist: 0, startScale: 1, midX: 0, midY: 0, startCamX: 0, startCamY: 0 }
 
     function onTouchStart(e: TouchEvent) {
       e.preventDefault()
@@ -78,42 +71,37 @@ export default function IsometricGrid({ buildings }: Props) {
         drag.active = true
         drag.startX = e.touches[0].clientX
         drag.startY = e.touches[0].clientY
-        drag.camX = camera.x
-        drag.camY = camera.y
+        drag.camX = camera.current.x
+        drag.camY = camera.current.y
       } else if (e.touches.length === 2) {
         drag.active = false
         const dx = e.touches[1].clientX - e.touches[0].clientX
         const dy = e.touches[1].clientY - e.touches[0].clientY
         pinch.startDist = Math.hypot(dx, dy)
-        pinch.startScale = camera.scale
+        pinch.startScale = camera.current.scale
         pinch.midX = (e.touches[0].clientX + e.touches[1].clientX) / 2
         pinch.midY = (e.touches[0].clientY + e.touches[1].clientY) / 2
-        pinch.startCamX = camera.x
-        pinch.startCamY = camera.y
+        pinch.startCamX = camera.current.x
+        pinch.startCamY = camera.current.y
       }
     }
-
     function onTouchMove(e: TouchEvent) {
       e.preventDefault()
       if (e.touches.length === 1 && drag.active) {
-        camera.x = drag.camX + (e.touches[0].clientX - drag.startX)
-        camera.y = drag.camY + (e.touches[0].clientY - drag.startY)
+        camera.current.x = drag.camX + (e.touches[0].clientX - drag.startX)
+        camera.current.y = drag.camY + (e.touches[0].clientY - drag.startY)
         applyCamera()
       } else if (e.touches.length === 2) {
         const dx = e.touches[1].clientX - e.touches[0].clientX
         const dy = e.touches[1].clientY - e.touches[0].clientY
-        const dist = Math.hypot(dx, dy)
-        const factor = dist / pinch.startDist
-        camera.scale = pinch.startScale * factor
-        camera.x = pinch.midX - (pinch.midX - pinch.startCamX) * factor
-        camera.y = pinch.midY - (pinch.midY - pinch.startCamY) * factor
+        const factor = Math.hypot(dx, dy) / pinch.startDist
+        camera.current.scale = pinch.startScale * factor
+        camera.current.x = pinch.midX - (pinch.midX - pinch.startCamX) * factor
+        camera.current.y = pinch.midY - (pinch.midY - pinch.startCamY) * factor
         applyCamera()
       }
     }
-
-    function onTouchEnd() {
-      drag.active = false
-    }
+    function onTouchEnd() { drag.active = false }
 
     canvas.addEventListener('mousedown', onMouseDown)
     canvas.addEventListener('mousemove', onMouseMove)
@@ -133,8 +121,23 @@ export default function IsometricGrid({ buildings }: Props) {
       canvas.removeEventListener('touchstart', onTouchStart)
       canvas.removeEventListener('touchmove', onTouchMove)
       canvas.removeEventListener('touchend', onTouchEnd)
+      appRef.current = null
       app.destroy(false, { children: true, texture: true, baseTexture: true })
     }
+  }, [])
+
+  // Update grid when buildings change, without touching the PIXI app
+  useEffect(() => {
+    const app = appRef.current
+    if (!app) return
+
+    if (gridRef.current) {
+      app.stage.removeChild(gridRef.current)
+      gridRef.current.destroy({ children: true })
+    }
+
+    gridRef.current = renderIsometricGrid(app, buildings)
+    applyCamera()
   }, [buildings])
 
   return (
