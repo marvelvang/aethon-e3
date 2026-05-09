@@ -1,2 +1,2 @@
 [deploy]
-healthcheckPath = "/api/game"
+healthcheckPath = "/health"
