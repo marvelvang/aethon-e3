@@ -194,6 +194,7 @@ Es gibt zwei Arten von Kommunikation:
 
 Das UI sendet ausschließlich Aktionen des Spielers:
 
+- Spiel starten  
 - Gebäude bauen (Position + Typ)  
 - Runde beenden  
 
@@ -202,6 +203,19 @@ Diese Requests enthalten:
 - keine Spiellogik  
 - keinen State  
 - nur die notwendige Eingabe  
+
+---
+
+### Spiel starten
+
+Das Backend stellt eine Funktion bereit, die ein neues Spiel erzeugt:
+
+- Legt einen neuen `GameState` in der Datenbank an  
+- Befüllt den Startzustand vollständig (Ressourcen + Base-Gebäude)  
+- Gibt die ID des neuen `GameState` zurück  
+
+Der `GameState` ist von Anfang an vollständig persistiert.  
+V1 kennt kein Löschen von Game States.  
 
 ---
 
