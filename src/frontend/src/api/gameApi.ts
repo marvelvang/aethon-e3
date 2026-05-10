@@ -1,29 +1,9 @@
+import type { components } from './generated'
+
+type UiState = components['schemas']['UiState']
+type PlaceBuildingRequest = components['schemas']['PlaceBuildingRequest']
+
 const BASE_URL = 'https://aethon-e3-backend-production.up.railway.app'
-
-export interface Building {
-  x: number
-  y: number
-  type: string
-  isNewlyBuilt: boolean
-}
-
-export interface UiState {
-  gameStateId: number
-  round: number
-  population: number
-  freePopulation: number
-  boundPopulation: number
-  consumerGoods: number
-  industry: number
-  housing: number
-  buildings: Building[]
-  buildingTypes: Array<{
-    type: string
-    populationCost: number
-    industryCost: number
-    canAfford: boolean
-  }>
-}
 
 async function fetchJson<T>(label: string, input: string, init?: RequestInit): Promise<T> {
   const res = await fetch(input, init)
@@ -40,6 +20,20 @@ const getGame = (id: number) =>
 
 const createGame = () =>
   fetchJson<UiState>('POST /api/game', `${BASE_URL}/api/game`, { method: 'POST' })
+
+export const placeBuilding = (id: number, req: PlaceBuildingRequest) =>
+  fetchJson<UiState>(
+    `POST /api/game/${id}/buildings`,
+    `${BASE_URL}/api/game/${id}/buildings`,
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(req) }
+  )
+
+export const endRound = (id: number) =>
+  fetchJson<UiState>(
+    `POST /api/game/${id}/round`,
+    `${BASE_URL}/api/game/${id}/round`,
+    { method: 'POST' }
+  )
 
 export async function fetchOrCreateGame(): Promise<UiState> {
   try {

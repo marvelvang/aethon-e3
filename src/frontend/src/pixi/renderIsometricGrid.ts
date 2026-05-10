@@ -1,5 +1,7 @@
 import * as PIXI from 'pixi.js'
-import type { Building } from '../api/gameApi'
+import type { components } from '../api/generated'
+
+type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
 const GRID_SIZE = 10
 const TILE_HALF_WIDTH = 32
@@ -22,7 +24,7 @@ function tileTopVertex(
   }
 }
 
-export function renderIsometricGrid(app: PIXI.Application, buildings: Building[]): PIXI.Container {
+export function renderIsometricGrid(app: PIXI.Application, buildings: UiBuildingSlot[]): PIXI.Container {
   const { width, height } = app.screen
 
   const centerX = width / 2

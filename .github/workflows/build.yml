@@ -21,5 +21,24 @@ jobs:
       - name: Restore
         run: dotnet restore src/backend/aethon-e3.api/aethon-e3.api.csproj
 
-      - name: Build
+      - name: Build backend + generate OpenAPI spec
         run: dotnet build src/backend/aethon-e3.api/aethon-e3.api.csproj --no-restore --configuration Release
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: src/frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: src/frontend
+
+      - name: Generate TypeScript types from OpenAPI spec
+        run: npm run generate
+        working-directory: src/frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: src/frontend

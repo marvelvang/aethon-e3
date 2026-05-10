@@ -56,6 +56,7 @@ artifacts/
 # ============================================================
 # React / Node.js
 # ============================================================
+src/frontend/src/api/generated.ts
 node_modules/
 dist/
 build/
