@@ -234,6 +234,9 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
     if (!app) return
 
     if (gridRef.current) {
+      if (hoverGraphicsRef.current) {
+        gridRef.current.removeChild(hoverGraphicsRef.current)
+      }
       app.stage.removeChild(gridRef.current)
       gridRef.current.destroy({ children: true })
     }
