@@ -24,6 +24,13 @@ jobs:
       - name: Build backend + generate OpenAPI spec
         run: dotnet build src/backend/aethon-e3.api/aethon-e3.api.csproj --no-restore --configuration Release
 
+      - name: Diagnose — where did v1.json land?
+        run: |
+          echo "=== searching for v1.json ==="
+          find src/backend -name "v1.json" 2>/dev/null || echo "not found"
+          echo "=== all json files in backend ==="
+          find src/backend -name "*.json" ! -path "*/node_modules/*" 2>/dev/null
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
