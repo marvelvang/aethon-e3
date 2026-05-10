@@ -57,7 +57,7 @@ artifacts/
 # React / Node.js
 # ============================================================
 src/frontend/src/api/generated.ts
-src/backend/aethon-e3.api/aethon-e3.api_v1.json
+src/backend/aethon-e3.api/aethon-e3.api.json
 node_modules/
 dist/
 build/

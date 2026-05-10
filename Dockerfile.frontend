@@ -8,7 +8,7 @@ RUN dotnet build backend/aethon-e3.api/aethon-e3.api.csproj -c Release
 FROM node:22-slim AS frontend
 WORKDIR /src
 COPY src/frontend/ ./frontend/
-COPY --from=spec /src/backend/aethon-e3.api/aethon-e3.api_v1.json ./backend/aethon-e3.api/aethon-e3.api_v1.json
+COPY --from=spec /src/backend/aethon-e3.api/aethon-e3.api.json ./backend/aethon-e3.api/aethon-e3.api.json
 WORKDIR /src/frontend
 RUN npm ci && npm run generate && npm run build
 
