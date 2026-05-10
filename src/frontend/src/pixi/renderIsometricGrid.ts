@@ -1,5 +1,7 @@
 import * as PIXI from 'pixi.js'
-import type { UiBuildingSlot } from '../api/gameApi'
+import type { components } from '../api/generated'
+
+type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
 const GRID_SIZE = 10
 const TILE_HALF_WIDTH = 32

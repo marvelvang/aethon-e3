@@ -1,10 +1,7 @@
 import type { components } from './generated'
 
-export type BuildingType = components['schemas']['BuildingType']
-export type UiState = components['schemas']['UiState']
-export type UiBuildingSlot = components['schemas']['UiBuildingSlot']
-export type UiBuildingTypeInfo = components['schemas']['UiBuildingTypeInfo']
-export type PlaceBuildingRequest = components['schemas']['PlaceBuildingRequest']
+type UiState = components['schemas']['UiState']
+type PlaceBuildingRequest = components['schemas']['PlaceBuildingRequest']
 
 const BASE_URL = 'https://aethon-e3-backend-production.up.railway.app'
 
