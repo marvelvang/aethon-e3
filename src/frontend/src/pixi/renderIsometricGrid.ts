@@ -1,7 +1,9 @@
 import * as PIXI from 'pixi.js'
 import type { components } from '../api/generated'
+import type { BuildingRenderConfig } from './buildingAssets'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
+type BuildingType = UiBuildingSlot['type']
 
 const GRID_SIZE = 10
 const TILE_HALF_WIDTH = 32
@@ -24,7 +26,11 @@ function tileTopVertex(
   }
 }
 
-export function renderIsometricGrid(app: PIXI.Application, buildings: UiBuildingSlot[]): PIXI.Container {
+export function renderIsometricGrid(
+  app: PIXI.Application,
+  buildings: UiBuildingSlot[],
+  buildingTextures: Map<BuildingType, BuildingRenderConfig>
+): PIXI.Container {
   const { width, height } = app.screen
 
   const centerX = width / 2
@@ -32,7 +38,9 @@ export function renderIsometricGrid(app: PIXI.Application, buildings: UiBuilding
     (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
   const offsetY = (height - gridVisualHeight) / 2
 
-  const buildingSet = new Set(buildings.map((b) => `${b.x},${b.y}`))
+  const buildingTypeMap = new Map<string, BuildingType>(
+    buildings.map((b) => [`${b.x},${b.y}`, b.type])
+  )
 
   const container = new PIXI.Container()
   app.stage.addChild(container)
@@ -53,7 +61,13 @@ export function renderIsometricGrid(app: PIXI.Application, buildings: UiBuilding
       const leftX = top.x - TILE_HALF_WIDTH
       const leftY = top.y + TILE_HALF_HEIGHT
 
-      const fillColor = buildingSet.has(`${col},${row}`)
+      const buildingType = buildingTypeMap.get(`${col},${row}`)
+      const renderConfig = buildingType !== undefined
+        ? buildingTextures.get(buildingType)
+        : undefined
+
+      // Use blue fallback for building types that have no asset yet
+      const fillColor = buildingType !== undefined && renderConfig === undefined
         ? COLOR_TILE_FILL_BUILDING
         : COLOR_TILE_FILL
 
@@ -61,6 +75,14 @@ export function renderIsometricGrid(app: PIXI.Application, buildings: UiBuilding
       graphics.beginFill(fillColor)
       graphics.drawPolygon([topX, topY, rightX, rightY, bottomX, bottomY, leftX, leftY])
       graphics.endFill()
+
+      if (renderConfig) {
+        const sprite = new PIXI.Sprite(renderConfig.texture)
+        sprite.anchor.set(renderConfig.anchorX, renderConfig.anchorY)
+        sprite.scale.set(renderConfig.scale)
+        sprite.position.set(topX, topY)
+        container.addChild(sprite)
+      }
     }
   }
 

@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { renderIsometricGrid } from '../pixi/renderIsometricGrid'
+import { loadBuildingTextures, type BuildingRenderConfig } from '../pixi/buildingAssets'
 import type { components } from '../api/generated'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
+type BuildingType = UiBuildingSlot['type']
 
 interface Props {
   buildings: UiBuildingSlot[]
@@ -14,6 +16,7 @@ export default function IsometricGrid({ buildings }: Props) {
   const appRef = useRef<PIXI.Application | null>(null)
   const gridRef = useRef<PIXI.Container | null>(null)
   const camera = useRef({ x: 0, y: 0, scale: 1 })
+  const [buildingTextures, setBuildingTextures] = useState<Map<BuildingType, BuildingRenderConfig>>(new Map())
 
   function applyCamera() {
     if (!gridRef.current) return
@@ -43,6 +46,8 @@ export default function IsometricGrid({ buildings }: Props) {
       autoDensity: true,
     })
     appRef.current = app
+
+    loadBuildingTextures().then(setBuildingTextures)
 
     const drag = { active: false, startX: 0, startY: 0, camX: 0, camY: 0 }
     const pinch = { startDist: 0, startScale: 1, midX: 0, midY: 0, startCamX: 0, startCamY: 0 }
@@ -138,9 +143,9 @@ export default function IsometricGrid({ buildings }: Props) {
       gridRef.current.destroy({ children: true })
     }
 
-    gridRef.current = renderIsometricGrid(app, buildings)
+    gridRef.current = renderIsometricGrid(app, buildings, buildingTextures)
     applyCamera()
-  }, [buildings])
+  }, [buildings, buildingTextures])
 
   return (
     <canvas
