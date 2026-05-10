@@ -1,16 +1,8 @@
-# Stage 1: Build backend, start it briefly to fetch the OpenAPI spec
+# Stage 1: Build backend — ApiDescription.Server generates v1.json during dotnet build
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS spec
 WORKDIR /src
 COPY src/backend/ ./backend/
-RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 RUN dotnet build backend/aethon-e3.api/aethon-e3.api.csproj -c Release
-RUN ASPNETCORE_URLS=http://localhost:5050 ASPNETCORE_ENVIRONMENT=Development \
-      dotnet run --project backend/aethon-e3.api/aethon-e3.api.csproj --no-build -c Release & \
-    for i in $(seq 1 30); do \
-      sleep 1; \
-      curl -sf http://localhost:5050/health > /dev/null 2>&1 && break || true; \
-    done && \
-    curl -f http://localhost:5050/openapi/v1.json -o backend/aethon-e3.api/v1.json
 
 # Stage 2: Generate TS types from spec, then build the frontend
 FROM node:22-slim AS frontend
