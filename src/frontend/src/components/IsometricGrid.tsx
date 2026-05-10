@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import * as PIXI from 'pixi.js'
-import { renderIsometricGrid, GRID_SIZE, TILE_HALF_WIDTH, TILE_HALF_HEIGHT, tileTopVertex } from '../pixi/renderIsometricGrid'
+import { renderIsometricGrid, GRID_SIZE, TILE_HALF_WIDTH, TILE_HALF_HEIGHT, tileTopVertex, type RotationStep } from '../pixi/renderIsometricGrid'
 import { loadBuildingTextures, type BuildingRenderConfig } from '../pixi/buildingAssets'
 import { placeBuilding } from '../api/gameApi'
 import type { components } from '../api/generated'
@@ -28,10 +28,17 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
   const gameIdRef = useRef<number | null>(null)
   const onBuildingPlacedRef = useRef(onBuildingPlaced)
   const [buildingTextures, setBuildingTextures] = useState<Map<BuildingType, BuildingRenderConfig>>(new Map())
+  const [rotationStep, setRotationStep] = useState<RotationStep>(0)
+  const rotationStepRef = useRef<RotationStep>(0)
 
-  // Keep refs in sync with props so event handlers always see latest values
+  // Keep refs in sync with props/state so event handlers always see latest values
   useEffect(() => { gameIdRef.current = gameId }, [gameId])
   useEffect(() => { onBuildingPlacedRef.current = onBuildingPlaced }, [onBuildingPlaced])
+  useEffect(() => { rotationStepRef.current = rotationStep }, [rotationStep])
+
+  const rotateView = useCallback((delta: 1 | -1) => {
+    setRotationStep((prev: RotationStep) => ((prev + delta + 4) % 4) as RotationStep)
+  }, [])
 
   function applyCamera() {
     if (!gridRef.current) return
@@ -50,10 +57,27 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
     const cam = camera.current
     const gx = (canvasX - cam.x) / cam.scale
     const gy = (canvasY - cam.y) / cam.scale
-    const u = (gx - centerXRef.current) / TILE_HALF_WIDTH
-    const v = (gy - offsetYRef.current) / TILE_HALF_HEIGHT
-    const col = Math.round((u + v) / 2)
-    const row = Math.round((v - u) / 2)
+    const dx = (gx - centerXRef.current) / TILE_HALF_WIDTH
+    const dy = (gy - offsetYRef.current) / TILE_HALF_HEIGHT
+    const N = GRID_SIZE - 1
+    let col: number, row: number
+    switch (rotationStepRef.current) {
+      case 1:
+        col = Math.round((dy - dx) / 2)
+        row = Math.round(N - (dx + dy) / 2)
+        break
+      case 2:
+        col = Math.round(N - (dx + dy) / 2)
+        row = Math.round(N + (dx - dy) / 2)
+        break
+      case 3:
+        col = Math.round(N + (dx - dy) / 2)
+        row = Math.round((dx + dy) / 2)
+        break
+      default:
+        col = Math.round((dx + dy) / 2)
+        row = Math.round((dy - dx) / 2)
+    }
     if (col < 0 || col >= GRID_SIZE || row < 0 || row >= GRID_SIZE) return null
     return { col, row }
   }
@@ -63,7 +87,7 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
     if (!g) return
     g.clear()
     if (!cell) return
-    const top = tileTopVertex(cell.col, cell.row, centerXRef.current, offsetYRef.current)
+    const top = tileTopVertex(cell.col, cell.row, centerXRef.current, offsetYRef.current, rotationStepRef.current)
     g.lineStyle(2, 0xffffff, 1)
     g.beginFill(0, 0)
     g.drawPolygon([
@@ -113,7 +137,7 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
     loadBuildingTextures().then(setBuildingTextures)
 
     const drag = { active: false, startX: 0, startY: 0, camX: 0, camY: 0, moved: false }
-    const pinch = { startDist: 0, startScale: 1, midX: 0, midY: 0, startCamX: 0, startCamY: 0 }
+    const pinch = { startDist: 0, startScale: 1, midX: 0, midY: 0, startCamX: 0, startCamY: 0, startAngle: 0, accumAngle: 0 }
     const tap = { startX: 0, startY: 0, moved: false }
 
     function onMouseDown(e: MouseEvent) {
@@ -174,6 +198,8 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
         pinch.midY = (e.touches[0].clientY + e.touches[1].clientY) / 2
         pinch.startCamX = camera.current.x
         pinch.startCamY = camera.current.y
+        pinch.startAngle = Math.atan2(dy, dx)
+        pinch.accumAngle = 0
       }
     }
     function onTouchMove(e: TouchEvent) {
@@ -196,6 +222,22 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
         camera.current.x = pinch.midX - (pinch.midX - pinch.startCamX) * factor
         camera.current.y = pinch.midY - (pinch.midY - pinch.startCamY) * factor
         applyCamera()
+
+        // Two-finger rotation: track accumulated angle, snap at 45°
+        const currentAngle = Math.atan2(dy, dx)
+        let delta = currentAngle - pinch.startAngle
+        if (delta > Math.PI) delta -= 2 * Math.PI
+        if (delta < -Math.PI) delta += 2 * Math.PI
+        pinch.accumAngle += delta
+        pinch.startAngle = currentAngle
+
+        if (pinch.accumAngle > Math.PI / 4) {
+          rotateView(+1)
+          pinch.accumAngle = 0
+        } else if (pinch.accumAngle < -Math.PI / 4) {
+          rotateView(-1)
+          pinch.accumAngle = 0
+        }
       }
     }
     function onTouchEnd(e: TouchEvent) {
@@ -228,7 +270,17 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
     }
   }, [])
 
-  // Update grid when buildings change, without touching the PIXI app
+  // Keyboard rotation: Q = CCW, E = CW
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'q' || e.key === 'Q') rotateView(-1)
+      if (e.key === 'e' || e.key === 'E') rotateView(+1)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [rotateView])
+
+  // Update grid when buildings, textures, or rotation change
   useEffect(() => {
     const app = appRef.current
     if (!app) return
@@ -241,17 +293,38 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
       gridRef.current.destroy({ children: true })
     }
 
-    gridRef.current = renderIsometricGrid(app, buildings, buildingTextures)
+    gridRef.current = renderIsometricGrid(app, buildings, buildingTextures, rotationStep)
     if (hoverGraphicsRef.current) {
       gridRef.current.addChild(hoverGraphicsRef.current)
     }
+    updateHover(null)
     applyCamera()
-  }, [buildings, buildingTextures])
+  }, [buildings, buildingTextures, rotationStep])
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ display: 'block', width: '100%', height: '100%' }}
-    />
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <canvas
+        ref={canvasRef}
+        style={{ display: 'block', width: '100%', height: '100%' }}
+      />
+      <div style={{
+        position: 'absolute', bottom: 16, left: 16,
+        display: 'flex', alignItems: 'center', gap: 8, zIndex: 100,
+        background: 'rgba(0,0,0,0.5)', borderRadius: 8, padding: '4px 10px',
+        color: '#fff', fontSize: 18, userSelect: 'none',
+      }}>
+        <button
+          onClick={() => rotateView(-1)}
+          style={{ background: 'none', border: 'none', color: '#fff', fontSize: 20, cursor: 'pointer', padding: '0 4px' }}
+        >↺</button>
+        <span style={{ minWidth: 16, textAlign: 'center', fontSize: 14 }}>
+          {['N', 'W', 'S', 'E'][rotationStep]}
+        </span>
+        <button
+          onClick={() => rotateView(+1)}
+          style={{ background: 'none', border: 'none', color: '#fff', fontSize: 20, cursor: 'pointer', padding: '0 4px' }}
+        >↻</button>
+      </div>
+    </div>
   )
 }

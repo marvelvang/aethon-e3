@@ -8,6 +8,9 @@ type BuildingType = UiBuildingSlot['type']
 export const GRID_SIZE = 10
 export const TILE_HALF_WIDTH = 32
 export const TILE_HALF_HEIGHT = 16
+const GRID_N = GRID_SIZE - 1
+
+export type RotationStep = 0 | 1 | 2 | 3
 
 const COLOR_TILE_FILL = 0x9c6b3c
 const COLOR_TILE_FILL_BUILDING = 0x1a6bc4
@@ -18,18 +21,34 @@ export function tileTopVertex(
   col: number,
   row: number,
   centerX: number,
-  offsetY: number
+  offsetY: number,
+  rot: RotationStep = 0
 ): { x: number; y: number } {
-  return {
-    x: (col - row) * TILE_HALF_WIDTH + centerX,
-    y: (col + row) * TILE_HALF_HEIGHT + offsetY,
+  switch (rot) {
+    case 1: return {
+      x: (GRID_N - row - col) * TILE_HALF_WIDTH + centerX,
+      y: (GRID_N - row + col) * TILE_HALF_HEIGHT + offsetY,
+    }
+    case 2: return {
+      x: (row - col) * TILE_HALF_WIDTH + centerX,
+      y: (2 * GRID_N - col - row) * TILE_HALF_HEIGHT + offsetY,
+    }
+    case 3: return {
+      x: (row + col - GRID_N) * TILE_HALF_WIDTH + centerX,
+      y: (GRID_N + row - col) * TILE_HALF_HEIGHT + offsetY,
+    }
+    default: return {
+      x: (col - row) * TILE_HALF_WIDTH + centerX,
+      y: (col + row) * TILE_HALF_HEIGHT + offsetY,
+    }
   }
 }
 
 export function renderIsometricGrid(
   app: PIXI.Application,
   buildings: UiBuildingSlot[],
-  buildingTextures: Map<BuildingType, BuildingRenderConfig>
+  buildingTextures: Map<BuildingType, BuildingRenderConfig>,
+  rot: RotationStep = 0
 ): PIXI.Container {
   const { width, height } = app.screen
 
@@ -42,47 +61,55 @@ export function renderIsometricGrid(
     buildings.map((b) => [`${b.x},${b.y}`, b.type])
   )
 
+  // Build sorted tile list for correct painter's order (back-to-front by topY)
+  const tiles: Array<{ col: number; row: number; topY: number }> = []
+  for (let row = 0; row < GRID_SIZE; row++) {
+    for (let col = 0; col < GRID_SIZE; col++) {
+      const top = tileTopVertex(col, row, centerX, offsetY, rot)
+      tiles.push({ col, row, topY: top.y })
+    }
+  }
+  tiles.sort((a, b) => a.topY - b.topY)
+
   const container = new PIXI.Container()
   app.stage.addChild(container)
 
   const graphics = new PIXI.Graphics()
   container.addChild(graphics)
 
-  for (let row = 0; row < GRID_SIZE; row++) {
-    for (let col = 0; col < GRID_SIZE; col++) {
-      const top = tileTopVertex(col, row, centerX, offsetY)
+  for (const { col, row } of tiles) {
+    const top = tileTopVertex(col, row, centerX, offsetY, rot)
 
-      const topX = top.x
-      const topY = top.y
-      const rightX = top.x + TILE_HALF_WIDTH
-      const rightY = top.y + TILE_HALF_HEIGHT
-      const bottomX = top.x
-      const bottomY = top.y + TILE_HALF_HEIGHT * 2
-      const leftX = top.x - TILE_HALF_WIDTH
-      const leftY = top.y + TILE_HALF_HEIGHT
+    const topX = top.x
+    const topY = top.y
+    const rightX = top.x + TILE_HALF_WIDTH
+    const rightY = top.y + TILE_HALF_HEIGHT
+    const bottomX = top.x
+    const bottomY = top.y + TILE_HALF_HEIGHT * 2
+    const leftX = top.x - TILE_HALF_WIDTH
+    const leftY = top.y + TILE_HALF_HEIGHT
 
-      const buildingType = buildingTypeMap.get(`${col},${row}`)
-      const renderConfig = buildingType !== undefined
-        ? buildingTextures.get(buildingType)
-        : undefined
+    const buildingType = buildingTypeMap.get(`${col},${row}`)
+    const renderConfig = buildingType !== undefined
+      ? buildingTextures.get(buildingType)
+      : undefined
 
-      // Use blue fallback for building types that have no asset yet
-      const fillColor = buildingType !== undefined && renderConfig === undefined
-        ? COLOR_TILE_FILL_BUILDING
-        : COLOR_TILE_FILL
+    // Use blue fallback for building types that have no asset yet
+    const fillColor = buildingType !== undefined && renderConfig === undefined
+      ? COLOR_TILE_FILL_BUILDING
+      : COLOR_TILE_FILL
 
-      graphics.lineStyle(STROKE_WIDTH, COLOR_TILE_STROKE, 1)
-      graphics.beginFill(fillColor)
-      graphics.drawPolygon([topX, topY, rightX, rightY, bottomX, bottomY, leftX, leftY])
-      graphics.endFill()
+    graphics.lineStyle(STROKE_WIDTH, COLOR_TILE_STROKE, 1)
+    graphics.beginFill(fillColor)
+    graphics.drawPolygon([topX, topY, rightX, rightY, bottomX, bottomY, leftX, leftY])
+    graphics.endFill()
 
-      if (renderConfig) {
-        const sprite = new PIXI.Sprite(renderConfig.texture)
-        sprite.anchor.set(renderConfig.anchorX, renderConfig.anchorY)
-        sprite.scale.set(renderConfig.scale)
-        sprite.position.set(topX, topY)
-        container.addChild(sprite)
-      }
+    if (renderConfig) {
+      const sprite = new PIXI.Sprite(renderConfig.texture)
+      sprite.anchor.set(renderConfig.anchorX, renderConfig.anchorY)
+      sprite.scale.set(renderConfig.scale)
+      sprite.position.set(topX, topY)
+      container.addChild(sprite)
     }
   }
 
