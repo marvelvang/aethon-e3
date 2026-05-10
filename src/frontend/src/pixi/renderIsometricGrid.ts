@@ -5,16 +5,16 @@ import type { BuildingRenderConfig } from './buildingAssets'
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 type BuildingType = UiBuildingSlot['type']
 
-const GRID_SIZE = 10
-const TILE_HALF_WIDTH = 32
-const TILE_HALF_HEIGHT = 16
+export const GRID_SIZE = 10
+export const TILE_HALF_WIDTH = 32
+export const TILE_HALF_HEIGHT = 16
 
 const COLOR_TILE_FILL = 0x9c6b3c
 const COLOR_TILE_FILL_BUILDING = 0x1a6bc4
 const COLOR_TILE_STROKE = 0xe8d5b0
 const STROKE_WIDTH = 1
 
-function tileTopVertex(
+export function tileTopVertex(
   col: number,
   row: number,
   centerX: number,
