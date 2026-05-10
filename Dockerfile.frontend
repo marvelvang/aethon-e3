@@ -1,0 +1,21 @@
+# Stage 1: Build backend to extract the generated OpenAPI spec
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS spec
+WORKDIR /src
+COPY src/backend/ ./backend/
+RUN dotnet build backend/aethon-e3.api/aethon-e3.api.csproj -c Release
+
+# Stage 2: Generate TS types from spec, then build the frontend
+FROM node:22-slim AS frontend
+WORKDIR /src
+COPY src/frontend/ ./frontend/
+# Place the spec where the generate script expects it (../backend/... relative to frontend/)
+COPY --from=spec /src/backend/aethon-e3.api/v1.json ./backend/aethon-e3.api/v1.json
+WORKDIR /src/frontend
+RUN npm ci && npm run generate && npm run build
+
+# Stage 3: Serve
+FROM nginx:alpine
+COPY --from=frontend /src/frontend/dist /usr/share/nginx/html
+COPY src/frontend/nginx.conf /etc/nginx/conf.d/default.conf 2>/dev/null || true
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
