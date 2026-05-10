@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Amber Stack – Housing Building (Master SVG, 4× tile resolution)
+  ──────────────────────────────────────────────────────────────
+  Tile: TILE_HALF_WIDTH=32, TILE_HALF_HEIGHT=16 → 64×32 px at 1×
+  This SVG: 4× → tile footprint 256×128 px, total 256×308 px
+
+  Isometric origin (0,0) = tile-top vertex
+  Projection: screen_x = (wx-wy)×128,  screen_y = (wx+wy)×64 − hz
+
+  PixiJS usage (displayed at 1× tile size):
+    sprite.anchor.set(0.5, 178/308)   // tile-top vertex in image coords
+    sprite.position.set(tileTopX, tileTopY)
+    sprite.scale.set(64/256)           // 4× → 1×
+
+  Geometry summary (screen coords at 4× scale):
+    Foundation  hz 0→24   footprint ±128  (full tile)
+    Block A     hz 24→88  footprint ±80   (lower residential block)
+    Block B     hz 88→130 footprint ±48   (upper residential block)
+    Parapet     hz 130→138 footprint ±50
+    Roof utilities above hz 138
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation (dark terracotta platform) -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#8a3818"/>
+      <stop offset="100%" stop-color="#4a1c0c"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#2a1008"/>
+      <stop offset="100%" stop-color="#100604"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#b04820"/>
+      <stop offset="100%" stop-color="#7a3010"/>
+    </linearGradient>
+
+    <!-- Block A – main lower residential block -->
+    <linearGradient id="aR" gradientUnits="userSpaceOnUse" x1="80" y1="16" x2="0" y2="-48">
+      <stop offset="0%"   stop-color="#c05828"/>
+      <stop offset="60%"  stop-color="#8c3a18"/>
+      <stop offset="100%" stop-color="#5c2008"/>
+    </linearGradient>
+    <linearGradient id="aL" gradientUnits="userSpaceOnUse" x1="-80" y1="16" x2="0" y2="-48">
+      <stop offset="0%"   stop-color="#3a1208"/>
+      <stop offset="100%" stop-color="#120604"/>
+    </linearGradient>
+    <linearGradient id="aT" gradientUnits="userSpaceOnUse" x1="0" y1="-88" x2="0" y2="-8">
+      <stop offset="0%"   stop-color="#e07030"/>
+      <stop offset="100%" stop-color="#a84820"/>
+    </linearGradient>
+
+    <!-- Block B – upper residential block -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="48" y1="-64" x2="0" y2="-106">
+      <stop offset="0%"   stop-color="#d86830"/>
+      <stop offset="50%"  stop-color="#a84a20"/>
+      <stop offset="100%" stop-color="#7c3010"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-48" y1="-64" x2="0" y2="-106">
+      <stop offset="0%"   stop-color="#2a0e04"/>
+      <stop offset="100%" stop-color="#0c0402"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-130" x2="0" y2="-82">
+      <stop offset="0%"   stop-color="#f07840"/>
+      <stop offset="100%" stop-color="#c05a28"/>
+    </linearGradient>
+
+    <!-- Window – warm amber glow (lit / right face) -->
+    <radialGradient id="winW" cx="35%" cy="30%" r="70%">
+      <stop offset="0%"   stop-color="#fff8c0"/>
+      <stop offset="40%"  stop-color="#ffcc44"/>
+      <stop offset="100%" stop-color="#aa6600"/>
+    </radialGradient>
+    <!-- Window – dim amber (shadow / left face) -->
+    <radialGradient id="winD" cx="35%" cy="30%" r="70%">
+      <stop offset="0%"   stop-color="#cc9922"/>
+      <stop offset="100%" stop-color="#442200"/>
+    </radialGradient>
+
+    <!-- Glow filters -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══════════════════════════════════════════
+       FOUNDATION   hz 0 → 24
+       Bottom: N(0,0)   E(128,64) S(0,128) W(-128,64)
+       Top:    N(0,-24) E(128,40) S(0,104) W(-128,40)
+       ══════════════════════════════════════════ -->
+
+  <polygon points="-128,64 0,128 0,104 -128,40" fill="url(#fL)" stroke="#cc5500" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"   fill="url(#fR)" stroke="#cc5500" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"  fill="url(#fT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- Foundation top: subtle grid lines -->
+  <line x1="0" y1="-24" x2="0" y2="104"    stroke="#dd6620" stroke-width="1"   opacity="0.4"/>
+  <line x1="-128" y1="40" x2="128" y2="40"  stroke="#dd6620" stroke-width="1"   opacity="0.4"/>
+
+  <!-- Foundation: corner indicator lights -->
+  <circle cx="128"  cy="40"  r="6" fill="#ff8c00" filter="url(#glow)"/>
+  <circle cx="-128" cy="40"  r="6" fill="#ff8c00" filter="url(#glow)"/>
+  <circle cx="0"    cy="104" r="6" fill="#ff8c00" filter="url(#glow)"/>
+
+  <!-- Foundation: cable/pipe ducts along lower edges -->
+  <line x1="128" y1="56"   x2="0" y2="116" stroke="#7a2808" stroke-width="5"/>
+  <line x1="128" y1="56"   x2="0" y2="116" stroke="#ff8c00" stroke-width="1"   opacity="0.4"/>
+  <line x1="-128" y1="56"  x2="0" y2="116" stroke="#3a1204" stroke-width="5"/>
+  <line x1="-128" y1="56"  x2="0" y2="116" stroke="#ff8c00" stroke-width="0.8" opacity="0.25"/>
+
+  <!-- ══════════════════════════════════════════
+       BLOCK A – hz 24 → 88  (footprint ±80)
+       Bottom: N(0,-24) E(80,16)  S(0,56)  W(-80,16)
+       Top:    N(0,-88) E(80,-48) S(0,-8)  W(-80,-48)
+       ══════════════════════════════════════════ -->
+
+  <!-- Left face + details -->
+  <polygon points="-80,16 0,56 0,-8 -80,-48"  fill="url(#aL)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="-80" y1="16" x2="-80" y2="-48" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
+
+  <!-- Left face: balcony ledge at hz=60  W(-80,-20) S(0,20) -->
+  <line x1="-80" y1="-20" x2="0" y2="20"  stroke="#aa4400" stroke-width="2"   opacity="0.6"/>
+
+  <!-- Left face: windows (dim, shadow side) -->
+  <!-- t=0.15→0.45, hz=44→60  W→S parameterisation: x=-80+80t, y=40+40t-hz -->
+  <polygon points="-68,2 -44,14 -44,-2 -68,-14"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <!-- t=0.55→0.85, hz=44→60 -->
+  <polygon points="-36,18 -12,30 -12,14 -36,2"   fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+
+  <!-- Right face + details -->
+  <polygon points="80,16 0,56 0,-8 80,-48"    fill="url(#aR)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="80" y1="16" x2="80" y2="-48" stroke="#e07030" stroke-width="2"   opacity="0.6"/>
+
+  <!-- Right face: utility conduit (vertical pipe)  t≈0.125 -->
+  <line x1="70" y1="20" x2="70" y2="-43" stroke="#5a2008" stroke-width="4"/>
+  <line x1="70" y1="20" x2="70" y2="-43" stroke="#ff8c00" stroke-width="1"   opacity="0.35"/>
+
+  <!-- Right face: windows row 1 (hz 38→55)  E→S param: x=80(1-t), y=40+40t-hz -->
+  <!-- Window 1  t=0.10→0.38 -->
+  <polygon points="72,6 50,17 50,0 72,-11"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="61"   y1="11.5" x2="61"   y2="-5.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="72"   y1="-2.5" x2="50"   y2="8.5"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <!-- Window 2  t=0.48→0.76 -->
+  <polygon points="42,21 19,32 19,15 42,4"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="30.5" y1="26.5" x2="30.5" y2="9.5"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="42"   y1="12.5" x2="19"   y2="23.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+
+  <!-- Right face: balcony ledge at hz=60  E(80,-20) S(0,20) -->
+  <line x1="80" y1="-20" x2="0" y2="20"   stroke="#ff8c00" stroke-width="2.5" opacity="0.8"/>
+  <line x1="80" y1="-17" x2="0" y2="23"   stroke="#1a0804" stroke-width="2"   opacity="0.45"/>
+
+  <!-- Right face: windows row 2 (hz 62→77) -->
+  <!-- Window 3  t=0.10→0.38 -->
+  <polygon points="72,-18 50,-7 50,-22 72,-33"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="61"   y1="-12.5" x2="61"   y2="-27.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="72"   y1="-25.5" x2="50"   y2="-14.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <!-- Window 4  t=0.48→0.76 -->
+  <polygon points="42,-3 19,8 19,-7 42,-18"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="30.5" y1="2.5"   x2="30.5" y2="-12.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="42"   y1="-10.5" x2="19"   y2="-4"    stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+
+  <!-- Block A top face -->
+  <polygon points="0,-88 80,-48 0,-8 -80,-48" fill="url(#aT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- Block A: terrace corner lights (marks the step up to Block B) -->
+  <circle cx="80"  cy="-48" r="5" fill="#ffaa00" filter="url(#glow)"/>
+  <circle cx="-80" cy="-48" r="5" fill="#ff8c00" filter="url(#glow)" opacity="0.65"/>
+  <circle cx="0"   cy="-8"  r="5" fill="#ffaa00" filter="url(#glow)"/>
+
+  <!-- ══════════════════════════════════════════
+       BLOCK B – hz 88 → 130  (footprint ±48)
+       Bottom: N(0,-88)  E(48,-64) S(0,-40) W(-48,-64)
+       Top:    N(0,-130) E(48,-106) S(0,-82) W(-48,-106)
+       ══════════════════════════════════════════ -->
+
+  <!-- Left face + details -->
+  <polygon points="-48,-64 0,-40 0,-82 -48,-106"  fill="url(#bL)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="-48" y1="-64" x2="-48" y2="-106" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
+
+  <!-- Block B left face: window (dim)  t=0.10→0.45, hz=97→113 -->
+  <polygon points="-43,-71 -26,-62 -26,-78 -43,-87"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
+
+  <!-- Right face + details -->
+  <polygon points="48,-64 0,-40 0,-82 48,-106"    fill="url(#bR)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="48" y1="-64" x2="48" y2="-106" stroke="#e07030" stroke-width="2"   opacity="0.55"/>
+
+  <!-- Right face: utility conduit -->
+  <line x1="42" y1="-67" x2="42" y2="-103" stroke="#5a2008" stroke-width="3"/>
+  <line x1="42" y1="-67" x2="42" y2="-103" stroke="#ff8c00" stroke-width="0.9" opacity="0.3"/>
+
+  <!-- Block B right face: windows (hz 97→113)  E→S param: x=48(1-t), y=24+24t-hz -->
+  <!-- Window B-1  t=0.08→0.42 -->
+  <polygon points="44,-71 28,-63 28,-79 44,-87"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="36"   y1="-67" x2="36"   y2="-83"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <!-- Window B-2  t=0.52→0.88 -->
+  <polygon points="23,-61 6,-52 6,-68 23,-77"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="14.5" y1="-56.5" x2="14.5" y2="-72.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+
+  <!-- Block B top face -->
+  <polygon points="0,-130 48,-106 0,-82 -48,-106" fill="url(#bT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- ══════════════════════════════════════════
+       PARAPET / ROOF RIM   hz 130 → 138  (±50)
+       Bottom: N(0,-130) E(50,-105) S(0,-80)  W(-50,-105)
+       Top:    N(0,-138) E(50,-113) S(0,-88)  W(-50,-113)
+       ══════════════════════════════════════════ -->
+
+  <polygon points="-50,-105 0,-80 0,-88 -50,-113" fill="#3a1208" stroke="#aa4400" stroke-width="1.2"/>
+  <polygon points="50,-105 0,-80 0,-88 50,-113"   fill="#c05020" stroke="#ff8c00" stroke-width="1.2"/>
+  <polygon points="0,-138 50,-113 0,-88 -50,-113" fill="#d86030" stroke="#ff8c00" stroke-width="1.2"/>
+
+  <!-- Parapet corner lights -->
+  <circle cx="50"  cy="-113" r="4" fill="#ff6600" filter="url(#glow)"/>
+  <circle cx="-50" cy="-113" r="4" fill="#ff8c00" filter="url(#glow)" opacity="0.7"/>
+  <circle cx="0"   cy="-88"  r="4" fill="#ff6600" filter="url(#glow)"/>
+
+  <!-- ══════════════════════════════════════════
+       ROOFTOP UTILITIES
+       ══════════════════════════════════════════ -->
+
+  <!-- Tech Box 1 – right side of roof (hz 138→156) -->
+  <!-- Footprint: N(18,-120) E(27,-116) S(18,-111) W(9,-116) at hz=138 -->
+  <polygon points="9,-116 18,-111 18,-129 9,-134"   fill="#1a0804" stroke="#664400" stroke-width="1"/>
+  <polygon points="27,-116 18,-111 18,-129 27,-134"  fill="#7a3010" stroke="#cc5500" stroke-width="1"/>
+  <polygon points="18,-138 27,-134 18,-129 9,-134"   fill="#a04020" stroke="#cc5500" stroke-width="1"/>
+  <circle cx="25" cy="-126" r="3" fill="#ff6600"/>
+
+  <!-- Tech Box 2 – left side of roof (hz 138→150) -->
+  <polygon points="-27,-116 -18,-111 -18,-123 -27,-128" fill="#100604" stroke="#553300" stroke-width="1" opacity="0.9"/>
+  <polygon points="-9,-116 -18,-111 -18,-123 -9,-128"   fill="#5a2208" stroke="#884400" stroke-width="1" opacity="0.9"/>
+  <polygon points="-18,-132 -9,-128 -18,-123 -27,-128"  fill="#8a3018" stroke="#aa4400" stroke-width="1" opacity="0.9"/>
+
+  <!-- Communication dish (stand + bowl) -->
+  <!-- Stand base touches parapet top at (12,-132) on the N→E rim -->
+  <line x1="12" y1="-132" x2="12" y2="-148"   stroke="#cc7730" stroke-width="2.5"/>
+  <ellipse cx="12" cy="-151" rx="14" ry="8"
+           fill="#b85020" stroke="#ff8c00" stroke-width="1.5" opacity="0.9"/>
+  <ellipse cx="12" cy="-151" rx="8" ry="4.5"
+           fill="none" stroke="#ffcc44" stroke-width="1"   opacity="0.65"/>
+  <circle  cx="12" cy="-151" r="2.5" fill="#ffcc44"/>
+</svg>

@@ -24,6 +24,12 @@ const ASSET_CONFIGS: Partial<Record<BuildingType, BuildingAssetConfig>> = {
     anchorY: 178 / 308, // tile-top vertex in image coords (from SVG header)
     scale: 64 / 256,    // 4× → 1× (from SVG header)
   },
+  Housing: {
+    path: '/assets/buildings/housing.svg',
+    anchorX: 0.5,
+    anchorY: 178 / 308,
+    scale: 64 / 256,
+  },
 }
 
 export async function loadBuildingTextures(): Promise<Map<BuildingType, BuildingRenderConfig>> {
