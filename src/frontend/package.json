@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "generate": "openapi-typescript ../backend/aethon-e3.api/aethon-e3.api.json -o src/api/generated.ts"
+    "generate": "openapi-typescript ../backend/aethon-e3.api/aethon-e3.api_v1.json -o src/api/generated.ts"
   },
   "dependencies": {
     "react": "^18.3.1",
