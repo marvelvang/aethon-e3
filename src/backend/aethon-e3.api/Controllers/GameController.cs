@@ -10,16 +10,13 @@ namespace aethon_e3.api.Controllers;
 public class GameController(GameApplicationService gameService) : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType<UiState>(StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateGame()
+    public async Task<ActionResult<UiState>> CreateGame()
     {
         return Ok(await gameService.CreateGame());
     }
 
     [HttpGet("{id:int}")]
-    [ProducesResponseType<UiState>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetState(int id)
+    public async Task<ActionResult<UiState>> GetState(int id)
     {
         try
         {
@@ -32,9 +29,7 @@ public class GameController(GameApplicationService gameService) : ControllerBase
     }
 
     [HttpPost("{id:int}/buildings")]
-    [ProducesResponseType<UiState>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> BuildBuilding(int id, [FromBody] PlaceBuildingRequest request)
+    public async Task<ActionResult<UiState>> BuildBuilding(int id, [FromBody] PlaceBuildingRequest request)
     {
         try
         {
@@ -47,9 +42,7 @@ public class GameController(GameApplicationService gameService) : ControllerBase
     }
 
     [HttpPost("{id:int}/round")]
-    [ProducesResponseType<UiState>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> EndRound(int id)
+    public async Task<ActionResult<UiState>> EndRound(int id)
     {
         try
         {
