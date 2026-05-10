@@ -25,11 +25,21 @@ export default function ResourceOverlay({ state }: Props) {
     <div className="resource-overlay">
       {RESOURCES.map(r => {
         const value = state ? (state[r.key] as number) : null
+        const isPopulation = r.key === 'population'
+        const freeValue = isPopulation && state ? state.freePopulation : null
         return (
           <div key={r.key} className="resource-card">
-            <span className="resource-value" style={{ color: r.color }}>
-              {value ?? '—'}
-            </span>
+            {isPopulation ? (
+              <span className="resource-value" style={{ color: r.color }}>
+                <span className="resource-value-main">{value ?? '—'}</span>
+                <span className="resource-value-sep">/</span>
+                <span className="resource-value-free">{freeValue ?? '—'}</span>
+              </span>
+            ) : (
+              <span className="resource-value" style={{ color: r.color }}>
+                {value ?? '—'}
+              </span>
+            )}
             <span className="resource-label">{r.label}</span>
             <div className="resource-bar" style={{ background: r.color }} />
           </div>

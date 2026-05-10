@@ -30,6 +30,7 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
   const [buildingTextures, setBuildingTextures] = useState<Map<BuildingType, BuildingRenderConfig>>(new Map())
   const [rotationStep, setRotationStep] = useState<RotationStep>(0)
   const rotationStepRef = useRef<RotationStep>(0)
+  const [resizeCount, setResizeCount] = useState(0)
 
   // Keep refs in sync with props/state so event handlers always see latest values
   useEffect(() => { gameIdRef.current = gameId }, [gameId])
@@ -256,7 +257,19 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
     canvas.addEventListener('touchmove', onTouchMove, { passive: false })
     canvas.addEventListener('touchend', onTouchEnd)
 
+    function onResize() {
+      const w = window.innerWidth
+      const h = window.innerHeight
+      app.renderer.resize(w, h)
+      const gridVisualHeight = (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
+      centerXRef.current = app.screen.width / 2
+      offsetYRef.current = (app.screen.height - gridVisualHeight) / 2
+      setResizeCount(c => c + 1)
+    }
+    window.addEventListener('resize', onResize)
+
     return () => {
+      window.removeEventListener('resize', onResize)
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseMove)
       canvas.removeEventListener('mouseup', onMouseUp)
@@ -299,7 +312,7 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
     }
     updateHover(null)
     applyCamera()
-  }, [buildings, buildingTextures, rotationStep])
+  }, [buildings, buildingTextures, rotationStep, resizeCount])
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
