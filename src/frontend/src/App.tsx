@@ -15,7 +15,7 @@ export default function App() {
     fetchOrCreateGame()
       .then((state) => {
         console.log('Game state loaded:', JSON.stringify(state))
-        setGameId(state.gameStateId)
+        setGameId(Number(state.gameStateId))
         setBuildings(state.buildings)
       })
       .catch((err) => console.error('Failed to load game state:', err))
