@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  EcoPod – Consumer Option 1 (Master SVG, 4× tile resolution)
+  Grüne Glaskapseln-Gewächshaus für Lebensmittelproduktion
+
+  Tile: TILE_HALF_WIDTH=32, TILE_HALF_HEIGHT=16 → 64×32 px at 1×
+  ViewBox: -128 -178 256 308
+  Anchor: (0.5, 178/308)   Scale: 64/256
+
+  Box ±F hz1→hz2:
+    Right: F,F/2-hz1  0,F-hz1  0,F-hz2  F,F/2-hz2
+    Left: -F,F/2-hz1  0,F-hz1  0,F-hz2  -F,F/2-hz2
+    Top:  0,-hz2  F,F/2-hz2  0,F-hz2  -F,F/2-hz2
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation: mossy dark earth -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#3a5e20"/>
+      <stop offset="100%" stop-color="#1a3010"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#101e08"/>
+      <stop offset="100%" stop-color="#060c03"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#4e7a28"/>
+      <stop offset="100%" stop-color="#2c4e14"/>
+    </linearGradient>
+    <!-- Neck: dark green metal support -->
+    <linearGradient id="nR" gradientUnits="userSpaceOnUse" x1="56" y1="4" x2="0" y2="-4">
+      <stop offset="0%"   stop-color="#2a5a14"/>
+      <stop offset="100%" stop-color="#163a0c"/>
+    </linearGradient>
+    <linearGradient id="nL" gradientUnits="userSpaceOnUse" x1="-56" y1="4" x2="0" y2="-4">
+      <stop offset="0%"   stop-color="#0e2008"/>
+      <stop offset="100%" stop-color="#060c03"/>
+    </linearGradient>
+    <!-- Main dome: glass greenhouse -->
+    <radialGradient id="dome" cx="30%" cy="22%" r="72%">
+      <stop offset="0%"   stop-color="#eeffee"/>
+      <stop offset="18%"  stop-color="#a0f0a8"/>
+      <stop offset="52%"  stop-color="#228b22"/>
+      <stop offset="82%"  stop-color="#0d5218"/>
+      <stop offset="100%" stop-color="#052810" stop-opacity="0.65"/>
+    </radialGradient>
+    <!-- Inner plant bioluminescence -->
+    <radialGradient id="plantglow" cx="50%" cy="66%" r="52%">
+      <stop offset="0%"   stop-color="#7aff00" stop-opacity="0.55"/>
+      <stop offset="60%"  stop-color="#44aa00" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#228800" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══ DOME (drawn first – behind everything) ══
+       Center (0,−110), rx=88, ry=54 → bottom y=−56 (= neck top hz=56) -->
+  <ellipse cx="0" cy="-110" rx="88" ry="54" fill="url(#dome)" stroke="#55cc33" stroke-width="2"/>
+
+  <!-- Plant interior glow -->
+  <ellipse cx="0" cy="-94" rx="56" ry="34" fill="url(#plantglow)"/>
+
+  <!-- Plant silhouettes visible through glass -->
+  <ellipse cx="-22" cy="-86" rx="13" ry="18" fill="#165a0a" opacity="0.5"/>
+  <ellipse cx="22"  cy="-90" rx="11" ry="15" fill="#1a6810" opacity="0.45"/>
+  <ellipse cx="0"   cy="-82" rx="16" ry="21" fill="#1e7014" opacity="0.55"/>
+  <ellipse cx="-40" cy="-96" rx="7"  ry="10" fill="#104808" opacity="0.4"/>
+  <ellipse cx="40"  cy="-94" rx="8"  ry="11" fill="#146010" opacity="0.38"/>
+  <!-- Trunks/stems -->
+  <line x1="-22" y1="-68" x2="-22" y2="-80" stroke="#5a3010" stroke-width="2.5" opacity="0.4"/>
+  <line x1="22"  y1="-75" x2="22"  y2="-85" stroke="#5a3010" stroke-width="2"   opacity="0.35"/>
+  <line x1="0"   y1="-61" x2="0"   y2="-73" stroke="#4a2808" stroke-width="3"   opacity="0.4"/>
+
+  <!-- Glass panel structural lines -->
+  <line x1="-88" y1="-110" x2="88"  y2="-110" stroke="#99eebb" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-70" y1="-85"  x2="70"  y2="-85"  stroke="#99eebb" stroke-width="0.7" opacity="0.2"/>
+  <line x1="-70" y1="-135" x2="70"  y2="-135" stroke="#99eebb" stroke-width="0.7" opacity="0.2"/>
+  <line x1="0"   y1="-164" x2="0"   y2="-56"  stroke="#99eebb" stroke-width="0.8" opacity="0.25"/>
+  <line x1="44"  y1="-158" x2="44"  y2="-60"  stroke="#99eebb" stroke-width="0.6" opacity="0.16"/>
+  <line x1="-44" y1="-158" x2="-44" y2="-60"  stroke="#99eebb" stroke-width="0.6" opacity="0.16"/>
+
+  <!-- Specular highlight (glass reflection) -->
+  <ellipse cx="-26" cy="-147" rx="20" ry="10" fill="white" opacity="0.17"/>
+  <ellipse cx="-15" cy="-156" rx="8"  ry="4"  fill="white" opacity="0.27"/>
+
+  <!-- ══ NECK hz 24→56 (±56)
+       Right: 56,4  0,32  0,0  56,−28
+       Left: −56,4  0,32  0,0  −56,−28
+       Top:  0,−56  56,−28  0,0  −56,−28 -->
+  <polygon points="-56,4 0,32 0,0 -56,-28"   fill="url(#nL)" stroke="#224411" stroke-width="1.2"/>
+  <polygon points="56,4 0,32 0,0 56,-28"     fill="url(#nR)" stroke="#44aa1a" stroke-width="1.2"/>
+  <polygon points="0,-56 56,-28 0,0 -56,-28"  fill="#357a18" stroke="#44aa1a" stroke-width="1.2"/>
+
+  <!-- Neck vertical edge highlight -->
+  <line x1="56" y1="4" x2="56" y2="-28" stroke="#66dd33" stroke-width="2.5" opacity="0.6"/>
+
+  <!-- Collar glow ring at dome base -->
+  <ellipse cx="0" cy="-56" rx="62" ry="30" fill="none" stroke="#66ee33" stroke-width="2"   opacity="0.65"/>
+  <ellipse cx="0" cy="-56" rx="62" ry="30" fill="none" stroke="#aaffaa" stroke-width="7"   opacity="0.12" filter="url(#softglow)"/>
+
+  <!-- ══ FOUNDATION hz 0→24 (±128) ══ -->
+  <polygon points="-128,64 0,128 0,104 -128,40" fill="url(#fL)" stroke="#3a8a1a" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"   fill="url(#fR)" stroke="#3a8a1a" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"  fill="url(#fT)" stroke="#3a8a1a" stroke-width="1.5"/>
+
+  <!-- Foundation top grid -->
+  <line x1="0" y1="-24"   x2="0"   y2="104" stroke="#4aaa22" stroke-width="1" opacity="0.3"/>
+  <line x1="-128" y1="40" x2="128" y2="40"  stroke="#4aaa22" stroke-width="1" opacity="0.3"/>
+
+  <!-- Bio-pipe ducts along foundation base -->
+  <line x1="128" y1="56"  x2="0" y2="116" stroke="#162a08" stroke-width="5"/>
+  <line x1="128" y1="56"  x2="0" y2="116" stroke="#44cc11" stroke-width="1"   opacity="0.4"/>
+  <line x1="-128" y1="56" x2="0" y2="116" stroke="#0a1604" stroke-width="5"/>
+  <line x1="-128" y1="56" x2="0" y2="116" stroke="#44cc11" stroke-width="0.8" opacity="0.22"/>
+
+  <!-- Corner indicator lights (lime green) -->
+  <circle cx="128"  cy="40"  r="7" fill="#44ff44" filter="url(#glow)"/>
+  <circle cx="-128" cy="40"  r="7" fill="#44ff44" filter="url(#glow)"/>
+  <circle cx="0"    cy="104" r="7" fill="#44ff44" filter="url(#glow)"/>
+
+  <!-- Dome apex vent beacon -->
+  <circle cx="0" cy="-164" r="7"  fill="#00ff88" opacity="0.92" filter="url(#glow)"/>
+  <circle cx="0" cy="-164" r="14" fill="none"    stroke="#00ff88" stroke-width="1.5" opacity="0.35"/>
+  <circle cx="0" cy="-164" r="20" fill="none"    stroke="#00ff88" stroke-width="2"   opacity="0.1" filter="url(#softglow)"/>
+</svg>

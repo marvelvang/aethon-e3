@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  HydroSpire – Consumer Option 3 (Master SVG, 4× tile resolution)
+  Vertikaler Hydroponik-Turm mit lila Wachstumslicht-Ringen
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation: gray-green concrete -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="32" x2="0" y2="96">
+      <stop offset="0%"   stop-color="#3e5c3a"/>
+      <stop offset="100%" stop-color="#1e2e1a"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="32" x2="0" y2="96">
+      <stop offset="0%"   stop-color="#141e12"/>
+      <stop offset="100%" stop-color="#080c06"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-32" x2="0" y2="96">
+      <stop offset="0%"   stop-color="#50703e"/>
+      <stop offset="100%" stop-color="#30461e"/>
+    </linearGradient>
+    <!-- Base unit: gray-green equipment -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="72" y1="4" x2="0" y2="8">
+      <stop offset="0%"   stop-color="#445e3c"/>
+      <stop offset="60%"  stop-color="#2e4228"/>
+      <stop offset="100%" stop-color="#1c2a18"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-72" y1="4" x2="0" y2="8">
+      <stop offset="0%"   stop-color="#161e12"/>
+      <stop offset="100%" stop-color="#0a0e08"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-64" x2="0" y2="8">
+      <stop offset="0%"   stop-color="#5e7a4a"/>
+      <stop offset="100%" stop-color="#3c5030"/>
+    </linearGradient>
+    <!-- Tower: clean white-gray hydroponic column -->
+    <linearGradient id="tR" gradientUnits="userSpaceOnUse" x1="22" y1="-53" x2="0" y2="-138">
+      <stop offset="0%"   stop-color="#ccddc8"/>
+      <stop offset="50%"  stop-color="#a0b89c"/>
+      <stop offset="100%" stop-color="#708a6c"/>
+    </linearGradient>
+    <linearGradient id="tL" gradientUnits="userSpaceOnUse" x1="-22" y1="-53" x2="0" y2="-138">
+      <stop offset="0%"   stop-color="#3a4838"/>
+      <stop offset="100%" stop-color="#1e2a1c"/>
+    </linearGradient>
+    <linearGradient id="tTop" gradientUnits="userSpaceOnUse" x1="0" y1="-160" x2="0" y2="-138">
+      <stop offset="0%"   stop-color="#ddeedd"/>
+      <stop offset="100%" stop-color="#aaccaa"/>
+    </linearGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ringbloom" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══ FOUNDATION hz 0→32 (±128) ══ -->
+  <polygon points="-128,64 0,128 0,96 -128,32"  fill="url(#fL)" stroke="#3a6030" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,96 128,32"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
+  <polygon points="0,-32 128,32 0,96 -128,32"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
+
+  <line x1="0" y1="-32"    x2="0"   y2="96" stroke="#4a7a3a" stroke-width="1" opacity="0.35"/>
+  <line x1="-128" y1="32"  x2="128" y2="32" stroke="#4a7a3a" stroke-width="1" opacity="0.35"/>
+
+  <circle cx="128"  cy="32"  r="6" fill="#44dd44" filter="url(#glow)"/>
+  <circle cx="-128" cy="32"  r="6" fill="#44dd44" filter="url(#glow)"/>
+  <circle cx="0"    cy="96"  r="6" fill="#44dd44" filter="url(#glow)"/>
+
+  <line x1="128"  y1="48" x2="0" y2="108" stroke="#1a2e12" stroke-width="5"/>
+  <line x1="128"  y1="48" x2="0" y2="108" stroke="#44cc22" stroke-width="1"   opacity="0.38"/>
+  <line x1="-128" y1="48" x2="0" y2="108" stroke="#0c1808" stroke-width="5"/>
+  <line x1="-128" y1="48" x2="0" y2="108" stroke="#44cc22" stroke-width="0.8" opacity="0.22"/>
+
+  <!-- ══ BASE UNIT hz 32→64 (±72) ══
+       Right: 72,4  0,40  0,8  72,−28
+       Left: −72,4  0,40  0,8  −72,−28
+       Top:  0,−64  72,−28  0,8  −72,−28 -->
+  <polygon points="-72,4 0,40 0,8 -72,-28"   fill="url(#bL)" stroke="#2e4a28" stroke-width="1.5"/>
+  <polygon points="72,4 0,40 0,8 72,-28"     fill="url(#bR)" stroke="#4a6a3a" stroke-width="1.5"/>
+  <polygon points="0,-64 72,-28 0,8 -72,-28"  fill="url(#bT)" stroke="#4a6a3a" stroke-width="1.5"/>
+
+  <!-- Base unit: ventilation slots on right face -->
+  <line x1="72" y1="4"  x2="72"  y2="-28" stroke="#66aa44" stroke-width="2" opacity="0.55"/>
+  <line x1="55" y1="0"  x2="20"  y2="18" stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
+  <line x1="55" y1="-8" x2="20"  y2="10" stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
+  <line x1="55" y1="-16" x2="20" y2="2"  stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Base corners -->
+  <circle cx="72"  cy="-28" r="5" fill="#55ee33" filter="url(#glow)"/>
+  <circle cx="-72" cy="-28" r="5" fill="#55ee33" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="8"   r="5" fill="#55ee33" filter="url(#glow)"/>
+
+  <!-- ══ TOWER hz 64→160 (±22) ══
+       Right: 22,−53  0,−42  0,−138  22,−149
+       Left: −22,−53  0,−42  0,−138  −22,−149
+       Top:  0,−160  22,−149  0,−138  −22,−149 -->
+  <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
+  <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
+  <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
+
+  <!-- Tower edge highlight (right) -->
+  <line x1="22" y1="-53" x2="22" y2="-149" stroke="#bbddbb" stroke-width="2"   opacity="0.6"/>
+  <line x1="22" y1="-53" x2="22" y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- ══ GROW-LIGHT RINGS (purple/violet spectrum) ══
+       Each ring: horizontal ellipse at height hz, rx=28, ry=14 -->
+
+  <!-- Ring hz=82 – bottom ring -->
+  <ellipse cx="0" cy="-82" rx="28" ry="14" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <ellipse cx="0" cy="-82" rx="28" ry="14" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <ellipse cx="0" cy="-82" rx="14" ry="7"  fill="#cc44ff" opacity="0.08"/>
+
+  <!-- Ring hz=102 -->
+  <ellipse cx="0" cy="-102" rx="28" ry="14" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <ellipse cx="0" cy="-102" rx="28" ry="14" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <ellipse cx="0" cy="-102" rx="14" ry="7"  fill="#cc44ff" opacity="0.08"/>
+
+  <!-- Ring hz=122 -->
+  <ellipse cx="0" cy="-122" rx="28" ry="14" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <ellipse cx="0" cy="-122" rx="28" ry="14" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <ellipse cx="0" cy="-122" rx="14" ry="7"  fill="#cc44ff" opacity="0.08"/>
+
+  <!-- Ring hz=142 – top ring -->
+  <ellipse cx="0" cy="-142" rx="28" ry="14" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
+  <ellipse cx="0" cy="-142" rx="28" ry="14" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
+  <ellipse cx="0" cy="-142" rx="14" ry="7"  fill="#cc44ff" opacity="0.1"/>
+
+  <!-- Growing pod "leaf" accents at each ring (right side) -->
+  <ellipse cx="26" cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-82)"/>
+  <ellipse cx="26" cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-102)"/>
+  <ellipse cx="26" cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-122)"/>
+  <ellipse cx="26" cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(-20,26,-142)"/>
+
+  <!-- Tower top: apex spire -->
+  <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
+  <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
+</svg>

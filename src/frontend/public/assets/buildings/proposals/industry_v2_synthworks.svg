@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SynthWorks – Industry Option 2 (Master SVG, 4× tile resolution)
+  Modulare Fabrik mit gelben Warnstreifen und blau-grauen Kühltanks
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation: dark slate -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="32" x2="0" y2="96">
+      <stop offset="0%"   stop-color="#444858"/>
+      <stop offset="100%" stop-color="#222630"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="32" x2="0" y2="96">
+      <stop offset="0%"   stop-color="#161820"/>
+      <stop offset="100%" stop-color="#08090e"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-32" x2="0" y2="96">
+      <stop offset="0%"   stop-color="#565a6a"/>
+      <stop offset="100%" stop-color="#323540"/>
+    </linearGradient>
+    <!-- Main block: charcoal gray with slight blue tint -->
+    <linearGradient id="mR" gradientUnits="userSpaceOnUse" x1="80" y1="8" x2="0" y2="-56">
+      <stop offset="0%"   stop-color="#5e6272"/>
+      <stop offset="50%"  stop-color="#484c5c"/>
+      <stop offset="100%" stop-color="#2e303c"/>
+    </linearGradient>
+    <linearGradient id="mL" gradientUnits="userSpaceOnUse" x1="-80" y1="8" x2="0" y2="-56">
+      <stop offset="0%"   stop-color="#1e2028"/>
+      <stop offset="100%" stop-color="#0c0e14"/>
+    </linearGradient>
+    <linearGradient id="mT" gradientUnits="userSpaceOnUse" x1="0" y1="-100" x2="0" y2="-44">
+      <stop offset="0%"   stop-color="#6a6e7e"/>
+      <stop offset="100%" stop-color="#4e5060"/>
+    </linearGradient>
+    <!-- Annex block: slightly lighter -->
+    <linearGradient id="anR" gradientUnits="userSpaceOnUse" x1="40" y1="-40" x2="0" y2="-70">
+      <stop offset="0%"   stop-color="#6e7282"/>
+      <stop offset="100%" stop-color="#3e4050"/>
+    </linearGradient>
+    <linearGradient id="anL" gradientUnits="userSpaceOnUse" x1="-40" y1="-40" x2="0" y2="-70">
+      <stop offset="0%"   stop-color="#202230"/>
+      <stop offset="100%" stop-color="#10121a"/>
+    </linearGradient>
+    <!-- Cooling tank: blue-gray -->
+    <radialGradient id="tank" cx="35%" cy="25%" r="70%">
+      <stop offset="0%"   stop-color="#8aaac8"/>
+      <stop offset="55%"  stop-color="#3a5c7a"/>
+      <stop offset="100%" stop-color="#1a2c3c"/>
+    </radialGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══ FOUNDATION hz 0→32 (±128) ══ -->
+  <polygon points="-128,64 0,128 0,96 -128,32"  fill="url(#fL)" stroke="#3a3c48" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,96 128,32"    fill="url(#fR)" stroke="#4a4c5a" stroke-width="1.5"/>
+  <polygon points="0,-32 128,32 0,96 -128,32"   fill="url(#fT)" stroke="#4a4c5a" stroke-width="1.5"/>
+
+  <!-- Foundation: diagonal warning chevrons (right face) -->
+  <line x1="128" y1="64" x2="0"   y2="128" stroke="#ffcc00" stroke-width="3.5" opacity="0.3"/>
+  <line x1="96"  y1="44" x2="0"   y2="92"  stroke="#ffcc00" stroke-width="3.5" opacity="0.3"/>
+  <line x1="64"  y1="24" x2="0"   y2="56"  stroke="#ffcc00" stroke-width="3.5" opacity="0.3"/>
+
+  <circle cx="128"  cy="32"  r="6" fill="#ffcc00" filter="url(#glow)"/>
+  <circle cx="-128" cy="32"  r="6" fill="#ffcc00" filter="url(#glow)"/>
+  <circle cx="0"    cy="96"  r="6" fill="#ffcc00" filter="url(#glow)"/>
+
+  <line x1="128"  y1="48" x2="0" y2="108" stroke="#1a1c24" stroke-width="6"/>
+  <line x1="128"  y1="48" x2="0" y2="108" stroke="#ffcc00" stroke-width="1.2" opacity="0.35"/>
+  <line x1="-128" y1="48" x2="0" y2="108" stroke="#0c0e14" stroke-width="6"/>
+  <line x1="-128" y1="48" x2="0" y2="108" stroke="#444466" stroke-width="1"   opacity="0.3"/>
+
+  <!-- ══ MAIN FACTORY BLOCK hz 32→100 (±80) ══
+       Right: 80,8  0,48  0,−20  80,−60
+       Left: −80,8  0,48  0,−20  −80,−60
+       Top:  0,−100  80,−60  0,−20  −80,−60 -->
+  <polygon points="-80,8 0,48 0,-20 -80,-60"   fill="url(#mL)" stroke="#282a38" stroke-width="1.5"/>
+  <line x1="-80" y1="8" x2="-80" y2="-60" stroke="#141620" stroke-width="2.5" opacity="0.55"/>
+
+  <!-- Left face: panel ribs -->
+  <line x1="-80" y1="-14" x2="0" y2="26"  stroke="#1e202c" stroke-width="2" opacity="0.7"/>
+  <line x1="-80" y1="-36" x2="0" y2="4"   stroke="#1e202c" stroke-width="2" opacity="0.7"/>
+
+  <polygon points="80,8 0,48 0,-20 80,-60"     fill="url(#mR)" stroke="#565870" stroke-width="1.5"/>
+  <line x1="80" y1="8" x2="80" y2="-60" stroke="#8a8ca0" stroke-width="2.5" opacity="0.55"/>
+
+  <!-- Right face: panel ribs -->
+  <line x1="80" y1="-14" x2="0" y2="26"  stroke="#70728a" stroke-width="1.5" opacity="0.5"/>
+  <line x1="80" y1="-36" x2="0" y2="4"   stroke="#70728a" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Right face: YELLOW WARNING BANDS (horizontal) -->
+  <!-- Band 1 hz 40→46: 80,0 0,40 0,34 80,−6 -->
+  <polygon points="80,0 0,40 0,34 80,-6"   fill="#ffcc00" opacity="0.35" stroke="none"/>
+  <!-- Band 2 hz 60→66 -->
+  <polygon points="80,-20 0,20 0,14 80,-26" fill="#ffcc00" opacity="0.3"  stroke="none"/>
+  <!-- Band 3 hz 80→86 -->
+  <polygon points="80,-40 0,0 0,-6 80,-46"  fill="#ffcc00" opacity="0.25" stroke="none"/>
+
+  <!-- Right face: access doors -->
+  <polygon points="66,18 52,25 52,4 66,-3"    fill="#1c1e28" stroke="#44465a" stroke-width="1.5"/>
+  <polygon points="63,16 55,20 55,6 63,2"     fill="#222430" stroke="#6068aa" stroke-width="1"   opacity="0.7"/>
+  <circle  cx="59" cy="11" r="3" fill="#4466ff" opacity="0.9" filter="url(#glow)"/>
+
+  <!-- Right face: tech window with blue glow -->
+  <polygon points="48,6 30,15 30,-2 48,-11"   fill="#1a2040" stroke="#3355aa" stroke-width="1.5"/>
+  <polygon points="45,4 33,10 33,0 45,-6"     fill="#223360" stroke="#4466cc" stroke-width="1"   opacity="0.8"/>
+  <line x1="39" y1="10"  x2="39" y2="-6"  stroke="#88aaff" stroke-width="1" opacity="0.5"/>
+  <line x1="48" y1="2"   x2="30" y2="7"   stroke="#88aaff" stroke-width="1" opacity="0.5"/>
+
+  <!-- Right face: vertical blue data conduit -->
+  <line x1="72" y1="14" x2="72" y2="-56" stroke="#1a2040" stroke-width="4"/>
+  <line x1="72" y1="14" x2="72" y2="-56" stroke="#4488ff" stroke-width="1.2" opacity="0.55"/>
+
+  <!-- Factory top face -->
+  <polygon points="0,-100 80,-60 0,-20 -80,-60"  fill="url(#mT)" stroke="#565870" stroke-width="1.5"/>
+  <line x1="0" y1="-100" x2="0" y2="-20"    stroke="#7a7c90" stroke-width="1" opacity="0.4"/>
+  <line x1="-80" y1="-60" x2="80" y2="-60"  stroke="#7a7c90" stroke-width="1" opacity="0.4"/>
+
+  <circle cx="80"  cy="-60" r="5" fill="#ffcc00" filter="url(#glow)"/>
+  <circle cx="-80" cy="-60" r="5" fill="#ffcc00" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-20" r="5" fill="#ffcc00" filter="url(#glow)"/>
+
+  <!-- ══ UPPER ANNEX / PROCESSING UNIT hz 100→140 (±40) ══
+       Right: 40,−80  0,−60  0,−100  40,−120
+       Left: −40,−80  0,−60  0,−100  −40,−120
+       Top:  0,−140  40,−120  0,−100  −40,−120 -->
+  <polygon points="-40,-80 0,-60 0,-100 -40,-120" fill="url(#anL)" stroke="#282a38" stroke-width="1.2"/>
+  <polygon points="40,-80 0,-60 0,-100 40,-120"   fill="url(#anR)" stroke="#606272" stroke-width="1.2"/>
+  <polygon points="0,-140 40,-120 0,-100 -40,-120" fill="#606478" stroke="#606272" stroke-width="1.2"/>
+
+  <!-- Annex: yellow warning band -->
+  <polygon points="40,-80 0,-60 0,-68 40,-88"  fill="#ffcc00" opacity="0.3" stroke="none"/>
+  <polygon points="40,-104 0,-84 0,-92 40,-112" fill="#ffcc00" opacity="0.25" stroke="none"/>
+
+  <!-- Annex: data lights -->
+  <circle cx="36" cy="-92" r="3" fill="#4488ff" filter="url(#glow)"/>
+  <circle cx="28" cy="-88" r="2.5" fill="#44ff88" filter="url(#glow)"/>
+  <circle cx="36" cy="-108" r="3" fill="#ffcc00" filter="url(#glow)"/>
+
+  <!-- Annex edge -->
+  <line x1="40" y1="-80" x2="40" y2="-120" stroke="#808498" stroke-width="2" opacity="0.6"/>
+
+  <!-- Annex corners -->
+  <circle cx="40"  cy="-120" r="4" fill="#ffcc00" filter="url(#glow)"/>
+  <circle cx="-40" cy="-120" r="4" fill="#ffcc00" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-100" r="4" fill="#ffcc00" filter="url(#glow)"/>
+
+  <!-- ══ ROOFTOP: COOLING TANKS + RADAR ══ -->
+  <!-- Cooling tank (blue sphere on right of annex top) -->
+  <ellipse cx="16" cy="-145" rx="16" ry="10" fill="url(#tank)" stroke="#5588aa" stroke-width="1.5"/>
+  <ellipse cx="16" cy="-145" rx="10" ry="6"  fill="none"       stroke="#88bbdd" stroke-width="0.8" opacity="0.45"/>
+  <ellipse cx="11" cy="-150" rx="5"  ry="3"  fill="white"      opacity="0.2"/>
+  <line x1="16" y1="-135" x2="16" y2="-140" stroke="#3a5870" stroke-width="2"/>
+
+  <!-- Radar dish -->
+  <line x1="-10" y1="-140" x2="-10" y2="-158" stroke="#707288" stroke-width="2.5"/>
+  <ellipse cx="-10" cy="-161" rx="12" ry="6" fill="#4a4c5c" stroke="#8888aa" stroke-width="1.5"/>
+  <ellipse cx="-10" cy="-161" rx="7"  ry="3.5" fill="none"  stroke="#aaaacc" stroke-width="1"   opacity="0.6"/>
+  <circle  cx="-10" cy="-161" r="2.5" fill="#aaaaff"/>
+
+  <!-- Antenna mast -->
+  <line x1="6" y1="-140" x2="6" y2="-174" stroke="#9090aa" stroke-width="2"/>
+  <line x1="-6" y1="-162" x2="16" y2="-162" stroke="#9090aa" stroke-width="1.5"/>
+  <line x1="-4" y1="-152" x2="14" y2="-152" stroke="#9090aa" stroke-width="1.2"/>
+  <circle cx="6" cy="-174" r="4" fill="#4488ff" opacity="0.9" filter="url(#glow)"/>
+</svg>
