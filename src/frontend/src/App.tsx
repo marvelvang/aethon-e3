@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import IsometricGrid from './components/IsometricGrid'
 import DebugConsole from './components/DebugConsole'
-import { fetchOrCreateGame, type Building } from './api/gameApi'
+import { fetchOrCreateGame, type UiBuildingSlot } from './api/gameApi'
 
 export default function App() {
-  const [buildings, setBuildings] = useState<Building[]>([])
+  const [buildings, setBuildings] = useState<UiBuildingSlot[]>([])
 
   useEffect(() => {
     fetchOrCreateGame()

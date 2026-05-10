@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import * as PIXI from 'pixi.js'
 import { renderIsometricGrid } from '../pixi/renderIsometricGrid'
-import type { Building } from '../api/gameApi'
+import type { UiBuildingSlot } from '../api/gameApi'
 
 interface Props {
-  buildings: Building[]
+  buildings: UiBuildingSlot[]
 }
 
 export default function IsometricGrid({ buildings }: Props) {
