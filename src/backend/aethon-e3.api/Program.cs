@@ -20,6 +20,10 @@ builder.Services.AddControllers()
     .AddJsonOptions(o =>
         o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
+// Needed so AddOpenApi() picks up the string enum converter for schema generation
+builder.Services.ConfigureHttpJsonOptions(o =>
+    o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 builder.Services.AddOpenApi();
 
 builder.Services.AddCors(options =>
