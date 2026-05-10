@@ -21,8 +21,22 @@ jobs:
       - name: Restore
         run: dotnet restore src/backend/aethon-e3.api/aethon-e3.api.csproj
 
-      - name: Build backend + generate OpenAPI spec
+      - name: Build backend
         run: dotnet build src/backend/aethon-e3.api/aethon-e3.api.csproj --no-restore --configuration Release
+
+      - name: Generate OpenAPI spec (start backend, fetch, stop)
+        run: |
+          ASPNETCORE_URLS=http://localhost:5050 ASPNETCORE_ENVIRONMENT=Development \
+            dotnet run --project src/backend/aethon-e3.api/aethon-e3.api.csproj \
+            --no-build --configuration Release &
+          APP_PID=$!
+          for i in $(seq 1 30); do
+            sleep 1
+            curl -sf http://localhost:5050/health > /dev/null 2>&1 && break || true
+          done
+          curl -f http://localhost:5050/openapi/v1.json -o src/backend/aethon-e3.api/v1.json
+          kill $APP_PID
+          wait $APP_PID 2>/dev/null || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
