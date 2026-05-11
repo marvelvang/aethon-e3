@@ -81,7 +81,7 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
     const cx = centerXRef.current
     const oy = offsetYRef.current
     for (const building of buildingList) {
-      const top = tileTopVertex(building.x, building.y, cx, oy, rot)
+      const top = tileTopVertex(Number(building.x), Number(building.y), cx, oy, rot)
       const worldX = top.x
       const worldY = top.y + TILE_HALF_HEIGHT
       const icon = createBuildingIconGraphics(building.type)
