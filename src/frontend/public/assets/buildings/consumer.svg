@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Vertical Farm Tower – Consumer Building (Master SVG, 4× tile resolution)
+  ─────────────────────────────────────────────────────────────────────────
+  Tile: TILE_HALF_WIDTH=32, TILE_HALF_HEIGHT=16 → 64×32 px at 1×
+  This SVG: 4× → tile footprint 256×128 px, total 256×308 px
+
+  Isometric origin (0,0) = tile-top vertex
+  Projection: screen_x = (wx-wy)×128,  screen_y = (wx+wy)×64 − hz
+
+  PixiJS usage (displayed at 1× tile size):
+    sprite.anchor.set(0.5, 178/308)   // tile-top vertex in image coords
+    sprite.position.set(tileTopX, tileTopY)
+    sprite.scale.set(64/256)           // 4× → 1×
+
+  Geometry summary (screen coords at 4× scale):
+    Foundation  hz 0→20    footprint ±128  (full tile)
+    Main Body   hz 20→90   footprint ±88   (4 farm floors)
+    Roof        hz 90→135  footprint ±56   (solar panels)
+    Beacon above hz 135
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation (dark earth/concrete) -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="44" x2="0" y2="108">
+      <stop offset="0%"   stop-color="#2a3a18"/>
+      <stop offset="100%" stop-color="#141e0c"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="44" x2="0" y2="108">
+      <stop offset="0%"   stop-color="#0e1608"/>
+      <stop offset="100%" stop-color="#060c04"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-20" x2="0" y2="108">
+      <stop offset="0%"   stop-color="#3a5020"/>
+      <stop offset="100%" stop-color="#2a3a18"/>
+    </linearGradient>
+
+    <!-- Main Body hz 20→90, W=88 -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="24" x2="0" y2="-46">
+      <stop offset="0%"   stop-color="#4a6228"/>
+      <stop offset="60%"  stop-color="#3d5020"/>
+      <stop offset="100%" stop-color="#2e3c18"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-88" y1="24" x2="0" y2="-46">
+      <stop offset="0%"   stop-color="#1a2810"/>
+      <stop offset="100%" stop-color="#0c1608"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-90" x2="0" y2="-2">
+      <stop offset="0%"   stop-color="#5a7830"/>
+      <stop offset="100%" stop-color="#3d5020"/>
+    </linearGradient>
+
+    <!-- Roof Section hz 90→135, W=56 -->
+    <linearGradient id="rR" gradientUnits="userSpaceOnUse" x1="56" y1="-62" x2="0" y2="-107">
+      <stop offset="0%"   stop-color="#3a5020"/>
+      <stop offset="100%" stop-color="#283818"/>
+    </linearGradient>
+    <linearGradient id="rL" gradientUnits="userSpaceOnUse" x1="-56" y1="-62" x2="0" y2="-107">
+      <stop offset="0%"   stop-color="#101808"/>
+      <stop offset="100%" stop-color="#080e04"/>
+    </linearGradient>
+    <linearGradient id="rT" gradientUnits="userSpaceOnUse" x1="-56" y1="-107" x2="56" y2="-135">
+      <stop offset="0%"   stop-color="#1a2230"/>
+      <stop offset="100%" stop-color="#243040"/>
+    </linearGradient>
+
+    <!-- Grow-light window (warm yellow) -->
+    <radialGradient id="winW" cx="40%" cy="35%" r="65%">
+      <stop offset="0%"   stop-color="#ffffc0"/>
+      <stop offset="35%"  stop-color="#ffe066"/>
+      <stop offset="100%" stop-color="#886600"/>
+    </radialGradient>
+    <!-- Dim window (shadow side) -->
+    <radialGradient id="winD" cx="40%" cy="35%" r="65%">
+      <stop offset="0%"   stop-color="#ccaa44"/>
+      <stop offset="100%" stop-color="#443300"/>
+    </radialGradient>
+
+    <!-- Glow filters -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══════════════════════════════════════════
+       FOUNDATION   hz 0 → 20
+       Bottom: N(0,0)   E(128,64) S(0,128) W(-128,64)
+       Top:    N(0,-20) E(128,44) S(0,108) W(-128,44)
+       ══════════════════════════════════════════ -->
+
+  <polygon points="128,64 0,128 0,108 128,44"   fill="url(#fR)" stroke="#4a6030" stroke-width="1.5"/>
+  <polygon points="-128,64 0,128 0,108 -128,44" fill="url(#fL)" stroke="#4a6030" stroke-width="1.5"/>
+  <polygon points="0,-20 128,44 0,108 -128,44"  fill="url(#fT)" stroke="#4a6030" stroke-width="1.5"/>
+
+  <!-- Foundation top: grid lines -->
+  <line x1="0" y1="-20" x2="0" y2="108"    stroke="#5a7840" stroke-width="1"   opacity="0.4"/>
+  <line x1="-128" y1="44" x2="128" y2="44"  stroke="#5a7840" stroke-width="1"   opacity="0.4"/>
+
+  <!-- Foundation: corner indicator lights -->
+  <circle cx="128"  cy="44"  r="6" fill="#40dd40" filter="url(#glow)"/>
+  <circle cx="-128" cy="44"  r="6" fill="#40dd40" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"    cy="108" r="6" fill="#40dd40" filter="url(#glow)"/>
+
+  <!-- Foundation: cable ducts along lower edges -->
+  <line x1="128" y1="58"  x2="0" y2="118"  stroke="#1a2e0c" stroke-width="5"/>
+  <line x1="128" y1="58"  x2="0" y2="118"  stroke="#50b040" stroke-width="1"   opacity="0.35"/>
+  <line x1="-128" y1="58" x2="0" y2="118"  stroke="#0e1808" stroke-width="5"/>
+  <line x1="-128" y1="58" x2="0" y2="118"  stroke="#50b040" stroke-width="0.8" opacity="0.2"/>
+
+  <!-- ══════════════════════════════════════════
+       MAIN BODY   hz 20 → 90   (W=88)
+       Bottom: N(0,-20) E(88,24)  S(0,68)  W(-88,24)
+       Top:    N(0,-90) E(88,-46) S(0,-2)  W(-88,-46)
+       ══════════════════════════════════════════ -->
+
+  <!-- Left face -->
+  <polygon points="-88,24 0,68 0,-2 -88,-46"  fill="url(#bL)" stroke="#3a5028" stroke-width="1.5"/>
+
+  <!-- Right face -->
+  <polygon points="88,24 0,68 0,-2 88,-46"    fill="url(#bR)" stroke="#5a7838" stroke-width="1.5"/>
+
+  <!-- Vertical edge highlight (right side of building) -->
+  <line x1="88" y1="24" x2="88" y2="-46" stroke="#6a9848" stroke-width="2"   opacity="0.6"/>
+  <line x1="-88" y1="24" x2="-88" y2="-46" stroke="#1e3010" stroke-width="2" opacity="0.5"/>
+
+  <!-- Floor divider lines – right face (hz=37.5, 55, 72.5) -->
+  <line x1="88" y1="7"   x2="0" y2="51"  stroke="#78a048" stroke-width="1.5" opacity="0.6"/>
+  <line x1="88" y1="-11" x2="0" y2="33"  stroke="#78a048" stroke-width="1.5" opacity="0.6"/>
+  <line x1="88" y1="-29" x2="0" y2="16"  stroke="#78a048" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Floor divider lines – left face -->
+  <line x1="-88" y1="7"   x2="0" y2="51"  stroke="#2a4018" stroke-width="1.2" opacity="0.5"/>
+  <line x1="-88" y1="-11" x2="0" y2="33"  stroke="#2a4018" stroke-width="1.2" opacity="0.5"/>
+  <line x1="-88" y1="-29" x2="0" y2="16"  stroke="#2a4018" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- ── RIGHT FACE: grow-light windows (4 floors × 2 windows each) ── -->
+  <!-- Floor 1  hz 20→37.5 -->
+  <polygon points="81,28 57,39 57,22 81,11"  fill="url(#winW)" stroke="#aacc44" stroke-width="1.2"/>
+  <line x1="69" y1="33"  x2="69" y2="17"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="81" y1="19"  x2="57" y2="30"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <polygon points="44,46 20,58 20,41 44,29"  fill="url(#winW)" stroke="#aacc44" stroke-width="1.2"/>
+  <line x1="32" y1="51"  x2="32" y2="35"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="44" y1="37"  x2="20" y2="49"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Floor 2  hz 37.5→55 -->
+  <polygon points="81,10 57,22 57,5 81,-8"   fill="url(#winW)" stroke="#aacc44" stroke-width="1.2"/>
+  <line x1="69" y1="16"  x2="69" y2="-2"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="81" y1="1"   x2="57" y2="13"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <polygon points="44,29 20,40 20,23 44,12"  fill="url(#winW)" stroke="#aacc44" stroke-width="1.2"/>
+  <line x1="32" y1="34"  x2="32" y2="18"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="44" y1="20"  x2="20" y2="31"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Floor 3  hz 55→72.5 -->
+  <polygon points="81,-7 57,4 57,-14 81,-25" fill="url(#winW)" stroke="#aacc44" stroke-width="1.2"/>
+  <line x1="69" y1="-2"  x2="69" y2="-20"   stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="81" y1="-16" x2="57" y2="-5"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <polygon points="44,11 20,23 20,6 44,-7"   fill="url(#winW)" stroke="#aacc44" stroke-width="1.2"/>
+  <line x1="32" y1="17"  x2="32" y2="-1"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="44" y1="2"   x2="20" y2="14"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Floor 4  hz 72.5→90 -->
+  <polygon points="81,-25 57,-13 57,-31 81,-43" fill="url(#winW)" stroke="#aacc44" stroke-width="1.2"/>
+  <line x1="69" y1="-19" x2="69" y2="-37"   stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="81" y1="-34" x2="57" y2="-22"   stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <polygon points="44,-7 20,5 20,-13 44,-25"  fill="url(#winW)" stroke="#aacc44" stroke-width="1.2"/>
+  <line x1="32" y1="-1"  x2="32" y2="-19"   stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="44" y1="-16" x2="20" y2="-4"    stroke="#ffffc0" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- ── LEFT FACE: dim windows (shadow side) ── -->
+  <polygon points="-81,28 -57,39 -57,22 -81,11"    fill="url(#winD)" stroke="#557722" stroke-width="1" opacity="0.65"/>
+  <polygon points="-44,46 -20,58 -20,41 -44,29"    fill="url(#winD)" stroke="#557722" stroke-width="1" opacity="0.65"/>
+  <polygon points="-81,10 -57,22 -57,5 -81,-8"     fill="url(#winD)" stroke="#557722" stroke-width="1" opacity="0.65"/>
+  <polygon points="-44,29 -20,40 -20,23 -44,12"    fill="url(#winD)" stroke="#557722" stroke-width="1" opacity="0.65"/>
+  <polygon points="-81,-7 -57,4 -57,-14 -81,-25"   fill="url(#winD)" stroke="#557722" stroke-width="1" opacity="0.55"/>
+  <polygon points="-44,11 -20,23 -20,6 -44,-7"     fill="url(#winD)" stroke="#557722" stroke-width="1" opacity="0.55"/>
+  <polygon points="-81,-25 -57,-13 -57,-31 -81,-43" fill="url(#winD)" stroke="#557722" stroke-width="1" opacity="0.5"/>
+  <polygon points="-44,-7 -20,5 -20,-13 -44,-25"   fill="url(#winD)" stroke="#557722" stroke-width="1" opacity="0.5"/>
+
+  <!-- ── Vertical nutrient pipes along right face (near E edge) ── -->
+  <line x1="79" y1="28" x2="79" y2="-42" stroke="#1a2e10" stroke-width="4"/>
+  <line x1="79" y1="28" x2="79" y2="-42" stroke="#78c050" stroke-width="1.2" opacity="0.4"/>
+  <line x1="74" y1="30" x2="74" y2="-40" stroke="#0e1a08" stroke-width="3"/>
+  <line x1="74" y1="30" x2="74" y2="-40" stroke="#78c050" stroke-width="0.8" opacity="0.28"/>
+
+  <!-- Body top face -->
+  <polygon points="0,-90 88,-46 0,-2 -88,-46" fill="url(#bT)" stroke="#5a7838" stroke-width="1.5"/>
+
+  <!-- Body top: terrace step indicator lights -->
+  <circle cx="88"  cy="-46" r="5" fill="#50cc40" filter="url(#glow)"/>
+  <circle cx="-88" cy="-46" r="5" fill="#40bb30" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-2"  r="5" fill="#50cc40" filter="url(#glow)"/>
+
+  <!-- ══════════════════════════════════════════
+       ROOF SECTION   hz 90 → 135   (W=56)
+       Bottom: N(0,-90)  E(56,-62)  S(0,-34) W(-56,-62)
+       Top:    N(0,-135) E(56,-107) S(0,-79) W(-56,-107)
+       ══════════════════════════════════════════ -->
+
+  <!-- Left face -->
+  <polygon points="-56,-62 0,-34 0,-79 -56,-107" fill="url(#rL)" stroke="#304020" stroke-width="1.5"/>
+
+  <!-- Right face -->
+  <polygon points="56,-62 0,-34 0,-79 56,-107"   fill="url(#rR)" stroke="#4a6830" stroke-width="1.5"/>
+
+  <!-- Roof right face: large vent/window strip showing interior grow lights -->
+  <polygon points="50,-67 14,-50 14,-66 50,-83"  fill="url(#winW)" stroke="#aacc44" stroke-width="1.2" opacity="0.85"/>
+  <line x1="32" y1="-58" x2="32" y2="-74"       stroke="#ffffc0" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Roof top face: solar panel surface -->
+  <polygon points="0,-135 56,-107 0,-79 -56,-107" fill="url(#rT)" stroke="#4a6030" stroke-width="1.5"/>
+
+  <!-- Solar panel grid lines across top face (E↔W stripes) -->
+  <line x1="14" y1="-128" x2="-14" y2="-128"    stroke="#88ccff" stroke-width="1.2" opacity="0.55"/>
+  <line x1="28" y1="-121" x2="-28" y2="-121"    stroke="#88ccff" stroke-width="1.2" opacity="0.55"/>
+  <line x1="42" y1="-114" x2="-42" y2="-114"    stroke="#88ccff" stroke-width="1.2" opacity="0.55"/>
+  <!-- NE–SW cross-lines to form grid -->
+  <line x1="14" y1="-128" x2="42" y2="-114"     stroke="#88ccff" stroke-width="0.8" opacity="0.35"/>
+  <line x1="-14" y1="-128" x2="-42" y2="-114"   stroke="#88ccff" stroke-width="0.8" opacity="0.35"/>
+  <line x1="0" y1="-135" x2="28" y2="-121"      stroke="#88ccff" stroke-width="0.8" opacity="0.35"/>
+  <line x1="0" y1="-135" x2="-28" y2="-121"     stroke="#88ccff" stroke-width="0.8" opacity="0.35"/>
+  <!-- Solar panel specular sheen -->
+  <polygon points="0,-135 14,-128 0,-121" fill="#88ccff" opacity="0.1"/>
+
+  <!-- ══════════════════════════════════════════
+       ROOFTOP DETAILS
+       ══════════════════════════════════════════ -->
+
+  <!-- Ventilation box right side of roof (hz 135→152) -->
+  <!-- Base: N(18,-123) E(27,-119) S(18,-114) W(9,-119) at hz=135 -->
+  <polygon points="9,-119 18,-114 18,-131 9,-136"    fill="#0e1a08" stroke="#305028" stroke-width="1"/>
+  <polygon points="27,-119 18,-114 18,-131 27,-136"  fill="#2a4018" stroke="#4a7030" stroke-width="1"/>
+  <polygon points="18,-139 27,-136 18,-131 9,-136"   fill="#3a5820" stroke="#5a7838" stroke-width="1"/>
+  <circle cx="24" cy="-128" r="3" fill="#60ee40" filter="url(#glow)"/>
+
+  <!-- Small vent box left side of roof -->
+  <polygon points="-27,-119 -18,-114 -18,-126 -27,-131" fill="#0a1406" stroke="#243818" stroke-width="1" opacity="0.85"/>
+  <polygon points="-9,-119 -18,-114 -18,-126 -9,-131"   fill="#1e3010" stroke="#385828" stroke-width="1" opacity="0.85"/>
+  <polygon points="-18,-135 -9,-131 -18,-126 -27,-131"  fill="#2a4018" stroke="#405028" stroke-width="1" opacity="0.85"/>
+
+  <!-- Green glow ring around roof perimeter (farm beacon) -->
+  <ellipse cx="0" cy="-107" rx="42" ry="17"
+           fill="none" stroke="#40dd40" stroke-width="2" opacity="0.4"
+           filter="url(#softglow)"/>
+
+  <!-- Grow-light beacon at building apex -->
+  <ellipse cx="0" cy="-135" rx="18" ry="7" fill="none" stroke="#78ff40" stroke-width="1.8" opacity="0.22" filter="url(#softglow)"/>
+  <ellipse cx="0" cy="-135" rx="9"  ry="3.5" fill="none" stroke="#78ff40" stroke-width="1.2" opacity="0.5"/>
+  <circle  cx="0" cy="-135" r="3"   fill="#a0ff60" filter="url(#glow)"/>
+</svg>

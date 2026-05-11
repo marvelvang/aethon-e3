@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Arc Fabricator – Industry Building (Master SVG, 4× tile resolution)
+  ─────────────────────────────────────────────────────────────────────────
+  Tile: TILE_HALF_WIDTH=32, TILE_HALF_HEIGHT=16 → 64×32 px at 1×
+  This SVG: 4× → tile footprint 256×128 px, total 256×308 px
+
+  Isometric origin (0,0) = tile-top vertex
+  Projection: screen_x = (wx-wy)×128,  screen_y = (wx+wy)×64 − hz
+
+  PixiJS usage (displayed at 1× tile size):
+    sprite.anchor.set(0.5, 178/308)   // tile-top vertex in image coords
+    sprite.position.set(tileTopX, tileTopY)
+    sprite.scale.set(64/256)           // 4× → 1×
+
+  Geometry summary (screen coords at 4× scale):
+    Foundation  hz 0→28    footprint ±128  (full tile, tile-anchored)
+    Main Hall   hz 28→72   footprint ±100  (tile-anchored)
+    Tower       hz 72→155  footprint ±40   (tile-centered)
+    Emitters + Arc above tower top
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation (heavy industrial concrete) -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="36" x2="0" y2="100">
+      <stop offset="0%"   stop-color="#3a404e"/>
+      <stop offset="100%" stop-color="#1e2028"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="36" x2="0" y2="100">
+      <stop offset="0%"   stop-color="#0e1018"/>
+      <stop offset="100%" stop-color="#060810"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-28" x2="0" y2="100">
+      <stop offset="0%"   stop-color="#484e5e"/>
+      <stop offset="100%" stop-color="#2a3040"/>
+    </linearGradient>
+
+    <!-- Main Hall hz 28→72, W=100 -->
+    <linearGradient id="hR" gradientUnits="userSpaceOnUse" x1="100" y1="22" x2="0" y2="-22">
+      <stop offset="0%"   stop-color="#505a6a"/>
+      <stop offset="60%"  stop-color="#3a4050"/>
+      <stop offset="100%" stop-color="#2a3040"/>
+    </linearGradient>
+    <linearGradient id="hL" gradientUnits="userSpaceOnUse" x1="-100" y1="22" x2="0" y2="-22">
+      <stop offset="0%"   stop-color="#1a2030"/>
+      <stop offset="100%" stop-color="#0c1018"/>
+    </linearGradient>
+    <linearGradient id="hT" gradientUnits="userSpaceOnUse" x1="0" y1="-72" x2="0" y2="28">
+      <stop offset="0%"   stop-color="#606878"/>
+      <stop offset="100%" stop-color="#3a4050"/>
+    </linearGradient>
+
+    <!-- Tower hz 72→155, W=40, tile-centered -->
+    <linearGradient id="tR" gradientUnits="userSpaceOnUse" x1="40" y1="-32" x2="0" y2="-95">
+      <stop offset="0%"   stop-color="#485260"/>
+      <stop offset="60%"  stop-color="#30384a"/>
+      <stop offset="100%" stop-color="#1e2638"/>
+    </linearGradient>
+    <linearGradient id="tL" gradientUnits="userSpaceOnUse" x1="-40" y1="-32" x2="0" y2="-95">
+      <stop offset="0%"   stop-color="#10181e"/>
+      <stop offset="100%" stop-color="#060c12"/>
+    </linearGradient>
+    <linearGradient id="tT" gradientUnits="userSpaceOnUse" x1="0" y1="-135" x2="0" y2="-95">
+      <stop offset="0%"   stop-color="#3a4858"/>
+      <stop offset="100%" stop-color="#28384a"/>
+    </linearGradient>
+
+    <!-- Blue status window -->
+    <radialGradient id="winB" cx="38%" cy="32%" r="68%">
+      <stop offset="0%"   stop-color="#c0e8ff"/>
+      <stop offset="40%"  stop-color="#0088cc"/>
+      <stop offset="100%" stop-color="#003666"/>
+    </radialGradient>
+    <!-- Dim window (shadow side) -->
+    <radialGradient id="winD" cx="38%" cy="32%" r="68%">
+      <stop offset="0%"   stop-color="#2060a0"/>
+      <stop offset="100%" stop-color="#001828"/>
+    </radialGradient>
+
+    <!-- Glow filters -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Arc glow (strong blue blur for energy arc) -->
+    <filter id="arcglow" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══════════════════════════════════════════
+       FOUNDATION   hz 0 → 28
+       Bottom: N(0,0)   E(128,64) S(0,128) W(-128,64)
+       Top:    N(0,-28) E(128,36) S(0,100) W(-128,36)
+       ══════════════════════════════════════════ -->
+
+  <polygon points="128,64 0,128 0,100 128,36"   fill="url(#fR)" stroke="#4a5268" stroke-width="1.5"/>
+  <polygon points="-128,64 0,128 0,100 -128,36" fill="url(#fL)" stroke="#4a5268" stroke-width="1.5"/>
+  <polygon points="0,-28 128,36 0,100 -128,36"  fill="url(#fT)" stroke="#4a5268" stroke-width="1.5"/>
+
+  <!-- Foundation top: grid lines -->
+  <line x1="0" y1="-28" x2="0" y2="100"    stroke="#606878" stroke-width="1"   opacity="0.4"/>
+  <line x1="-128" y1="36" x2="128" y2="36"  stroke="#606878" stroke-width="1"   opacity="0.4"/>
+
+  <!-- Foundation: corner amber indicator lights -->
+  <circle cx="128"  cy="36"  r="6" fill="#ffaa00" filter="url(#glow)"/>
+  <circle cx="-128" cy="36"  r="6" fill="#ffaa00" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"    cy="100" r="6" fill="#ffaa00" filter="url(#glow)"/>
+
+  <!-- Foundation: heavy cable ducts -->
+  <line x1="128" y1="52"   x2="0" y2="112" stroke="#181c28" stroke-width="6"/>
+  <line x1="128" y1="52"   x2="0" y2="112" stroke="#4a6080" stroke-width="1.2" opacity="0.35"/>
+  <line x1="-128" y1="52"  x2="0" y2="112" stroke="#0c1018" stroke-width="6"/>
+  <line x1="-128" y1="52"  x2="0" y2="112" stroke="#4a6080" stroke-width="0.8" opacity="0.2"/>
+
+  <!-- ══════════════════════════════════════════
+       MAIN HALL   hz 28 → 72   (W=100)
+       Bottom: N(0,-28) E(100,22)  S(0,72)  W(-100,22)
+       Top:    N(0,-72) E(100,-22) S(0,28)  W(-100,-22)
+       ══════════════════════════════════════════ -->
+
+  <!-- Left face -->
+  <polygon points="-100,22 0,72 0,28 -100,-22"  fill="url(#hL)" stroke="#2a3040" stroke-width="1.5"/>
+
+  <!-- Right face (main lit side) -->
+  <polygon points="100,22 0,72 0,28 100,-22"    fill="url(#hR)" stroke="#606878" stroke-width="1.5"/>
+
+  <!-- Vertical edge highlights -->
+  <line x1="100"  y1="22" x2="100"  y2="-22" stroke="#7080a0" stroke-width="2.5" opacity="0.6"/>
+  <line x1="-100" y1="22" x2="-100" y2="-22" stroke="#181e2a" stroke-width="2"   opacity="0.5"/>
+
+  <!-- Warning stripe: bottom band of right face (hz 28→36) -->
+  <!-- hz=28: E(100,22) S(0,72); hz=36: E(100,14) S(0,64) -->
+  <polygon points="100,22 0,72 0,64 100,14"     fill="#1e2430" stroke="none"/>
+  <!-- yellow hatching lines across the stripe -->
+  <line x1="100" y1="18" x2="80" y2="26"   stroke="#ffd700" stroke-width="2" opacity="0.7"/>
+  <line x1="80"  y1="27" x2="60" y2="35"   stroke="#ffd700" stroke-width="2" opacity="0.7"/>
+  <line x1="60"  y1="36" x2="40" y2="44"   stroke="#ffd700" stroke-width="2" opacity="0.7"/>
+  <line x1="40"  y1="45" x2="20" y2="53"   stroke="#ffd700" stroke-width="2" opacity="0.7"/>
+  <line x1="20"  y1="54" x2="0"  y2="62"   stroke="#ffd700" stroke-width="2" opacity="0.7"/>
+
+  <!-- Warning stripe: bottom band of left face -->
+  <polygon points="-100,22 0,72 0,64 -100,14"  fill="#141820" stroke="none" opacity="0.8"/>
+
+  <!-- ── RIGHT FACE: blue status windows ── -->
+  <!-- Window 1 (hz 38→56, t 0.08→0.35) -->
+  <polygon points="92,16 65,30 65,12 92,-2"    fill="url(#winB)" stroke="#00a8ff" stroke-width="1.2"/>
+  <line x1="79"  y1="23"  x2="79"  y2="5"     stroke="#c0e8ff" stroke-width="0.8" opacity="0.5"/>
+  <!-- Window 2 (hz 38→56, t 0.50→0.77) -->
+  <polygon points="50,37 23,51 23,33 50,19"    fill="url(#winB)" stroke="#00a8ff" stroke-width="1.2"/>
+  <line x1="37"  y1="44"  x2="37"  y2="26"    stroke="#c0e8ff" stroke-width="0.8" opacity="0.5"/>
+  <!-- Window 3 (hz 60→68, narrow) -->
+  <polygon points="92,-6 65,8 65,0 92,-14"     fill="url(#winB)" stroke="#00a8ff" stroke-width="1.2" opacity="0.85"/>
+
+  <!-- ── LEFT FACE: dim windows ── -->
+  <polygon points="-92,16 -65,30 -65,12 -92,-2" fill="url(#winD)" stroke="#004488" stroke-width="1" opacity="0.6"/>
+  <polygon points="-50,37 -23,51 -23,33 -50,19" fill="url(#winD)" stroke="#004488" stroke-width="1" opacity="0.6"/>
+
+  <!-- ── Pipe / duct system on right face ── -->
+  <!-- Main vertical duct near E edge -->
+  <line x1="90" y1="22" x2="90" y2="-22" stroke="#1e2838" stroke-width="5"/>
+  <line x1="90" y1="22" x2="90" y2="-22" stroke="#6080a8" stroke-width="1.2" opacity="0.5"/>
+  <!-- Horizontal connector going toward S -->
+  <line x1="90" y1="8"  x2="55" y2="22"  stroke="#1e2838" stroke-width="4"/>
+  <line x1="90" y1="8"  x2="55" y2="22"  stroke="#6080a8" stroke-width="1"   opacity="0.45"/>
+  <!-- Secondary vertical duct -->
+  <line x1="55" y1="22" x2="55" y2="-4"  stroke="#141e2c" stroke-width="4"/>
+  <line x1="55" y1="22" x2="55" y2="-4"  stroke="#6080a8" stroke-width="0.9" opacity="0.35"/>
+  <!-- Upper horizontal pipe -->
+  <line x1="90" y1="-14" x2="55" y2="-2" stroke="#1e2838" stroke-width="3"/>
+  <line x1="90" y1="-14" x2="55" y2="-2" stroke="#6080a8" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Hall top face -->
+  <polygon points="0,-72 100,-22 0,28 -100,-22" fill="url(#hT)" stroke="#606878" stroke-width="1.5"/>
+
+  <!-- Hall top: indicator lights at terrace step -->
+  <circle cx="100"  cy="-22" r="5" fill="#ffaa00" filter="url(#glow)"/>
+  <circle cx="-100" cy="-22" r="5" fill="#ff8800" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"    cy="28"  r="5" fill="#ffaa00" filter="url(#glow)"/>
+
+  <!-- ══════════════════════════════════════════
+       CENTRAL TOWER   hz 72 → 155   (W=40, tile-centered)
+       Bottom (hz=72): E(40,-32) N(0,-52) S(0,-12) W(-40,-32)
+       Top   (hz=155): E(40,-115) N(0,-135) S(0,-95) W(-40,-115)
+       ══════════════════════════════════════════ -->
+
+  <!-- Left face -->
+  <polygon points="-40,-32 0,-12 0,-95 -40,-115"  fill="url(#tL)" stroke="#303848" stroke-width="1.5"/>
+
+  <!-- Right face -->
+  <polygon points="40,-32 0,-12 0,-95 40,-115"    fill="url(#tR)" stroke="#505a70" stroke-width="1.5"/>
+
+  <!-- Vertical edge highlights -->
+  <line x1="40"  y1="-32" x2="40"  y2="-115" stroke="#6878a0" stroke-width="2.5" opacity="0.65"/>
+  <line x1="-40" y1="-32" x2="-40" y2="-115" stroke="#1e2030" stroke-width="2"   opacity="0.5"/>
+
+  <!-- Horizontal structural ribs (hz=90, 110, 130) -->
+  <!-- hz=90: tile-centered E=(40,-50) S=(0,-30); W=(-40,-50) -->
+  <line x1="40"  y1="-50" x2="0" y2="-30"  stroke="#7888b0" stroke-width="2.5" opacity="0.7"/>
+  <line x1="-40" y1="-50" x2="0" y2="-30"  stroke="#303848" stroke-width="2"   opacity="0.5"/>
+  <!-- hz=110: E=(40,-70) S=(0,-50) -->
+  <line x1="40"  y1="-70" x2="0" y2="-50"  stroke="#7888b0" stroke-width="2.5" opacity="0.7"/>
+  <line x1="-40" y1="-70" x2="0" y2="-50"  stroke="#303848" stroke-width="2"   opacity="0.5"/>
+  <!-- hz=130: E=(40,-90) S=(0,-70) -->
+  <line x1="40"  y1="-90" x2="0" y2="-70"  stroke="#7888b0" stroke-width="2.5" opacity="0.7"/>
+  <line x1="-40" y1="-90" x2="0" y2="-70"  stroke="#303848" stroke-width="2"   opacity="0.5"/>
+
+  <!-- ── Tower right face: blue control windows ── -->
+  <!-- Window T1 (hz 82→104, t 0.05→0.50): x=38→20, y varies -->
+  <polygon points="38,-41 20,-32 20,-54 38,-63"  fill="url(#winB)" stroke="#00a8ff" stroke-width="1.2"/>
+  <line x1="29" y1="-37" x2="29" y2="-59"       stroke="#c0e8ff" stroke-width="0.8" opacity="0.5"/>
+  <!-- Window T2 (hz 115→137) -->
+  <polygon points="38,-74 20,-65 20,-87 38,-96"  fill="url(#winB)" stroke="#00a8ff" stroke-width="1.2"/>
+  <line x1="29" y1="-70" x2="29" y2="-92"       stroke="#c0e8ff" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- ── Tower left face: dim windows ── -->
+  <polygon points="-38,-41 -20,-32 -20,-54 -38,-63" fill="url(#winD)" stroke="#003366" stroke-width="1" opacity="0.55"/>
+  <polygon points="-38,-74 -20,-65 -20,-87 -38,-96" fill="url(#winD)" stroke="#003366" stroke-width="1" opacity="0.5"/>
+
+  <!-- Tower top face -->
+  <polygon points="0,-135 40,-115 0,-95 -40,-115"  fill="url(#tT)" stroke="#505a70" stroke-width="1.5"/>
+
+  <!-- ══════════════════════════════════════════
+       EMITTER HEADS AND ENERGY ARC
+       ══════════════════════════════════════════ -->
+
+  <!-- Right emitter head at E edge of tower top (around hz=148) -->
+  <!-- Tower E at hz=148: (40, 40-148)=(40,-108) -->
+  <polygon points="40,-108 50,-112 42,-120 34,-114" fill="#2a3848" stroke="#00a8ff" stroke-width="1.5"/>
+  <polygon points="40,-108 50,-112 42,-120 34,-114" fill="#00a8ff" opacity="0.25"/>
+  <circle cx="45" cy="-112" r="4" fill="#00c8ff" filter="url(#glow)"/>
+
+  <!-- Left emitter head (mirror) -->
+  <polygon points="-40,-108 -50,-112 -42,-120 -34,-114" fill="#1e2838" stroke="#00a8ff" stroke-width="1.5"/>
+  <polygon points="-40,-108 -50,-112 -42,-120 -34,-114" fill="#00a8ff" opacity="0.2"/>
+  <circle cx="-45" cy="-112" r="4" fill="#00b8ee" filter="url(#glow)"/>
+
+  <!-- Energy arc – outer ambient glow (wide, faint) -->
+  <polyline points="48,-112 28,-120 10,-114 -2,-122 -18,-115 -48,-112"
+            fill="none" stroke="#00a8ff" stroke-width="10" opacity="0.10"
+            stroke-linecap="round" filter="url(#arcglow)"/>
+
+  <!-- Energy arc – middle glow ring -->
+  <polyline points="48,-112 28,-120 10,-114 -2,-122 -18,-115 -48,-112"
+            fill="none" stroke="#00a8ff" stroke-width="4" opacity="0.45"
+            stroke-linecap="round"/>
+
+  <!-- Energy arc – bright core -->
+  <polyline points="48,-112 28,-120 10,-114 -2,-122 -18,-115 -48,-112"
+            fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.9"
+            stroke-linecap="round"/>
+
+  <!-- Energy arc – white hot center line -->
+  <polyline points="48,-112 28,-120 10,-114 -2,-122 -18,-115 -48,-112"
+            fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.75"
+            stroke-linecap="round"/>
+
+  <!-- Arc collector rings on emitter tops -->
+  <ellipse cx="45"  cy="-118" rx="10" ry="4" fill="none" stroke="#00a8ff" stroke-width="1.5" opacity="0.55"/>
+  <ellipse cx="-45" cy="-118" rx="10" ry="4" fill="none" stroke="#00a8ff" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- ══════════════════════════════════════════
+       ANTENNA / SIGNAL MAST
+       ══════════════════════════════════════════ -->
+
+  <line x1="0" y1="-135" x2="0" y2="-174"   stroke="#8090b0" stroke-width="2"/>
+  <!-- cross bars -->
+  <line x1="-10" y1="-162" x2="10" y2="-162" stroke="#8090b0" stroke-width="2"/>
+  <line x1="-6"  y1="-150" x2="6"  y2="-150" stroke="#8090b0" stroke-width="1.5"/>
+  <!-- Tip: blue signal light -->
+  <circle cx="0" cy="-174" r="7" fill="#00a8ff" opacity="0.18" filter="url(#softglow)"/>
+  <circle cx="0" cy="-174" r="4" fill="#00c8ff" opacity="0.7"/>
+  <circle cx="0" cy="-174" r="2" fill="#ffffff"/>
+</svg>
