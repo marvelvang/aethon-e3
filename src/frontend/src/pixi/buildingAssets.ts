@@ -30,6 +30,18 @@ const ASSET_CONFIGS: Partial<Record<BuildingType, BuildingAssetConfig>> = {
     anchorY: 178 / 308,
     scale: 64 / 256,
   },
+  Consumer: {
+    path: '/assets/buildings/consumer.svg',
+    anchorX: 0.5,
+    anchorY: 178 / 308,
+    scale: 64 / 256,
+  },
+  Industry: {
+    path: '/assets/buildings/industry.svg',
+    anchorX: 0.5,
+    anchorY: 178 / 308,
+    scale: 64 / 256,
+  },
 }
 
 export async function loadBuildingTextures(): Promise<Map<BuildingType, BuildingRenderConfig>> {
