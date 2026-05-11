@@ -8,6 +8,10 @@ Unabhängig davon ob der Code- oder Plan-Modus aktiv ist: Bei allen nicht-trivia
 einen Plan erstellen und explizit Zustimmung einholen. Niemals direkt mit der
 Umsetzung beginnen ohne Bestätigung.
 
+Auch wenn der Nutzer direkt sagt „bau X", „implementiere Y" oder eine Connection
+String o.ä. mitschickt: Das zählt **nicht** als Planfreigabe. Trotzdem erst den
+Plan zeigen, warten, dann umsetzen.
+
 ### 2. main-Branch synchron halten
 Vor Beginn jeder Aufgabe:
 1. `git fetch origin main` ausführen
