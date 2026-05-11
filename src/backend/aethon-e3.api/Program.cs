@@ -12,7 +12,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddSingleton<GameFactory>();
 builder.Services.AddSingleton<BuildService>();
+builder.Services.AddSingleton<PopulationGrowthService>();
 builder.Services.AddSingleton<RoundService>();
+builder.Services.AddSingleton<ResourceGainService>();
 builder.Services.AddSingleton<UiStateProjectionService>();
 builder.Services.AddScoped<GameApplicationService>();
 

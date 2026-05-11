@@ -3,7 +3,7 @@ using aethon_e3.persistence.Entities;
 
 namespace aethon_e3.core.DomainServices;
 
-public class RoundService
+public class RoundService(PopulationGrowthService growthService)
 {
     public void Simulate(GameState state)
     {
@@ -28,17 +28,7 @@ public class RoundService
             double supply = (double)state.ConsumerGoods / state.Population;
 
             // Step 5: Population change
-            double delta = 0.0;
-            if (supply > 1.0)
-            {
-                double rate = 0.0025 * Math.Pow(supply - 1.0, 1.2);
-                delta = state.Population * rate;
-            }
-            else if (supply < 1.0)
-            {
-                double rate = 0.005 * Math.Abs(supply - 1.0);
-                delta = -(state.Population * rate);
-            }
+            double delta = growthService.CalculateDelta(state.Population, supply);
 
             // Step 6: Housing cap
             int housing = state.Buildings.Sum(b => BuildingDefinitions.For(b.Type).HousingContribution);

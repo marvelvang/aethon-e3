@@ -1,10 +1,11 @@
 using aethon_e3.core.Definitions;
+using aethon_e3.core.DomainServices;
 using aethon_e3.persistence.Entities;
 using aethon_e3.persistence.Enums;
 
 namespace aethon_e3.core.Projections;
 
-public class UiStateProjectionService
+public class UiStateProjectionService(ResourceGainService gainService)
 {
     private static readonly BuildingType[] BuildableTypes =
         [BuildingType.Consumer, BuildingType.Industry, BuildingType.Housing];
@@ -16,17 +17,22 @@ public class UiStateProjectionService
                           .Where(b => b.IsNewlyBuilt)
                           .Sum(b => BuildingDefinitions.For(b.Type).PopulationCost);
         int freePopulation = state.Population - bound;
+        var gains = gainService.Calculate(state);
 
         return new UiState
         {
-            GameStateId     = state.Id,
-            Round           = state.Round,
-            Population      = state.Population,
-            FreePopulation  = freePopulation,
-            BoundPopulation = bound,
-            ConsumerGoods   = state.ConsumerGoods,
-            Industry        = state.Industry,
-            Housing         = housing,
+            GameStateId       = state.Id,
+            Round             = state.Round,
+            Population        = state.Population,
+            FreePopulation    = freePopulation,
+            BoundPopulation   = bound,
+            ConsumerGoods     = state.ConsumerGoods,
+            Industry          = state.Industry,
+            Housing           = housing,
+            ConsumerGoodsGain = gains.ConsumerGoodsGain,
+            IndustryGain      = gains.IndustryGain,
+            HousingGain       = gains.HousingGain,
+            PopulationGain    = gains.PopulationGain,
             Buildings       = state.Buildings
                                   .Select(b => new UiBuildingSlot
                                   {
