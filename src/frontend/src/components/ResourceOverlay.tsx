@@ -7,9 +7,12 @@ interface Props {
   state: UiState | null
 }
 
+type NumericUiStateKey = 'population' | 'consumerGoods' | 'industry' | 'housing'
+type NumericGainKey = 'populationGain' | 'consumerGoodsGain' | 'industryGain' | 'housingGain'
+
 interface ResourceDef {
-  key: keyof UiState
-  gainKey: keyof UiState
+  key: NumericUiStateKey
+  gainKey: NumericGainKey
   label: string
   color: string
 }
@@ -18,15 +21,15 @@ const RESOURCES: ResourceDef[] = [
   { key: 'population',    gainKey: 'populationGain',    label: 'Population', color: '#7ec8e3' },
   { key: 'consumerGoods', gainKey: 'consumerGoodsGain', label: 'Güter',      color: '#8bc34a' },
   { key: 'industry',      gainKey: 'industryGain',      label: 'Industrie',  color: '#ffb74d' },
-  { key: 'housing',       gainKey: 'housingGain',        label: 'Wohnraum',   color: '#ba68c8' },
+  { key: 'housing',       gainKey: 'housingGain',       label: 'Wohnraum',   color: '#ba68c8' },
 ]
 
 export default function ResourceOverlay({ state }: Props) {
   return (
     <div className="resource-overlay">
       {RESOURCES.map(r => {
-        const value = state ? (state[r.key] as number) : null
-        const gain  = state != null ? (state[r.gainKey] as number) : null
+        const value = state ? state[r.key] : null
+        const gain  = state != null ? state[r.gainKey] : null
         const isPopulation = r.key === 'population'
         const freeValue = isPopulation && state ? state.freePopulation : null
         return (

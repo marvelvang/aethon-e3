@@ -30,7 +30,8 @@ export default function App() {
     <div style={{ width: '100vw', height: '100vh', background: '#000000' }}>
       <IsometricGrid
         buildings={uiState?.buildings ?? []}
-        gameId={uiState ? Number(uiState.gameStateId) : null}
+        buildingTypes={uiState?.buildingTypes ?? []}
+        gameId={uiState ? uiState.gameStateId : null}
         onBuildingPlaced={(state) => setUiState(state)}
         onCellClick={handleCellClick}
       />

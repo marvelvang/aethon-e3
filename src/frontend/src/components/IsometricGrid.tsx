@@ -5,13 +5,18 @@ import { loadBuildingTextures, type BuildingRenderConfig } from '../pixi/buildin
 import { createBuildingIconGraphics, ICON_ZOOM_THRESHOLD } from '../pixi/buildingIcons'
 import { placeBuilding } from '../api/gameApi'
 import type { components } from '../api/generated'
+import BuildingPickerPopup from './BuildingPickerPopup'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 type BuildingType = UiBuildingSlot['type']
+type UiBuildingTypeInfo = components['schemas']['UiBuildingTypeInfo']
 type UiState = components['schemas']['UiState']
+
+type PendingPlacement = { cell: { col: number; row: number }; screenX: number; screenY: number } | null
 
 interface Props {
   buildings: UiBuildingSlot[]
+  buildingTypes: UiBuildingTypeInfo[]
   gameId: number | null
   onBuildingPlaced: (state: UiState) => void
   onCellClick: (building: UiBuildingSlot | null) => void
@@ -19,7 +24,7 @@ interface Props {
 
 const CLICK_MOVE_THRESHOLD = 5
 
-export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onCellClick }: Props) {
+export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuildingPlaced, onCellClick }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const appRef = useRef<PIXI.Application | null>(null)
   const gridRef = useRef<PIXI.Container | null>(null)
@@ -33,12 +38,14 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
   const offsetYRef = useRef(0)
   const gameIdRef = useRef<number | null>(null)
   const onBuildingPlacedRef = useRef(onBuildingPlaced)
+  const buildingsRef = useRef<UiBuildingSlot[]>(buildings)
+  const handleCellClickRef = useRef<(x: number, y: number) => void>(() => {})
   const onCellClickRef = useRef(onCellClick)
-  const buildingsRef = useRef(buildings)
   const [buildingTextures, setBuildingTextures] = useState<Map<BuildingType, BuildingRenderConfig>>(new Map())
   const [rotationStep, setRotationStep] = useState<RotationStep>(0)
   const rotationStepRef = useRef<RotationStep>(0)
   const [resizeCount, setResizeCount] = useState(0)
+  const [pendingPlacement, setPendingPlacement] = useState<PendingPlacement>(null)
 
   // Keep refs in sync with props/state so event handlers always see latest values
   useEffect(() => { gameIdRef.current = gameId }, [gameId])
@@ -147,28 +154,25 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
     g.endFill()
   }
 
-  async function handleCellClick(canvasX: number, canvasY: number) {
-    const id = gameIdRef.current
-    if (id === null) return
-    const cell = screenToGrid(canvasX, canvasY)
-    if (!cell) {
-      // Klick außerhalb des Grids → Auswahl aufheben
-      onCellClickRef.current(null)
-      return
-    }
-    const existing = buildingsRef.current.find(b => b.x === cell.col && b.y === cell.row)
-    if (existing) {
-      onCellClickRef.current(existing)
-    } else {
-      onCellClickRef.current(null)
-      try {
-        const newState = await placeBuilding(id, { x: cell.col, y: cell.row, type: 'Housing' })
-        onBuildingPlacedRef.current(newState)
-      } catch (err) {
-        console.error('placeBuilding failed:', err)
+  useEffect(() => {
+    handleCellClickRef.current = (canvasX: number, canvasY: number) => {
+      if (gameIdRef.current === null) return
+      const cell = screenToGrid(canvasX, canvasY)
+      if (!cell) {
+        onCellClickRef.current(null)
+        return
+      }
+      const existing = buildingsRef.current.find(b => b.x === cell.col && b.y === cell.row)
+      if (existing) {
+        onCellClickRef.current(existing)
+      } else {
+        onCellClickRef.current(null)
+        setPendingPlacement({ cell, screenX: canvasX, screenY: canvasY })
       }
     }
-  }
+  // screenToGrid reads only refs → stable; setPendingPlacement and onCellClickRef are stable
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Init PIXI once
   useEffect(() => {
@@ -240,7 +244,7 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
     }
     function onMouseUp(e: MouseEvent) {
       if (drag.active && !drag.moved) {
-        handleCellClick(e.clientX, e.clientY)
+        handleCellClickRef.current(e.clientX, e.clientY)
       }
       drag.active = false
     }
@@ -321,7 +325,7 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
     }
     function onTouchEnd(e: TouchEvent) {
       if (e.changedTouches.length === 1 && !tap.moved) {
-        handleCellClick(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+        handleCellClickRef.current(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
       }
       drag.active = false
     }
@@ -410,6 +414,30 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
         ref={canvasRef}
         style={{ display: 'block', width: '100%', height: '100%' }}
       />
+      {pendingPlacement && (
+        <BuildingPickerPopup
+          buildingTypes={buildingTypes.filter(b => b.type !== 'Base')}
+          screenX={pendingPlacement.screenX}
+          screenY={pendingPlacement.screenY}
+          onSelect={async (type) => {
+            const id = gameIdRef.current
+            if (id === null) { setPendingPlacement(null); return }
+            try {
+              const newState = await placeBuilding(id, {
+                x: pendingPlacement.cell.col,
+                y: pendingPlacement.cell.row,
+                type,
+              })
+              onBuildingPlacedRef.current(newState)
+            } catch (err) {
+              console.error('placeBuilding failed:', err)
+            } finally {
+              setPendingPlacement(null)
+            }
+          }}
+          onDismiss={() => setPendingPlacement(null)}
+        />
+      )}
       <div style={{
         position: 'absolute', bottom: 16, left: 16,
         display: 'flex', alignItems: 'center', gap: 8, zIndex: 100,
