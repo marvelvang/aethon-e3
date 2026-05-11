@@ -16,7 +16,7 @@ import { resolve, dirname } from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const inputPath = resolve(__dirname, '../../../backend/aethon-e3.api/aethon-e3.api.json')
+const inputPath = resolve(__dirname, '../../backend/aethon-e3.api/aethon-e3.api.json')
 const outputPath = resolve(__dirname, '../src/api/generated.ts')
 
 const NUMBER = ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword)
