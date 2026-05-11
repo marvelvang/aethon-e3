@@ -24,7 +24,7 @@ export default function App() {
       <IsometricGrid
         buildings={uiState?.buildings ?? []}
         buildingTypes={uiState?.buildingTypes ?? []}
-        gameId={uiState ? Number(uiState.gameStateId) : null}
+        gameId={uiState ? uiState.gameStateId : null}
         onBuildingPlaced={(state) => setUiState(state)}
       />
       <ResourceOverlay state={uiState} />
