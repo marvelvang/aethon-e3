@@ -13,11 +13,12 @@ interface Props {
   buildings: UiBuildingSlot[]
   gameId: number | null
   onBuildingPlaced: (state: UiState) => void
+  onCellClick: (building: UiBuildingSlot | null) => void
 }
 
 const CLICK_MOVE_THRESHOLD = 5
 
-export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: Props) {
+export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onCellClick }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const appRef = useRef<PIXI.Application | null>(null)
   const gridRef = useRef<PIXI.Container | null>(null)
@@ -27,6 +28,8 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
   const offsetYRef = useRef(0)
   const gameIdRef = useRef<number | null>(null)
   const onBuildingPlacedRef = useRef(onBuildingPlaced)
+  const onCellClickRef = useRef(onCellClick)
+  const buildingsRef = useRef(buildings)
   const [buildingTextures, setBuildingTextures] = useState<Map<BuildingType, BuildingRenderConfig>>(new Map())
   const [rotationStep, setRotationStep] = useState<RotationStep>(0)
   const rotationStepRef = useRef<RotationStep>(0)
@@ -35,6 +38,8 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
   // Keep refs in sync with props/state so event handlers always see latest values
   useEffect(() => { gameIdRef.current = gameId }, [gameId])
   useEffect(() => { onBuildingPlacedRef.current = onBuildingPlaced }, [onBuildingPlaced])
+  useEffect(() => { onCellClickRef.current = onCellClick }, [onCellClick])
+  useEffect(() => { buildingsRef.current = buildings }, [buildings])
   useEffect(() => { rotationStepRef.current = rotationStep }, [rotationStep])
 
   const rotateView = useCallback((delta: 1 | -1) => {
@@ -104,12 +109,22 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced }: P
     const id = gameIdRef.current
     if (id === null) return
     const cell = screenToGrid(canvasX, canvasY)
-    if (!cell) return
-    try {
-      const newState = await placeBuilding(id, { x: cell.col, y: cell.row, type: 'Housing' })
-      onBuildingPlacedRef.current(newState)
-    } catch (err) {
-      console.error('placeBuilding failed:', err)
+    if (!cell) {
+      // Klick außerhalb des Grids → Auswahl aufheben
+      onCellClickRef.current(null)
+      return
+    }
+    const existing = buildingsRef.current.find(b => b.x === cell.col && b.y === cell.row)
+    if (existing) {
+      onCellClickRef.current(existing)
+    } else {
+      onCellClickRef.current(null)
+      try {
+        const newState = await placeBuilding(id, { x: cell.col, y: cell.row, type: 'Housing' })
+        onBuildingPlacedRef.current(newState)
+      } catch (err) {
+        console.error('placeBuilding failed:', err)
+      }
     }
   }
 
