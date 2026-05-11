@@ -18,11 +18,12 @@ interface Props {
   buildingTypes: UiBuildingTypeInfo[]
   gameId: number | null
   onBuildingPlaced: (state: UiState) => void
+  onCellClick: (building: UiBuildingSlot | null) => void
 }
 
 const CLICK_MOVE_THRESHOLD = 5
 
-export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuildingPlaced }: Props) {
+export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuildingPlaced, onCellClick }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const appRef = useRef<PIXI.Application | null>(null)
   const gridRef = useRef<PIXI.Container | null>(null)
@@ -34,6 +35,7 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
   const onBuildingPlacedRef = useRef(onBuildingPlaced)
   const buildingsRef = useRef<UiBuildingSlot[]>(buildings)
   const handleCellClickRef = useRef<(x: number, y: number) => void>(() => {})
+  const onCellClickRef = useRef(onCellClick)
   const [buildingTextures, setBuildingTextures] = useState<Map<BuildingType, BuildingRenderConfig>>(new Map())
   const [rotationStep, setRotationStep] = useState<RotationStep>(0)
   const rotationStepRef = useRef<RotationStep>(0)
@@ -43,8 +45,9 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
   // Keep refs in sync with props/state so event handlers always see latest values
   useEffect(() => { gameIdRef.current = gameId }, [gameId])
   useEffect(() => { onBuildingPlacedRef.current = onBuildingPlaced }, [onBuildingPlaced])
-  useEffect(() => { rotationStepRef.current = rotationStep }, [rotationStep])
+  useEffect(() => { onCellClickRef.current = onCellClick }, [onCellClick])
   useEffect(() => { buildingsRef.current = buildings }, [buildings])
+  useEffect(() => { rotationStepRef.current = rotationStep }, [rotationStep])
 
   const rotateView = useCallback((delta: 1 | -1) => {
     setRotationStep((prev: RotationStep) => ((prev + delta + 4) % 4) as RotationStep)
@@ -109,18 +112,23 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     g.endFill()
   }
 
-  // Write latest handler into ref so the once-registered PIXI event listeners always call
-  // the current version without needing to be re-registered.
   useEffect(() => {
     handleCellClickRef.current = (canvasX: number, canvasY: number) => {
       if (gameIdRef.current === null) return
       const cell = screenToGrid(canvasX, canvasY)
-      if (!cell) return
-      const occupied = buildingsRef.current.some(b => b.x === cell.col && b.y === cell.row)
-      if (occupied) return
-      setPendingPlacement({ cell, screenX: canvasX, screenY: canvasY })
+      if (!cell) {
+        onCellClickRef.current(null)
+        return
+      }
+      const existing = buildingsRef.current.find(b => b.x === cell.col && b.y === cell.row)
+      if (existing) {
+        onCellClickRef.current(existing)
+      } else {
+        onCellClickRef.current(null)
+        setPendingPlacement({ cell, screenX: canvasX, screenY: canvasY })
+      }
     }
-  // screenToGrid reads only refs → stable; setPendingPlacement is a stable React setter
+  // screenToGrid reads only refs → stable; setPendingPlacement and onCellClickRef are stable
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
