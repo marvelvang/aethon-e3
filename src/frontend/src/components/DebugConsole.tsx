@@ -29,7 +29,12 @@ function fmt(args: unknown[]): string {
     .join(' ')
 }
 
-export default function DebugConsole() {
+interface Props {
+  bottom?: number
+  right?: number
+}
+
+export default function DebugConsole({ bottom = 20, right = 20 }: Props) {
   const [entries, setEntries] = useState<LogEntry[]>([])
   const [open, setOpen] = useState(false)
   const listRef = useRef<HTMLDivElement>(null)
@@ -96,29 +101,41 @@ export default function DebugConsole() {
       {/* Floating toggle button */}
       <button
         onClick={() => setOpen(o => !o)}
+        title="Debug Console"
         style={{
           position: 'fixed',
-          bottom: 20,
-          right: 20,
+          bottom,
+          right,
           zIndex: 9999,
-          background: errorCount > 0 ? '#c00' : '#222',
+          width: 56,
+          height: 56,
+          borderRadius: '50%',
+          background: errorCount > 0 ? 'rgba(200,0,0,0.35)' : 'rgba(255,255,255,0.12)',
+          border: `2px solid ${errorCount > 0 ? 'rgba(255,60,60,0.55)' : 'rgba(255,255,255,0.28)'}`,
           color: '#fff',
-          border: '1px solid #555',
-          borderRadius: 8,
-          padding: '6px 12px',
           fontFamily: 'monospace',
-          fontSize: 13,
           cursor: 'pointer',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          gap: 6,
-          boxShadow: '0 2px 10px rgba(0,0,0,0.6)',
+          justifyContent: 'center',
+          gap: 2,
+          backdropFilter: 'blur(4px)',
           userSelect: 'none',
+          transition: 'background 0.15s, border-color 0.15s',
         }}
       >
-        {errorCount > 0
-          ? <span style={{ fontWeight: 'bold' }}>ERR {errorCount}</span>
-          : <span>LOG {entries.length}</span>}
+        {errorCount > 0 ? (
+          <>
+            <span style={{ fontSize: 16, lineHeight: 1 }}>⚠</span>
+            <span style={{ fontSize: 10, lineHeight: 1, opacity: 0.9 }}>{errorCount}</span>
+          </>
+        ) : (
+          <>
+            <span style={{ fontSize: 10, lineHeight: 1, opacity: 0.55, letterSpacing: 1 }}>LOG</span>
+            <span style={{ fontSize: 15, lineHeight: 1 }}>{entries.length}</span>
+          </>
+        )}
       </button>
 
       {/* Console panel */}

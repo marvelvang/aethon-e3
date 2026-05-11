@@ -107,7 +107,7 @@ export default function App() {
       />
       <BuildingInfoPanel building={selectedBuilding} />
       <ResourceOverlay state={uiState} onNewGame={() => setShowDeleteConfirm(true)} />
-      <DebugConsole />
+      <DebugConsole bottom={16} right={152} />
 
       <button
         onClick={() => uiState && setShowDeleteConfirm(true)}
