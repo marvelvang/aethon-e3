@@ -5,6 +5,7 @@ type UiState = components['schemas']['UiState']
 
 interface Props {
   state: UiState | null
+  onNewGame?: () => void
 }
 
 type NumericUiStateKey = 'population' | 'consumerGoods' | 'industry' | 'housing'

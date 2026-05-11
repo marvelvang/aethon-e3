@@ -3,7 +3,7 @@ import IsometricGrid from './components/IsometricGrid'
 import DebugConsole from './components/DebugConsole'
 import ResourceOverlay from './components/ResourceOverlay'
 import BuildingInfoPanel from './components/BuildingInfoPanel'
-import { fetchOrCreateGame } from './api/gameApi'
+import { fetchOrCreateGame, deleteGame } from './api/gameApi'
 import type { components } from './api/generated'
 
 type UiState = components['schemas']['UiState']
@@ -22,6 +22,11 @@ export default function App() {
       .catch((err) => console.error('Failed to load game state:', err))
   }, [])
 
+  const handleNewGame = useCallback(async () => {
+    if (uiState) await deleteGame(uiState.gameStateId)
+    window.location.reload()
+  }, [uiState])
+
   const handleCellClick = useCallback((building: UiBuildingSlot | null) => {
     setSelectedBuilding(building)
   }, [])
@@ -36,7 +41,7 @@ export default function App() {
         onCellClick={handleCellClick}
       />
       <BuildingInfoPanel building={selectedBuilding} />
-      <ResourceOverlay state={uiState} />
+      <ResourceOverlay state={uiState} onNewGame={handleNewGame} />
       <DebugConsole />
     </div>
   )
