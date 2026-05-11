@@ -16,6 +16,23 @@ Vor Beginn jeder Aufgabe:
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
 5. Erst dann mit der eigentlichen Aufgabe beginnen
 
+## Umgebungs-Setup (SessionStart-Hook)
+
+Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
+`scripts/dev-setup.sh`. Das Skript installiert idempotent:
+1. .NET 10 SDK (via `dotnet-install.sh`, falls fehlt)
+2. npm dependencies in `src/frontend` (via `npm ci`, falls `node_modules` fehlt)
+3. Backend-Build → erzeugt `aethon-e3.api.json` (OpenAPI-Spec)
+4. TypeScript-Typen aus der Spec → `src/frontend/src/api/generated.ts`
+
+**Manuell ausführen** (z.B. nach Checkout in neuer Shell):
+```bash
+bash scripts/dev-setup.sh
+```
+
+Nach dem Setup kann Claude direkt `dotnet build`, `tsc` und `npm run build`
+aufrufen und Fehler lokal erkennen, bevor sie im CI landen.
+
 ## Projekt-Überblick
 
 Monorepo: C#/.NET 10 Backend + React 18 / TypeScript / Vite Frontend.
