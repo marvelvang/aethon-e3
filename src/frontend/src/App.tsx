@@ -24,7 +24,7 @@ export default function App() {
     if (!uiState || isEndingRound) return
     setIsEndingRound(true)
     try {
-      const newState = await endRound(uiState.gameStateId)
+      const newState = await endRound(Number(uiState.gameStateId))
       setUiState(newState)
     } catch (err) {
       console.error('End round failed:', err)
