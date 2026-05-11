@@ -1,0 +1,72 @@
+.building-info-panel {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-width: 140px;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.building-info-title {
+  font-size: 9px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+.building-info-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.10);
+  margin: 5px 0 6px;
+}
+
+.building-info-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.building-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.building-info-row-label {
+  font-size: 9px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+.building-info-row-value {
+  font-size: 18px;
+  font-weight: bold;
+  font-family: monospace;
+  line-height: 1.1;
+}
+
+/* Landscape mobile: kompakter */
+@media (orientation: landscape) and (max-height: 480px) {
+  .building-info-panel {
+    top: 8px;
+    left: 8px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    min-width: 110px;
+  }
+
+  .building-info-row-value {
+    font-size: 14px;
+  }
+}
