@@ -44,6 +44,17 @@ public class GameApplicationService(
         return projectionService.Project(state);
     }
 
+    public async Task DeleteGame(int gameId)
+    {
+        var state = await db.GameStates
+            .Include(s => s.Buildings)
+            .FirstOrDefaultAsync(s => s.Id == gameId);
+        if (state is null) return;
+        db.Buildings.RemoveRange(state.Buildings);
+        db.GameStates.Remove(state);
+        await db.SaveChangesAsync();
+    }
+
     private async Task<GameState> LoadState(int gameId) =>
         await db.GameStates
             .Include(s => s.Buildings)

@@ -53,6 +53,13 @@ public class GameController(GameApplicationService gameService) : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteGame(int id)
+    {
+        await gameService.DeleteGame(id);
+        return NoContent();
+    }
 }
 
 public record PlaceBuildingRequest(int X, int Y, BuildingType Type);

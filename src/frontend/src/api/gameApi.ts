@@ -4,6 +4,22 @@ type UiState = components['schemas']['UiState']
 type PlaceBuildingRequest = components['schemas']['PlaceBuildingRequest']
 
 const BASE_URL = 'https://aethon-e3-backend-production.up.railway.app'
+const GAME_ID_KEY = 'aethon_game_id'
+
+function getStoredGameId(): number | null {
+  const raw = localStorage.getItem(GAME_ID_KEY)
+  if (raw === null) return null
+  const id = parseInt(raw, 10)
+  return isNaN(id) ? null : id
+}
+
+function storeGameId(id: number): void {
+  localStorage.setItem(GAME_ID_KEY, String(id))
+}
+
+function clearStoredGameId(): void {
+  localStorage.removeItem(GAME_ID_KEY)
+}
 
 async function fetchJson<T>(label: string, input: string, init?: RequestInit): Promise<T> {
   const res = await fetch(input, init)
@@ -35,11 +51,25 @@ export const endRound = (id: number) =>
     { method: 'POST' }
   )
 
+export async function deleteGame(id: number): Promise<void> {
+  clearStoredGameId()
+  await fetch(`${BASE_URL}/api/game/${id}`, { method: 'DELETE' })
+}
+
 export async function fetchOrCreateGame(): Promise<UiState> {
-  try {
-    return await getGame(1)
-  } catch (getErr) {
-    console.warn('fetchOrCreateGame: getGame(1) failed, trying createGame:', getErr)
-    return createGame()
+  const storedId = getStoredGameId()
+
+  if (storedId !== null) {
+    try {
+      const state = await getGame(storedId)
+      return state
+    } catch (err) {
+      console.warn(`fetchOrCreateGame: game ${storedId} not found, creating new game:`, err)
+      clearStoredGameId()
+    }
   }
+
+  const state = await createGame()
+  storeGameId(state.gameStateId)
+  return state
 }
