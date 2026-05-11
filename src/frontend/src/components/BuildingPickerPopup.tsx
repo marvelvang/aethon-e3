@@ -113,7 +113,7 @@ export default function BuildingPickerPopup({ buildingTypes, screenX, screenY, o
               </span>
               <div style={{ display: 'flex', gap: 8, fontSize: 10, fontFamily: 'monospace' }}>
                 <span style={{ color: '#7ec8e3' }}>Pop {info.populationCost}</span>
-                {info.industryCost > 0 && (
+                {Number(info.industryCost) > 0 && (
                   <span style={{ color: '#ffb74d' }}>Ind {info.industryCost}</span>
                 )}
               </div>
