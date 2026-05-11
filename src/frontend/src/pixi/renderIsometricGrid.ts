@@ -44,12 +44,17 @@ export function tileTopVertex(
   }
 }
 
+export interface IsometricGridResult {
+  container: PIXI.Container
+  spriteContainer: PIXI.Container
+}
+
 export function renderIsometricGrid(
   app: PIXI.Application,
   buildings: UiBuildingSlot[],
   buildingTextures: Map<BuildingType, BuildingRenderConfig>,
   rot: RotationStep = 0
-): PIXI.Container {
+): IsometricGridResult {
   const { width, height } = app.screen
 
   const centerX = width / 2
@@ -76,6 +81,9 @@ export function renderIsometricGrid(
 
   const graphics = new PIXI.Graphics()
   container.addChild(graphics)
+
+  const spriteContainer = new PIXI.Container()
+  container.addChild(spriteContainer)
 
   for (const { col, row } of tiles) {
     const top = tileTopVertex(col, row, centerX, offsetY, rot)
@@ -109,9 +117,9 @@ export function renderIsometricGrid(
       sprite.anchor.set(renderConfig.anchorX, renderConfig.anchorY)
       sprite.scale.set(renderConfig.scale)
       sprite.position.set(topX, topY)
-      container.addChild(sprite)
+      spriteContainer.addChild(sprite)
     }
   }
 
-  return container
+  return { container, spriteContainer }
 }

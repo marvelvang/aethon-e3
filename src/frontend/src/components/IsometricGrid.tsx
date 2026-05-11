@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import * as PIXI from 'pixi.js'
 import { renderIsometricGrid, GRID_SIZE, TILE_HALF_WIDTH, TILE_HALF_HEIGHT, tileTopVertex, type RotationStep } from '../pixi/renderIsometricGrid'
 import { loadBuildingTextures, type BuildingRenderConfig } from '../pixi/buildingAssets'
+import { createBuildingIconGraphics, ICON_ZOOM_THRESHOLD } from '../pixi/buildingIcons'
 import { placeBuilding } from '../api/gameApi'
 import type { components } from '../api/generated'
 
@@ -22,6 +23,10 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const appRef = useRef<PIXI.Application | null>(null)
   const gridRef = useRef<PIXI.Container | null>(null)
+  const spriteContainerRef = useRef<PIXI.Container | null>(null)
+  const iconLayerRef = useRef<PIXI.Container | null>(null)
+  const iconFadeRef = useRef(0)
+  const iconWorldPositionsRef = useRef<Array<{ x: number; y: number }>>([])
   const hoverGraphicsRef = useRef<PIXI.Graphics | null>(null)
   const camera = useRef({ x: 0, y: 0, scale: 1 })
   const centerXRef = useRef(0)
@@ -46,10 +51,47 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
     setRotationStep((prev: RotationStep) => ((prev + delta + 4) % 4) as RotationStep)
   }, [])
 
+  function updateIconScreenPositions() {
+    const layer = iconLayerRef.current
+    if (!layer) return
+    const cam = camera.current
+    const positions = iconWorldPositionsRef.current
+    const children = layer.children
+    for (let i = 0; i < children.length && i < positions.length; i++) {
+      (children[i] as PIXI.Container).position.set(
+        cam.x + positions[i].x * cam.scale,
+        cam.y + positions[i].y * cam.scale,
+      )
+    }
+  }
+
   function applyCamera() {
     if (!gridRef.current) return
     gridRef.current.position.set(camera.current.x, camera.current.y)
     gridRef.current.scale.set(camera.current.scale)
+    updateIconScreenPositions()
+  }
+
+  function rebuildIconLayer(buildingList: UiBuildingSlot[], rot: RotationStep) {
+    const layer = iconLayerRef.current
+    if (!layer) return
+    layer.removeChildren()
+    iconWorldPositionsRef.current = []
+    const cam = camera.current
+    const cx = centerXRef.current
+    const oy = offsetYRef.current
+    for (const building of buildingList) {
+      const top = tileTopVertex(building.x, building.y, cx, oy, rot)
+      const worldX = top.x
+      const worldY = top.y + TILE_HALF_HEIGHT
+      const icon = createBuildingIconGraphics(building.type)
+      icon.position.set(
+        cam.x + worldX * cam.scale,
+        cam.y + worldY * cam.scale,
+      )
+      layer.addChild(icon)
+      iconWorldPositionsRef.current.push({ x: worldX, y: worldY })
+    }
   }
 
   function zoomAt(pivotX: number, pivotY: number, factor: number) {
@@ -149,6 +191,27 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
     offsetYRef.current = (app.screen.height - gridVisualHeight) / 2
 
     hoverGraphicsRef.current = new PIXI.Graphics()
+
+    const iconLayer = new PIXI.Container()
+    iconLayer.alpha = 0
+    app.stage.addChild(iconLayer)
+    iconLayerRef.current = iconLayer
+
+    // Crossfade ticker: ~200ms transition at 60fps (speed = 1/12 per delta)
+    const FADE_SPEED = 1 / 12
+    const tickerFn = (delta: number) => {
+      const target = camera.current.scale < ICON_ZOOM_THRESHOLD ? 1 : 0
+      let fade = iconFadeRef.current
+      if (target > fade) {
+        fade = Math.min(fade + FADE_SPEED * delta, target)
+      } else {
+        fade = Math.max(fade - FADE_SPEED * delta, target)
+      }
+      iconFadeRef.current = fade
+      if (iconLayerRef.current) iconLayerRef.current.alpha = fade
+      if (spriteContainerRef.current) spriteContainerRef.current.alpha = 1 - fade
+    }
+    app.ticker.add(tickerFn)
 
     loadBuildingTextures().then(setBuildingTextures)
 
@@ -284,6 +347,9 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
     window.addEventListener('resize', onResize)
 
     return () => {
+      app.ticker.remove(tickerFn)
+      iconLayerRef.current = null
+      spriteContainerRef.current = null
       window.removeEventListener('resize', onResize)
       canvas.removeEventListener('mousedown', onMouseDown)
       canvas.removeEventListener('mousemove', onMouseMove)
@@ -321,10 +387,19 @@ export default function IsometricGrid({ buildings, gameId, onBuildingPlaced, onC
       gridRef.current.destroy({ children: true })
     }
 
-    gridRef.current = renderIsometricGrid(app, buildings, buildingTextures, rotationStep)
+    const { container, spriteContainer } = renderIsometricGrid(app, buildings, buildingTextures, rotationStep)
+    gridRef.current = container
+    spriteContainerRef.current = spriteContainer
+    spriteContainer.alpha = 1 - iconFadeRef.current
+
     if (hoverGraphicsRef.current) {
       gridRef.current.addChild(hoverGraphicsRef.current)
     }
+
+    rebuildIconLayer(buildings, rotationStep)
+    // Bring icon layer above the newly added grid container
+    if (iconLayerRef.current) app.stage.addChild(iconLayerRef.current)
+
     updateHover(null)
     applyCamera()
   }, [buildings, buildingTextures, rotationStep, resizeCount])
