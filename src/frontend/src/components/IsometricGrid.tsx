@@ -25,6 +25,13 @@ interface Props {
 
 const CLICK_MOVE_THRESHOLD = 5
 
+const GRID_VISUAL_WIDTH = GRID_SIZE * 2 * TILE_HALF_WIDTH
+const GRID_VISUAL_HEIGHT = (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
+
+function getMinScale(w: number, h: number) {
+  return Math.min(w / GRID_VISUAL_WIDTH, h / GRID_VISUAL_HEIGHT)
+}
+
 export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuildingPlaced, onCellClick, selectedCell }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const appRef = useRef<PIXI.Application | null>(null)
@@ -36,7 +43,12 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
   const hoverGraphicsRef = useRef<PIXI.Graphics | null>(null)
   const selectionGraphicsRef = useRef<PIXI.Graphics | null>(null)
   const selectedCellRef = useRef<{ col: number; row: number } | null>(null)
-  const camera = useRef({ x: 0, y: 0, scale: 1 })
+  const minScaleRef = useRef(getMinScale(window.innerWidth, window.innerHeight))
+  const camera = useRef({
+    x: window.innerWidth / 2 * (1 - minScaleRef.current),
+    y: window.innerHeight / 2 * (1 - minScaleRef.current),
+    scale: minScaleRef.current,
+  })
   const centerXRef = useRef(0)
   const offsetYRef = useRef(0)
   const gameIdRef = useRef<number | null>(null)
@@ -106,9 +118,11 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
   }
 
   function zoomAt(pivotX: number, pivotY: number, factor: number) {
-    camera.current.x = pivotX + (camera.current.x - pivotX) * factor
-    camera.current.y = pivotY + (camera.current.y - pivotY) * factor
-    camera.current.scale *= factor
+    const newScale = Math.max(camera.current.scale * factor, minScaleRef.current)
+    const actualFactor = newScale / camera.current.scale
+    camera.current.x = pivotX + (camera.current.x - pivotX) * actualFactor
+    camera.current.y = pivotY + (camera.current.y - pivotY) * actualFactor
+    camera.current.scale = newScale
     applyCamera()
   }
 
@@ -322,10 +336,12 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
       } else if (e.touches.length === 2) {
         const dx = e.touches[1].clientX - e.touches[0].clientX
         const dy = e.touches[1].clientY - e.touches[0].clientY
-        const factor = Math.hypot(dx, dy) / pinch.startDist
-        camera.current.scale = pinch.startScale * factor
-        camera.current.x = pinch.midX - (pinch.midX - pinch.startCamX) * factor
-        camera.current.y = pinch.midY - (pinch.midY - pinch.startCamY) * factor
+        const rawFactor = Math.hypot(dx, dy) / pinch.startDist
+        const clampedScale = Math.max(pinch.startScale * rawFactor, minScaleRef.current)
+        const clampedFactor = clampedScale / pinch.startScale
+        camera.current.scale = clampedScale
+        camera.current.x = pinch.midX - (pinch.midX - pinch.startCamX) * clampedFactor
+        camera.current.y = pinch.midY - (pinch.midY - pinch.startCamY) * clampedFactor
         applyCamera()
 
         // Two-finger rotation: track accumulated angle, snap at 45°
@@ -368,6 +384,10 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
       const gridVisualHeight = (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
       centerXRef.current = app.screen.width / 2
       offsetYRef.current = (app.screen.height - gridVisualHeight) / 2
+      minScaleRef.current = getMinScale(w, h)
+      if (camera.current.scale < minScaleRef.current) {
+        camera.current.scale = minScaleRef.current
+      }
       setResizeCount(c => c + 1)
     }
     window.addEventListener('resize', onResize)
