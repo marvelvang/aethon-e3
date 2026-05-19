@@ -104,6 +104,7 @@ export default function App() {
         gameId={uiState ? uiState.gameStateId : null}
         onBuildingPlaced={(state) => setUiState(state)}
         onCellClick={handleCellClick}
+        selectedCell={selectedBuilding ? { col: Number(selectedBuilding.x), row: Number(selectedBuilding.y) } : null}
       />
       <BuildingInfoPanel building={selectedBuilding} />
       <ResourceOverlay state={uiState} onNewGame={() => setShowDeleteConfirm(true)} />

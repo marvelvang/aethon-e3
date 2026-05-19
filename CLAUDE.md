@@ -12,7 +12,17 @@ Auch wenn der Nutzer direkt sagt „bau X", „implementiere Y" oder eine Connec
 String o.ä. mitschickt: Das zählt **nicht** als Planfreigabe. Trotzdem erst den
 Plan zeigen, warten, dann umsetzen.
 
-### 2. main-Branch synchron halten
+### 2. Frontend-Build bei Aufgabenabschluss
+Nach jeder Aufgabe, die Frontend-Code verändert hat, einen vollständigen Frontend-Build
+ausführen und sicherstellen, dass er fehlerfrei durchläuft:
+
+```bash
+cd /home/user/aethon-e3/src/frontend && npm run build
+```
+
+Erst danach committen und pushen.
+
+### 3. main-Branch synchron halten
 Vor Beginn jeder Aufgabe:
 1. `git fetch origin main` ausführen
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`

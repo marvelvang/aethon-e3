@@ -20,11 +20,12 @@ interface Props {
   gameId: number | null
   onBuildingPlaced: (state: UiState) => void
   onCellClick: (building: UiBuildingSlot | null) => void
+  selectedCell?: { col: number; row: number } | null
 }
 
 const CLICK_MOVE_THRESHOLD = 5
 
-export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuildingPlaced, onCellClick }: Props) {
+export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuildingPlaced, onCellClick, selectedCell }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const appRef = useRef<PIXI.Application | null>(null)
   const gridRef = useRef<PIXI.Container | null>(null)
@@ -33,6 +34,8 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
   const iconFadeRef = useRef(0)
   const iconWorldPositionsRef = useRef<Array<{ x: number; y: number }>>([])
   const hoverGraphicsRef = useRef<PIXI.Graphics | null>(null)
+  const selectionGraphicsRef = useRef<PIXI.Graphics | null>(null)
+  const selectedCellRef = useRef<{ col: number; row: number } | null>(null)
   const camera = useRef({ x: 0, y: 0, scale: 1 })
   const centerXRef = useRef(0)
   const offsetYRef = useRef(0)
@@ -53,6 +56,7 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
   useEffect(() => { onCellClickRef.current = onCellClick }, [onCellClick])
   useEffect(() => { buildingsRef.current = buildings }, [buildings])
   useEffect(() => { rotationStepRef.current = rotationStep }, [rotationStep])
+  useEffect(() => { selectedCellRef.current = selectedCell ?? null }, [selectedCell])
 
   const rotateView = useCallback((delta: 1 | -1) => {
     setRotationStep((prev: RotationStep) => ((prev + delta + 4) % 4) as RotationStep)
@@ -154,6 +158,23 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     g.endFill()
   }
 
+  function updateSelection(cell: { col: number; row: number } | null) {
+    const g = selectionGraphicsRef.current
+    if (!g) return
+    g.clear()
+    if (!cell) return
+    const top = tileTopVertex(cell.col, cell.row, centerXRef.current, offsetYRef.current, rotationStepRef.current)
+    g.lineStyle(2, 0xffffff, 1)
+    g.beginFill(0xffffff, 0.08)
+    g.drawPolygon([
+      top.x, top.y,
+      top.x + TILE_HALF_WIDTH, top.y + TILE_HALF_HEIGHT,
+      top.x, top.y + TILE_HALF_HEIGHT * 2,
+      top.x - TILE_HALF_WIDTH, top.y + TILE_HALF_HEIGHT,
+    ])
+    g.endFill()
+  }
+
   useEffect(() => {
     handleCellClickRef.current = (canvasX: number, canvasY: number) => {
       if (gameIdRef.current === null) return
@@ -195,6 +216,7 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     offsetYRef.current = (app.screen.height - gridVisualHeight) / 2
 
     hoverGraphicsRef.current = new PIXI.Graphics()
+    selectionGraphicsRef.current = new PIXI.Graphics()
 
     const iconLayer = new PIXI.Container()
     iconLayer.alpha = 0
@@ -378,12 +400,20 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [rotateView])
 
+  useEffect(() => {
+    updateSelection(selectedCell ?? null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCell])
+
   // Update grid when buildings, textures, or rotation change
   useEffect(() => {
     const app = appRef.current
     if (!app) return
 
     if (gridRef.current) {
+      if (selectionGraphicsRef.current) {
+        gridRef.current.removeChild(selectionGraphicsRef.current)
+      }
       if (hoverGraphicsRef.current) {
         gridRef.current.removeChild(hoverGraphicsRef.current)
       }
@@ -396,6 +426,9 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     spriteContainerRef.current = spriteContainer
     spriteContainer.alpha = 1 - iconFadeRef.current
 
+    if (selectionGraphicsRef.current) {
+      gridRef.current.addChild(selectionGraphicsRef.current)
+    }
     if (hoverGraphicsRef.current) {
       gridRef.current.addChild(hoverGraphicsRef.current)
     }
@@ -405,6 +438,7 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     if (iconLayerRef.current) app.stage.addChild(iconLayerRef.current)
 
     updateHover(null)
+    updateSelection(selectedCellRef.current)
     applyCamera()
   }, [buildings, buildingTextures, rotationStep, resizeCount])
 
