@@ -88,8 +88,36 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     }
   }
 
+  function clampCamera() {
+    const w = window.innerWidth
+    const h = window.innerHeight
+    const cam = camera.current
+    const cx = centerXRef.current
+    const oy = offsetYRef.current
+
+    const gridScreenW = GRID_VISUAL_WIDTH * cam.scale
+    const gridScreenH = GRID_VISUAL_HEIGHT * cam.scale
+
+    if (gridScreenW >= w) {
+      const maxX = (GRID_VISUAL_WIDTH / 2 - cx) * cam.scale
+      const minX = w - (cx + GRID_VISUAL_WIDTH / 2) * cam.scale
+      cam.x = Math.min(maxX, Math.max(minX, cam.x))
+    } else {
+      cam.x = w / 2 - cx * cam.scale
+    }
+
+    if (gridScreenH >= h) {
+      const maxY = -oy * cam.scale
+      const minY = h - (oy + GRID_VISUAL_HEIGHT) * cam.scale
+      cam.y = Math.min(maxY, Math.max(minY, cam.y))
+    } else {
+      cam.y = h / 2 - (oy + GRID_VISUAL_HEIGHT / 2) * cam.scale
+    }
+  }
+
   function applyCamera() {
     if (!gridRef.current) return
+    clampCamera()
     gridRef.current.position.set(camera.current.x, camera.current.y)
     gridRef.current.scale.set(camera.current.scale)
     updateIconScreenPositions()
