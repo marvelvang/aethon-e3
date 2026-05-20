@@ -28,12 +28,21 @@ Vor Beginn jeder Aufgabe:
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
-5. Erst dann mit der eigentlichen Aufgabe beginnen
+5. **Nach dem Merge**: `APP_VERSION` in `VersionDisplay.tsx` lesen und als neue Basis
+   für das Versionsinkrement dieser Aufgabe verwenden (siehe Regel 4)
+6. Erst dann mit der eigentlichen Aufgabe beginnen
 
 ### 4. Versionsnummer inkrementieren (letzter Commit jeder Aufgabe)
 Am Ende jeder Aufgabe die Versionsnummer in
 `src/frontend/src/components/VersionDisplay.tsx` (Konstante `APP_VERSION`)
 als letzten Commit oder als Teil des letzten Commits aktualisieren.
+
+**Wichtig – Basis der Versionsnummer:**  
+Die korrekte Ausgangsbasis ist immer die Version, die nach dem letzten `origin/main`-Merge
+in `VersionDisplay.tsx` steht. Wurde main erst nach dem eigenen Versionsinkrement gemergt
+(oder hat main inzwischen denselben oder einen höheren Stand), muss die Versionsnummer
+erneut angepasst werden, bevor committet wird. Die eigene Version muss immer **strikt
+größer** sein als die aktuelle main-Version.
 
 Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 - **Patch** (`0.0.x`): Bugfix oder Hotfix – bei jeder Fehlerkorrektur ohne neue Funktion
