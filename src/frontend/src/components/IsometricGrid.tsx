@@ -61,6 +61,7 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
   const rotationStepRef = useRef<RotationStep>(0)
   const [resizeCount, setResizeCount] = useState(0)
   const [pendingPlacement, setPendingPlacement] = useState<PendingPlacement>(null)
+  const pendingCellsRef = useRef(new Set<string>())
 
   // Keep refs in sync with props/state so event handlers always see latest values
   useEffect(() => { gameIdRef.current = gameId }, [gameId])
@@ -286,6 +287,7 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
       if (existing) {
         onCellClickRef.current(existing)
       } else {
+        if (pendingCellsRef.current.has(`${cell.col},${cell.row}`)) return
         onCellClickRef.current(null)
         setPendingPlacement({ cell, screenX: canvasX, screenY: canvasY })
       }
@@ -561,16 +563,16 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
           onSelect={async (type) => {
             const id = gameIdRef.current
             if (id === null) { setPendingPlacement(null); return }
+            const { col, row } = pendingPlacement.cell
+            const cellKey = `${col},${row}`
+            pendingCellsRef.current.add(cellKey)
             try {
-              const newState = await placeBuilding(id, {
-                x: pendingPlacement.cell.col,
-                y: pendingPlacement.cell.row,
-                type,
-              })
+              const newState = await placeBuilding(id, { x: col, y: row, type })
               onBuildingPlacedRef.current(newState)
             } catch (err) {
               console.error('placeBuilding failed:', err)
             } finally {
+              pendingCellsRef.current.delete(cellKey)
               setPendingPlacement(null)
             }
           }}
