@@ -1,0 +1,131 @@
+.debug-toggle {
+  position: fixed;
+  z-index: 9999;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  backdrop-filter: blur(4px);
+  user-select: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.debug-toggle--error {
+  background: rgba(200, 0, 0, 0.35);
+  border-color: rgba(255, 60, 60, 0.55);
+}
+
+.debug-toggle-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.debug-toggle-count {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.debug-toggle--error .debug-toggle-count {
+  font-size: 10px;
+  opacity: 0.9;
+}
+
+.debug-toggle-label {
+  font-size: 10px;
+  line-height: 1;
+  opacity: 0.55;
+  letter-spacing: 1px;
+}
+
+.debug-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70vh;
+  background: rgba(10, 10, 10, 0.97);
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #444;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.debug-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid #333;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.debug-toolbar-title {
+  color: #aaa;
+  flex: 1;
+}
+
+.debug-btn {
+  background: #333;
+  color: #ccc;
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.debug-btn--close {
+  background: #500;
+}
+
+.debug-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.debug-empty {
+  color: #555;
+  padding: 12px 10px;
+}
+
+.debug-entry {
+  padding: 3px 10px;
+  border-bottom: 1px solid #1a1a1a;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  word-break: break-all;
+}
+
+.debug-entry-time {
+  color: #555;
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+.debug-entry-level {
+  flex-shrink: 0;
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: #1e1e1e;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.debug-entry-msg {
+  white-space: pre-wrap;
+}
