@@ -17,18 +17,18 @@ interface Provision {
 const PROVISIONS: Record<BuildingType, Provision[]> = {
   Base: [
     { label: 'Güter',     color: '#8bc34a', value: 100 },
-    { label: 'Industrie', color: '#ffb74d', value: 200 },
-    { label: 'Wohnraum',  color: '#ba68c8', value: 150 },
+    { label: 'Industrie', color: '#cc44ff', value: 200 },
+    { label: 'Wohnraum',  color: '#e07030', value: 150 },
   ],
   Industry: [
     { label: 'Güter',     color: '#8bc34a', value: 10 },
-    { label: 'Industrie', color: '#ffb74d', value: 50 },
+    { label: 'Industrie', color: '#cc44ff', value: 50 },
   ],
   Consumer: [
     { label: 'Güter',     color: '#8bc34a', value: 40 },
   ],
   Housing: [
-    { label: 'Wohnraum',  color: '#ba68c8', value: 20 },
+    { label: 'Wohnraum',  color: '#e07030', value: 20 },
   ],
 }
 

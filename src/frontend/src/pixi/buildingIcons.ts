@@ -10,9 +10,9 @@ const ICON_RADIUS = 14
 
 const ICON_BG_COLORS: Record<string, number> = {
   Base: 0xE8B84B,
-  Housing: 0x5BA85A,
-  Consumer: 0x4A90D9,
-  Industry: 0xD96B2F,
+  Housing: 0xE07030,
+  Consumer: 0x66AA44,
+  Industry: 0xCC44FF,
 }
 
 function drawStar(g: PIXI.Graphics, spikes: number, outerR: number, innerR: number): void {
