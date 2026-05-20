@@ -3,6 +3,7 @@ import IsometricGrid from './components/IsometricGrid'
 import DebugConsole from './components/DebugConsole'
 import ResourceOverlay from './components/ResourceOverlay'
 import BuildingInfoPanel from './components/BuildingInfoPanel'
+import VersionDisplay from './components/VersionDisplay'
 import { fetchOrCreateGame, endRound, deleteGame } from './api/gameApi'
 import type { components } from './api/generated'
 
@@ -109,6 +110,7 @@ export default function App() {
       <BuildingInfoPanel building={selectedBuilding} />
       <ResourceOverlay state={uiState} onNewGame={() => setShowDeleteConfirm(true)} />
       <DebugConsole bottom={16} right={152} />
+      <VersionDisplay />
 
       <button
         onClick={() => uiState && setShowDeleteConfirm(true)}
