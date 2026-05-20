@@ -2,20 +2,15 @@
 
 ## Workflow-Regeln (immer einhalten)
 
-### 1. Erst planen, dann umsetzen
-Vor jeder Implementierung einen Plan erstellen und explizit auf Bestätigung warten.
-Erst nach Bestätigung mit der Umsetzung beginnen.
+### 1. Direkt implementieren – Plan nur bei echtem Bedarf
+Standardmäßig direkt implementieren, kurz erklären, Diff spricht für sich.
 
-**Wann Plan erforderlich:** Immer – außer bei exakt einem der folgenden Fälle:
-- Korrektur eines einzelnen Tippfehlers (1 Wort, eindeutig falsch)
-- Single-line rename einer Variablen/Funktion ohne Logikänderung
+**Plan erforderlich (erst zeigen, auf Bestätigung warten) nur wenn:**
+- Architekturentscheidung mit mehreren validen Wegen, die der User mitentscheiden soll
+- Änderung ist schwer umkehrbar (DB-Schema, API-Verträge, großer Refactor)
+- Explizite Unsicherheit: Anforderung unklar oder meine Interpretation könnte abweichen
 
-**Was NICHT als Planfreigabe zählt:**
-- Der Nutzer sagt „bau X" oder „implementiere Y"
-- Der Nutzer schickt einen Connection-String, eine URL oder Konfigurationswerte mit
-- Der Nutzer beschreibt das gewünschte Ergebnis noch so detailliert
-
-→ In allen diesen Fällen: erst Plan zeigen, warten, dann umsetzen.
+In allen anderen Fällen: direkt implementieren.
 
 ### 2. Frontend-Build bei Aufgabenabschluss
 Nach jeder Aufgabe, die Frontend-Code verändert hat, einen vollständigen Frontend-Build
