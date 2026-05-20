@@ -33,5 +33,9 @@ public class UiBuildingTypeInfo
     public required BuildingType Type { get; init; }
     public required int PopulationCost { get; init; }
     public required int IndustryCost { get; init; }
+    public required int ConsumerGoodsProduction { get; init; }
+    public required int IndustryProduction { get; init; }
+    public required int HousingContribution { get; init; }
+    public required bool IsBuildable { get; init; }
     public required bool CanAfford { get; init; }
 }

@@ -1,0 +1,89 @@
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(6px);
+}
+
+.confirm-panel {
+  padding: 32px 36px;
+  max-width: 320px;
+  width: 90vw;
+  text-align: center;
+  color: #fff;
+  background: rgba(20, 20, 20, 0.88);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  backdrop-filter: var(--glass-blur);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+.confirm-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.confirm-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.confirm-message {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.confirm-btn {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.confirm-btn:disabled {
+  cursor: default;
+}
+
+.confirm-btn-cancel {
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.confirm-btn-cancel:disabled {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.confirm-btn-primary {
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-weight: 600;
+}
+
+.confirm-btn-danger {
+  border: 1.5px solid var(--color-danger-border);
+  background: var(--color-danger-bg);
+  color: rgba(255, 140, 140, 1);
+  font-weight: 600;
+}
+
+.confirm-btn-danger:disabled {
+  background: rgba(180, 40, 40, 0.25);
+  color: rgba(255, 120, 120, 0.4);
+}

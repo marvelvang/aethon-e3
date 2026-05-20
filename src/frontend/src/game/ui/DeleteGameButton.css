@@ -1,0 +1,25 @@
+.delete-game-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 156px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 100, 100, 0.45);
+  color: rgba(255, 120, 120, 0.9);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  line-height: 1;
+  background: rgba(255, 60, 60, 0.12);
+}
+
+.delete-game-btn:disabled {
+  color: rgba(255, 100, 100, 0.3);
+  cursor: default;
+}

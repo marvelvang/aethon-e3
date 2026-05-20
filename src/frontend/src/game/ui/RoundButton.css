@@ -1,0 +1,44 @@
+.round-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 128px;
+  height: 56px;
+  border-radius: 28px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 18px;
+  padding-right: 14px;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.round-btn:disabled {
+  cursor: default;
+}
+
+.round-btn--working {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.round-btn-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.round-btn-arrow {
+  font-size: 22px;
+  line-height: 1;
+}

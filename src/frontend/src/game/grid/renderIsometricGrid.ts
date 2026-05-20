@@ -1,48 +1,15 @@
 import * as PIXI from 'pixi.js'
-import type { components } from '../api/generated'
+import type { components } from '../../api/generated'
+import type { BuildingType } from '../../domain/buildingTypes'
 import type { BuildingRenderConfig } from './buildingAssets'
+import { GRID_SIZE, TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
-type BuildingType = UiBuildingSlot['type']
-
-export const GRID_SIZE = 10
-export const TILE_HALF_WIDTH = 32
-export const TILE_HALF_HEIGHT = 16
-const GRID_N = GRID_SIZE - 1
-
-export type RotationStep = 0 | 1 | 2 | 3
 
 const COLOR_TILE_FILL = 0x9c6b3c
 const COLOR_TILE_FILL_BUILDING = 0x1a6bc4
 const COLOR_TILE_STROKE = 0xe8d5b0
 const STROKE_WIDTH = 1
-
-export function tileTopVertex(
-  col: number,
-  row: number,
-  centerX: number,
-  offsetY: number,
-  rot: RotationStep = 0
-): { x: number; y: number } {
-  switch (rot) {
-    case 1: return {
-      x: (GRID_N - row - col) * TILE_HALF_WIDTH + centerX,
-      y: (GRID_N - row + col) * TILE_HALF_HEIGHT + offsetY,
-    }
-    case 2: return {
-      x: (row - col) * TILE_HALF_WIDTH + centerX,
-      y: (2 * GRID_N - col - row) * TILE_HALF_HEIGHT + offsetY,
-    }
-    case 3: return {
-      x: (row + col - GRID_N) * TILE_HALF_WIDTH + centerX,
-      y: (GRID_N + row - col) * TILE_HALF_HEIGHT + offsetY,
-    }
-    default: return {
-      x: (col - row) * TILE_HALF_WIDTH + centerX,
-      y: (col + row) * TILE_HALF_HEIGHT + offsetY,
-    }
-  }
-}
 
 export interface IsometricGridResult {
   container: PIXI.Container
@@ -56,17 +23,14 @@ export function renderIsometricGrid(
   rot: RotationStep = 0
 ): IsometricGridResult {
   const { width, height } = app.screen
-
   const centerX = width / 2
-  const gridVisualHeight =
-    (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
+  const gridVisualHeight = (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
   const offsetY = (height - gridVisualHeight) / 2
 
   const buildingTypeMap = new Map<string, BuildingType>(
     buildings.map((b) => [`${b.x},${b.y}`, b.type])
   )
 
-  // Build sorted tile list for correct painter's order (back-to-front by topY)
   const tiles: Array<{ col: number; row: number; topY: number }> = []
   for (let row = 0; row < GRID_SIZE; row++) {
     for (let col = 0; col < GRID_SIZE; col++) {
@@ -87,22 +51,16 @@ export function renderIsometricGrid(
 
   for (const { col, row } of tiles) {
     const top = tileTopVertex(col, row, centerX, offsetY, rot)
-
-    const topX = top.x
-    const topY = top.y
-    const rightX = top.x + TILE_HALF_WIDTH
-    const rightY = top.y + TILE_HALF_HEIGHT
-    const bottomX = top.x
-    const bottomY = top.y + TILE_HALF_HEIGHT * 2
-    const leftX = top.x - TILE_HALF_WIDTH
-    const leftY = top.y + TILE_HALF_HEIGHT
+    const topX = top.x, topY = top.y
+    const rightX = top.x + TILE_HALF_WIDTH, rightY = top.y + TILE_HALF_HEIGHT
+    const bottomX = top.x, bottomY = top.y + TILE_HALF_HEIGHT * 2
+    const leftX = top.x - TILE_HALF_WIDTH, leftY = top.y + TILE_HALF_HEIGHT
 
     const buildingType = buildingTypeMap.get(`${col},${row}`)
     const renderConfig = buildingType !== undefined
       ? buildingTextures.get(buildingType)
       : undefined
 
-    // Use blue fallback for building types that have no asset yet
     const fillColor = buildingType !== undefined && renderConfig === undefined
       ? COLOR_TILE_FILL_BUILDING
       : COLOR_TILE_FILL

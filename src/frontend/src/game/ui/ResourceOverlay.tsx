@@ -1,34 +1,17 @@
+import type { components } from '../../api/generated'
+import { RESOURCES } from '../../domain/resources'
 import './ResourceOverlay.css'
-import type { components } from '../api/generated'
 
 type UiState = components['schemas']['UiState']
 
 interface Props {
   state: UiState | null
-  onNewGame?: () => void
 }
-
-type NumericUiStateKey = 'population' | 'consumerGoods' | 'industry' | 'housing'
-type NumericGainKey = 'populationGain' | 'consumerGoodsGain' | 'industryGain' | 'housingGain'
-
-interface ResourceDef {
-  key: NumericUiStateKey
-  gainKey: NumericGainKey
-  label: string
-  color: string
-}
-
-const RESOURCES: ResourceDef[] = [
-  { key: 'population',    gainKey: 'populationGain',    label: 'Population', color: '#ffaa44' },
-  { key: 'consumerGoods', gainKey: 'consumerGoodsGain', label: 'Güter',      color: '#8bc34a' },
-  { key: 'industry',      gainKey: 'industryGain',      label: 'Industrie',  color: '#cc44ff' },
-  { key: 'housing',       gainKey: 'housingGain',       label: 'Wohnraum',   color: '#e07030' },
-]
 
 export default function ResourceOverlay({ state }: Props) {
   return (
     <div className="resource-overlay">
-      {RESOURCES.map(r => {
+      {RESOURCES.map((r) => {
         const value = state ? state[r.key] : null
         const gain  = state != null ? state[r.gainKey] : null
         const isPopulation = r.key === 'population'
@@ -46,8 +29,8 @@ export default function ResourceOverlay({ state }: Props) {
               {gain !== null && (
                 <>
                   <span className="resource-value-sep">/</span>
-                  <span className={`resource-value-gain${gain < 0 ? ' negative' : ''}`}>
-                    {gain >= 0 ? `+${gain}` : `${gain}`}
+                  <span className={`resource-value-gain${Number(gain) < 0 ? ' negative' : ''}`}>
+                    {Number(gain) >= 0 ? `+${gain}` : `${gain}`}
                   </span>
                 </>
               )}

@@ -1,0 +1,62 @@
+.picker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+}
+
+.picker-popup {
+  position: fixed;
+  z-index: 200;
+  background: rgba(10, 10, 10, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+  user-select: none;
+}
+
+.picker-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 6px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.picker-item--hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.picker-item--disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.picker-item-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.picker-item-label {
+  color: #fff;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+.picker-item-costs {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+}

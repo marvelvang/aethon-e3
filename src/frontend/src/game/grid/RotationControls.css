@@ -1,0 +1,30 @@
+.rotation-controls {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 4px 10px;
+  color: #fff;
+  font-size: 18px;
+  user-select: none;
+}
+
+.rotation-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.rotation-label {
+  min-width: 16px;
+  text-align: center;
+  font-size: 14px;
+}

@@ -289,6 +289,10 @@
           "type",
           "populationCost",
           "industryCost",
+          "consumerGoodsProduction",
+          "industryProduction",
+          "housingContribution",
+          "isBuildable",
           "canAfford"
         ],
         "type": "object",
@@ -311,6 +315,33 @@
               "string"
             ],
             "format": "int32"
+          },
+          "consumerGoodsProduction": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "industryProduction": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "housingContribution": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "isBuildable": {
+            "type": "boolean"
           },
           "canAfford": {
             "type": "boolean"
