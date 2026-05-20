@@ -81,16 +81,7 @@ Der Tick ist ein normaler Domain-Aufruf:
 
 **3.2 Grid**
 
-- Zweidimensionales Array fester Größe (z. B. 10×10)
-- Jede Zelle enthält:
-
-- kein Gebäude oder
-- genau ein Gebäude
-
-**Eigenschaften:**
-
-- Position ergibt sich ausschließlich aus dem Grid
-- Gebäude kennen keine eigene Position
+→ Siehe: [Grid Persistenzmodell](26 05 07 Grid Persistenzmodell.md)
 
 ---
 
@@ -319,9 +310,7 @@ Population = min(Population + PopulationChange, Housing)
 
 **10. Persistenzmodell**
 
-- relational (3NF)
-- GameState als Aggregate Root
-- Grid referenziert Buildings
+→ Siehe: [Grid Persistenzmodell](26 05 07 Grid Persistenzmodell.md)
 
 ---
 
