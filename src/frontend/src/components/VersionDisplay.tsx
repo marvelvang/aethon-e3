@@ -1,4 +1,4 @@
-const APP_VERSION = '0.0.3'
+const APP_VERSION = '0.1.0'
 
 export default function VersionDisplay() {
   return (
