@@ -63,17 +63,18 @@
     </filter>
   </defs>
 
-  <!-- ══ FOUNDATION hz 0→32 (±128) ══ -->
-  <polygon points="-128,64 0,128 0,96 -128,32"  fill="url(#fL)" stroke="#3a6030" stroke-width="1.5"/>
-  <polygon points="128,64 0,128 0,96 128,32"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
-  <polygon points="0,-32 128,32 0,96 -128,32"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
+  <!-- ══ FOUNDATION hz 0→24 (±128) ══ -->
+  <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#3a6030" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
 
-  <line x1="0" y1="-32"    x2="0"   y2="96" stroke="#4a7a3a" stroke-width="1" opacity="0.35"/>
-  <line x1="-128" y1="32"  x2="128" y2="32" stroke="#4a7a3a" stroke-width="1" opacity="0.35"/>
+  <line x1="0" y1="-24"    x2="0"   y2="104" stroke="#4a7a3a" stroke-width="1" opacity="0.35"/>
+  <line x1="-128" y1="40"  x2="128" y2="40"  stroke="#4a7a3a" stroke-width="1" opacity="0.35"/>
 
-  <circle cx="128"  cy="32"  r="6" fill="#44dd44" filter="url(#glow)"/>
-  <circle cx="-128" cy="32"  r="6" fill="#44dd44" filter="url(#glow)"/>
-  <circle cx="0"    cy="96"  r="6" fill="#44dd44" filter="url(#glow)"/>
+  <g transform="translate(0, 8)">
+  <circle cx="128"  cy="32"  r="6" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="-128" cy="32"  r="6" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="0"    cy="96"  r="6" fill="#ffffff" filter="url(#glow)"/>
 
   <line x1="128"  y1="48" x2="0" y2="108" stroke="#1a2e12" stroke-width="5"/>
   <line x1="128"  y1="48" x2="0" y2="108" stroke="#44cc22" stroke-width="1"   opacity="0.38"/>
@@ -144,4 +145,5 @@
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
+  </g>
 </svg>
