@@ -61,19 +61,21 @@ Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 ## Umgebungs-Setup (SessionStart-Hook)
 
 Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
-`scripts/dev-setup.sh`. Das Skript installiert idempotent:
-1. .NET 10 SDK (via `dotnet-install.sh`, falls fehlt)
-2. npm dependencies in `src/frontend` (via `npm ci`, falls `node_modules` fehlt)
-3. Backend-Build → erzeugt `aethon-e3.api.json` (OpenAPI-Spec)
-4. TypeScript-Typen aus der Spec → `src/frontend/src/api/generated.ts`
+`scripts/dev-setup.sh`. Das Skript führt idempotent aus:
+1. npm dependencies in `src/frontend` installieren (via `npm ci`, falls `node_modules` fehlt)
+2. TypeScript-Typen generieren (via `npm run generate`, falls `aethon-e3.api.json` vorhanden)
+
+**Hinweis:** .NET ist in der Claude Code Web-Sandbox nicht verfügbar. Backend-Build und
+OpenAPI-Spec-Generierung übernimmt der CI-Workflow (GitHub Actions), der die Spec
+automatisch in den Branch zurück-committed.
 
 **Manuell ausführen** (z.B. nach Checkout in neuer Shell):
 ```bash
 bash scripts/dev-setup.sh
 ```
 
-Nach dem Setup kann Claude direkt `dotnet build`, `tsc` und `npm run build`
-aufrufen und Fehler lokal erkennen, bevor sie im CI landen.
+Nach dem Setup kann Claude direkt `tsc` und `npm run build` aufrufen und Fehler
+lokal erkennen, bevor sie im CI landen.
 
 ## Projekt-Überblick
 
