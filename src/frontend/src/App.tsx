@@ -10,6 +10,25 @@ import type { components } from './api/generated'
 type UiState = components['schemas']['UiState']
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
+function RoundSpinner() {
+  return (
+    <>
+      <style>{`@keyframes aethon-spin{to{transform:rotate(360deg)}}.aethon-spin{animation:aethon-spin .75s linear infinite}`}</style>
+      <div
+        className="aethon-spin"
+        style={{
+          width: 13,
+          height: 13,
+          borderRadius: '50%',
+          border: '2px solid rgba(255,255,255,0.22)',
+          borderTopColor: '#fff',
+          flexShrink: 0,
+        }}
+      />
+    </>
+  )
+}
+
 export default function App() {
   const [uiState, setUiState] = useState<UiState | null>(null)
   const [isEndingRound, setIsEndingRound] = useState(false)
@@ -58,28 +77,28 @@ export default function App() {
     position: 'absolute',
     bottom: 16,
     right: 16,
-    width: 56,
+    width: 128,
     height: 56,
-    borderRadius: '50%',
+    borderRadius: 28,
     border: '2px solid rgba(255,255,255,0.35)',
     color: isEndingRound ? 'rgba(255,255,255,0.4)' : '#fff',
-    fontSize: 22,
     cursor: uiState && !isEndingRound ? 'pointer' : 'default',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 18,
+    paddingRight: 14,
     zIndex: 100,
     backdropFilter: 'blur(4px)',
     transition: 'background 0.15s, color 0.15s',
     lineHeight: 1,
-    paddingLeft: 3,
     background: isEndingRound ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.18)',
   }
 
   const deleteButtonStyle: React.CSSProperties = {
     position: 'absolute',
     bottom: 16,
-    right: 84,
+    right: 156,
     width: 56,
     height: 56,
     borderRadius: '50%',
@@ -109,7 +128,7 @@ export default function App() {
       />
       <BuildingInfoPanel building={selectedBuilding} />
       <ResourceOverlay state={uiState} onNewGame={() => setShowDeleteConfirm(true)} />
-      <DebugConsole bottom={16} right={152} />
+      <DebugConsole bottom={16} right={224} />
       <VersionDisplay />
 
       <button
@@ -127,7 +146,10 @@ export default function App() {
         title="Runde beenden"
         style={roundButtonStyle}
       >
-        ▶
+        <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.02em', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
+          {isEndingRound ? <RoundSpinner /> : `Runde ${uiState?.round ?? '—'}`}
+        </span>
+        <span style={{ fontSize: 22, lineHeight: 1 }}>▶</span>
       </button>
 
       {showDeleteConfirm && (
