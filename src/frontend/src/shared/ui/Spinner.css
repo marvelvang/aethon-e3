@@ -1,0 +1,11 @@
+@keyframes aethon-spin {
+  to { transform: rotate(360deg); }
+}
+
+.aethon-spinner {
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  border-top-color: #fff;
+  flex-shrink: 0;
+  animation: aethon-spin 0.75s linear infinite;
+}

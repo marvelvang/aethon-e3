@@ -1,0 +1,16 @@
+:root {
+  --color-population: #ffaa44;
+  --color-consumer:   #8bc34a;
+  --color-industry:   #cc44ff;
+  --color-housing:    #e07030;
+
+  --color-danger:        #e57373;
+  --color-danger-border: rgba(220, 60, 60, 0.5);
+  --color-danger-bg:     rgba(200, 50, 50, 0.35);
+
+  --glass-bg:     rgba(10, 10, 10, 0.82);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.12);
+  --glass-blur:   blur(6px);
+
+  --font-mono: monospace;
+}

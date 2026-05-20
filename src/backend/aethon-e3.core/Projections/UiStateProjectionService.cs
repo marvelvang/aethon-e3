@@ -7,7 +7,10 @@ namespace aethon_e3.core.Projections;
 
 public class UiStateProjectionService(ResourceGainService gainService)
 {
-    private static readonly BuildingType[] BuildableTypes =
+    private static readonly BuildingType[] AllTypes =
+        [BuildingType.Base, BuildingType.Consumer, BuildingType.Industry, BuildingType.Housing];
+
+    private static readonly HashSet<BuildingType> BuildableTypes =
         [BuildingType.Consumer, BuildingType.Industry, BuildingType.Housing];
 
     public UiState Project(GameState state)
@@ -42,17 +45,23 @@ public class UiStateProjectionService(ResourceGainService gainService)
                                       IsNewlyBuilt = b.IsNewlyBuilt
                                   })
                                   .ToList(),
-            BuildingTypes   = BuildableTypes
+            BuildingTypes   = AllTypes
                                   .Select(t =>
                                   {
                                       var def = BuildingDefinitions.For(t);
+                                      bool buildable = BuildableTypes.Contains(t);
                                       return new UiBuildingTypeInfo
                                       {
-                                          Type           = t,
-                                          PopulationCost = def.PopulationCost,
-                                          IndustryCost   = def.IndustryCost,
-                                          CanAfford      = freePopulation >= def.PopulationCost
-                                                        && state.Industry  >= def.IndustryCost
+                                          Type                    = t,
+                                          PopulationCost          = def.PopulationCost,
+                                          IndustryCost            = def.IndustryCost,
+                                          ConsumerGoodsProduction = def.ConsumerGoodsProduction,
+                                          IndustryProduction      = def.IndustryProduction,
+                                          HousingContribution     = def.HousingContribution,
+                                          IsBuildable             = buildable,
+                                          CanAfford               = buildable
+                                                                 && freePopulation >= def.PopulationCost
+                                                                 && state.Industry  >= def.IndustryCost
                                       };
                                   })
                                   .ToList()
