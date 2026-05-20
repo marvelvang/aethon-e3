@@ -19,10 +19,10 @@ interface ResourceDef {
 }
 
 const RESOURCES: ResourceDef[] = [
-  { key: 'population',    gainKey: 'populationGain',    label: 'Population', color: '#7ec8e3' },
+  { key: 'population',    gainKey: 'populationGain',    label: 'Population', color: '#ffaa44' },
   { key: 'consumerGoods', gainKey: 'consumerGoodsGain', label: 'Güter',      color: '#8bc34a' },
-  { key: 'industry',      gainKey: 'industryGain',      label: 'Industrie',  color: '#ffb74d' },
-  { key: 'housing',       gainKey: 'housingGain',       label: 'Wohnraum',   color: '#ba68c8' },
+  { key: 'industry',      gainKey: 'industryGain',      label: 'Industrie',  color: '#cc44ff' },
+  { key: 'housing',       gainKey: 'housingGain',       label: 'Wohnraum',   color: '#e07030' },
 ]
 
 export default function ResourceOverlay({ state }: Props) {
