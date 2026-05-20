@@ -10,6 +10,25 @@ import type { components } from './api/generated'
 type UiState = components['schemas']['UiState']
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
+function RoundSpinner() {
+  return (
+    <>
+      <style>{`@keyframes aethon-spin{to{transform:rotate(360deg)}}.aethon-spin{animation:aethon-spin .75s linear infinite}`}</style>
+      <div
+        className="aethon-spin"
+        style={{
+          width: 13,
+          height: 13,
+          borderRadius: '50%',
+          border: '2px solid rgba(255,255,255,0.22)',
+          borderTopColor: '#fff',
+          flexShrink: 0,
+        }}
+      />
+    </>
+  )
+}
+
 export default function App() {
   const [uiState, setUiState] = useState<UiState | null>(null)
   const [isEndingRound, setIsEndingRound] = useState(false)
@@ -127,8 +146,8 @@ export default function App() {
         title="Runde beenden"
         style={roundButtonStyle}
       >
-        <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
-          {isEndingRound ? '…' : `Runde ${uiState?.round ?? '—'}`}
+        <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.02em', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center' }}>
+          {isEndingRound ? <RoundSpinner /> : `Runde ${uiState?.round ?? '—'}`}
         </span>
         <span style={{ fontSize: 22, lineHeight: 1 }}>▶</span>
       </button>
