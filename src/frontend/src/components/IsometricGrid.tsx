@@ -200,21 +200,78 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     g.endFill()
   }
 
+  function drawDashedLine(g: PIXI.Graphics, x1: number, y1: number, x2: number, y2: number, dashLen = 5, gapLen = 4) {
+    const dx = x2 - x1
+    const dy = y2 - y1
+    const totalLen = Math.sqrt(dx * dx + dy * dy)
+    if (totalLen === 0) return
+    const ux = dx / totalLen
+    const uy = dy / totalLen
+    let pos = 0
+    let drawing = true
+    while (pos < totalLen) {
+      const segLen = Math.min(drawing ? dashLen : gapLen, totalLen - pos)
+      if (drawing) {
+        g.moveTo(x1 + ux * pos, y1 + uy * pos)
+        g.lineTo(x1 + ux * (pos + segLen), y1 + uy * (pos + segLen))
+      }
+      pos += segLen
+      drawing = !drawing
+    }
+  }
+
   function updateSelection(cell: { col: number; row: number } | null) {
     const g = selectionGraphicsRef.current
     if (!g) return
     g.clear()
     if (!cell) return
-    const top = tileTopVertex(cell.col, cell.row, centerXRef.current, offsetYRef.current, rotationStepRef.current)
-    g.lineStyle(2, 0xffffff, 1)
+
+    const rot = rotationStepRef.current
+    const top = tileTopVertex(cell.col, cell.row, centerXRef.current, offsetYRef.current, rot)
+    const topX = top.x, topY = top.y
+    const rightX = top.x + TILE_HALF_WIDTH, rightY = top.y + TILE_HALF_HEIGHT
+    const bottomX = top.x, bottomY = top.y + TILE_HALF_HEIGHT * 2
+    const leftX = top.x - TILE_HALF_WIDTH, leftY = top.y + TILE_HALF_HEIGHT
+
+    // Semi-transparent fill without stroke
+    g.lineStyle(0)
     g.beginFill(0xffffff, 0.08)
-    g.drawPolygon([
-      top.x, top.y,
-      top.x + TILE_HALF_WIDTH, top.y + TILE_HALF_HEIGHT,
-      top.x, top.y + TILE_HALF_HEIGHT * 2,
-      top.x - TILE_HALF_WIDTH, top.y + TILE_HALF_HEIGHT,
-    ])
+    g.drawPolygon([topX, topY, rightX, rightY, bottomX, bottomY, leftX, leftY])
     g.endFill()
+
+    // Front neighbor cells that would visually cover the front edges (rotation-dependent)
+    const { col, row } = cell
+    const [frCol, frRow]: [number, number] = rot === 0 ? [col + 1, row] :
+      rot === 1 ? [col, row - 1] :
+      rot === 2 ? [col - 1, row] :
+      [col, row + 1]
+    const [flCol, flRow]: [number, number] = rot === 0 ? [col, row + 1] :
+      rot === 1 ? [col + 1, row] :
+      rot === 2 ? [col, row - 1] :
+      [col - 1, row]
+
+    const hasBuilding = (c: number, r: number) =>
+      buildingsRef.current.some(b => b.x === c && b.y === r)
+
+    g.lineStyle(2, 0xffffff, 1)
+
+    // Back edges: always dashed — own building body covers them
+    drawDashedLine(g, topX, topY, rightX, rightY)
+    drawDashedLine(g, topX, topY, leftX, leftY)
+
+    // Front edges: solid when visible, dashed when a neighbor building covers them
+    if (hasBuilding(frCol, frRow)) {
+      drawDashedLine(g, rightX, rightY, bottomX, bottomY)
+    } else {
+      g.moveTo(rightX, rightY)
+      g.lineTo(bottomX, bottomY)
+    }
+    if (hasBuilding(flCol, flRow)) {
+      drawDashedLine(g, leftX, leftY, bottomX, bottomY)
+    } else {
+      g.moveTo(leftX, leftY)
+      g.lineTo(bottomX, bottomY)
+    }
   }
 
   useEffect(() => {
