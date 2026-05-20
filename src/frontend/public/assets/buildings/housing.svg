@@ -106,9 +106,9 @@
   <line x1="-128" y1="40" x2="128" y2="40"  stroke="#dd6620" stroke-width="1"   opacity="0.4"/>
 
   <!-- Foundation: corner indicator lights -->
-  <circle cx="128"  cy="40"  r="6" fill="#ff8c00" filter="url(#glow)"/>
-  <circle cx="-128" cy="40"  r="6" fill="#ff8c00" filter="url(#glow)"/>
-  <circle cx="0"    cy="104" r="6" fill="#ff8c00" filter="url(#glow)"/>
+  <circle cx="128"  cy="40"  r="6" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="-128" cy="40"  r="6" fill="#ffffff" filter="url(#glow)"/>
+  <circle cx="0"    cy="104" r="6" fill="#ffffff" filter="url(#glow)"/>
 
   <!-- Foundation: cable/pipe ducts along lower edges -->
   <line x1="128" y1="56"   x2="0" y2="116" stroke="#7a2808" stroke-width="5"/>
