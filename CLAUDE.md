@@ -30,6 +30,17 @@ Vor Beginn jeder Aufgabe:
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
 5. Erst dann mit der eigentlichen Aufgabe beginnen
 
+### 4. Versionsnummer inkrementieren (letzter Commit jeder Aufgabe)
+Am Ende jeder Aufgabe die Versionsnummer in
+`src/frontend/src/components/VersionDisplay.tsx` (Konstante `APP_VERSION`)
+als letzten Commit oder als Teil des letzten Commits aktualisieren.
+
+Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
+- **Patch** (`0.0.x`): Bugfix oder Hotfix – bei jeder Fehlerkorrektur ohne neue Funktion
+- **Minor** (`0.x.0`): Neues Feature / sichtbare Funktionserweiterung – Patch-Teil auf 0 zurücksetzen
+- **Major** (`x.0.0`): Breaking Change oder grundlegende Umstrukturierung –
+  **nur nach expliziter Absprache mit dem User**, niemals eigenständig hochzählen
+
 ## Umgebungs-Setup (SessionStart-Hook)
 
 Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
