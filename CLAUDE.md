@@ -2,15 +2,20 @@
 
 ## Workflow-Regeln (immer einhalten)
 
-### 1. Erst planen, dann umsetzen (bei nicht-trivialen Änderungen)
-Unabhängig davon ob der Code- oder Plan-Modus aktiv ist: Bei allen nicht-trivialen
-Änderungen (alles außer offensichtliche Tippfehler oder single-line renames) erst
-einen Plan erstellen und explizit Zustimmung einholen. Niemals direkt mit der
-Umsetzung beginnen ohne Bestätigung.
+### 1. Erst planen, dann umsetzen
+Vor jeder Implementierung einen Plan erstellen und explizit auf Bestätigung warten.
+Erst nach Bestätigung mit der Umsetzung beginnen.
 
-Auch wenn der Nutzer direkt sagt „bau X", „implementiere Y" oder eine Connection
-String o.ä. mitschickt: Das zählt **nicht** als Planfreigabe. Trotzdem erst den
-Plan zeigen, warten, dann umsetzen.
+**Wann Plan erforderlich:** Immer – außer bei exakt einem der folgenden Fälle:
+- Korrektur eines einzelnen Tippfehlers (1 Wort, eindeutig falsch)
+- Single-line rename einer Variablen/Funktion ohne Logikänderung
+
+**Was NICHT als Planfreigabe zählt:**
+- Der Nutzer sagt „bau X" oder „implementiere Y"
+- Der Nutzer schickt einen Connection-String, eine URL oder Konfigurationswerte mit
+- Der Nutzer beschreibt das gewünschte Ergebnis noch so detailliert
+
+→ In allen diesen Fällen: erst Plan zeigen, warten, dann umsetzen.
 
 ### 2. Frontend-Build bei Aufgabenabschluss
 Nach jeder Aufgabe, die Frontend-Code verändert hat, einen vollständigen Frontend-Build
@@ -85,3 +90,14 @@ cd src/frontend && npm run generate
 - Main-Branch: `main`
 - Feature-Branches: `claude/<beschreibung>` oder ähnlich
 - Niemals direkt auf `main` pushen
+
+### Committen und Pushen nach Implementierung
+Nach Abschluss jeder Implementierungsaufgabe direkt committen und pushen –
+**ohne vorher den Nutzer zu fragen**. Das ist ausdrücklich erwünscht.
+
+Reihenfolge am Aufgabenende:
+1. Frontend-Build (falls Frontend-Code geändert, siehe Regel 2)
+2. Versionsnummer inkrementieren (siehe Regel 4)
+3. `git add` der geänderten Dateien
+4. `git commit` mit aussagekräftiger Message
+5. `git push -u origin <branch>`
