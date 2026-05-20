@@ -45,10 +45,13 @@ erneut angepasst werden, bevor committet wird. Die eigene Version muss immer **s
 größer** sein als die aktuelle main-Version.
 
 Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
-- **Patch** (`0.0.x`): Bugfix oder Hotfix – bei jeder Fehlerkorrektur ohne neue Funktion
-- **Minor** (`0.x.0`): Neues Feature / sichtbare Funktionserweiterung – Patch-Teil auf 0 zurücksetzen
-- **Major** (`x.0.0`): Breaking Change oder grundlegende Umstrukturierung –
-  **nur nach expliziter Absprache mit dem User**, niemals eigenständig hochzählen
+- **Patch** (`0.0.x`): Jede Korrektur oder Verbesserung ohne neue Funktion –
+  egal ob visuell (Farben, Layout, Abstände), Logik, Performance, Text oder sonstiges.
+  Immer nur die letzte Stelle erhöhen.
+- **Minor** (`0.x.0`): Ausschließlich bei echter neuer Funktionalität, die aus
+  Nutzersicht vorher nicht existiert hat. Patch-Teil auf 0 zurücksetzen.
+- **Major** (`x.0.0`): **Nur nach expliziter Absprache mit dem User**, niemals
+  eigenständig hochzählen.
 
 ## Umgebungs-Setup (SessionStart-Hook)
 
