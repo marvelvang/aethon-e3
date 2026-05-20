@@ -69,6 +69,10 @@ Der Tick ist ein normaler Domain-Aufruf:
 - ConsumerGoods
 - Industry
 
+**Spielzustand:**
+
+- Round (Rundenzähler, startet bei 1)
+
 **Spielfeld:**
 
 - Grid (2D-Struktur fester Größe)
@@ -175,6 +179,7 @@ Nicht Teil des GameState.
 - Population
 - ConsumerGoods
 - Industry
+- Round
 
 ---
 
@@ -336,7 +341,8 @@ Nicht enthalten:
 - Population: 100
 - ConsumerGoods: 0
 - Industry: 200
-- Base vorhanden
+- Round: 1
+- Base vorhanden (Position 0,0)
 - Housing ergibt sich aus Base: 150
 
 ---
