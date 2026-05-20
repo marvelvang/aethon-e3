@@ -131,7 +131,7 @@ export default function IsometricGrid({ buildings, buildingTypes, gameId, onBuil
     const gx = (canvasX - cam.x) / cam.scale
     const gy = (canvasY - cam.y) / cam.scale
     const dx = (gx - centerXRef.current) / TILE_HALF_WIDTH
-    const dy = (gy - offsetYRef.current) / TILE_HALF_HEIGHT
+    const dy = (gy - offsetYRef.current) / TILE_HALF_HEIGHT - 1
     const N = GRID_SIZE - 1
     let col: number, row: number
     switch (rotationStepRef.current) {
