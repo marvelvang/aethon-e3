@@ -82,11 +82,13 @@ Beim Rundenwechsel:
 
 ## 8. Tick-Reihenfolge
 
-1. Gebäude fertigstellen  
+1. Gebäude fertigstellen (Normalisierung: alle „neu gebaut" → normal)  
 2. Produktion berechnen  
 3. Verbrauch berechnen  
-4. Bevölkerungsänderung anwenden  
-5. Housing-Begrenzung anwenden  
+4. Versorgungsgrad berechnen (ConsumerGoods / Population)  
+5. Bevölkerungsänderung anwenden  
+6. Housing-Begrenzung anwenden  
+7. Rundenzähler erhöhen  
 
 ---
 
@@ -115,16 +117,19 @@ Verlust ist möglich, tritt in V1 praktisch nicht auf.
 
 Housing:
 
+Cost: 50 Population  
 Cost: 60 Industry  
 Housing: +20  
 
 Consumer:
 
+Cost: 25 Population  
 Cost: 15 Industry  
-Production: +30 ConsumerGoods  
+Production: +40 ConsumerGoods  
 
 Industry:
 
+Cost: 40 Population  
 Cost: 70 Industry  
 Production:  
 +50 Industry  

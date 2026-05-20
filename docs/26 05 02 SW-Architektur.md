@@ -215,7 +215,6 @@ Das Backend stellt eine Funktion bereit, die ein neues Spiel erzeugt:
 - Gibt die ID des neuen `GameState` zurück  
 
 Der `GameState` ist von Anfang an vollständig persistiert.  
-V1 kennt kein Löschen von Game States.  
 
 ---
 
