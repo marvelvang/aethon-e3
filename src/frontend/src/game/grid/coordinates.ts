@@ -5,6 +5,10 @@ export const TILE_HALF_HEIGHT = 16
 export const GRID_VISUAL_WIDTH = GRID_SIZE * 2 * TILE_HALF_WIDTH
 export const GRID_VISUAL_HEIGHT = (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
 
+// Building sprites extend this many world units above their tile anchor (tile top vertex).
+// Derived from SVG viewBox (-128 -178 256 308) with world scale 64/256.
+export const BUILDING_EXTRA_ABOVE_TILE = 178 * (64 / 256)
+
 const GRID_N = GRID_SIZE - 1
 
 export type RotationStep = 0 | 1 | 2 | 3

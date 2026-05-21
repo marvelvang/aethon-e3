@@ -1,4 +1,4 @@
-import { GRID_VISUAL_HEIGHT, GRID_VISUAL_WIDTH, TILE_HALF_HEIGHT } from './coordinates'
+import { BUILDING_EXTRA_ABOVE_TILE, GRID_VISUAL_HEIGHT, GRID_VISUAL_WIDTH, TILE_HALF_HEIGHT } from './coordinates'
 
 export interface CameraState {
   x: number
@@ -94,7 +94,7 @@ export class Camera {
     }
 
     if (gridScreenH >= h) {
-      const maxY = -oy * cam.scale
+      const maxY = -(oy - BUILDING_EXTRA_ABOVE_TILE) * cam.scale
       const minY = h - (oy + GRID_VISUAL_HEIGHT) * cam.scale
       cam.y = Math.min(maxY, Math.max(minY, cam.y))
     } else {
