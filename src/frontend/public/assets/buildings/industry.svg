@@ -82,14 +82,13 @@
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#4e4e5a" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#4e4e5a" stroke-width="1.5"/>
 
-  <!-- Foundation: geometric hex pattern suggestion -->
-  <line x1="0" y1="-24"   x2="0"   y2="104" stroke="#7744cc" stroke-width="1" opacity="0.25"/>
-  <line x1="-128" y1="40" x2="128" y2="40"  stroke="#7744cc" stroke-width="1" opacity="0.25"/>
-  <line x1="-64" y1="24"  x2="64"  y2="56"  stroke="#7744cc" stroke-width="0.8" opacity="0.18"/>
-
   <circle cx="128"  cy="40"  r="6" fill="#ffffff" filter="url(#glow)"/>
   <circle cx="-128" cy="40"  r="6" fill="#ffffff" filter="url(#glow)"/>
   <circle cx="0"    cy="104" r="6" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Foundation: vertical center stripes on visible side faces -->
+  <line x1="64"  y1="72" x2="64"  y2="96" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+  <line x1="-64" y1="72" x2="-64" y2="96" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
 
   <line x1="128"  y1="56" x2="0" y2="116" stroke="#1a1a22" stroke-width="6"/>
   <line x1="128"  y1="56" x2="0" y2="116" stroke="#aa44ff" stroke-width="1.5" opacity="0.45"/>
