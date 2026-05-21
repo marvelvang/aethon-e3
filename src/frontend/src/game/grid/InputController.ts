@@ -46,10 +46,13 @@ export class InputController {
     c.addEventListener('mousemove', this.onMouseMove)
     c.addEventListener('mouseup', this.onMouseUp)
     c.addEventListener('mouseleave', this.onMouseLeave)
-    c.addEventListener('wheel', this.onWheel, { passive: false })
     c.addEventListener('touchstart', this.onTouchStart, { passive: false })
     c.addEventListener('touchmove', this.onTouchMove, { passive: false })
     c.addEventListener('touchend', this.onTouchEnd)
+    // Global listeners so wheel and pinch work over any UI element, not just the canvas
+    document.addEventListener('wheel', this.onWheel, { passive: false })
+    document.addEventListener('touchstart', this.onGlobalTouchStart, { passive: false })
+    document.addEventListener('touchmove', this.onGlobalTouchMove, { passive: false })
     window.addEventListener('keydown', this.onKeyDown)
 
     return () => {
@@ -57,10 +60,12 @@ export class InputController {
       c.removeEventListener('mousemove', this.onMouseMove)
       c.removeEventListener('mouseup', this.onMouseUp)
       c.removeEventListener('mouseleave', this.onMouseLeave)
-      c.removeEventListener('wheel', this.onWheel)
       c.removeEventListener('touchstart', this.onTouchStart)
       c.removeEventListener('touchmove', this.onTouchMove)
       c.removeEventListener('touchend', this.onTouchEnd)
+      document.removeEventListener('wheel', this.onWheel)
+      document.removeEventListener('touchstart', this.onGlobalTouchStart)
+      document.removeEventListener('touchmove', this.onGlobalTouchMove)
       window.removeEventListener('keydown', this.onKeyDown)
     }
   }
@@ -99,11 +104,40 @@ export class InputController {
 
   private onTouchStart = (e: TouchEvent) => {
     e.preventDefault()
-    const cam = this.getCameraState()
+    // Only handle single-touch drag here; multi-touch pinch is handled globally
     if (e.touches.length === 1) {
+      const cam = this.getCameraState()
       this.drag = { active: true, moved: false, startX: e.touches[0].clientX, startY: e.touches[0].clientY, camX: cam.x, camY: cam.y }
       this.tap = { startX: e.touches[0].clientX, startY: e.touches[0].clientY, moved: false }
-    } else if (e.touches.length === 2) {
+    }
+  }
+
+  private onTouchMove = (e: TouchEvent) => {
+    e.preventDefault()
+    // Only handle single-touch drag here; multi-touch pinch is handled globally
+    if (e.touches.length === 1 && this.drag.active) {
+      const dx = e.touches[0].clientX - this.drag.startX
+      const dy = e.touches[0].clientY - this.drag.startY
+      if (dx * dx + dy * dy > CLICK_MOVE_THRESHOLD * CLICK_MOVE_THRESHOLD) {
+        this.drag.moved = true
+        this.tap.moved = true
+      }
+      this.handlers.onDrag(this.drag.camX + dx, this.drag.camY + dy)
+    }
+  }
+
+  private onTouchEnd = (e: TouchEvent) => {
+    if (e.changedTouches.length === 1 && !this.tap.moved) {
+      this.handlers.onClick(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
+    }
+    this.drag.active = false
+  }
+
+  // Intercepts two-finger pinch anywhere on the page (including UI overlays)
+  private onGlobalTouchStart = (e: TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault()
+      const cam = this.getCameraState()
       this.drag.active = false
       this.tap.moved = true
       const dx = e.touches[1].clientX - e.touches[0].clientX
@@ -121,17 +155,9 @@ export class InputController {
     }
   }
 
-  private onTouchMove = (e: TouchEvent) => {
-    e.preventDefault()
-    if (e.touches.length === 1 && this.drag.active) {
-      const dx = e.touches[0].clientX - this.drag.startX
-      const dy = e.touches[0].clientY - this.drag.startY
-      if (dx * dx + dy * dy > CLICK_MOVE_THRESHOLD * CLICK_MOVE_THRESHOLD) {
-        this.drag.moved = true
-        this.tap.moved = true
-      }
-      this.handlers.onDrag(this.drag.camX + dx, this.drag.camY + dy)
-    } else if (e.touches.length === 2) {
+  private onGlobalTouchMove = (e: TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault()
       const dx = e.touches[1].clientX - e.touches[0].clientX
       const dy = e.touches[1].clientY - e.touches[0].clientY
       const rawFactor = Math.hypot(dx, dy) / this.pinch.startDist
@@ -152,13 +178,6 @@ export class InputController {
         this.pinch.accumAngle = 0
       }
     }
-  }
-
-  private onTouchEnd = (e: TouchEvent) => {
-    if (e.changedTouches.length === 1 && !this.tap.moved) {
-      this.handlers.onClick(e.changedTouches[0].clientX, e.changedTouches[0].clientY)
-    }
-    this.drag.active = false
   }
 
   private onKeyDown = (e: KeyboardEvent) => {
