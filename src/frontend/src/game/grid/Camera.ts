@@ -1,4 +1,4 @@
-import { GRID_VISUAL_HEIGHT, GRID_VISUAL_WIDTH } from './coordinates'
+import { GRID_VISUAL_HEIGHT, GRID_VISUAL_WIDTH, TILE_HALF_HEIGHT } from './coordinates'
 
 export interface CameraState {
   x: number
@@ -9,11 +9,13 @@ export interface CameraState {
 export class Camera {
   state: CameraState
   minScale: number
+  maxScale: number
   centerX = 0
   offsetY = 0
 
   constructor(viewportW: number, viewportH: number) {
     this.minScale = Camera.computeMinScale(viewportW, viewportH)
+    this.maxScale = Camera.computeMaxScale(viewportH)
     this.state = {
       x: (viewportW / 2) * (1 - this.minScale),
       y: (viewportH / 2) * (1 - this.minScale),
@@ -23,6 +25,12 @@ export class Camera {
 
   static computeMinScale(viewportW: number, viewportH: number): number {
     return Math.min(viewportW / GRID_VISUAL_WIDTH, viewportH / GRID_VISUAL_HEIGHT)
+  }
+
+  // Limits zoom so that at most 4 tile heights (tip-to-tip) are visible vertically,
+  // which is where SVG textures start to degrade visibly.
+  static computeMaxScale(viewportH: number): number {
+    return viewportH / (4 * 2 * TILE_HALF_HEIGHT)
   }
 
   setBoardCenter(centerX: number, offsetY: number): void {
@@ -37,7 +45,7 @@ export class Camera {
   }
 
   zoomAt(pivotX: number, pivotY: number, factor: number): void {
-    const newScale = Math.max(this.state.scale * factor, this.minScale)
+    const newScale = Math.min(Math.max(this.state.scale * factor, this.minScale), this.maxScale)
     const actualFactor = newScale / this.state.scale
     this.state.x = pivotX + (this.state.x - pivotX) * actualFactor
     this.state.y = pivotY + (this.state.y - pivotY) * actualFactor
@@ -46,7 +54,7 @@ export class Camera {
   }
 
   pinchZoom(rawFactor: number, midX: number, midY: number, startScale: number, startCamX: number, startCamY: number): void {
-    const clampedScale = Math.max(startScale * rawFactor, this.minScale)
+    const clampedScale = Math.min(Math.max(startScale * rawFactor, this.minScale), this.maxScale)
     const clampedFactor = clampedScale / startScale
     this.state.scale = clampedScale
     this.state.x = midX - (midX - startCamX) * clampedFactor
@@ -58,8 +66,11 @@ export class Camera {
     this.centerX = centerX
     this.offsetY = offsetY
     this.minScale = Camera.computeMinScale(viewportW, viewportH)
+    this.maxScale = Camera.computeMaxScale(viewportH)
     if (this.state.scale < this.minScale) {
       this.state.scale = this.minScale
+    } else if (this.state.scale > this.maxScale) {
+      this.state.scale = this.maxScale
     }
     this.clamp()
   }
