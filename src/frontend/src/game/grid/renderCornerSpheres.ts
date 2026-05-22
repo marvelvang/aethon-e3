@@ -60,7 +60,13 @@ export function renderCornerSpheres(
   const isConnected = (n1x: number, n1y: number, n2x: number, n2y: number, n3x: number, n3y: number): boolean =>
     occupied.has(tk(n1x, n1y)) || occupied.has(tk(n2x, n2y)) || occupied.has(tk(n3x, n3y))
 
-  const g = new PIXI.Graphics()
+  // gBack renders below all building sprites (index 0 in spriteContainer).
+  // gFront renders above all building sprites (appended last).
+  // A sphere goes into gBack when the tile directly below it in rendering order
+  // (i.e. the tile whose top vertex coincides with the corner position) has a building,
+  // because that building's sprite will visually cover the corner. Otherwise gFront.
+  const gBack = new PIXI.Graphics()
+  const gFront = new PIXI.Graphics()
 
   for (const b of buildings) {
     const t = tileTopVertex(Number(b.x), Number(b.y), centerX, offsetY, rot)
@@ -68,29 +74,37 @@ export function renderCornerSpheres(
     const ty = t.y
 
     // East screen corner (tx+TW, ty+TH) – shared with screen-E, screen-NE, screen-SE neighbours.
+    // The tile whose top vertex is at (tx+TW, ty+TH) renders after this tile (higher Y)
+    // and visually covers the east corner if it has a building.
     const eastActive = isConnected(
       tx + 2 * TW, ty,         // screen-E neighbour (its W corner)
       tx + TW,     ty - TH,    // screen-NE neighbour (its S corner)
       tx + TW,     ty + TH,    // screen-SE neighbour (its N corner)
     )
-    drawSphere(g, tx + SPHERE_OFFSETS.east.x, ty + SPHERE_OFFSETS.east.y, eastActive)
+    const eastLayer = occupied.has(tk(tx + TW, ty + TH)) ? gBack : gFront
+    drawSphere(eastLayer, tx + SPHERE_OFFSETS.east.x, ty + SPHERE_OFFSETS.east.y, eastActive)
 
     // West screen corner (tx-TW, ty+TH) – shared with screen-W, screen-NW, screen-SW neighbours.
+    // The tile at (tx-TW, ty+TH) renders after this tile and covers the west corner if occupied.
     const westActive = isConnected(
       tx - 2 * TW, ty,         // screen-W neighbour (its E corner)
       tx - TW,     ty - TH,    // screen-NW neighbour (its S corner)
       tx - TW,     ty + TH,    // screen-SW neighbour (its N corner)
     )
-    drawSphere(g, tx + SPHERE_OFFSETS.west.x, ty + SPHERE_OFFSETS.west.y, westActive)
+    const westLayer = occupied.has(tk(tx - TW, ty + TH)) ? gBack : gFront
+    drawSphere(westLayer, tx + SPHERE_OFFSETS.west.x, ty + SPHERE_OFFSETS.west.y, westActive)
 
     // South screen corner (tx, ty+2*TH) – shared with screen-S, screen-SE, screen-SW neighbours.
+    // The tile at (tx, ty+2*TH) renders last of all three and covers the south corner if occupied.
     const southActive = isConnected(
       tx,          ty + 2 * TH, // screen-S neighbour (its N corner)
       tx + TW,     ty + TH,     // screen-SE neighbour (its W corner)
       tx - TW,     ty + TH,     // screen-SW neighbour (its E corner)
     )
-    drawSphere(g, tx + SPHERE_OFFSETS.south.x, ty + SPHERE_OFFSETS.south.y, southActive)
+    const southLayer = occupied.has(tk(tx, ty + 2 * TH)) ? gBack : gFront
+    drawSphere(southLayer, tx + SPHERE_OFFSETS.south.x, ty + SPHERE_OFFSETS.south.y, southActive)
   }
 
-  parent.addChild(g)
+  parent.addChildAt(gBack, 0)
+  parent.addChild(gFront)
 }
