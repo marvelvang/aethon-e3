@@ -24,6 +24,7 @@ public class UiStateProjectionService(ResourceGainService gainService)
 
         return new UiState
         {
+            BackendVersion    = UiState.APP_VERSION,
             GameStateId       = state.Id,
             Round             = state.Round,
             Population        = state.Population,
