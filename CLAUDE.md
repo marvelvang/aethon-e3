@@ -35,10 +35,13 @@ Ablauf zu Beginn jeder Aufgabe:
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
 5. **Versionskonflikt prüfen**: `APP_VERSION` im eigenen Branch mit `APP_VERSION` aus
-   `origin/main` vergleichen. Falls `origin/main` dieselbe oder eine höhere Version hat:
-   `APP_VERSION` sofort auf den nächsten Patch-Wert über `origin/main` anheben,
-   committen und pushen – **ohne** den User zu fragen (das ist ein technisches
-   Korrektheitsproblem, keine inhaltliche Entscheidung).
+   `origin/main` vergleichen (semantischer Vergleich: MAJOR, dann MINOR, dann PATCH).
+   - Branch-Version **strikt größer** als main → kein Handlungsbedarf.
+   - Branch-Version **gleich oder kleiner** als main → `APP_VERSION` auf
+     `<main-MAJOR>.<main-MINOR>.<main-PATCH + 1>` setzen, committen und pushen –
+     **ohne** den User zu fragen (technisches Korrektheitsproblem, keine inhaltliche
+     Entscheidung). Beispiele: Branch `0.0.17`, main `0.1.0` → `0.1.1` setzen;
+     Branch `0.0.16`, main `0.0.16` → `0.0.17` setzen.
 6. Erst dann mit der eigentlichen Aufgabe beginnen
 
 Ausnahme: rein konversationale Nachrichten ohne Code-Änderung (Fragen, Beratung,
