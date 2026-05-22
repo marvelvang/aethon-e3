@@ -3,6 +3,7 @@ import type { components } from '../../api/generated'
 import type { BuildingType } from '../../domain/buildingTypes'
 import type { BuildingRenderConfig } from './buildingAssets'
 import { GRID_SIZE, TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
+import { renderCornerSpheres } from './renderCornerSpheres'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
@@ -78,6 +79,8 @@ export function renderIsometricGrid(
       spriteContainer.addChild(sprite)
     }
   }
+
+  renderCornerSpheres(spriteContainer, buildings, centerX, offsetY, rot)
 
   return { container, spriteContainer }
 }
