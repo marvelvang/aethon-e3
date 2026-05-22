@@ -23,14 +23,15 @@ cd /home/user/aethon-e3/src/frontend && npm run build
 Erst danach committen und pushen.
 
 ### 3. main-Branch synchron halten
-**Vor jeder einzelnen Aufgabe** (= jeder neuen User-Nachricht mit Umsetzungsauftrag),
-**auch wenn in derselben Session schon andere Aufgaben erledigt wurden** und auch
-wenn nur Minuten seit dem letzten Fetch vergangen sind. Es laufen parallel andere
-Entwicklungen auf weiteren Branches, die jederzeit nach main gemergt werden können –
-ein Fetch zu Session-Start reicht **nicht**.
+**Vor jeder einzelnen Aufgabe** – d.h. als allererste Aktion, noch vor dem ersten
+Datei-Lesen, vor jeder Suche, vor jedem sonstigen Tool-Call. Auch wenn in derselben
+Session schon andere Aufgaben erledigt wurden und auch wenn nur Minuten seit dem
+letzten Fetch vergangen sind. Es laufen parallel andere Entwicklungen auf weiteren
+Branches, die jederzeit nach main gemergt werden können – ein Fetch zu Session-Start
+reicht **nicht**.
 
 Ablauf zu Beginn jeder Aufgabe:
-1. `git fetch origin main` ausführen
+1. `git fetch origin main` ausführen – **das ist der erste Tool-Call, immer**
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
@@ -54,9 +55,11 @@ bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konfli
 push) – ohne weitere Aufgabe danach. Kein Versionssprung fragen, sofern der User nicht
 zusätzlich etwas anfordert.
 
-Ausnahme: rein konversationale Nachrichten ohne Code-Änderung (Fragen, Beratung,
-Workflow-Diskussion) brauchen keinen Fetch – nur Aufgaben, die in einem
-Commit/Push münden sollen.
+Ausnahme: Nachrichten, die **ausschließlich** eine Frage oder Beratung sind und
+**keinerlei** Änderungs-, Ergänzungs- oder Umsetzungsanteil enthalten, brauchen
+keinen Fetch. Im Zweifel – also wenn auch nur ein Teil der Nachricht eine Änderung
+impliziert – immer fetchen. „Finde X und ergänze Y" ist ein Umsetzungsauftrag,
+auch wenn er mit Recherche beginnt.
 
 ### 4. Versionsnummern inkrementieren (nur auf Nachfrage am Aufgabenende)
 Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
