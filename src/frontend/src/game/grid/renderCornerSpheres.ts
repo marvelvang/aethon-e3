@@ -92,5 +92,5 @@ export function renderCornerSpheres(
     drawSphere(g, tx + SPHERE_OFFSETS.south.x, ty + SPHERE_OFFSETS.south.y, southActive)
   }
 
-  parent.addChild(g)
+  parent.addChildAt(g, 0)
 }
