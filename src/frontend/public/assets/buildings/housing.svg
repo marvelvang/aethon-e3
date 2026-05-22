@@ -101,11 +101,6 @@
   <polygon points="128,64 0,128 0,104 128,40"   fill="url(#fR)" stroke="#cc5500" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"  fill="url(#fT)" stroke="#cc5500" stroke-width="1.5"/>
 
-  <!-- Foundation: corner indicator lights -->
-  <circle cx="128"  cy="40"  r="6" fill="#ffffff" filter="url(#glow)"/>
-  <circle cx="-128" cy="40"  r="6" fill="#ffffff" filter="url(#glow)"/>
-  <circle cx="0"    cy="104" r="6" fill="#ffffff" filter="url(#glow)"/>
-
   <!-- Foundation: vertical center stripes on visible side faces -->
   <line x1="64"  y1="72" x2="64"  y2="96" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
   <line x1="-64" y1="72" x2="-64" y2="96" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
