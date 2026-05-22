@@ -34,7 +34,12 @@ Ablauf zu Beginn jeder Aufgabe:
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
-5. Erst dann mit der eigentlichen Aufgabe beginnen
+5. **Versionskonflikt prüfen**: `APP_VERSION` im eigenen Branch mit `APP_VERSION` aus
+   `origin/main` vergleichen. Falls `origin/main` dieselbe oder eine höhere Version hat:
+   `APP_VERSION` sofort auf den nächsten Patch-Wert über `origin/main` anheben,
+   committen und pushen – **ohne** den User zu fragen (das ist ein technisches
+   Korrektheitsproblem, keine inhaltliche Entscheidung).
+6. Erst dann mit der eigentlichen Aufgabe beginnen
 
 Ausnahme: rein konversationale Nachrichten ohne Code-Änderung (Fragen, Beratung,
 Workflow-Diskussion) brauchen keinen Fetch – nur Aufgaben, die in einem
