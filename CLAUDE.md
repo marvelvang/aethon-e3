@@ -23,12 +23,22 @@ cd /home/user/aethon-e3/src/frontend && npm run build
 Erst danach committen und pushen.
 
 ### 3. main-Branch synchron halten
-Vor Beginn jeder Aufgabe:
+**Vor jeder einzelnen Aufgabe** (= jeder neuen User-Nachricht mit Umsetzungsauftrag),
+**auch wenn in derselben Session schon andere Aufgaben erledigt wurden** und auch
+wenn nur Minuten seit dem letzten Fetch vergangen sind. Es laufen parallel andere
+Entwicklungen auf weiteren Branches, die jederzeit nach main gemergt werden können –
+ein Fetch zu Session-Start reicht **nicht**.
+
+Ablauf zu Beginn jeder Aufgabe:
 1. `git fetch origin main` ausführen
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
 5. Erst dann mit der eigentlichen Aufgabe beginnen
+
+Ausnahme: rein konversationale Nachrichten ohne Code-Änderung (Fragen, Beratung,
+Workflow-Diskussion) brauchen keinen Fetch – nur Aufgaben, die in einem
+Commit/Push münden sollen.
 
 ### 4. Versionsnummer inkrementieren (nur auf Nachfrage am Aufgabenende)
 Die Versionsnummer in `src/frontend/src/components/VersionDisplay.tsx`
