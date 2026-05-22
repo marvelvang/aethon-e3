@@ -126,14 +126,21 @@
   <polygon points="-80,16 0,56 0,-8 -80,-48"  fill="url(#aL)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="-80" y1="16" x2="-80" y2="-48" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
 
+  <!-- Left face: utility conduit (dim mirror of right) -->
+  <line x1="-70" y1="20" x2="-70" y2="-43" stroke="#2a1004" stroke-width="4"/>
+  <line x1="-70" y1="20" x2="-70" y2="-43" stroke="#aa4400" stroke-width="0.8" opacity="0.22"/>
+
+  <!-- Left face: windows row 1 (dim mirror of right) -->
+  <polygon points="-72,6 -50,17 -50,0 -72,-11"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <polygon points="-42,21 -19,32 -19,15 -42,4"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+
   <!-- Left face: balcony ledge at hz=60  W(-80,-20) S(0,20) -->
   <line x1="-80" y1="-20" x2="0" y2="20"  stroke="#aa4400" stroke-width="2"   opacity="0.6"/>
+  <line x1="-80" y1="-17" x2="0" y2="23"  stroke="#1a0804" stroke-width="2"   opacity="0.45"/>
 
-  <!-- Left face: windows (dim, shadow side) -->
-  <!-- t=0.15→0.45, hz=44→60  W→S parameterisation: x=-80+80t, y=40+40t-hz -->
-  <polygon points="-68,2 -44,14 -44,-2 -68,-14"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
-  <!-- t=0.55→0.85, hz=44→60 -->
-  <polygon points="-36,18 -12,30 -12,14 -36,2"   fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <!-- Left face: windows row 2 (dim mirror of right) -->
+  <polygon points="-72,-18 -50,-7 -50,-22 -72,-33" fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <polygon points="-42,-3 -19,8 -19,-7 -42,-18"    fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
 
   <!-- Right face + details -->
   <polygon points="80,16 0,56 0,-8 80,-48"    fill="url(#aR)" stroke="#cc5500" stroke-width="1.5"/>
@@ -185,8 +192,13 @@
   <polygon points="-48,-64 0,-40 0,-82 -48,-106"  fill="url(#bL)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="-48" y1="-64" x2="-48" y2="-106" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
 
-  <!-- Block B left face: window (dim)  t=0.10→0.45, hz=97→113 -->
-  <polygon points="-43,-71 -26,-62 -26,-78 -43,-87"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
+  <!-- Block B left face: utility conduit (dim mirror of right) -->
+  <line x1="-42" y1="-67" x2="-42" y2="-103" stroke="#2a1004" stroke-width="3"/>
+  <line x1="-42" y1="-67" x2="-42" y2="-103" stroke="#aa4400" stroke-width="0.7" opacity="0.18"/>
+
+  <!-- Block B left face: windows (dim mirror of right) -->
+  <polygon points="-44,-71 -28,-63 -28,-79 -44,-87"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
+  <polygon points="-23,-61 -6,-52 -6,-68 -23,-77"    fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
 
   <!-- Right face + details -->
   <polygon points="48,-64 0,-40 0,-82 48,-106"    fill="url(#bR)" stroke="#cc5500" stroke-width="1.5"/>
@@ -226,24 +238,11 @@
        ROOFTOP UTILITIES
        ══════════════════════════════════════════ -->
 
-  <!-- Tech Box 1 – right side of roof (hz 138→156) -->
-  <!-- Footprint: N(18,-120) E(27,-116) S(18,-111) W(9,-116) at hz=138 -->
-  <polygon points="9,-116 18,-111 18,-129 9,-134"   fill="#1a0804" stroke="#664400" stroke-width="1"/>
-  <polygon points="27,-116 18,-111 18,-129 27,-134"  fill="#7a3010" stroke="#cc5500" stroke-width="1"/>
-  <polygon points="18,-138 27,-134 18,-129 9,-134"   fill="#a04020" stroke="#cc5500" stroke-width="1"/>
-  <circle cx="25" cy="-126" r="3" fill="#ff6600"/>
-
-  <!-- Tech Box 2 – left side of roof (hz 138→150) -->
-  <polygon points="-27,-116 -18,-111 -18,-123 -27,-128" fill="#100604" stroke="#553300" stroke-width="1" opacity="0.9"/>
-  <polygon points="-9,-116 -18,-111 -18,-123 -9,-128"   fill="#5a2208" stroke="#884400" stroke-width="1" opacity="0.9"/>
-  <polygon points="-18,-132 -9,-128 -18,-123 -27,-128"  fill="#8a3018" stroke="#aa4400" stroke-width="1" opacity="0.9"/>
-
-  <!-- Communication dish (stand + bowl) -->
-  <!-- Stand base touches parapet top at (12,-132) on the N→E rim -->
-  <line x1="12" y1="-132" x2="12" y2="-148"   stroke="#cc7730" stroke-width="2.5"/>
-  <ellipse cx="12" cy="-151" rx="14" ry="8"
+  <!-- Communication dish (centered on parapet, on vertical axis) -->
+  <line x1="0" y1="-132" x2="0" y2="-148"   stroke="#cc7730" stroke-width="2.5"/>
+  <ellipse cx="0" cy="-151" rx="14" ry="8"
            fill="#b85020" stroke="#ff8c00" stroke-width="1.5" opacity="0.9"/>
-  <ellipse cx="12" cy="-151" rx="8" ry="4.5"
+  <ellipse cx="0" cy="-151" rx="8" ry="4.5"
            fill="none" stroke="#ffcc44" stroke-width="1"   opacity="0.65"/>
-  <circle  cx="12" cy="-151" r="2.5" fill="#ffcc44"/>
+  <circle  cx="0" cy="-151" r="2.5" fill="#ffcc44"/>
 </svg>
