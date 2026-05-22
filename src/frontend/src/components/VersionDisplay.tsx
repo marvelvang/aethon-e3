@@ -1,6 +1,6 @@
 import './VersionDisplay.css'
 
-const APP_VERSION = '0.0.19'
+const APP_VERSION = '0.0.20'
 
 interface VersionDisplayProps {
   backendVersion?: string
