@@ -77,8 +77,9 @@ export default function IsometricGrid({
   }, [buildings])
 
   useEffect(() => {
-    engineRef.current?.setSelectedCell(selectedCell ?? null)
-  }, [selectedCell])
+    const cell = pendingPlacement ? pendingPlacement.cell : (selectedCell ?? null)
+    engineRef.current?.setSelectedCell(cell)
+  }, [pendingPlacement, selectedCell])
 
   const handleRotate = useCallback((delta: 1 | -1) => {
     const engine = engineRef.current
