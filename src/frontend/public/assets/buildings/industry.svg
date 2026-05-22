@@ -91,9 +91,8 @@
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#4e4e5a" stroke-width="1.5"/>
 
   <!-- ══ LOWER BLOCK hz 24→80 (±88) ══
-       Right: 88,20  0,64  0,8  88,−36
-       Left: −88,20  0,64  0,8  −88,−36
-       Top:  0,−80  88,−36  0,8  −88,−36 -->
+       Centered on tile axis via translate(0, 20) -->
+  <g transform="translate(0, 20)">
   <polygon points="-88,20 0,64 0,8 -88,-36"   fill="url(#lL)" stroke="#2a2a34" stroke-width="1.5"/>
   <line x1="-88" y1="20" x2="-88" y2="-36" stroke="#181820" stroke-width="3" opacity="0.6"/>
 
@@ -150,10 +149,11 @@
   <circle cx="-88" cy="-36" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="8"   r="5" fill="#cc44ff" filter="url(#glow)"/>
 
+  </g>
+
   <!-- ══ UPPER BLOCK hz 80→128 (±56) ══
-       Right: 56,−52  0,−32  0,−80  56,−100
-       Left: −56,−52  0,−32  0,−80  −56,−100
-       Top:  0,−128  56,−100  0,−80  −56,−100 -->
+       Centered on tile axis via translate(0, 36) -->
+  <g transform="translate(0, 36)">
   <polygon points="-56,-52 0,-32 0,-80 -56,-100"  fill="url(#uL)" stroke="#202028" stroke-width="1.5"/>
   <line x1="-56" y1="-52" x2="-56" y2="-100" stroke="#181820" stroke-width="2.5" opacity="0.55"/>
 
@@ -200,7 +200,9 @@
   <circle cx="-56" cy="-100" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="-80"  r="5" fill="#cc44ff" filter="url(#glow)"/>
 
-  <!-- ══ ROOFTOP: QUANTUM EMITTER ARRAY ══ -->
+  <!-- ══ ROOFTOP: QUANTUM EMITTER ARRAY ══
+       (axial: extra +28 to sit on upper block top center, not its N corner) -->
+  <g transform="translate(0, 28)">
   <!-- Central emitter ring -->
   <ellipse cx="0" cy="-128" rx="36" ry="18" fill="none" stroke="#cc44ff" stroke-width="2"   opacity="0.7"/>
   <ellipse cx="0" cy="-128" rx="36" ry="18" fill="none" stroke="#ff88ff" stroke-width="5"   opacity="0.15" filter="url(#softglow)"/>
@@ -222,4 +224,7 @@
   <circle cx="0" cy="-174" r="10" fill="#cc44ff" opacity="0.12" filter="url(#softglow)"/>
   <circle cx="0" cy="-174" r="5"  fill="#cc44ff" opacity="0.7"  filter="url(#glow)"/>
   <circle cx="0" cy="-174" r="2.5" fill="#ffffff"/>
+
+  </g>
+  </g>
 </svg>

@@ -103,9 +103,9 @@
 
   <!-- ══════════════════════════════════════════
        BLOCK A – hz 24 → 88  (footprint ±80)
-       Bottom: N(0,-24) E(80,16)  S(0,56)  W(-80,16)
-       Top:    N(0,-88) E(80,-48) S(0,-8)  W(-80,-48)
+       Centered on tile axis via translate(0, 24)
        ══════════════════════════════════════════ -->
+  <g transform="translate(0, 24)">
 
   <!-- Left face + details -->
   <polygon points="-80,16 0,56 0,-8 -80,-48"  fill="url(#aL)" stroke="#cc5500" stroke-width="1.5"/>
@@ -167,11 +167,13 @@
   <circle cx="-80" cy="-48" r="5" fill="#ff8c00" filter="url(#glow)" opacity="0.65"/>
   <circle cx="0"   cy="-8"  r="5" fill="#ffaa00" filter="url(#glow)"/>
 
+  </g>
+
   <!-- ══════════════════════════════════════════
        BLOCK B – hz 88 → 130  (footprint ±48)
-       Bottom: N(0,-88)  E(48,-64) S(0,-40) W(-48,-64)
-       Top:    N(0,-130) E(48,-106) S(0,-82) W(-48,-106)
+       Centered on tile axis via translate(0, 40)
        ══════════════════════════════════════════ -->
+  <g transform="translate(0, 40)">
 
   <!-- Left face + details -->
   <polygon points="-48,-64 0,-40 0,-82 -48,-106"  fill="url(#bL)" stroke="#cc5500" stroke-width="1.5"/>
@@ -204,11 +206,13 @@
   <!-- Block B top face -->
   <polygon points="0,-130 48,-106 0,-82 -48,-106" fill="url(#bT)" stroke="#cc5500" stroke-width="1.5"/>
 
+  </g>
+
   <!-- ══════════════════════════════════════════
        PARAPET / ROOF RIM   hz 130 → 138  (±50)
-       Bottom: N(0,-130) E(50,-105) S(0,-80)  W(-50,-105)
-       Top:    N(0,-138) E(50,-113) S(0,-88)  W(-50,-113)
+       Centered on tile axis via translate(0, 39)
        ══════════════════════════════════════════ -->
+  <g transform="translate(0, 39)">
 
   <polygon points="-50,-105 0,-80 0,-88 -50,-113" fill="#3a1208" stroke="#aa4400" stroke-width="1.2"/>
   <polygon points="50,-105 0,-80 0,-88 50,-113"   fill="#c05020" stroke="#ff8c00" stroke-width="1.2"/>
@@ -221,7 +225,9 @@
 
   <!-- ══════════════════════════════════════════
        ROOFTOP UTILITIES
+       (axial: extra +25 to sit on parapet top center, not its N corner)
        ══════════════════════════════════════════ -->
+  <g transform="translate(0, 25)">
 
   <!-- Communication dish (centered on parapet, on vertical axis) -->
   <line x1="0" y1="-132" x2="0" y2="-148"   stroke="#cc7730" stroke-width="2.5"/>
@@ -230,4 +236,7 @@
   <ellipse cx="0" cy="-151" rx="8" ry="4.5"
            fill="none" stroke="#ffcc44" stroke-width="1"   opacity="0.65"/>
   <circle  cx="0" cy="-151" r="2.5" fill="#ffcc44"/>
+
+  </g>
+  </g>
 </svg>
