@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js'
 import type { components } from '../../api/generated'
 import type { BuildingType } from '../../domain/buildingTypes'
 import { Camera } from './Camera'
-import { GRID_SIZE, screenToGrid, TILE_HALF_HEIGHT, type RotationStep } from './coordinates'
+import { GRID_SIZE, screenToGrid, TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
 import { HoverRenderer } from './HoverRenderer'
 import { IconLayer } from './IconLayer'
 import { InputController } from './InputController'
@@ -12,8 +12,10 @@ import { SelectionRenderer } from './SelectionRenderer'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
+export type TileBounds = { minX: number; maxX: number; minY: number; maxY: number }
+
 export interface GridEngineCallbacks {
-  onCellClick: (cell: { col: number; row: number } | null, screenX: number, screenY: number) => void
+  onCellClick: (cell: { col: number; row: number } | null, tileBounds: TileBounds | null) => void
   onRotationChanged: (rot: RotationStep) => void
 }
 
@@ -84,7 +86,18 @@ export class GridEngine {
         },
         onClick: (x, y) => {
           const cell = this.toGridCell(x, y)
-          this.callbacks.onCellClick(cell, x, y)
+          if (!cell) {
+            this.callbacks.onCellClick(null, null)
+            return
+          }
+          const top = tileTopVertex(cell.col, cell.row, this.camera.centerX, this.camera.offsetY, this.rotation)
+          const { scale, x: camX, y: camY } = this.camera.state
+          this.callbacks.onCellClick(cell, {
+            minX: (top.x - TILE_HALF_WIDTH) * scale + camX,
+            maxX: (top.x + TILE_HALF_WIDTH) * scale + camX,
+            minY: top.y * scale + camY,
+            maxY: (top.y + TILE_HALF_HEIGHT * 2) * scale + camY,
+          })
         },
         onHover: (x, y) => {
           this.hover.update(this.toGridCell(x, y), this.camera.centerX, this.camera.offsetY, this.rotation)
