@@ -2,6 +2,17 @@ import './VersionDisplay.css'
 
 const APP_VERSION = '0.0.19'
 
-export default function VersionDisplay() {
-  return <div className="version-display">v{APP_VERSION}</div>
+interface VersionDisplayProps {
+  backendVersion?: string
+}
+
+export default function VersionDisplay({ backendVersion }: VersionDisplayProps) {
+  return (
+    <div className="version-display">
+      <span className="version-frontend">v{APP_VERSION}</span>
+      {backendVersion && (
+        <span className="version-backend">v{backendVersion}</span>
+      )}
+    </div>
+  )
 }

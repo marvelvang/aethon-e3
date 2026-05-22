@@ -1,17 +1,20 @@
 import { useState } from 'react'
 import type { components } from '../api/generated'
+import type { GameController } from './hooks/useGame'
 import ConfirmDialog from '../shared/ui/ConfirmDialog'
 import IsometricGrid from './grid/IsometricGrid'
 import BuildingInfoPanel from './ui/BuildingInfoPanel'
 import DeleteGameButton from './ui/DeleteGameButton'
 import ResourceOverlay from './ui/ResourceOverlay'
 import RoundButton from './ui/RoundButton'
-import { useGame } from './hooks/useGame'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
-export default function GameView() {
-  const game = useGame()
+interface GameViewProps {
+  game: GameController
+}
+
+export default function GameView({ game }: GameViewProps) {
   const [selectedBuilding, setSelectedBuilding] = useState<UiBuildingSlot | null>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 

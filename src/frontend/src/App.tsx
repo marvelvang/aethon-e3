@@ -1,13 +1,15 @@
 import GameView from './game/GameView'
+import { useGame } from './game/hooks/useGame'
 import DebugConsole from './shared/DebugConsole/DebugConsole'
 import VersionDisplay from './components/VersionDisplay'
 
 export default function App() {
+  const game = useGame()
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#000' }}>
-      <GameView />
+      <GameView game={game} />
       <DebugConsole bottom={16} right={224} />
-      <VersionDisplay />
+      <VersionDisplay backendVersion={game.state?.backendVersion} />
     </div>
   )
 }
