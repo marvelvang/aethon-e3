@@ -38,7 +38,7 @@ Ablauf zu Beginn jeder Aufgabe:
    `origin/main` vergleichen (semantischer Vergleich: MAJOR, dann MINOR, dann PATCH).
    Zu prüfende Dateien:
    - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
-   - Backend: `<Version>` in `src/backend/aethon-e3.api/aethon-e3.api.csproj`
+   - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
    Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höhere der
    vier verglichenen Werte (je Branch und main für Frontend und Backend):
    - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
@@ -62,7 +62,7 @@ Commit/Push münden sollen.
 Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
 gesetzt. Die maßgeblichen Stellen:
 - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
-- Backend: `<Version>` in `src/backend/aethon-e3.api/aethon-e3.api.csproj`
+- Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
 
 **Nicht automatisch** erhöhen. Stattdessen am Ende jeder abgeschlossenen Aufgabe per
 `AskUserQuestion` fragen:

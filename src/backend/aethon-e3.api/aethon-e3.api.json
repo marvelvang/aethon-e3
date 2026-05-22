@@ -350,6 +350,7 @@
       },
       "UiState": {
         "required": [
+          "backendVersion",
           "gameStateId",
           "round",
           "population",
@@ -367,6 +368,9 @@
         ],
         "type": "object",
         "properties": {
+          "backendVersion": {
+            "type": "string"
+          },
           "gameStateId": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [

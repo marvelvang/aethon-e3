@@ -5,7 +5,6 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>aethon_e3.api</RootNamespace>
-    <Version>0.0.21</Version>
   </PropertyGroup>
 
   <PropertyGroup>
