@@ -94,11 +94,9 @@
   <line x1="64"  y1="-96" x2="64"  y2="16" stroke="#4898c8" stroke-width="2.5" opacity="0.65"/>
   <line x1="-64" y1="-96" x2="-64" y2="16" stroke="#183850" stroke-width="2.5" opacity="0.5"/>
 
-  <!-- Horizontal ribs  hz=80: E(64,-16) S(0,16)  |  hz=120: E(64,-56) S(0,-24) -->
-  <line x1="64"  y1="-16" x2="0" y2="16"  stroke="#3a8ab8" stroke-width="2.5" opacity="0.75"/>
-  <line x1="-64" y1="-16" x2="0" y2="16"  stroke="#1a3850" stroke-width="2.5" opacity="0.55"/>
-  <line x1="64"  y1="-56" x2="0" y2="-24" stroke="#3a8ab8" stroke-width="2.5" opacity="0.75"/>
-  <line x1="-64" y1="-56" x2="0" y2="-24" stroke="#1a3850" stroke-width="2.5" opacity="0.55"/>
+  <!-- Horizontal rib  hz=102.5 (between window rows): E(64,-38.5) S(0,-6.5) -->
+  <line x1="64"  y1="-38.5" x2="0" y2="-6.5"  stroke="#3a8ab8" stroke-width="2.5" opacity="0.75"/>
+  <line x1="-64" y1="-38.5" x2="0" y2="-6.5"  stroke="#1a3850" stroke-width="2.5" opacity="0.55"/>
 
   <!-- ── RIGHT FACE: 2×2 windows ── -->
   <!-- Row 1  (hz 65–95)  t=0.15–0.43  and  t=0.57–0.85 -->
@@ -123,18 +121,17 @@
   <polygon points="-10,-20 -27,-28 -27,-58 -10,-50" fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
   <polygon points="-36,-32 -54,-41 -54,-71 -36,-62" fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
 
-  <!-- ── Energy conduits ── -->
-  <!-- Right face: glow halo + bright core -->
-  <line x1="36" y1="46" x2="36" y2="-90" stroke="#00d4ff" stroke-width="6"   opacity="0.18" filter="url(#glow)"/>
-  <line x1="36" y1="46" x2="36" y2="-90" stroke="#00d4ff" stroke-width="2.5" opacity="0.85"/>
-  <line x1="36" y1="46" x2="36" y2="-90" stroke="#d0f8ff" stroke-width="1"   opacity="0.9"/>
+  <!-- ── Energy conduits (vertical dividers between window columns, x=32: between col x10-27 and col x36-54) ── -->
+  <!-- Right face: glow halo + bright core, clipped to face edges (y=32 bottom, y=-80 top at x=32) -->
+  <line x1="32" y1="32" x2="32" y2="-80" stroke="#00d4ff" stroke-width="6"   opacity="0.18" filter="url(#glow)"/>
+  <line x1="32" y1="32" x2="32" y2="-80" stroke="#00d4ff" stroke-width="2.5" opacity="0.85"/>
+  <line x1="32" y1="32" x2="32" y2="-80" stroke="#d0f8ff" stroke-width="1"   opacity="0.9"/>
   <!-- Left face: dimmer -->
-  <line x1="-36" y1="46" x2="-36" y2="-90" stroke="#00d4ff" stroke-width="3"   opacity="0.10"/>
-  <line x1="-36" y1="46" x2="-36" y2="-90" stroke="#00d4ff" stroke-width="1.5" opacity="0.35"/>
+  <line x1="-32" y1="32" x2="-32" y2="-80" stroke="#00d4ff" stroke-width="3"   opacity="0.10"/>
+  <line x1="-32" y1="32" x2="-32" y2="-80" stroke="#00d4ff" stroke-width="1.5" opacity="0.35"/>
 
-  <!-- Mid-band rings (V-shape meeting at front S vertex) -->
-  <polyline points="64,-16 0,16 -64,-16"   stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.8"/>
-  <polyline points="64,-56 0,-24 -64,-56"  stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.8"/>
+  <!-- Mid-band ring (between window rows, hz=102.5): E(64,-38.5) S(0,-6.5) W(-64,-38.5) -->
+  <polyline points="64,-38.5 0,-6.5 -64,-38.5"  stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.8"/>
 
   <!-- Tower top: power emitter ring -->
   <ellipse cx="0" cy="-96" rx="28" ry="14" fill="none" stroke="#00d4ff" stroke-width="2"   opacity="0.65"/>
