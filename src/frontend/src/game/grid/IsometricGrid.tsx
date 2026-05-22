@@ -3,7 +3,7 @@ import { placeBuilding } from '../../api/gameApi'
 import type { components } from '../../api/generated'
 import type { BuildingType } from '../../domain/buildingTypes'
 import BuildingPickerPopup from '../ui/BuildingPickerPopup'
-import { GridEngine } from './GridEngine'
+import { GridEngine, type TileBounds } from './GridEngine'
 import RotationControls from './RotationControls'
 import type { RotationStep } from './coordinates'
 
@@ -11,7 +11,7 @@ type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 type UiBuildingTypeInfo = components['schemas']['UiBuildingTypeInfo']
 type UiState = components['schemas']['UiState']
 
-type PendingPlacement = { cell: { col: number; row: number }; screenX: number; screenY: number } | null
+type PendingPlacement = { cell: { col: number; row: number }; tileBounds: TileBounds } | null
 
 interface Props {
   buildings: UiBuildingSlot[]
@@ -50,7 +50,7 @@ export default function IsometricGrid({
     if (!canvasRef.current) return
 
     const engine = new GridEngine(canvasRef.current, {
-      onCellClick: (cell, screenX, screenY) => {
+      onCellClick: (cell, tileBounds) => {
         if (gameIdRef.current === null) return
         if (!cell) { onCellClickRef.current(null); return }
         const existing = buildingsRef.current.find((b) => b.x === cell.col && b.y === cell.row)
@@ -59,7 +59,7 @@ export default function IsometricGrid({
         } else {
           if (pendingCellsRef.current.has(`${cell.col},${cell.row}`)) return
           onCellClickRef.current(null)
-          setPendingPlacement({ cell, screenX, screenY })
+          setPendingPlacement({ cell, tileBounds: tileBounds! })
         }
       },
       onRotationChanged: setRotation,
@@ -100,8 +100,7 @@ export default function IsometricGrid({
       {pendingPlacement && (
         <BuildingPickerPopup
           buildingTypes={buildableTypes}
-          screenX={pendingPlacement.screenX}
-          screenY={pendingPlacement.screenY}
+          tileBounds={pendingPlacement.tileBounds}
           onSelect={async (type: BuildingType) => {
             const id = gameIdRef.current
             if (id === null) { setPendingPlacement(null); return }

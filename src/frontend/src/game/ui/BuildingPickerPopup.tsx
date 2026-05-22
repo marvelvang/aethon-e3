@@ -5,55 +5,58 @@ import './BuildingPickerPopup.css'
 
 type UiBuildingTypeInfo = components['schemas']['UiBuildingTypeInfo']
 
+type TileBounds = { minX: number; maxX: number; minY: number; maxY: number }
+
 interface Props {
   buildingTypes: UiBuildingTypeInfo[]
-  screenX: number
-  screenY: number
+  tileBounds: TileBounds
   onSelect: (type: BuildingType) => void
   onDismiss: () => void
 }
 
 const POPUP_WIDTH = 200
-const OFFSET = 12
+const GAP = 8
 const MARGIN = 8
 
-function computePosition(screenX: number, screenY: number, popupH: number) {
+function computePosition(tileBounds: TileBounds, popupH: number) {
   const vw = window.innerWidth
   const vh = window.innerHeight
+  const tileCenterX = (tileBounds.minX + tileBounds.maxX) / 2
+  const tileCenterY = (tileBounds.minY + tileBounds.maxY) / 2
 
-  const spaceAbove = screenY - OFFSET
-  const spaceBelow = vh - screenY - OFFSET
-  const spaceLeft = screenX - OFFSET
-  const spaceRight = vw - screenX - OFFSET
+  const spaceAbove = tileBounds.minY - GAP
+  const spaceBelow = vh - tileBounds.maxY - GAP
+  const spaceLeft = tileBounds.minX - GAP
+  const spaceRight = vw - tileBounds.maxX - GAP
 
   let top: number
   let left: number
 
   if (spaceAbove >= popupH) {
-    top = screenY - popupH - OFFSET
-    left = screenX - POPUP_WIDTH / 2
+    top = tileBounds.minY - GAP - popupH
+    left = tileCenterX - POPUP_WIDTH / 2
   } else if (spaceBelow >= popupH) {
-    top = screenY + OFFSET
-    left = screenX - POPUP_WIDTH / 2
+    top = tileBounds.maxY + GAP
+    left = tileCenterX - POPUP_WIDTH / 2
   } else if (spaceRight >= POPUP_WIDTH) {
-    left = screenX + OFFSET
-    top = Math.max(MARGIN, Math.min(screenY - popupH / 2, vh - popupH - MARGIN))
+    left = tileBounds.maxX + GAP
+    top = Math.max(MARGIN, Math.min(tileCenterY - popupH / 2, vh - popupH - MARGIN))
   } else if (spaceLeft >= POPUP_WIDTH) {
-    left = screenX - POPUP_WIDTH - OFFSET
-    top = Math.max(MARGIN, Math.min(screenY - popupH / 2, vh - popupH - MARGIN))
+    left = tileBounds.minX - GAP - POPUP_WIDTH
+    top = Math.max(MARGIN, Math.min(tileCenterY - popupH / 2, vh - popupH - MARGIN))
   } else {
     const maxVertical = Math.max(spaceAbove, spaceBelow)
     const maxHorizontal = Math.max(spaceLeft, spaceRight)
     if (maxVertical >= maxHorizontal) {
       top = spaceAbove >= spaceBelow
-        ? Math.max(MARGIN, screenY - popupH - OFFSET)
-        : Math.min(vh - popupH - MARGIN, screenY + OFFSET)
-      left = screenX - POPUP_WIDTH / 2
+        ? Math.max(MARGIN, tileBounds.minY - GAP - popupH)
+        : Math.min(vh - popupH - MARGIN, tileBounds.maxY + GAP)
+      left = tileCenterX - POPUP_WIDTH / 2
     } else {
       left = spaceRight >= spaceLeft
-        ? Math.min(vw - POPUP_WIDTH - MARGIN, screenX + OFFSET)
-        : Math.max(MARGIN, screenX - POPUP_WIDTH - OFFSET)
-      top = Math.max(MARGIN, Math.min(screenY - popupH / 2, vh - popupH - MARGIN))
+        ? Math.min(vw - POPUP_WIDTH - MARGIN, tileBounds.maxX + GAP)
+        : Math.max(MARGIN, tileBounds.minX - GAP - POPUP_WIDTH)
+      top = Math.max(MARGIN, Math.min(tileCenterY - popupH / 2, vh - popupH - MARGIN))
     }
   }
 
@@ -63,7 +66,7 @@ function computePosition(screenX: number, screenY: number, popupH: number) {
   return { top, left }
 }
 
-export default function BuildingPickerPopup({ buildingTypes, screenX, screenY, onSelect, onDismiss }: Props) {
+export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelect, onDismiss }: Props) {
   const [hoveredType, setHoveredType] = useState<string | null>(null)
   const popupRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState<{ top: number; left: number } | null>(null)
@@ -71,8 +74,8 @@ export default function BuildingPickerPopup({ buildingTypes, screenX, screenY, o
   useLayoutEffect(() => {
     const el = popupRef.current
     if (!el) return
-    setPosition(computePosition(screenX, screenY, el.offsetHeight))
-  }, [screenX, screenY, buildingTypes])
+    setPosition(computePosition(tileBounds, el.offsetHeight))
+  }, [tileBounds, buildingTypes])
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
