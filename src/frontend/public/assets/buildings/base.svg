@@ -80,10 +80,6 @@
   <polygon points="0,-24 128,40 0,104 -128,40"  fill="url(#fT)" stroke="#00aac8" stroke-width="1.5"/>
 
   <g transform="translate(0, 24)">
-  <!-- Foundation: vertical center stripes on visible side faces -->
-  <line x1="64"  y1="48" x2="64"  y2="72" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
-  <line x1="-64" y1="48" x2="-64" y2="72" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
-
   <!-- ══════════════════════════════════════════
        TOWER   hz 48 → 160
        Base: N(0,-16) E(64,16) S(0,48) W(-64,16)
