@@ -23,56 +23,76 @@ cd /home/user/aethon-e3/src/frontend && npm run build
 Erst danach committen und pushen.
 
 ### 3. main-Branch synchron halten
-**Vor jeder einzelnen Aufgabe** (= jeder neuen User-Nachricht mit Umsetzungsauftrag),
-**auch wenn in derselben Session schon andere Aufgaben erledigt wurden** und auch
-wenn nur Minuten seit dem letzten Fetch vergangen sind. Es laufen parallel andere
-Entwicklungen auf weiteren Branches, die jederzeit nach main gemergt werden können –
-ein Fetch zu Session-Start reicht **nicht**.
+**Vor jeder einzelnen Aufgabe** – d.h. als allererste Aktion, noch vor dem ersten
+Datei-Lesen, vor jeder Suche, vor jedem sonstigen Tool-Call. Auch wenn in derselben
+Session schon andere Aufgaben erledigt wurden und auch wenn nur Minuten seit dem
+letzten Fetch vergangen sind. Es laufen parallel andere Entwicklungen auf weiteren
+Branches, die jederzeit nach main gemergt werden können – ein Fetch zu Session-Start
+reicht **nicht**.
 
 Ablauf zu Beginn jeder Aufgabe:
-1. `git fetch origin main` ausführen
+1. `git fetch origin main` ausführen – **das ist der erste Tool-Call, immer**
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
-5. **Versionskonflikt prüfen**: `APP_VERSION` im eigenen Branch mit `APP_VERSION` aus
+5. **TypeScript-Typen neu generieren**, falls der Merge die OpenAPI-Spec verändert hat:
+   ```bash
+   git diff ORIG_HEAD HEAD --name-only | grep -q "aethon-e3.api.json" \
+     && npm run generate --prefix src/frontend
+   ```
+   Der Session-Start-Hook generiert die Typen nur einmalig – ein Merge, der die Spec
+   aktualisiert, macht sie sofort wieder veraltet. Dieser Schritt stellt sicher, dass
+   `src/frontend/src/api/generated.ts` immer mit der aktuellen Spec übereinstimmt.
+6. **Versionskonflikt prüfen**: Beide Versionsnummern im eigenen Branch mit denen aus
    `origin/main` vergleichen (semantischer Vergleich: MAJOR, dann MINOR, dann PATCH).
-   - Branch-Version **strikt größer** als main → kein Handlungsbedarf.
-   - Branch-Version **gleich oder kleiner** als main → `APP_VERSION` auf
-     `<main-MAJOR>.<main-MINOR>.<main-PATCH + 1>` setzen, committen und pushen –
-     **ohne** den User zu fragen (technisches Korrektheitsproblem, keine inhaltliche
-     Entscheidung). Beispiele: Branch `0.0.17`, main `0.1.0` → `0.1.1` setzen;
+   Zu prüfende Dateien:
+   - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
+   - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
+   Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höhere der
+   vier verglichenen Werte (je Branch und main für Frontend und Backend):
+   - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
+   - Andernfalls → **beide** Dateien auf `<höchste-MAJOR>.<höchste-MINOR>.<höchste-PATCH + 1>`
+     setzen, committen und pushen – **ohne** den User zu fragen (technisches
+     Korrektheitsproblem, keine inhaltliche Entscheidung).
+     Beispiele: Branch `0.0.17`, main `0.1.0` → `0.1.1` setzen;
      Branch `0.0.16`, main `0.0.16` → `0.0.17` setzen.
-6. Erst dann mit der eigentlichen Aufgabe beginnen
+7. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
 bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konflikte lösen →
 push) – ohne weitere Aufgabe danach. Kein Versionssprung fragen, sofern der User nicht
 zusätzlich etwas anfordert.
 
-Ausnahme: rein konversationale Nachrichten ohne Code-Änderung (Fragen, Beratung,
-Workflow-Diskussion) brauchen keinen Fetch – nur Aufgaben, die in einem
-Commit/Push münden sollen.
+Ausnahme: Nachrichten, die **ausschließlich** eine Frage oder Beratung sind und
+**keinerlei** Änderungs-, Ergänzungs- oder Umsetzungsanteil enthalten, brauchen
+keinen Fetch. Im Zweifel – also wenn auch nur ein Teil der Nachricht eine Änderung
+impliziert – immer fetchen. „Finde X und ergänze Y" ist ein Umsetzungsauftrag,
+auch wenn er mit Recherche beginnt.
 
-### 4. Versionsnummer inkrementieren (nur auf Nachfrage am Aufgabenende)
-Die Versionsnummer in `src/frontend/src/components/VersionDisplay.tsx`
-(Konstante `APP_VERSION`) **nicht automatisch** erhöhen. Stattdessen am
-Ende jeder abgeschlossenen Aufgabe per `AskUserQuestion` fragen:
+### 4. Versionsnummern inkrementieren (nur auf Nachfrage am Aufgabenende)
+Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
+gesetzt. Die maßgeblichen Stellen:
+- Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
+- Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
 
-- "Soll ich `APP_VERSION` erhöhen?" – Optionen: **Nein** (Default) /
+**Nicht automatisch** erhöhen. Stattdessen am Ende jeder abgeschlossenen Aufgabe per
+`AskUserQuestion` fragen:
+
+- "Soll ich die Version erhöhen?" – Optionen: **Nein** (Default) /
   **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
 - **Major** niemals als Option anbieten – nur wenn der User es explizit
   von sich aus nennt.
 
 Wenn der User Patch oder Minor wählt:
 1. `origin/main` frisch fetchen, falls noch nicht in dieser Aufgabe geschehen
-2. `APP_VERSION` in `VersionDisplay.tsx` lesen, mit `APP_VERSION` aus
-   `origin/main` vergleichen
-3. Als Basis die **höhere** der beiden Versionen nehmen (eigene Version
-   muss immer strikt größer sein als main)
+2. Alle vier Versionen lesen: Frontend und Backend jeweils im eigenen Branch und in
+   `origin/main`
+3. Als Basis die **höchste** der vier Versionen nehmen (eigene Versionen
+   müssen immer strikt größer als alle main-Versionen sein)
 4. Patch erhöht die letzte Stelle, Minor setzt Patch auf 0 und erhöht
    die mittlere Stelle
-5. Geänderte Datei als eigenen Commit (oder als Teil eines noch nicht
-   gepushten Commits) einchecken und pushen
+5. **Beide** Dateien auf die neue Version setzen und gemeinsam als eigenen
+   Commit einchecken und pushen
 
 Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 - **Patch** (`0.0.x`): Jede Korrektur oder Verbesserung ohne neue Funktion –
@@ -138,5 +158,6 @@ Reihenfolge am Aufgabenende:
 2. `git add` der geänderten Dateien
 3. `git commit` mit aussagekräftiger Message
 4. `git push -u origin <branch>`
-5. Per `AskUserQuestion` fragen, ob `APP_VERSION` erhöht werden soll
-   (siehe Regel 4). Falls ja: Bump als eigener Commit + push.
+5. Per `AskUserQuestion` fragen, ob die Version erhöht werden soll
+   (siehe Regel 4). Falls ja: Frontend `APP_VERSION` + Backend `<Version>`
+   gemeinsam als eigener Commit + push.

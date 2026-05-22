@@ -110,27 +110,28 @@
   <g transform="translate(0, 11)">
 
   <!-- ══ GROW-LIGHT RINGS (purple/violet spectrum) ══
-       Each ring: horizontal ellipse at height hz, rx=28, ry=14 -->
+       Each ring: front arc only (lower half = viewer-facing side).
+       Back half is logically hidden behind the tower column. -->
 
   <!-- Ring hz=82 – bottom ring -->
-  <ellipse cx="0" cy="-82" rx="28" ry="14" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <ellipse cx="0" cy="-82" rx="28" ry="14" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <ellipse cx="0" cy="-82" rx="14" ry="7"  fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-82 A 28,14 0 0,0 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82 A 28,14 0 0,0 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82 A 14,7 0 0,0 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
 
   <!-- Ring hz=102 -->
-  <ellipse cx="0" cy="-102" rx="28" ry="14" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <ellipse cx="0" cy="-102" rx="28" ry="14" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <ellipse cx="0" cy="-102" rx="14" ry="7"  fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-102 A 14,7 0 0,0 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
 
   <!-- Ring hz=122 -->
-  <ellipse cx="0" cy="-122" rx="28" ry="14" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <ellipse cx="0" cy="-122" rx="28" ry="14" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <ellipse cx="0" cy="-122" rx="14" ry="7"  fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-122 A 14,7 0 0,0 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
 
   <!-- Ring hz=142 – top ring -->
-  <ellipse cx="0" cy="-142" rx="28" ry="14" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
-  <ellipse cx="0" cy="-142" rx="28" ry="14" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
-  <ellipse cx="0" cy="-142" rx="14" ry="7"  fill="#cc44ff" opacity="0.1"/>
+  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
+  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
+  <path d="M 14,-142 A 14,7 0 0,0 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
 
   <!-- Growing pod "leaf" accents at each ring (right side) -->
   <ellipse cx="26" cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-82)"/>
