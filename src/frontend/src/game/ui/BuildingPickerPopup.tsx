@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { components } from '../../api/generated'
 import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
 import './BuildingPickerPopup.css'
@@ -14,35 +14,65 @@ interface Props {
 }
 
 const POPUP_WIDTH = 200
-const POPUP_HEIGHT = 270
 const OFFSET = 12
 const MARGIN = 8
 
-function computePosition(screenX: number, screenY: number) {
+function computePosition(screenX: number, screenY: number, popupH: number) {
   const vw = window.innerWidth
   const vh = window.innerHeight
+
   const spaceAbove = screenY - OFFSET
   const spaceBelow = vh - screenY - OFFSET
+  const spaceLeft = screenX - OFFSET
+  const spaceRight = vw - screenX - OFFSET
 
   let top: number
-  if (spaceAbove >= POPUP_HEIGHT) {
-    top = screenY - POPUP_HEIGHT - OFFSET
-  } else if (spaceBelow >= POPUP_HEIGHT) {
+  let left: number
+
+  if (spaceAbove >= popupH) {
+    top = screenY - popupH - OFFSET
+    left = screenX - POPUP_WIDTH / 2
+  } else if (spaceBelow >= popupH) {
     top = screenY + OFFSET
+    left = screenX - POPUP_WIDTH / 2
+  } else if (spaceRight >= POPUP_WIDTH) {
+    left = screenX + OFFSET
+    top = Math.max(MARGIN, Math.min(screenY - popupH / 2, vh - popupH - MARGIN))
+  } else if (spaceLeft >= POPUP_WIDTH) {
+    left = screenX - POPUP_WIDTH - OFFSET
+    top = Math.max(MARGIN, Math.min(screenY - popupH / 2, vh - popupH - MARGIN))
   } else {
-    top = spaceAbove >= spaceBelow
-      ? Math.max(MARGIN, screenY - POPUP_HEIGHT - OFFSET)
-      : Math.min(vh - POPUP_HEIGHT - MARGIN, screenY + OFFSET)
+    const maxVertical = Math.max(spaceAbove, spaceBelow)
+    const maxHorizontal = Math.max(spaceLeft, spaceRight)
+    if (maxVertical >= maxHorizontal) {
+      top = spaceAbove >= spaceBelow
+        ? Math.max(MARGIN, screenY - popupH - OFFSET)
+        : Math.min(vh - popupH - MARGIN, screenY + OFFSET)
+      left = screenX - POPUP_WIDTH / 2
+    } else {
+      left = spaceRight >= spaceLeft
+        ? Math.min(vw - POPUP_WIDTH - MARGIN, screenX + OFFSET)
+        : Math.max(MARGIN, screenX - POPUP_WIDTH - OFFSET)
+      top = Math.max(MARGIN, Math.min(screenY - popupH / 2, vh - popupH - MARGIN))
+    }
   }
 
-  let left = screenX - POPUP_WIDTH / 2
   left = Math.max(MARGIN, Math.min(left, vw - POPUP_WIDTH - MARGIN))
+  top = Math.max(MARGIN, Math.min(top, vh - popupH - MARGIN))
 
   return { top, left }
 }
 
 export default function BuildingPickerPopup({ buildingTypes, screenX, screenY, onSelect, onDismiss }: Props) {
   const [hoveredType, setHoveredType] = useState<string | null>(null)
+  const popupRef = useRef<HTMLDivElement>(null)
+  const [position, setPosition] = useState<{ top: number; left: number } | null>(null)
+
+  useLayoutEffect(() => {
+    const el = popupRef.current
+    if (!el) return
+    setPosition(computePosition(screenX, screenY, el.offsetHeight))
+  }, [screenX, screenY, buildingTypes])
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -52,12 +82,14 @@ export default function BuildingPickerPopup({ buildingTypes, screenX, screenY, o
     return () => window.removeEventListener('keydown', onKey)
   }, [onDismiss])
 
-  const { top, left } = computePosition(screenX, screenY)
+  const style: React.CSSProperties = position
+    ? { left: position.left, top: position.top, width: POPUP_WIDTH }
+    : { visibility: 'hidden', top: 0, left: 0, width: POPUP_WIDTH }
 
   return (
     <>
       <div className="picker-backdrop" onClick={onDismiss} />
-      <div className="picker-popup" style={{ left, top, width: POPUP_WIDTH }}>
+      <div ref={popupRef} className="picker-popup" style={style}>
         {buildingTypes.map((info) => {
           const type = info.type as BuildingType
           const meta = BUILDING_TYPES[type]
