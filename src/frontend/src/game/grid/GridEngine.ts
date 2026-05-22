@@ -103,6 +103,8 @@ export class GridEngine {
     loadBuildingTextures().then((textures) => {
       if (this.destroyed) return
       this.textures = textures
+      const extraAbove = Math.max(...Array.from(textures.values()).map(cfg => cfg.anchorY * cfg.texture.height * cfg.scale))
+      this.camera.setBuildingExtraAbove(extraAbove)
       this.rebuildGrid()
     })
   }

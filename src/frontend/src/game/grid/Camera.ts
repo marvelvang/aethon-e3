@@ -12,6 +12,7 @@ export class Camera {
   maxScale: number
   centerX = 0
   offsetY = 0
+  private buildingExtraAbove = 0
 
   constructor(viewportW: number, viewportH: number) {
     this.minScale = Camera.computeMinScale(viewportW, viewportH)
@@ -36,6 +37,11 @@ export class Camera {
   setBoardCenter(centerX: number, offsetY: number): void {
     this.centerX = centerX
     this.offsetY = offsetY
+  }
+
+  setBuildingExtraAbove(value: number): void {
+    this.buildingExtraAbove = value
+    this.clamp()
   }
 
   setPosition(x: number, y: number): void {
@@ -94,7 +100,7 @@ export class Camera {
     }
 
     if (gridScreenH >= h) {
-      const maxY = -oy * cam.scale
+      const maxY = -(oy - this.buildingExtraAbove) * cam.scale
       const minY = h - (oy + GRID_VISUAL_HEIGHT) * cam.scale
       cam.y = Math.min(maxY, Math.max(minY, cam.y))
     } else {
