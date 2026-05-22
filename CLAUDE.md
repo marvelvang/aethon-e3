@@ -34,13 +34,18 @@ Ablauf zu Beginn jeder Aufgabe:
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
-5. **Versionskonflikt prüfen**: `APP_VERSION` im eigenen Branch mit `APP_VERSION` aus
+5. **Versionskonflikt prüfen**: Beide Versionsnummern im eigenen Branch mit denen aus
    `origin/main` vergleichen (semantischer Vergleich: MAJOR, dann MINOR, dann PATCH).
-   - Branch-Version **strikt größer** als main → kein Handlungsbedarf.
-   - Branch-Version **gleich oder kleiner** als main → `APP_VERSION` auf
-     `<main-MAJOR>.<main-MINOR>.<main-PATCH + 1>` setzen, committen und pushen –
-     **ohne** den User zu fragen (technisches Korrektheitsproblem, keine inhaltliche
-     Entscheidung). Beispiele: Branch `0.0.17`, main `0.1.0` → `0.1.1` setzen;
+   Zu prüfende Dateien:
+   - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
+   - Backend: `<Version>` in `src/backend/aethon-e3.api/aethon-e3.api.csproj`
+   Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höhere der
+   vier verglichenen Werte (je Branch und main für Frontend und Backend):
+   - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
+   - Andernfalls → **beide** Dateien auf `<höchste-MAJOR>.<höchste-MINOR>.<höchste-PATCH + 1>`
+     setzen, committen und pushen – **ohne** den User zu fragen (technisches
+     Korrektheitsproblem, keine inhaltliche Entscheidung).
+     Beispiele: Branch `0.0.17`, main `0.1.0` → `0.1.1` setzen;
      Branch `0.0.16`, main `0.0.16` → `0.0.17` setzen.
 6. Erst dann mit der eigentlichen Aufgabe beginnen
 
@@ -53,26 +58,30 @@ Ausnahme: rein konversationale Nachrichten ohne Code-Änderung (Fragen, Beratung
 Workflow-Diskussion) brauchen keinen Fetch – nur Aufgaben, die in einem
 Commit/Push münden sollen.
 
-### 4. Versionsnummer inkrementieren (nur auf Nachfrage am Aufgabenende)
-Die Versionsnummer in `src/frontend/src/components/VersionDisplay.tsx`
-(Konstante `APP_VERSION`) **nicht automatisch** erhöhen. Stattdessen am
-Ende jeder abgeschlossenen Aufgabe per `AskUserQuestion` fragen:
+### 4. Versionsnummern inkrementieren (nur auf Nachfrage am Aufgabenende)
+Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
+gesetzt. Die maßgeblichen Stellen:
+- Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
+- Backend: `<Version>` in `src/backend/aethon-e3.api/aethon-e3.api.csproj`
 
-- "Soll ich `APP_VERSION` erhöhen?" – Optionen: **Nein** (Default) /
+**Nicht automatisch** erhöhen. Stattdessen am Ende jeder abgeschlossenen Aufgabe per
+`AskUserQuestion` fragen:
+
+- "Soll ich die Version erhöhen?" – Optionen: **Nein** (Default) /
   **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
 - **Major** niemals als Option anbieten – nur wenn der User es explizit
   von sich aus nennt.
 
 Wenn der User Patch oder Minor wählt:
 1. `origin/main` frisch fetchen, falls noch nicht in dieser Aufgabe geschehen
-2. `APP_VERSION` in `VersionDisplay.tsx` lesen, mit `APP_VERSION` aus
-   `origin/main` vergleichen
-3. Als Basis die **höhere** der beiden Versionen nehmen (eigene Version
-   muss immer strikt größer sein als main)
+2. Alle vier Versionen lesen: Frontend und Backend jeweils im eigenen Branch und in
+   `origin/main`
+3. Als Basis die **höchste** der vier Versionen nehmen (eigene Versionen
+   müssen immer strikt größer als alle main-Versionen sein)
 4. Patch erhöht die letzte Stelle, Minor setzt Patch auf 0 und erhöht
    die mittlere Stelle
-5. Geänderte Datei als eigenen Commit (oder als Teil eines noch nicht
-   gepushten Commits) einchecken und pushen
+5. **Beide** Dateien auf die neue Version setzen und gemeinsam als eigenen
+   Commit einchecken und pushen
 
 Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 - **Patch** (`0.0.x`): Jede Korrektur oder Verbesserung ohne neue Funktion –
@@ -138,5 +147,6 @@ Reihenfolge am Aufgabenende:
 2. `git add` der geänderten Dateien
 3. `git commit` mit aussagekräftiger Message
 4. `git push -u origin <branch>`
-5. Per `AskUserQuestion` fragen, ob `APP_VERSION` erhöht werden soll
-   (siehe Regel 4). Falls ja: Bump als eigener Commit + push.
+5. Per `AskUserQuestion` fragen, ob die Version erhöht werden soll
+   (siehe Regel 4). Falls ja: Frontend `APP_VERSION` + Backend `<Version>`
+   gemeinsam als eigener Commit + push.
