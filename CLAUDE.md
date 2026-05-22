@@ -44,6 +44,11 @@ Ablauf zu Beginn jeder Aufgabe:
      Branch `0.0.16`, main `0.0.16` → `0.0.17` setzen.
 6. Erst dann mit der eigentlichen Aufgabe beginnen
 
+**Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
+bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konflikte lösen →
+push) – ohne weitere Aufgabe danach. Kein Versionssprung fragen, sofern der User nicht
+zusätzlich etwas anfordert.
+
 Ausnahme: rein konversationale Nachrichten ohne Code-Änderung (Fragen, Beratung,
 Workflow-Diskussion) brauchen keinen Fetch – nur Aufgaben, die in einem
 Commit/Push münden sollen.
