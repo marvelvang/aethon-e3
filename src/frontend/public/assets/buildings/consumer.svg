@@ -68,11 +68,9 @@
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
 
-  <g transform="translate(0, 8)">
+  <g transform="translate(0, 28)">
   <!-- ══ BASE UNIT hz 32→64 (±72) ══
-       Right: 72,4  0,40  0,8  72,−28
-       Left: −72,4  0,40  0,8  −72,−28
-       Top:  0,−64  72,−28  0,8  −72,−28 -->
+       Centered on tile axis via outer translate(0, 28) -->
   <polygon points="-72,4 0,40 0,8 -72,-28"   fill="url(#bL)" stroke="#2e4a28" stroke-width="1.5"/>
   <polygon points="72,4 0,40 0,8 72,-28"     fill="url(#bR)" stroke="#4a6a3a" stroke-width="1.5"/>
   <polygon points="0,-64 72,-28 0,8 -72,-28"  fill="url(#bT)" stroke="#4a6a3a" stroke-width="1.5"/>
@@ -95,9 +93,8 @@
   <circle cx="0"   cy="8"   r="5" fill="#55ee33" filter="url(#glow)"/>
 
   <!-- ══ TOWER hz 64→160 (±22) ══
-       Right: 22,−53  0,−42  0,−138  22,−149
-       Left: −22,−53  0,−42  0,−138  −22,−149
-       Top:  0,−160  22,−149  0,−138  −22,−149 -->
+       Centered on tile axis via additional translate(0, 25) (total 53) -->
+  <g transform="translate(0, 25)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -108,6 +105,9 @@
 
   <!-- Tower edge shadow (left, dim mirror) -->
   <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2" opacity="0.6"/>
+
+  <!-- Axial decorations: extra +11 to sit on tower center axis, not its N edge -->
+  <g transform="translate(0, 11)">
 
   <!-- ══ GROW-LIGHT RINGS (purple/violet spectrum) ══
        Each ring: horizontal ellipse at height hz, rx=28, ry=14 -->
@@ -148,5 +148,7 @@
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
+  </g>
+  </g>
   </g>
 </svg>
