@@ -23,31 +23,47 @@ cd /home/user/aethon-e3/src/frontend && npm run build
 Erst danach committen und pushen.
 
 ### 3. main-Branch synchron halten
-Vor Beginn jeder Aufgabe:
+**Vor jeder einzelnen Aufgabe** (= jeder neuen User-Nachricht mit Umsetzungsauftrag),
+**auch wenn in derselben Session schon andere Aufgaben erledigt wurden** und auch
+wenn nur Minuten seit dem letzten Fetch vergangen sind. Es laufen parallel andere
+Entwicklungen auf weiteren Branches, die jederzeit nach main gemergt werden können –
+ein Fetch zu Session-Start reicht **nicht**.
+
+Ablauf zu Beginn jeder Aufgabe:
 1. `git fetch origin main` ausführen
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
-5. **Nach dem Merge**: `APP_VERSION` in `VersionDisplay.tsx` lesen und als neue Basis
-   für das Versionsinkrement dieser Aufgabe verwenden (siehe Regel 4)
-6. Erst dann mit der eigentlichen Aufgabe beginnen
+5. Erst dann mit der eigentlichen Aufgabe beginnen
 
-### 4. Versionsnummer inkrementieren (letzter Commit jeder Aufgabe)
-Am Ende jeder Aufgabe die Versionsnummer in
-`src/frontend/src/components/VersionDisplay.tsx` (Konstante `APP_VERSION`)
-als letzten Commit oder als Teil des letzten Commits aktualisieren.
+Ausnahme: rein konversationale Nachrichten ohne Code-Änderung (Fragen, Beratung,
+Workflow-Diskussion) brauchen keinen Fetch – nur Aufgaben, die in einem
+Commit/Push münden sollen.
 
-**Wichtig – Basis der Versionsnummer:**  
-Die korrekte Ausgangsbasis ist immer die Version, die nach dem letzten `origin/main`-Merge
-in `VersionDisplay.tsx` steht. Wurde main erst nach dem eigenen Versionsinkrement gemergt
-(oder hat main inzwischen denselben oder einen höheren Stand), muss die Versionsnummer
-erneut angepasst werden, bevor committet wird. Die eigene Version muss immer **strikt
-größer** sein als die aktuelle main-Version.
+### 4. Versionsnummer inkrementieren (nur auf Nachfrage am Aufgabenende)
+Die Versionsnummer in `src/frontend/src/components/VersionDisplay.tsx`
+(Konstante `APP_VERSION`) **nicht automatisch** erhöhen. Stattdessen am
+Ende jeder abgeschlossenen Aufgabe per `AskUserQuestion` fragen:
+
+- "Soll ich `APP_VERSION` erhöhen?" – Optionen: **Nein** (Default) /
+  **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
+- **Major** niemals als Option anbieten – nur wenn der User es explizit
+  von sich aus nennt.
+
+Wenn der User Patch oder Minor wählt:
+1. `origin/main` frisch fetchen, falls noch nicht in dieser Aufgabe geschehen
+2. `APP_VERSION` in `VersionDisplay.tsx` lesen, mit `APP_VERSION` aus
+   `origin/main` vergleichen
+3. Als Basis die **höhere** der beiden Versionen nehmen (eigene Version
+   muss immer strikt größer sein als main)
+4. Patch erhöht die letzte Stelle, Minor setzt Patch auf 0 und erhöht
+   die mittlere Stelle
+5. Geänderte Datei als eigenen Commit (oder als Teil eines noch nicht
+   gepushten Commits) einchecken und pushen
 
 Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 - **Patch** (`0.0.x`): Jede Korrektur oder Verbesserung ohne neue Funktion –
   egal ob visuell (Farben, Layout, Abstände), Logik, Performance, Text oder sonstiges.
-  Immer nur die letzte Stelle erhöhen.
 - **Minor** (`0.x.0`): Ausschließlich bei echter neuer Funktionalität, die aus
   Nutzersicht vorher nicht existiert hat. Patch-Teil auf 0 zurücksetzen.
 - **Major** (`x.0.0`): **Nur nach expliziter Absprache mit dem User**, niemals
@@ -106,7 +122,8 @@ Nach Abschluss jeder Implementierungsaufgabe direkt committen und pushen –
 
 Reihenfolge am Aufgabenende:
 1. Frontend-Build (falls Frontend-Code geändert, siehe Regel 2)
-2. Versionsnummer inkrementieren (siehe Regel 4)
-3. `git add` der geänderten Dateien
-4. `git commit` mit aussagekräftiger Message
-5. `git push -u origin <branch>`
+2. `git add` der geänderten Dateien
+3. `git commit` mit aussagekräftiger Message
+4. `git push -u origin <branch>`
+5. Per `AskUserQuestion` fragen, ob `APP_VERSION` erhöht werden soll
+   (siehe Regel 4). Falls ja: Bump als eigener Commit + push.

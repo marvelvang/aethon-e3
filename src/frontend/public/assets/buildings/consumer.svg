@@ -68,13 +68,14 @@
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
 
-  <line x1="0" y1="-24"    x2="0"   y2="104" stroke="#4a7a3a" stroke-width="1" opacity="0.35"/>
-  <line x1="-128" y1="40"  x2="128" y2="40"  stroke="#4a7a3a" stroke-width="1" opacity="0.35"/>
-
   <g transform="translate(0, 8)">
   <circle cx="128"  cy="32"  r="6" fill="#ffffff" filter="url(#glow)"/>
   <circle cx="-128" cy="32"  r="6" fill="#ffffff" filter="url(#glow)"/>
   <circle cx="0"    cy="96"  r="6" fill="#ffffff" filter="url(#glow)"/>
+
+  <!-- Foundation: vertical center stripes on visible side faces -->
+  <line x1="64"  y1="64" x2="64"  y2="88" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+  <line x1="-64" y1="64" x2="-64" y2="88" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
 
   <line x1="128"  y1="48" x2="0" y2="108" stroke="#1a2e12" stroke-width="5"/>
   <line x1="128"  y1="48" x2="0" y2="108" stroke="#44cc22" stroke-width="1"   opacity="0.38"/>
@@ -95,6 +96,12 @@
   <line x1="55" y1="-8" x2="20"  y2="10" stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
   <line x1="55" y1="-16" x2="20" y2="2"  stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
 
+  <!-- Base unit: ventilation slots on left face (dim mirror) -->
+  <line x1="-72" y1="4"  x2="-72"  y2="-28" stroke="#2a4a18" stroke-width="2" opacity="0.55"/>
+  <line x1="-55" y1="0"  x2="-20"  y2="18" stroke="#1e3a14" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-55" y1="-8" x2="-20"  y2="10" stroke="#1e3a14" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-55" y1="-16" x2="-20" y2="2"  stroke="#1e3a14" stroke-width="1.5" opacity="0.4"/>
+
   <!-- Base corners -->
   <circle cx="72"  cy="-28" r="5" fill="#55ee33" filter="url(#glow)"/>
   <circle cx="-72" cy="-28" r="5" fill="#55ee33" filter="url(#glow)" opacity="0.6"/>
@@ -111,6 +118,9 @@
   <!-- Tower edge highlight (right) -->
   <line x1="22" y1="-53" x2="22" y2="-149" stroke="#bbddbb" stroke-width="2"   opacity="0.6"/>
   <line x1="22" y1="-53" x2="22" y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Tower edge shadow (left, dim mirror) -->
+  <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2" opacity="0.6"/>
 
   <!-- ══ GROW-LIGHT RINGS (purple/violet spectrum) ══
        Each ring: horizontal ellipse at height hz, rx=28, ry=14 -->
@@ -140,6 +150,12 @@
   <ellipse cx="26" cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-102)"/>
   <ellipse cx="26" cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-122)"/>
   <ellipse cx="26" cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(-20,26,-142)"/>
+
+  <!-- Growing pod "leaf" accents at each ring (left side, dim mirror) -->
+  <ellipse cx="-26" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(20,-26,-82)"/>
+  <ellipse cx="-26" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(20,-26,-102)"/>
+  <ellipse cx="-26" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(20,-26,-122)"/>
+  <ellipse cx="-26" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(20,-26,-142)"/>
 
   <!-- Tower top: apex spire -->
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
