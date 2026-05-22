@@ -35,7 +35,15 @@ Ablauf zu Beginn jeder Aufgabe:
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
-5. **Versionskonflikt prüfen**: Beide Versionsnummern im eigenen Branch mit denen aus
+5. **TypeScript-Typen neu generieren**, falls der Merge die OpenAPI-Spec verändert hat:
+   ```bash
+   git diff ORIG_HEAD HEAD --name-only | grep -q "aethon-e3.api.json" \
+     && npm run generate --prefix src/frontend
+   ```
+   Der Session-Start-Hook generiert die Typen nur einmalig – ein Merge, der die Spec
+   aktualisiert, macht sie sofort wieder veraltet. Dieser Schritt stellt sicher, dass
+   `src/frontend/src/api/generated.ts` immer mit der aktuellen Spec übereinstimmt.
+6. **Versionskonflikt prüfen**: Beide Versionsnummern im eigenen Branch mit denen aus
    `origin/main` vergleichen (semantischer Vergleich: MAJOR, dann MINOR, dann PATCH).
    Zu prüfende Dateien:
    - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
@@ -48,7 +56,7 @@ Ablauf zu Beginn jeder Aufgabe:
      Korrektheitsproblem, keine inhaltliche Entscheidung).
      Beispiele: Branch `0.0.17`, main `0.1.0` → `0.1.1` setzen;
      Branch `0.0.16`, main `0.0.16` → `0.0.17` setzen.
-6. Erst dann mit der eigentlichen Aufgabe beginnen
+7. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
 bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konflikte lösen →
