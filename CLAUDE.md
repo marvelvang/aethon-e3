@@ -84,17 +84,21 @@ gesetzt. Die maßgeblichen Stellen:
 liegt ausnahmslos beim User.
 
 **Am Ende einer Aufgabe die Versionsfrage stellen – aber nur wenn nötig:**
-Pro Branch reicht ein einziges Increment über main hinaus. Deshalb vor der Frage prüfen:
+Pro Branch reicht ein einziges Increment über main hinaus.
+
+**PFLICHT – immer zuerst ausführen, kein Überspringen:**
 ```bash
 grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
 ```
-und die Branch-Version mit `origin/main` vergleichen:
+Diesen Tool-Call **immer** ausführen – auch wenn die Version „bekannt" zu sein scheint.
+Den Ausgabewert direkt in den Fragetext übernehmen. Die Version im Fragetext **muss**
+aus diesem Tool-Call stammen – **niemals** aus dem Gedächtnis oder aus früheren
+Nachrichten im Chat. Kein `AskUserQuestion` zur Version ohne diesen grep davor.
+
+Dann Branch-Version mit `origin/main` vergleichen:
 - Branch-Version **strikt größer** als main → **Frage entfällt**, kein weiteres Increment nötig.
 - Branch-Version **gleich** main → Frage stellen (Option „Nein" entfällt, da Increment
   technisch notwendig ist; Mindest-Zielversion nennen).
-
-Wenn die Frage gestellt wird, die gelesene Version in den Fragetext einbauen,
-z.B. „Soll ich die Version erhöhen? Aktuell: `0.0.25`" – niemals aus dem Gedächtnis.
 
 - Normalfall (branch > main nicht erreichbar ohne Increment): Optionen **Patch** /
   **Minor**.
@@ -176,6 +180,7 @@ Reihenfolge am Aufgabenende:
 2. `git add` der geänderten Dateien
 3. `git commit` mit aussagekräftiger Message
 4. `git push -u origin <branch>`
-5. Per `AskUserQuestion` fragen, ob die Version erhöht werden soll
-   (siehe Regel 4). Falls ja: Frontend `APP_VERSION` + Backend `<Version>`
-   gemeinsam als eigener Commit + push.
+5. **Erst** `grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx`
+   ausführen, **dann** per `AskUserQuestion` fragen (siehe Regel 4 – Pflichtgrep).
+   Falls ja: Frontend `APP_VERSION` + Backend `<Version>` gemeinsam als eigener
+   Commit + push.
