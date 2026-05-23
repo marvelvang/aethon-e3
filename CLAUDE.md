@@ -54,18 +54,17 @@ Ablauf zu Beginn jeder Aufgabe (außer der ersten in einer frischen Session):
    Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höhere der
    vier verglichenen Werte (je Branch und main für Frontend und Backend):
    - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
-   - Andernfalls → **nicht** automatisch erhöhen. Diesen Sachverhalt bei der
-     Versionsfrage am Ende der Aufgabe (Regel 4) als Pflichtkontext mitgeben:
-     die Version muss mindestens auf
-     `<höchste-MAJOR>.<höchste-MINOR>.<höchste-PATCH + 1>` gesetzt werden.
-     Beispiele: Branch `0.0.17`, main `0.1.0` → Minimum wäre `0.1.1`;
-     Branch `0.0.16`, main `0.0.16` → Minimum wäre `0.0.17`.
+   - Andernfalls → **sofort** als Teil dieses Merge-Schritts einen Patch-Increment
+     durchführen. Zielversion: `<höchste-MAJOR>.<höchste-MINOR>.<höchste-PATCH + 1>`.
+     Beispiele: Branch `0.0.17`, main `0.1.0` → Ziel `0.1.1`;
+     Branch `0.0.16`, main `0.0.16` → Ziel `0.0.17`.
+     Beide Dateien setzen, Frontend-Build ausführen, als eigenen Commit einchecken
+     und pushen – **ohne den User vorher zu fragen**.
 7. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
 bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konflikte lösen →
-push) – ohne weitere Aufgabe danach. Kein Versionssprung fragen, sofern der User nicht
-zusätzlich etwas anfordert.
+Versionskonflikt prüfen und ggf. sofort beheben → push) – ohne weitere Aufgabe danach.
 
 Ausnahme: Nachrichten, die **ausschließlich** eine Frage oder Beratung sind und
 **keinerlei** Änderungs-, Ergänzungs- oder Umsetzungsanteil enthalten, brauchen
@@ -79,9 +78,10 @@ gesetzt. Die maßgeblichen Stellen:
 - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
 - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
 
-**Nicht automatisch** erhöhen – auch nicht bei einem Versionskonflikt aus Schritt 3.6.
-Stattdessen am Ende jeder abgeschlossenen Aufgabe **genau einmal** per `AskUserQuestion`
-fragen. Pro Aufgabe darf maximal ein Increment stattfinden.
+**Nicht automatisch** erhöhen – außer beim Versionskonflikt aus Schritt 3.6, der sofort
+und ohne Rückfrage behoben wird. Ansonsten am Ende jeder abgeschlossenen Aufgabe
+**genau einmal** per `AskUserQuestion` fragen. Pro Aufgabe darf maximal ein Increment
+stattfinden.
 
 **Vor dem Stellen der Frage** die aktuelle Version aus dem Code lesen:
 ```bash
@@ -92,9 +92,6 @@ Aktuell: `0.0.25`" – niemals eine Version aus dem Gedächtnis oder Kontext üb
 
 - Normalfall: "Soll ich die Version erhöhen?" – Optionen: **Nein** (Default) /
   **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
-- Falls Schritt 3.6 einen Versionskonflikt festgestellt hat: die Option **Nein**
-  entfällt; im Fragetext erklären, dass ein Increment technisch notwendig ist
-  (Branch-Version ≤ main), und die Mindest-Zielversion nennen.
 - **Major** niemals als Option anbieten – nur wenn der User es explizit
   von sich aus nennt.
 
