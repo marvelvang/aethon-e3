@@ -23,17 +23,20 @@ cd /home/user/aethon-e3/src/frontend && npm run build
 Erst danach committen und pushen.
 
 ### 3. main-Branch synchron halten
-**Vor jeder einzelnen Aufgabe** – d.h. als allererste Aktion, noch vor dem ersten
-Datei-Lesen, vor jeder Suche, vor jedem sonstigen Tool-Call. Auch wenn nur Minuten seit dem
-letzten Fetch vergangen sind. Es laufen parallel andere Entwicklungen auf weiteren
-Branches, die jederzeit nach main gemergt werden können.
+**Vor jeder Aufgabe** – als allererste Aktion, noch vor dem ersten Datei-Lesen, vor
+jeder Suche, vor jedem sonstigen Tool-Call. Es laufen parallel andere Entwicklungen auf
+weiteren Branches, die jederzeit nach main gemergt werden können.
 
-**Ausnahme Session-Start:** Claude Code Web legt für jede neue Session automatisch einen
-frischen Branch von main an. Die allererste Aufgabe einer Session braucht daher keinen
-Fetch – der Branch ist garantiert auf dem Stand von main. Ab der zweiten Aufgabe in
-derselben Session gilt die Pflicht uneingeschränkt.
+**Wann der Fetch entfällt** – nur in diesen beiden Fällen:
+- **Session-Start:** Claude Code Web legt für jede neue Session automatisch einen
+  frischen Branch von main an. Die allererste Aufgabe einer Session braucht daher
+  keinen Fetch.
+- **Soeben selbst gemergt:** Wenn ich main im unmittelbar vorherigen Schritt dieser
+  Session bereits gefetcht und gemergt habe (z.B. nach einem „main"-Kurzbefehl oder
+  am Anfang der aktuellen Aufgabe), ist ein erneuter Fetch überflüssig. Im Zweifel
+  immer fetchen.
 
-Ablauf zu Beginn jeder Aufgabe (außer der ersten in einer frischen Session):
+Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
 1. `git fetch origin main` ausführen – **das ist der erste Tool-Call**
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
