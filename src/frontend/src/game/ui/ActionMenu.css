@@ -1,0 +1,151 @@
+.action-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+.action-menu-container {
+  position: absolute;
+  bottom: 16px;
+  right: 152px;
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Popup pill – matches the round button's glass style */
+.action-menu-popup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  height: 56px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+  box-sizing: border-box;
+  animation: action-menu-in 0.14s ease-out;
+}
+
+@keyframes action-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Buttons inside the popup */
+.action-menu-item {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  font-family: var(--font-mono);
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  flex-shrink: 0;
+}
+
+.action-menu-item:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.action-menu-item:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.action-menu-item--error {
+  background: rgba(200, 0, 0, 0.35);
+  border-color: rgba(255, 60, 60, 0.55);
+}
+
+.action-menu-item--delete {
+  color: rgba(255, 120, 120, 0.9);
+  border-color: rgba(255, 80, 80, 0.3);
+  background: rgba(255, 60, 60, 0.1);
+}
+
+.action-menu-item--delete:not(:disabled):hover {
+  background: rgba(200, 0, 0, 0.28);
+  border-color: rgba(255, 60, 60, 0.55);
+  color: #ff7070;
+}
+
+.action-menu-item-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.action-menu-item-label {
+  font-size: 9px;
+  line-height: 1;
+  opacity: 0.55;
+  letter-spacing: 1px;
+}
+
+.action-menu-item-count {
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* Star trigger button */
+.action-menu-star {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.2s, color 0.15s;
+}
+
+.action-menu-star:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.action-menu-star--active {
+  background: rgba(255, 255, 255, 0.26);
+  border-color: rgba(255, 255, 255, 0.65);
+  color: #fff;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.12),
+    0 0 18px rgba(255, 255, 255, 0.22);
+}
+
+/* Red error dot on the star when menu is closed */
+.action-menu-error-dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e53535;
+  border: 2px solid rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 6px rgba(230, 50, 50, 0.7);
+  pointer-events: none;
+}
