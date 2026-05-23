@@ -24,14 +24,17 @@ Erst danach committen und pushen.
 
 ### 3. main-Branch synchron halten
 **Vor jeder einzelnen Aufgabe** – d.h. als allererste Aktion, noch vor dem ersten
-Datei-Lesen, vor jeder Suche, vor jedem sonstigen Tool-Call. Auch wenn in derselben
-Session schon andere Aufgaben erledigt wurden und auch wenn nur Minuten seit dem
+Datei-Lesen, vor jeder Suche, vor jedem sonstigen Tool-Call. Auch wenn nur Minuten seit dem
 letzten Fetch vergangen sind. Es laufen parallel andere Entwicklungen auf weiteren
-Branches, die jederzeit nach main gemergt werden können – ein Fetch zu Session-Start
-reicht **nicht**.
+Branches, die jederzeit nach main gemergt werden können.
 
-Ablauf zu Beginn jeder Aufgabe:
-1. `git fetch origin main` ausführen – **das ist der erste Tool-Call, immer**
+**Ausnahme Session-Start:** Claude Code Web legt für jede neue Session automatisch einen
+frischen Branch von main an. Die allererste Aufgabe einer Session braucht daher keinen
+Fetch – der Branch ist garantiert auf dem Stand von main. Ab der zweiten Aufgabe in
+derselben Session gilt die Pflicht uneingeschränkt.
+
+Ablauf zu Beginn jeder Aufgabe (außer der ersten in einer frischen Session):
+1. `git fetch origin main` ausführen – **das ist der erste Tool-Call**
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
