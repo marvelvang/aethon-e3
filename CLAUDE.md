@@ -82,21 +82,23 @@ gesetzt. Die maßgeblichen Stellen:
 - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
 
 **Nicht automatisch** erhöhen – außer beim Versionskonflikt aus Schritt 3.6, der sofort
-und ohne Rückfrage behoben wird. Ansonsten am Ende jeder abgeschlossenen Aufgabe
-**genau einmal** per `AskUserQuestion` fragen. Pro Aufgabe darf maximal ein Increment
-stattfinden.
+und ohne Rückfrage behoben wird.
 
-**Vor dem Stellen der Frage** die aktuelle Version aus dem Code lesen:
+**Am Ende einer Aufgabe die Versionsfrage stellen – aber nur wenn nötig:**
+Pro Branch reicht ein einziges Increment über main hinaus. Deshalb vor der Frage prüfen:
 ```bash
 grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
 ```
-Die gelesene Version in den Fragetext einbauen, z.B. „Soll ich die Version erhöhen?
-Aktuell: `0.0.25`" – niemals eine Version aus dem Gedächtnis oder Kontext übernehmen.
+und die Branch-Version mit `origin/main` vergleichen:
+- Branch-Version **strikt größer** als main → **Frage entfällt**, kein weiteres Increment nötig.
+- Branch-Version **gleich** main → Frage stellen (Schritt 3.6 sollte das eigentlich bereits
+  behoben haben; dies ist nur ein Sicherheitsnetz).
 
-- Normalfall: "Soll ich die Version erhöhen?" – Optionen: **Nein** (Default) /
-  **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
-- **Major** niemals als Option anbieten – nur wenn der User es explizit
-  von sich aus nennt.
+Wenn die Frage gestellt wird, die gelesene Version in den Fragetext einbauen,
+z.B. „Soll ich die Version erhöhen? Aktuell: `0.0.25`" – niemals aus dem Gedächtnis.
+
+- Optionen: **Nein** (Default) / **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
+- **Major** niemals als Option anbieten – nur wenn der User es explizit von sich aus nennt.
 
 Wenn der User Patch oder Minor wählt:
 1. `origin/main` frisch fetchen, falls noch nicht in dieser Aufgabe geschehen
