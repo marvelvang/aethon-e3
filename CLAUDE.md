@@ -23,17 +23,20 @@ cd /home/user/aethon-e3/src/frontend && npm run build
 Erst danach committen und pushen.
 
 ### 3. main-Branch synchron halten
-**Vor jeder einzelnen Aufgabe** – d.h. als allererste Aktion, noch vor dem ersten
-Datei-Lesen, vor jeder Suche, vor jedem sonstigen Tool-Call. Auch wenn nur Minuten seit dem
-letzten Fetch vergangen sind. Es laufen parallel andere Entwicklungen auf weiteren
-Branches, die jederzeit nach main gemergt werden können.
+**Vor jeder Aufgabe** – als allererste Aktion, noch vor dem ersten Datei-Lesen, vor
+jeder Suche, vor jedem sonstigen Tool-Call. Es laufen parallel andere Entwicklungen auf
+weiteren Branches, die jederzeit nach main gemergt werden können.
 
-**Ausnahme Session-Start:** Claude Code Web legt für jede neue Session automatisch einen
-frischen Branch von main an. Die allererste Aufgabe einer Session braucht daher keinen
-Fetch – der Branch ist garantiert auf dem Stand von main. Ab der zweiten Aufgabe in
-derselben Session gilt die Pflicht uneingeschränkt.
+**Wann der Fetch entfällt** – nur in diesen beiden Fällen:
+- **Session-Start:** Claude Code Web legt für jede neue Session automatisch einen
+  frischen Branch von main an. Die allererste Aufgabe einer Session braucht daher
+  keinen Fetch.
+- **Soeben selbst gemergt:** Wenn ich main im unmittelbar vorherigen Schritt dieser
+  Session bereits gefetcht und gemergt habe (z.B. nach einem „main"-Kurzbefehl oder
+  am Anfang der aktuellen Aufgabe), ist ein erneuter Fetch überflüssig. Im Zweifel
+  immer fetchen.
 
-Ablauf zu Beginn jeder Aufgabe (außer der ersten in einer frischen Session):
+Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
 1. `git fetch origin main` ausführen – **das ist der erste Tool-Call**
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
@@ -54,18 +57,16 @@ Ablauf zu Beginn jeder Aufgabe (außer der ersten in einer frischen Session):
    Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höhere der
    vier verglichenen Werte (je Branch und main für Frontend und Backend):
    - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
-   - Andernfalls → **nicht** automatisch erhöhen. Diesen Sachverhalt bei der
-     Versionsfrage am Ende der Aufgabe (Regel 4) als Pflichtkontext mitgeben:
-     die Version muss mindestens auf
-     `<höchste-MAJOR>.<höchste-MINOR>.<höchste-PATCH + 1>` gesetzt werden.
-     Beispiele: Branch `0.0.17`, main `0.1.0` → Minimum wäre `0.1.1`;
-     Branch `0.0.16`, main `0.0.16` → Minimum wäre `0.0.17`.
+   - Andernfalls → **sofort** per `AskUserQuestion` fragen, ob Patch oder Minor
+     (Mindest-Zielversion nennen, Option „Nein" entfällt).
+     Beispiele: Branch `0.0.17`, main `0.1.0` → Minimum `0.1.1`;
+     Branch `0.0.16`, main `0.0.16` → Minimum `0.0.17`.
+     Nach der Antwort: beide Dateien setzen, Frontend-Build, Commit, Push.
 7. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
 bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konflikte lösen →
-push) – ohne weitere Aufgabe danach. Kein Versionssprung fragen, sofern der User nicht
-zusätzlich etwas anfordert.
+Versionskonflikt prüfen und ggf. sofort beheben → push) – ohne weitere Aufgabe danach.
 
 Ausnahme: Nachrichten, die **ausschließlich** eine Frage oder Beratung sind und
 **keinerlei** Änderungs-, Ergänzungs- oder Umsetzungsanteil enthalten, brauchen
@@ -79,24 +80,26 @@ gesetzt. Die maßgeblichen Stellen:
 - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
 - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
 
-**Nicht automatisch** erhöhen – auch nicht bei einem Versionskonflikt aus Schritt 3.6.
-Stattdessen am Ende jeder abgeschlossenen Aufgabe **genau einmal** per `AskUserQuestion`
-fragen. Pro Aufgabe darf maximal ein Increment stattfinden.
+**Nie automatisch** erhöhen – immer den User fragen. Die Entscheidung Patch oder Minor
+liegt ausnahmslos beim User.
 
-**Vor dem Stellen der Frage** die aktuelle Version aus dem Code lesen:
+**Am Ende einer Aufgabe die Versionsfrage stellen – aber nur wenn nötig:**
+Pro Branch reicht ein einziges Increment über main hinaus. Deshalb vor der Frage prüfen:
 ```bash
 grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
 ```
-Die gelesene Version in den Fragetext einbauen, z.B. „Soll ich die Version erhöhen?
-Aktuell: `0.0.25`" – niemals eine Version aus dem Gedächtnis oder Kontext übernehmen.
+und die Branch-Version mit `origin/main` vergleichen:
+- Branch-Version **strikt größer** als main → **Frage entfällt**, kein weiteres Increment nötig.
+- Branch-Version **gleich** main → Frage stellen (Option „Nein" entfällt, da Increment
+  technisch notwendig ist; Mindest-Zielversion nennen).
 
-- Normalfall: "Soll ich die Version erhöhen?" – Optionen: **Nein** (Default) /
-  **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
-- Falls Schritt 3.6 einen Versionskonflikt festgestellt hat: die Option **Nein**
-  entfällt; im Fragetext erklären, dass ein Increment technisch notwendig ist
-  (Branch-Version ≤ main), und die Mindest-Zielversion nennen.
-- **Major** niemals als Option anbieten – nur wenn der User es explizit
-  von sich aus nennt.
+Wenn die Frage gestellt wird, die gelesene Version in den Fragetext einbauen,
+z.B. „Soll ich die Version erhöhen? Aktuell: `0.0.25`" – niemals aus dem Gedächtnis.
+
+- Normalfall (branch > main nicht erreichbar ohne Increment): Optionen **Patch** /
+  **Minor**.
+- Wenn branch bereits > main: Frage entfällt (s.o.).
+- **Major** niemals als Option anbieten – nur wenn der User es explizit von sich aus nennt.
 
 Wenn der User Patch oder Minor wählt:
 1. `origin/main` frisch fetchen, falls noch nicht in dieser Aufgabe geschehen
