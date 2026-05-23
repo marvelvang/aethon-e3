@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import type { components } from '../api/generated'
 import type { GameController } from './hooks/useGame'
+import { useFullscreen } from './hooks/useFullscreen'
 import ConfirmDialog from '../shared/ui/ConfirmDialog'
 import IsometricGrid from './grid/IsometricGrid'
 import BuildingInfoPanel from './ui/BuildingInfoPanel'
 import DeleteGameButton from './ui/DeleteGameButton'
+import FullscreenButton from './ui/FullscreenButton'
 import ResourceOverlay from './ui/ResourceOverlay'
 import RoundButton from './ui/RoundButton'
 
@@ -17,6 +19,7 @@ interface GameViewProps {
 export default function GameView({ game }: GameViewProps) {
   const [selectedBuilding, setSelectedBuilding] = useState<UiBuildingSlot | null>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
   const selectedCell = selectedBuilding
     ? { col: Number(selectedBuilding.x), row: Number(selectedBuilding.y) }
@@ -38,6 +41,7 @@ export default function GameView({ game }: GameViewProps) {
       />
       <ResourceOverlay state={game.state} />
 
+      <FullscreenButton isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
       <DeleteGameButton
         disabled={!game.state}
         onClick={() => setShowDeleteConfirm(true)}
