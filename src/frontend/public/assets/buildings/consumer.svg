@@ -68,9 +68,9 @@
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
 
-  <g transform="translate(0, 28)">
-  <!-- ══ BASE UNIT hz 32→64 (±72) ══
-       Centered on tile axis via outer translate(0, 28) -->
+  <g transform="translate(0, 36)">
+  <!-- ══ BASE UNIT hz 24→56 (±72) ══
+       Centered on tile axis via outer translate(0, 36) -->
   <polygon points="-72,4 0,40 0,8 -72,-28"   fill="url(#bL)" stroke="#2e4a28" stroke-width="1.5"/>
   <polygon points="72,4 0,40 0,8 72,-28"     fill="url(#bR)" stroke="#4a6a3a" stroke-width="1.5"/>
   <polygon points="0,-64 72,-28 0,8 -72,-28"  fill="url(#bT)" stroke="#4a6a3a" stroke-width="1.5"/>
@@ -92,8 +92,8 @@
   <circle cx="-72" cy="-28" r="5" fill="#55ee33" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="8"   r="5" fill="#55ee33" filter="url(#glow)"/>
 
-  <!-- ══ TOWER hz 64→160 (±22) ══
-       Centered on tile axis via additional translate(0, 25) (total 53) -->
+  <!-- ══ TOWER hz 56→152 (±22) ══
+       Centered on tile axis via additional translate(0, 25) (total 61) -->
   <g transform="translate(0, 25)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
