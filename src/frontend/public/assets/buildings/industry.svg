@@ -35,16 +35,16 @@
       <stop offset="100%" stop-color="#a0a4ac"/>
     </linearGradient>
     <!-- Upper block: lighter platinum -->
-    <linearGradient id="uR" gradientUnits="userSpaceOnUse" x1="56" y1="-56" x2="0" y2="-100">
+    <linearGradient id="uR" gradientUnits="userSpaceOnUse" x1="56" y1="-44" x2="0" y2="-100">
       <stop offset="0%"   stop-color="#d4d8e0"/>
       <stop offset="40%"  stop-color="#a8acb4"/>
       <stop offset="100%" stop-color="#78788a"/>
     </linearGradient>
-    <linearGradient id="uL" gradientUnits="userSpaceOnUse" x1="-56" y1="-56" x2="0" y2="-100">
+    <linearGradient id="uL" gradientUnits="userSpaceOnUse" x1="-56" y1="-44" x2="0" y2="-100">
       <stop offset="0%"   stop-color="#303038"/>
       <stop offset="100%" stop-color="#18181e"/>
     </linearGradient>
-    <linearGradient id="uT" gradientUnits="userSpaceOnUse" x1="0" y1="-128" x2="0" y2="-80">
+    <linearGradient id="uT" gradientUnits="userSpaceOnUse" x1="0" y1="-128" x2="0" y2="-72">
       <stop offset="0%"   stop-color="#e8eaf0"/>
       <stop offset="100%" stop-color="#b8bac4"/>
     </linearGradient>
@@ -154,55 +154,55 @@
   <!-- ══ UPPER BLOCK hz 80→128 (±56) ══
        Centered on tile axis via translate(0, 36) -->
   <g transform="translate(0, 36)">
-  <polygon points="-56,-52 0,-32 0,-80 -56,-100"  fill="url(#uL)" stroke="#202028" stroke-width="1.5"/>
-  <line x1="-56" y1="-52" x2="-56" y2="-100" stroke="#181820" stroke-width="2.5" opacity="0.55"/>
+  <polygon points="-56,-44 0,-16 0,-72 -56,-100"  fill="url(#uL)" stroke="#202028" stroke-width="1.5"/>
+  <line x1="-56" y1="-44" x2="-56" y2="-100" stroke="#181820" stroke-width="2.5" opacity="0.55"/>
 
   <!-- Upper left: main energy conduit (dim mirror of right) -->
-  <line x1="-52" y1="-48" x2="-52" y2="-96" stroke="#0e0020" stroke-width="5"/>
-  <line x1="-52" y1="-48" x2="-52" y2="-96" stroke="#553388" stroke-width="1.5" opacity="0.5"/>
-  <line x1="-52" y1="-48" x2="-52" y2="-96" stroke="#aa44ff" stroke-width="0.6" opacity="0.4"/>
+  <line x1="-52" y1="-40" x2="-52" y2="-96" stroke="#0e0020" stroke-width="5"/>
+  <line x1="-52" y1="-40" x2="-52" y2="-96" stroke="#553388" stroke-width="1.5" opacity="0.5"/>
+  <line x1="-52" y1="-40" x2="-52" y2="-96" stroke="#aa44ff" stroke-width="0.6" opacity="0.4"/>
 
   <!-- Upper left: precision windows (dim mirror) -->
-  <polygon points="-42,-58 -26,-50 -26,-64 -42,-72"  fill="#06000f" stroke="#2a1144" stroke-width="1.5"/>
-  <polygon points="-40,-60 -28,-52 -28,-62 -40,-70"  fill="#110033" opacity="0.7"/>
+  <polygon points="-42,-50 -26,-42 -26,-56 -42,-64"  fill="#06000f" stroke="#2a1144" stroke-width="1.5"/>
+  <polygon points="-40,-52 -28,-44 -28,-54 -40,-62"  fill="#110033" opacity="0.7"/>
 
-  <polygon points="-20,-46 -8,-40 -8,-54 -20,-60"    fill="#06000f" stroke="#2a1144" stroke-width="1.5"/>
-  <circle cx="-14" cy="-50" r="3" fill="#553388" opacity="0.55"/>
+  <polygon points="-20,-38 -8,-32 -8,-46 -20,-52"    fill="#06000f" stroke="#2a1144" stroke-width="1.5"/>
+  <circle cx="-14" cy="-42" r="3" fill="#553388" opacity="0.55"/>
 
-  <polygon points="56,-52 0,-32 0,-80 56,-100"   fill="url(#uR)" stroke="#b0b0c4" stroke-width="1.5"/>
-  <line x1="56" y1="-52" x2="56" y2="-100" stroke="#d8d8e8" stroke-width="2.5" opacity="0.65"/>
+  <polygon points="56,-44 0,-16 0,-72 56,-100"   fill="url(#uR)" stroke="#b0b0c4" stroke-width="1.5"/>
+  <line x1="56" y1="-44" x2="56" y2="-100" stroke="#d8d8e8" stroke-width="2.5" opacity="0.65"/>
 
   <!-- Upper right: conduit continues -->
-  <line x1="52" y1="-48" x2="52" y2="-96" stroke="#220044" stroke-width="5"/>
-  <line x1="52" y1="-48" x2="52" y2="-96" stroke="#cc44ff" stroke-width="2"   opacity="0.85"/>
-  <line x1="52" y1="-48" x2="52" y2="-96" stroke="#ff88ff" stroke-width="0.8" opacity="0.75"/>
-  <line x1="52" y1="-48" x2="52" y2="-96" stroke="#cc44ff" stroke-width="7"   opacity="0.12" filter="url(#coreglow)"/>
+  <line x1="52" y1="-40" x2="52" y2="-96" stroke="#220044" stroke-width="5"/>
+  <line x1="52" y1="-40" x2="52" y2="-96" stroke="#cc44ff" stroke-width="2"   opacity="0.85"/>
+  <line x1="52" y1="-40" x2="52" y2="-96" stroke="#ff88ff" stroke-width="0.8" opacity="0.75"/>
+  <line x1="52" y1="-40" x2="52" y2="-96" stroke="#cc44ff" stroke-width="7"   opacity="0.12" filter="url(#coreglow)"/>
 
   <!-- Upper right: precision windows (data readouts) -->
-  <polygon points="42,-58 26,-50 26,-64 42,-72"  fill="#0a0018" stroke="#5522aa" stroke-width="1.5"/>
-  <polygon points="40,-60 28,-52 28,-62 40,-70"  fill="#220066" opacity="0.8"/>
-  <line x1="34" y1="-51" x2="34" y2="-65" stroke="#cc88ff" stroke-width="0.8" opacity="0.5"/>
-  <line x1="42" y1="-60" x2="26" y2="-56" stroke="#cc88ff" stroke-width="0.8" opacity="0.5"/>
+  <polygon points="42,-50 26,-42 26,-56 42,-64"  fill="#0a0018" stroke="#5522aa" stroke-width="1.5"/>
+  <polygon points="40,-52 28,-44 28,-54 40,-62"  fill="#220066" opacity="0.8"/>
+  <line x1="34" y1="-43" x2="34" y2="-57" stroke="#cc88ff" stroke-width="0.8" opacity="0.5"/>
+  <line x1="42" y1="-52" x2="26" y2="-48" stroke="#cc88ff" stroke-width="0.8" opacity="0.5"/>
 
-  <polygon points="20,-46 8,-40 8,-54 20,-60"    fill="#0a0018" stroke="#5522aa" stroke-width="1.5"/>
-  <circle cx="14" cy="-50" r="3" fill="#bb44ff" filter="url(#glow)"/>
+  <polygon points="20,-38 8,-32 8,-46 20,-52"    fill="#0a0018" stroke="#5522aa" stroke-width="1.5"/>
+  <circle cx="14" cy="-42" r="3" fill="#bb44ff" filter="url(#glow)"/>
 
   <!-- Energy ring bands at hz=96, hz=112 -->
-  <polyline points="56,-68 0,-48 -56,-68"   stroke="#cc44ff" stroke-width="2"   fill="none" opacity="0.7"/>
-  <polyline points="56,-84 0,-64 -56,-84"   stroke="#cc44ff" stroke-width="2"   fill="none" opacity="0.55"/>
+  <polyline points="56,-68 0,-40 -56,-68"   stroke="#cc44ff" stroke-width="2"   fill="none" opacity="0.7"/>
+  <polyline points="56,-84 0,-56 -56,-84"   stroke="#cc44ff" stroke-width="2"   fill="none" opacity="0.55"/>
 
   <!-- Upper block top face -->
-  <polygon points="0,-128 56,-100 0,-80 -56,-100"  fill="url(#uT)" stroke="#b0b0c4" stroke-width="1.5"/>
-  <line x1="0" y1="-128" x2="0" y2="-80"      stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
+  <polygon points="0,-128 56,-100 0,-72 -56,-100"  fill="url(#uT)" stroke="#b0b0c4" stroke-width="1.5"/>
+  <line x1="0" y1="-128" x2="0" y2="-72"      stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
   <line x1="-56" y1="-100" x2="56" y2="-100"  stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
 
   <circle cx="56"  cy="-100" r="5" fill="#cc44ff" filter="url(#glow)"/>
   <circle cx="-56" cy="-100" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
-  <circle cx="0"   cy="-80"  r="5" fill="#cc44ff" filter="url(#glow)"/>
+  <circle cx="0"   cy="-72"  r="5" fill="#cc44ff" filter="url(#glow)"/>
 
   <!-- ══ ROOFTOP: QUANTUM EMITTER ARRAY ══
-       (axial: extra +28 to sit on upper block top center, not its N corner) -->
-  <g transform="translate(0, 26)">
+       (translate(0, 28) centers emitter on top face centroid at y=−100) -->
+  <g transform="translate(0, 28)">
   <!-- Central emitter ring -->
   <ellipse cx="0" cy="-128" rx="26" ry="13" fill="none" stroke="#cc44ff" stroke-width="2"   opacity="0.7"/>
   <ellipse cx="0" cy="-128" rx="26" ry="13" fill="none" stroke="#ff88ff" stroke-width="5"   opacity="0.15" filter="url(#softglow)"/>
