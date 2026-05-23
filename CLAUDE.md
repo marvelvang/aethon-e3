@@ -27,7 +27,7 @@ Erst danach committen und pushen.
 jeder Suche, vor jedem sonstigen Tool-Call. Es laufen parallel andere Entwicklungen auf
 weiteren Branches, die jederzeit nach main gemergt werden können.
 
-**Wann der Fetch entfällt** – nur in diesen beiden Fällen:
+**Wann der Fetch entfällt** – nur in diesen drei Fällen:
 - **Session-Start:** Claude Code Web legt für jede neue Session automatisch einen
   frischen Branch von main an. Die allererste Aufgabe einer Session braucht daher
   keinen Fetch.
@@ -35,6 +35,11 @@ weiteren Branches, die jederzeit nach main gemergt werden können.
   Session bereits gefetcht und gemergt habe (z.B. nach einem „main"-Kurzbefehl oder
   am Anfang der aktuellen Aufgabe), ist ein erneuter Fetch überflüssig. Im Zweifel
   immer fetchen.
+- **Reine Frage oder Beratung:** Nachrichten, die **ausschließlich** eine Frage oder
+  Beratung sind und **keinerlei** Änderungs-, Ergänzungs- oder Umsetzungsanteil
+  enthalten. Im Zweifel – also wenn auch nur ein Teil der Nachricht eine Änderung
+  impliziert – immer fetchen. „Finde X und ergänze Y" ist ein Umsetzungsauftrag,
+  auch wenn er mit Recherche beginnt.
 
 Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
 1. `git fetch origin main` ausführen – **das ist der erste Tool-Call**
@@ -49,12 +54,14 @@ Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
    Der Session-Start-Hook generiert die Typen nur einmalig – ein Merge, der die Spec
    aktualisiert, macht sie sofort wieder veraltet. Dieser Schritt stellt sicher, dass
    `src/frontend/src/api/generated.ts` immer mit der aktuellen Spec übereinstimmt.
-6. **Versionskonflikt prüfen**: Beide Versionsnummern im eigenen Branch mit denen aus
-   `origin/main` vergleichen (semantischer Vergleich: MAJOR, dann MINOR, dann PATCH).
-   Zu prüfende Dateien:
-   - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
-   - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
-   Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höhere der
+6. **Versionskonflikt prüfen**: Zuerst beide Versionen per grep lesen –
+   **Pflicht, niemals aus dem Gedächtnis:**
+   ```bash
+   grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
+   grep "APP_VERSION" src/backend/aethon-e3.core/Projections/UiState.cs
+   ```
+   Dann mit den Werten aus `origin/main` vergleichen (Dateipfade siehe Regel 4).
+   Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höchste der
    vier verglichenen Werte (je Branch und main für Frontend und Backend):
    - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
    - Andernfalls → **sofort** per `AskUserQuestion` fragen, ob Patch oder Minor
@@ -62,26 +69,24 @@ Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
      Beispiele: Branch `0.0.17`, main `0.1.0` → Minimum `0.1.1`;
      Branch `0.0.16`, main `0.0.16` → Minimum `0.0.17`.
      Nach der Antwort: beide Dateien setzen, Frontend-Build, Commit, Push.
+     **Hinweis:** Hat dieser Schritt einen Bump ausgelöst, ist Branch strikt > main –
+     Regel 4 am Aufgabenende entfällt dann automatisch.
 7. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
 bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konflikte lösen →
-Versionskonflikt prüfen und ggf. sofort beheben → push) – ohne weitere Aufgabe danach.
+Versionskonflikt per Pflicht-grep prüfen und ggf. sofort beheben → push) – ohne weitere
+Aufgabe danach.
 
-Ausnahme: Nachrichten, die **ausschließlich** eine Frage oder Beratung sind und
-**keinerlei** Änderungs-, Ergänzungs- oder Umsetzungsanteil enthalten, brauchen
-keinen Fetch. Im Zweifel – also wenn auch nur ein Teil der Nachricht eine Änderung
-impliziert – immer fetchen. „Finde X und ergänze Y" ist ein Umsetzungsauftrag,
-auch wenn er mit Recherche beginnt.
-
-### 4. Versionsnummern inkrementieren (nur auf Nachfrage am Aufgabenende)
+### 4. Versionsnummern inkrementieren (am Aufgabenende aktiv fragen)
 Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
 gesetzt. Die maßgeblichen Stellen:
 - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
 - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
 
-**Nie automatisch** erhöhen – immer den User fragen. Die Entscheidung Patch oder Minor
-liegt ausnahmslos beim User.
+**Nie eigenständig** erhöhen – immer per `AskUserQuestion` fragen. Claude stellt die
+Frage proaktiv am Aufgabenende; die Entscheidung Patch oder Minor liegt ausnahmslos
+beim User.
 
 **Am Ende einer Aufgabe die Versionsfrage stellen – aber nur wenn nötig:**
 Pro Branch reicht ein einziges Increment über main hinaus.
@@ -97,12 +102,8 @@ Nachrichten im Chat. Kein `AskUserQuestion` zur Version ohne diesen grep davor.
 
 Dann Branch-Version mit `origin/main` vergleichen:
 - Branch-Version **strikt größer** als main → **Frage entfällt**, kein weiteres Increment nötig.
-- Branch-Version **gleich** main → Frage stellen (Option „Nein" entfällt, da Increment
-  technisch notwendig ist; Mindest-Zielversion nennen).
-
-- Normalfall (branch > main nicht erreichbar ohne Increment): Optionen **Patch** /
-  **Minor**.
-- Wenn branch bereits > main: Frage entfällt (s.o.).
+- Branch-Version **gleich** main → Frage stellen mit Optionen **Patch** / **Minor**
+  (Option „Nein" entfällt, da Increment technisch notwendig ist; Mindest-Zielversion nennen).
 - **Major** niemals als Option anbieten – nur wenn der User es explizit von sich aus nennt.
 
 Wenn der User Patch oder Minor wählt:
@@ -181,6 +182,7 @@ Reihenfolge am Aufgabenende:
 3. `git commit` mit aussagekräftiger Message
 4. `git push -u origin <branch>`
 5. **Erst** `grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx`
-   ausführen, **dann** per `AskUserQuestion` fragen (siehe Regel 4 – Pflichtgrep).
+   ausführen, Branch-Version mit `origin/main` vergleichen – **dann** nur bei
+   Branch = main per `AskUserQuestion` fragen (siehe Regel 4 – Pflichtgrep).
    Falls ja: Frontend `APP_VERSION` + Backend `<Version>` gemeinsam als eigener
    Commit + push.
