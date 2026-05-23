@@ -111,10 +111,6 @@
   <polygon points="-80,16 0,56 0,-8 -80,-48"  fill="url(#aL)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="-80" y1="16" x2="-80" y2="-48" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
 
-  <!-- Left face: utility conduit (dim mirror of right) -->
-  <line x1="-70" y1="20" x2="-70" y2="-43" stroke="#2a1004" stroke-width="4"/>
-  <line x1="-70" y1="20" x2="-70" y2="-43" stroke="#aa4400" stroke-width="0.8" opacity="0.22"/>
-
   <!-- Left face: windows row 1 (dim mirror of right) -->
   <polygon points="-72,6 -50,17 -50,0 -72,-11"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
   <line x1="-61" y1="-5.5" x2="-61" y2="11.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
@@ -138,10 +134,6 @@
   <!-- Right face + details -->
   <polygon points="80,16 0,56 0,-8 80,-48"    fill="url(#aR)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="80" y1="16" x2="80" y2="-48" stroke="#e07030" stroke-width="2"   opacity="0.6"/>
-
-  <!-- Right face: utility conduit (vertical pipe)  t≈0.125 -->
-  <line x1="70" y1="20" x2="70" y2="-43" stroke="#5a2008" stroke-width="4"/>
-  <line x1="70" y1="20" x2="70" y2="-43" stroke="#ff8c00" stroke-width="1"   opacity="0.35"/>
 
   <!-- Right face: windows row 1 (hz 38→55)  E→S param: x=80(1-t), y=40+40t-hz -->
   <!-- Window 1  t=0.10→0.38 -->
@@ -187,10 +179,6 @@
   <polygon points="-48,-64 0,-40 0,-82 -48,-106"  fill="url(#bL)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="-48" y1="-64" x2="-48" y2="-106" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
 
-  <!-- Block B left face: utility conduit (dim mirror of right) -->
-  <line x1="-42" y1="-67" x2="-42" y2="-103" stroke="#2a1004" stroke-width="3"/>
-  <line x1="-42" y1="-67" x2="-42" y2="-103" stroke="#aa4400" stroke-width="0.7" opacity="0.18"/>
-
   <!-- Block B left face: windows (dim mirror of right) -->
   <polygon points="-44,-71 -28,-63 -28,-79 -44,-87"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
   <line x1="-36"   y1="-83"   x2="-36"   y2="-67"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
@@ -202,10 +190,6 @@
   <!-- Right face + details -->
   <polygon points="48,-64 0,-40 0,-82 48,-106"    fill="url(#bR)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="48" y1="-64" x2="48" y2="-106" stroke="#e07030" stroke-width="2"   opacity="0.55"/>
-
-  <!-- Right face: utility conduit -->
-  <line x1="42" y1="-67" x2="42" y2="-103" stroke="#5a2008" stroke-width="3"/>
-  <line x1="42" y1="-67" x2="42" y2="-103" stroke="#ff8c00" stroke-width="0.9" opacity="0.3"/>
 
   <!-- Block B right face: windows (hz 97→113)  E→S param: x=48(1-t), y=24+24t-hz -->
   <!-- Window B-1  t=0.08→0.42 -->
