@@ -57,12 +57,11 @@ Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
    Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höhere der
    vier verglichenen Werte (je Branch und main für Frontend und Backend):
    - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
-   - Andernfalls → **sofort** als Teil dieses Merge-Schritts einen Patch-Increment
-     durchführen. Zielversion: `<höchste-MAJOR>.<höchste-MINOR>.<höchste-PATCH + 1>`.
-     Beispiele: Branch `0.0.17`, main `0.1.0` → Ziel `0.1.1`;
-     Branch `0.0.16`, main `0.0.16` → Ziel `0.0.17`.
-     Beide Dateien setzen, Frontend-Build ausführen, als eigenen Commit einchecken
-     und pushen – **ohne den User vorher zu fragen**.
+   - Andernfalls → **sofort** per `AskUserQuestion` fragen, ob Patch oder Minor
+     (Mindest-Zielversion nennen, Option „Nein" entfällt).
+     Beispiele: Branch `0.0.17`, main `0.1.0` → Minimum `0.1.1`;
+     Branch `0.0.16`, main `0.0.16` → Minimum `0.0.17`.
+     Nach der Antwort: beide Dateien setzen, Frontend-Build, Commit, Push.
 7. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
@@ -81,8 +80,8 @@ gesetzt. Die maßgeblichen Stellen:
 - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
 - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
 
-**Nicht automatisch** erhöhen – außer beim Versionskonflikt aus Schritt 3.6, der sofort
-und ohne Rückfrage behoben wird.
+**Nie automatisch** erhöhen – immer den User fragen. Die Entscheidung Patch oder Minor
+liegt ausnahmslos beim User.
 
 **Am Ende einer Aufgabe die Versionsfrage stellen – aber nur wenn nötig:**
 Pro Branch reicht ein einziges Increment über main hinaus. Deshalb vor der Frage prüfen:
@@ -91,13 +90,15 @@ grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
 ```
 und die Branch-Version mit `origin/main` vergleichen:
 - Branch-Version **strikt größer** als main → **Frage entfällt**, kein weiteres Increment nötig.
-- Branch-Version **gleich** main → Frage stellen (Schritt 3.6 sollte das eigentlich bereits
-  behoben haben; dies ist nur ein Sicherheitsnetz).
+- Branch-Version **gleich** main → Frage stellen (Option „Nein" entfällt, da Increment
+  technisch notwendig ist; Mindest-Zielversion nennen).
 
 Wenn die Frage gestellt wird, die gelesene Version in den Fragetext einbauen,
 z.B. „Soll ich die Version erhöhen? Aktuell: `0.0.25`" – niemals aus dem Gedächtnis.
 
-- Optionen: **Nein** (Default) / **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
+- Normalfall (branch > main nicht erreichbar ohne Increment): Optionen **Patch** /
+  **Minor**.
+- Wenn branch bereits > main: Frage entfällt (s.o.).
 - **Major** niemals als Option anbieten – nur wenn der User es explizit von sich aus nennt.
 
 Wenn der User Patch oder Minor wählt:
