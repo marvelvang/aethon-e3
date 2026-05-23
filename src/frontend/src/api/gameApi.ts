@@ -1,6 +1,6 @@
 import type { components } from './generated'
 import { BASE_URL, fetchJson } from './client'
-import { clearStoredGameId, getStoredGameId, storeGameId } from './gameIdStorage'
+import { appStorage } from '../shared/storage/appStorage'
 
 type UiState = components['schemas']['UiState']
 type PlaceBuildingRequest = components['schemas']['PlaceBuildingRequest']
@@ -26,23 +26,23 @@ export const endRound = (id: number) =>
   )
 
 export async function deleteGame(id: number): Promise<void> {
-  clearStoredGameId()
+  appStorage.gameId.remove()
   await fetch(`${BASE_URL}/api/game/${id}`, { method: 'DELETE' })
 }
 
 export async function fetchOrCreateGame(): Promise<UiState> {
-  const storedId = getStoredGameId()
+  const storedId = appStorage.gameId.get()
 
   if (storedId !== null) {
     try {
       return await getGame(storedId)
     } catch (err) {
       console.warn(`fetchOrCreateGame: game ${storedId} not found, creating new game:`, err)
-      clearStoredGameId()
+      appStorage.gameId.remove()
     }
   }
 
   const state = await createGame()
-  storeGameId(state.gameStateId)
+  appStorage.gameId.set(state.gameStateId)
   return state
 }

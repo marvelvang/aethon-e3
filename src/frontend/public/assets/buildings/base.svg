@@ -94,29 +94,35 @@
   <line x1="64"  y1="-96" x2="64"  y2="16" stroke="#4898c8" stroke-width="2.5" opacity="0.65"/>
   <line x1="-64" y1="-96" x2="-64" y2="16" stroke="#183850" stroke-width="2.5" opacity="0.5"/>
 
-  <!-- Horizontal rib  hz=102.5 (between window rows): E(64,-38.5) S(0,-6.5) -->
-  <line x1="64"  y1="-38.5" x2="0" y2="-6.5"  stroke="#3a8ab8" stroke-width="2.5" opacity="0.75"/>
-  <line x1="-64" y1="-38.5" x2="0" y2="-6.5"  stroke="#1a3850" stroke-width="2.5" opacity="0.55"/>
+  <!-- Horizontal rib  hz=104 (between window rows): E(64,-40) S(0,-8) -->
+  <line x1="64"  y1="-40" x2="0" y2="-8"  stroke="#3a8ab8" stroke-width="2.5" opacity="0.75"/>
+  <line x1="-64" y1="-40" x2="0" y2="-8"  stroke="#1a3850" stroke-width="2.5" opacity="0.55"/>
 
   <!-- Tower top corner lights (marks the step up to dome) -->
   <circle cx="64"  cy="-96" r="5" fill="#00d4ff" filter="url(#glow)"/>
   <circle cx="-64" cy="-96" r="5" fill="#00d4ff" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="-64" r="5" fill="#00d4ff" filter="url(#glow)"/>
 
-  <!-- ── RIGHT FACE: 2×2 windows ── -->
-  <!-- Row 1  (hz 65–95)  t=0.15–0.43  and  t=0.57–0.85 -->
-  <polygon points="10,25 27,17 27,-13 10,-5"  fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
-  <polygon points="36,13 54,4 54,-26 36,-17" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
+  <!-- ── RIGHT FACE: 2×2 windows, each centred in its quadrant ── -->
+  <!-- Lower-left quadrant centroid (16,12): window width=17 height=30 -->
+  <polygon points="7.5,31 24.5,23 24.5,-7 7.5,1"  fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
+  <!-- Lower-right quadrant centroid (48,-4): window width=18 height=30 -->
+  <polygon points="39,15.5 57,6.5 57,-23.5 39,-14.5" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
 
-  <!-- Row 2  (hz 110–140) -->
-  <polygon points="10,-20 27,-28 27,-58 10,-50" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
-  <polygon points="36,-32 54,-41 54,-71 36,-62" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
+  <!-- Upper-left quadrant centroid (16,-44): window width=17 height=30 -->
+  <polygon points="7.5,-25 24.5,-33 24.5,-63 7.5,-55" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
+  <!-- Upper-right quadrant centroid (48,-60): window width=18 height=30 -->
+  <polygon points="39,-40.5 57,-49.5 57,-79.5 39,-70.5" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
 
-  <!-- ── LEFT FACE: windows (shadow side, dimmer) ── -->
-  <polygon points="-10,25 -27,17 -27,-13 -10,-5"  fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
-  <polygon points="-36,13 -54,4 -54,-26 -36,-17"  fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
-  <polygon points="-10,-20 -27,-28 -27,-58 -10,-50" fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
-  <polygon points="-36,-32 -54,-41 -54,-71 -36,-62" fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
+  <!-- ── LEFT FACE: windows (shadow side, dimmer), each centred in its quadrant ── -->
+  <!-- Lower-right quadrant centroid (-16,12): mirror of right-face lower-left -->
+  <polygon points="-7.5,31 -24.5,23 -24.5,-7 -7.5,1"  fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
+  <!-- Lower-left quadrant centroid (-48,-4): mirror of right-face lower-right -->
+  <polygon points="-39,15.5 -57,6.5 -57,-23.5 -39,-14.5"  fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
+  <!-- Upper-right quadrant centroid (-16,-44): mirror of right-face upper-left -->
+  <polygon points="-7.5,-25 -24.5,-33 -24.5,-63 -7.5,-55" fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
+  <!-- Upper-left quadrant centroid (-48,-60): mirror of right-face upper-right -->
+  <polygon points="-39,-40.5 -57,-49.5 -57,-79.5 -39,-70.5" fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
 
   <!-- ── Energy conduits (vertical dividers between window columns, x=32: between col x10-27 and col x36-54) ── -->
   <!-- Right face: glow halo + bright core, clipped to face edges (y=32 bottom, y=-80 top at x=32) -->
@@ -127,8 +133,8 @@
   <line x1="-32" y1="32" x2="-32" y2="-80" stroke="#00d4ff" stroke-width="3"   opacity="0.10"/>
   <line x1="-32" y1="32" x2="-32" y2="-80" stroke="#00d4ff" stroke-width="1.5" opacity="0.35"/>
 
-  <!-- Mid-band ring (between window rows, hz=102.5): E(64,-38.5) S(0,-6.5) W(-64,-38.5) -->
-  <polyline points="64,-38.5 0,-6.5 -64,-38.5"  stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.8"/>
+  <!-- Mid-band ring (between window rows, hz=104): E(64,-40) S(0,-8) W(-64,-40) -->
+  <polyline points="64,-40 0,-8 -64,-40"  stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.8"/>
 
   <!-- Tower top: power emitter ring -->
   <ellipse cx="0" cy="-96" rx="28" ry="14" fill="none" stroke="#00d4ff" stroke-width="2"   opacity="0.65"/>
