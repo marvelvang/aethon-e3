@@ -43,7 +43,6 @@ export default function GameView({ game }: GameViewProps) {
       <ActionMenu
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
-        gameDisabled={!game.state}
         onDeleteGame={() => setShowDeleteConfirm(true)}
       />
       <RoundButton
