@@ -90,11 +90,6 @@
   <polygon points="-64,16 0,48 0,-64 -64,-96"  fill="url(#tL)" stroke="#00aac8" stroke-width="1.5"/>
   <polygon points="0,-128 64,-96 0,-64 -64,-96" fill="url(#tT)" stroke="#00aac8" stroke-width="1.5"/>
 
-  <!-- Tower top corner lights (marks the step up to dome) -->
-  <circle cx="64"  cy="-96" r="5" fill="#00d4ff" filter="url(#glow)"/>
-  <circle cx="-64" cy="-96" r="5" fill="#00d4ff" filter="url(#glow)" opacity="0.6"/>
-  <circle cx="0"   cy="-64" r="5" fill="#00d4ff" filter="url(#glow)"/>
-
   <!-- Structural vertical edge highlights -->
   <line x1="64"  y1="-96" x2="64"  y2="16" stroke="#4898c8" stroke-width="2.5" opacity="0.65"/>
   <line x1="-64" y1="-96" x2="-64" y2="16" stroke="#183850" stroke-width="2.5" opacity="0.5"/>
@@ -102,6 +97,11 @@
   <!-- Horizontal rib  hz=102.5 (between window rows): E(64,-38.5) S(0,-6.5) -->
   <line x1="64"  y1="-38.5" x2="0" y2="-6.5"  stroke="#3a8ab8" stroke-width="2.5" opacity="0.75"/>
   <line x1="-64" y1="-38.5" x2="0" y2="-6.5"  stroke="#1a3850" stroke-width="2.5" opacity="0.55"/>
+
+  <!-- Tower top corner lights (marks the step up to dome) -->
+  <circle cx="64"  cy="-96" r="5" fill="#00d4ff" filter="url(#glow)"/>
+  <circle cx="-64" cy="-96" r="5" fill="#00d4ff" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-64" r="5" fill="#00d4ff" filter="url(#glow)"/>
 
   <!-- ── RIGHT FACE: 2×2 windows ── -->
   <!-- Row 1  (hz 65–95)  t=0.15–0.43  and  t=0.57–0.85 -->
