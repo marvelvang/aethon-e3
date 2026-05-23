@@ -51,11 +51,12 @@ Ablauf zu Beginn jeder Aufgabe:
    Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höhere der
    vier verglichenen Werte (je Branch und main für Frontend und Backend):
    - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
-   - Andernfalls → **beide** Dateien auf `<höchste-MAJOR>.<höchste-MINOR>.<höchste-PATCH + 1>`
-     setzen, committen und pushen – **ohne** den User zu fragen (technisches
-     Korrektheitsproblem, keine inhaltliche Entscheidung).
-     Beispiele: Branch `0.0.17`, main `0.1.0` → `0.1.1` setzen;
-     Branch `0.0.16`, main `0.0.16` → `0.0.17` setzen.
+   - Andernfalls → **nicht** automatisch erhöhen. Diesen Sachverhalt bei der
+     Versionsfrage am Ende der Aufgabe (Regel 4) als Pflichtkontext mitgeben:
+     die Version muss mindestens auf
+     `<höchste-MAJOR>.<höchste-MINOR>.<höchste-PATCH + 1>` gesetzt werden.
+     Beispiele: Branch `0.0.17`, main `0.1.0` → Minimum wäre `0.1.1`;
+     Branch `0.0.16`, main `0.0.16` → Minimum wäre `0.0.17`.
 7. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
@@ -75,11 +76,15 @@ gesetzt. Die maßgeblichen Stellen:
 - Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
 - Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
 
-**Nicht automatisch** erhöhen. Stattdessen am Ende jeder abgeschlossenen Aufgabe per
-`AskUserQuestion` fragen:
+**Nicht automatisch** erhöhen – auch nicht bei einem Versionskonflikt aus Schritt 3.6.
+Stattdessen am Ende jeder abgeschlossenen Aufgabe **genau einmal** per `AskUserQuestion`
+fragen. Pro Aufgabe darf maximal ein Increment stattfinden.
 
-- "Soll ich die Version erhöhen?" – Optionen: **Nein** (Default) /
+- Normalfall: "Soll ich die Version erhöhen?" – Optionen: **Nein** (Default) /
   **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
+- Falls Schritt 3.6 einen Versionskonflikt festgestellt hat: die Option **Nein**
+  entfällt; im Fragetext erklären, dass ein Increment technisch notwendig ist
+  (Branch-Version ≤ main), und die Mindest-Zielversion nennen.
 - **Major** niemals als Option anbieten – nur wenn der User es explizit
   von sich aus nennt.
 
