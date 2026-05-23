@@ -80,6 +80,13 @@ gesetzt. Die maßgeblichen Stellen:
 Stattdessen am Ende jeder abgeschlossenen Aufgabe **genau einmal** per `AskUserQuestion`
 fragen. Pro Aufgabe darf maximal ein Increment stattfinden.
 
+**Vor dem Stellen der Frage** die aktuelle Version aus dem Code lesen:
+```bash
+grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
+```
+Die gelesene Version in den Fragetext einbauen, z.B. „Soll ich die Version erhöhen?
+Aktuell: `0.0.25`" – niemals eine Version aus dem Gedächtnis oder Kontext übernehmen.
+
 - Normalfall: "Soll ich die Version erhöhen?" – Optionen: **Nein** (Default) /
   **Patch** (Fix, kleine Änderung) / **Minor** (neue Funktionalität).
 - Falls Schritt 3.6 einen Versionskonflikt festgestellt hat: die Option **Nein**
