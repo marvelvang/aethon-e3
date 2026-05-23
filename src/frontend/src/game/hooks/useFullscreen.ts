@@ -1,23 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-
-const STORAGE_KEY = 'fullscreen-preference'
-
-function readPreference(): boolean {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    return stored === null ? true : stored === 'true'
-  } catch {
-    return true
-  }
-}
-
-function savePreference(value: boolean): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, String(value))
-  } catch {
-    // ignore
-  }
-}
+import { appStorage } from '../../shared/storage/appStorage'
 
 export function useFullscreen() {
   const [isFullscreen, setIsFullscreen] = useState(() => !!document.fullscreenElement)
@@ -29,7 +11,7 @@ export function useFullscreen() {
   }, [])
 
   useEffect(() => {
-    if (readPreference()) {
+    if (appStorage.fullscreen.get()) {
       document.documentElement.requestFullscreen().catch(() => {})
     }
   }, [])
@@ -37,10 +19,10 @@ export function useFullscreen() {
   const toggle = useCallback(() => {
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(() => {})
-      savePreference(false)
+      appStorage.fullscreen.set(false)
     } else {
       document.documentElement.requestFullscreen().catch(() => {})
-      savePreference(true)
+      appStorage.fullscreen.set(true)
     }
   }, [])
 
