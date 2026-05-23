@@ -2,11 +2,10 @@ import { useState } from 'react'
 import type { components } from '../api/generated'
 import type { GameController } from './hooks/useGame'
 import { useFullscreen } from './hooks/useFullscreen'
+import ActionMenu from './ui/ActionMenu'
 import ConfirmDialog from '../shared/ui/ConfirmDialog'
 import IsometricGrid from './grid/IsometricGrid'
 import BuildingInfoPanel from './ui/BuildingInfoPanel'
-import DeleteGameButton from './ui/DeleteGameButton'
-import FullscreenButton from './ui/FullscreenButton'
 import ResourceOverlay from './ui/ResourceOverlay'
 import RoundButton from './ui/RoundButton'
 
@@ -41,10 +40,11 @@ export default function GameView({ game }: GameViewProps) {
       />
       <ResourceOverlay state={game.state} />
 
-      <FullscreenButton isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
-      <DeleteGameButton
-        disabled={!game.state}
-        onClick={() => setShowDeleteConfirm(true)}
+      <ActionMenu
+        isFullscreen={isFullscreen}
+        onToggleFullscreen={toggleFullscreen}
+        gameDisabled={!game.state}
+        onDeleteGame={() => setShowDeleteConfirm(true)}
       />
       <RoundButton
         round={game.state ? Number(game.state.round) : undefined}
