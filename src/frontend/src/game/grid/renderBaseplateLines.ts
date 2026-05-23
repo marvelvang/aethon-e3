@@ -16,11 +16,7 @@ function drawEnergyLine(
   x1: number, y1: number,
   x2: number, y2: number,
 ): void {
-  g.lineStyle(8, 0xffffff, 0.10)
-  g.moveTo(x1, y1); g.lineTo(x2, y2)
-  g.lineStyle(3.5, 0xffffff, 0.40)
-  g.moveTo(x1, y1); g.lineTo(x2, y2)
-  g.lineStyle(1.5, 0xffffff, 1.0)
+  g.lineStyle(1, 0xffffff, 1.0)
   g.moveTo(x1, y1); g.lineTo(x2, y2)
 }
 
