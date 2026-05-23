@@ -165,6 +165,8 @@
   <!-- Upper left: precision windows (dim mirror) -->
   <polygon points="-42,-50 -26,-42 -26,-56 -42,-64"  fill="#06000f" stroke="#2a1144" stroke-width="1.5"/>
   <polygon points="-40,-52 -28,-44 -28,-54 -40,-62"  fill="#110033" opacity="0.7"/>
+  <line x1="-34" y1="-48" x2="-34" y2="-58" stroke="#553388" stroke-width="0.6" opacity="0.35"/>
+  <line x1="-40" y1="-57" x2="-28" y2="-49" stroke="#553388" stroke-width="0.6" opacity="0.35"/>
 
   <polygon points="-20,-38 -8,-32 -8,-46 -20,-52"    fill="#06000f" stroke="#2a1144" stroke-width="1.5"/>
   <circle cx="-14" cy="-42" r="3" fill="#553388" opacity="0.55"/>
