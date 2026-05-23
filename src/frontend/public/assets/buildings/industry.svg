@@ -117,10 +117,6 @@
   <circle cx="21" cy="23.5" r="2.5" fill="#cc44ff" filter="url(#glow)"/>
   <circle cx="21" cy="16"   r="2.5" fill="#aa44ff" opacity="0.7"/>
 
-  <!-- Horizontal ring bands (energy) at hz=40, hz=64 -->
-  <polyline points="88,-16 0,24 -88,-16"   stroke="#cc44ff" stroke-width="2"   fill="none" opacity="0.75"/>
-  <polyline points="88,-40 0,0  -88,-40"   stroke="#cc44ff" stroke-width="2"   fill="none" opacity="0.6"/>
-
   <!-- Lower block top face -->
   <polygon points="0,-80 88,-36 0,8 -88,-36"    fill="url(#lT)" stroke="#9898a8" stroke-width="1.5"/>
   <line x1="0" y1="-80" x2="0" y2="8"       stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
