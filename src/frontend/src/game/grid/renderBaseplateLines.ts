@@ -1,8 +1,5 @@
 import * as PIXI from 'pixi.js'
-import type { components } from '../../api/generated'
-import { TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
+import { TILE_HALF_HEIGHT, TILE_HALF_WIDTH } from './coordinates'
 
 // Baseplate face geometry at display scale (relative to tile-top vertex).
 // Top face corners:   East(TW, 10)  West(-TW, 10)  South(0, 26)
@@ -11,36 +8,21 @@ type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 const MID_Y_EW = (10 + TILE_HALF_HEIGHT) / 2   // = 13  (east / west ends)
 const MID_Y_S  = (26 + 2 * TILE_HALF_HEIGHT) / 2  // = 29  (south end)
 
-function drawEnergyLine(
-  g: PIXI.Graphics,
-  x1: number, y1: number,
-  x2: number, y2: number,
-): void {
-  g.lineStyle(1, 0xffffff, 1.0)
-  g.moveTo(x1, y1); g.lineTo(x2, y2)
-}
-
-export function renderBaseplateLines(
+// Draws the two visible front-face baseplate lines for one tile and adds them
+// to the given container. Must be called in painter's order (after the tile's
+// own sprite, before any sprite that is in front of this tile) so that
+// buildings in front correctly occlude these lines.
+export function addBuildingBaseplateLines(
   parent: PIXI.Container,
-  buildings: UiBuildingSlot[],
-  centerX: number,
-  offsetY: number,
-  rot: RotationStep,
+  tx: number,
+  ty: number,
 ): void {
-  if (buildings.length === 0) return
-
   const g = new PIXI.Graphics()
   const TW = TILE_HALF_WIDTH
-
-  for (const b of buildings) {
-    const { x: tx, y: ty } = tileTopVertex(Number(b.x), Number(b.y), centerX, offsetY, rot)
-
-    // Right face (SE): east corner → south corner
-    drawEnergyLine(g, tx + TW, ty + MID_Y_EW, tx, ty + MID_Y_S)
-
-    // Left face (SW): west corner → south corner
-    drawEnergyLine(g, tx - TW, ty + MID_Y_EW, tx, ty + MID_Y_S)
-  }
-
+  g.lineStyle(1, 0xffffff, 1.0)
+  // Right face (SE): east corner → south corner
+  g.moveTo(tx + TW, ty + MID_Y_EW); g.lineTo(tx, ty + MID_Y_S)
+  // Left face (SW): west corner → south corner
+  g.moveTo(tx - TW, ty + MID_Y_EW); g.lineTo(tx, ty + MID_Y_S)
   parent.addChild(g)
 }
