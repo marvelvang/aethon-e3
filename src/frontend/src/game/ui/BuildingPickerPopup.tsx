@@ -77,50 +77,60 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
     setPosition(computePosition(tileBounds, el.offsetHeight))
   }, [tileBounds, buildingTypes])
 
+  const onDismissRef = useRef(onDismiss)
+  onDismissRef.current = onDismiss
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onDismiss()
+      if (e.key === 'Escape') onDismissRef.current()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [onDismiss])
+  }, [])
+
+  useEffect(() => {
+    function onDocMouseDown(e: MouseEvent) {
+      if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
+        onDismissRef.current()
+      }
+    }
+    document.addEventListener('mousedown', onDocMouseDown)
+    return () => document.removeEventListener('mousedown', onDocMouseDown)
+  }, [])
 
   const style: React.CSSProperties = position
     ? { left: position.left, top: position.top, width: POPUP_WIDTH }
     : { visibility: 'hidden', top: 0, left: 0, width: POPUP_WIDTH }
 
   return (
-    <>
-      <div className="picker-backdrop" onClick={onDismiss} />
-      <div ref={popupRef} className="picker-popup" style={style}>
-        {buildingTypes.map((info) => {
-          const type = info.type as BuildingType
-          const meta = BUILDING_TYPES[type]
-          const isHovered = hoveredType === info.type && info.canAfford
-          return (
-            <div
-              key={info.type}
-              onClick={() => { if (info.canAfford) onSelect(type) }}
-              onMouseEnter={() => setHoveredType(info.type)}
-              onMouseLeave={() => setHoveredType(null)}
-              className={`picker-item${isHovered ? ' picker-item--hover' : ''}${info.canAfford ? '' : ' picker-item--disabled'}`}
-            >
-              <img
-                src={meta.assetPath}
-                alt={meta.label}
-                className="picker-item-img"
-              />
-              <span className="picker-item-label">{meta.label}</span>
-              <div className="picker-item-costs">
-                <span style={{ color: 'var(--color-population)' }}>Pop {info.populationCost}</span>
-                {Number(info.industryCost) > 0 && (
-                  <span style={{ color: 'var(--color-industry)' }}>Ind {info.industryCost}</span>
-                )}
-              </div>
+    <div ref={popupRef} className="picker-popup" style={style}>
+      {buildingTypes.map((info) => {
+        const type = info.type as BuildingType
+        const meta = BUILDING_TYPES[type]
+        const isHovered = hoveredType === info.type && info.canAfford
+        return (
+          <div
+            key={info.type}
+            onClick={() => { if (info.canAfford) onSelect(type) }}
+            onMouseEnter={() => setHoveredType(info.type)}
+            onMouseLeave={() => setHoveredType(null)}
+            className={`picker-item${isHovered ? ' picker-item--hover' : ''}${info.canAfford ? '' : ' picker-item--disabled'}`}
+          >
+            <img
+              src={meta.assetPath}
+              alt={meta.label}
+              className="picker-item-img"
+            />
+            <span className="picker-item-label">{meta.label}</span>
+            <div className="picker-item-costs">
+              <span style={{ color: 'var(--color-population)' }}>Pop {info.populationCost}</span>
+              {Number(info.industryCost) > 0 && (
+                <span style={{ color: 'var(--color-industry)' }}>Ind {info.industryCost}</span>
+              )}
             </div>
-          )
-        })}
-      </div>
-    </>
+          </div>
+        )
+      })}
+    </div>
   )
 }
