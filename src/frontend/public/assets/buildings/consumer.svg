@@ -68,9 +68,9 @@
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
 
-  <g transform="translate(0, 28)">
-  <!-- ══ BASE UNIT hz 32→64 (±72) ══
-       Centered on tile axis via outer translate(0, 28) -->
+  <g transform="translate(0, 36)">
+  <!-- ══ BASE UNIT hz 24→56 (±72) ══
+       Centered on tile axis via outer translate(0, 36) -->
   <polygon points="-72,4 0,40 0,8 -72,-28"   fill="url(#bL)" stroke="#2e4a28" stroke-width="1.5"/>
   <polygon points="72,4 0,40 0,8 72,-28"     fill="url(#bR)" stroke="#4a6a3a" stroke-width="1.5"/>
   <polygon points="0,-64 72,-28 0,8 -72,-28"  fill="url(#bT)" stroke="#4a6a3a" stroke-width="1.5"/>
@@ -92,8 +92,8 @@
   <circle cx="-72" cy="-28" r="5" fill="#55ee33" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="8"   r="5" fill="#55ee33" filter="url(#glow)"/>
 
-  <!-- ══ TOWER hz 64→160 (±22) ══
-       Centered on tile axis via additional translate(0, 25) (total 53) -->
+  <!-- ══ TOWER hz 56→152 (±22) ══
+       Centered on tile axis via additional translate(0, 25) (total 61) -->
   <g transform="translate(0, 25)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -114,36 +114,36 @@
        Back half is logically hidden behind the tower column. -->
 
   <!-- Ring hz=82 – bottom ring -->
-  <path d="M 28,-82 A 28,14 0 0,0 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-82 A 28,14 0 0,0 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-82 A 14,7 0 0,0 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
 
   <!-- Ring hz=102 -->
-  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-102 A 14,7 0 0,0 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
 
   <!-- Ring hz=122 -->
-  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-122 A 14,7 0 0,0 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
 
   <!-- Ring hz=142 – top ring -->
-  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
-  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
-  <path d="M 14,-142 A 14,7 0 0,0 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
+  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
 
   <!-- Growing pod "leaf" accents at each ring (right side) -->
-  <ellipse cx="26" cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-82)"/>
-  <ellipse cx="26" cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-102)"/>
-  <ellipse cx="26" cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(-20,26,-122)"/>
-  <ellipse cx="26" cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(-20,26,-142)"/>
+  <ellipse cx="28" cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(20,28,-82)"/>
+  <ellipse cx="28" cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(20,28,-102)"/>
+  <ellipse cx="28" cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(20,28,-122)"/>
+  <ellipse cx="28" cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
 
   <!-- Growing pod "leaf" accents at each ring (left side, dim mirror) -->
-  <ellipse cx="-26" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(20,-26,-82)"/>
-  <ellipse cx="-26" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(20,-26,-102)"/>
-  <ellipse cx="-26" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(20,-26,-122)"/>
-  <ellipse cx="-26" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(20,-26,-142)"/>
+  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(-20,-28,-82)"/>
+  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(-20,-28,-102)"/>
+  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(-20,-28,-122)"/>
+  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
 
   <!-- Tower top: apex spire -->
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
