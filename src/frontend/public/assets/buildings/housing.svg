@@ -19,6 +19,22 @@
     Block B     hz 88→130 footprint ±48   (upper residential block)
     Parapet     hz 130→138 footprint ±50
     Roof utilities above hz 138
+
+  Block A face panels (right face local coords, translate(0,24)):
+    Face corners: TR(80,-48) TL(0,-8) BL(0,56) BR(80,16)
+    y_top(x)=-8-x/2  y_bot(x)=56-x/2  y_mid(x)=24-x/2
+    Horizontal divider: (80,-16)→(0,24)→(-80,-16)  [crosses both faces]
+    Vertical divider R: x=40, y=-28→36  |  Vertical divider L: x=-40, y=-28→36
+    Panel centers (right face): BR(60,10) BL(20,30) TR(60,-22) TL(20,-2)
+    Panel centers (left face):  inner-B(-20,30) outer-B(-60,10) inner-T(-20,-2) outer-T(-60,-22)
+
+  Block B face panels (right face local coords, translate(0,40)):
+    Face corners: TR(48,-106) TL(0,-82) BL(0,-40) BR(48,-64)
+    y_top(x)=-82-x/2  y_bot(x)=-40-x/2  y_mid(x)=-61-x/2
+    Horizontal divider: (48,-85)→(0,-61)→(-48,-85)  [crosses both faces]
+    Vertical divider R: x=24, y=-94→-52  |  Vertical divider L: x=-24, y=-94→-52
+    Panel centers (right face): right(36,-79) left(12,-67)
+    Panel centers (left face):  inner-R(-12,-67) outer-L(-36,-79)
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
@@ -107,60 +123,64 @@
        ══════════════════════════════════════════ -->
   <g transform="translate(0, 24)">
 
-  <!-- Left face + details -->
+  <!-- Left face -->
   <polygon points="-80,16 0,56 0,-8 -80,-48"  fill="url(#aL)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="-80" y1="16" x2="-80" y2="-48" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
 
-  <!-- Left face: utility conduit (dim mirror of right) -->
-  <line x1="-70" y1="20" x2="-70" y2="-43" stroke="#2a1004" stroke-width="4"/>
-  <line x1="-70" y1="20" x2="-70" y2="-43" stroke="#aa4400" stroke-width="0.8" opacity="0.22"/>
+  <!-- Left face: outer-bottom panel window  (cx=-60, cy=10, hw=11, hh=8.5) -->
+  <polygon points="-71,13 -49,24 -49,7 -71,-4"   fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <line x1="-60" y1="1.5"  x2="-60" y2="18.5" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-71" y1="4.5"  x2="-49" y2="15.5" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Left face: windows row 1 (dim mirror of right) -->
-  <polygon points="-72,6 -50,17 -50,0 -72,-11"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
-  <polygon points="-42,21 -19,32 -19,15 -42,4"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <!-- Left face: inner-bottom panel window  (cx=-20, cy=30, hw=11, hh=8.5) -->
+  <polygon points="-31,33 -9,44 -9,27 -31,16"   fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <line x1="-20" y1="21.5" x2="-20" y2="38.5" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-31" y1="24.5" x2="-9"  y2="35.5" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Left face: balcony ledge at hz=60  W(-80,-20) S(0,20) -->
-  <line x1="-80" y1="-20" x2="0" y2="20"  stroke="#aa4400" stroke-width="2"   opacity="0.6"/>
-  <line x1="-80" y1="-17" x2="0" y2="23"  stroke="#1a0804" stroke-width="2"   opacity="0.45"/>
+  <!-- Left face: outer-top panel window  (cx=-60, cy=-22, hw=11, hh=8.5) -->
+  <polygon points="-71,-19 -49,-8 -49,-25 -71,-36"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <line x1="-60" y1="-30.5" x2="-60" y2="-13.5" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-71" y1="-27.5" x2="-49" y2="-16.5" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Left face: windows row 2 (dim mirror of right) -->
-  <polygon points="-72,-18 -50,-7 -50,-22 -72,-33" fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
-  <polygon points="-42,-3 -19,8 -19,-7 -42,-18"    fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <!-- Left face: inner-top panel window  (cx=-20, cy=-2, hw=11, hh=8.5) -->
+  <polygon points="-31,1 -9,12 -9,-5 -31,-16"   fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <line x1="-20" y1="-10.5" x2="-20" y2="6.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-31" y1="-7.5"  x2="-9"  y2="3.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Right face + details -->
+  <!-- Right face -->
   <polygon points="80,16 0,56 0,-8 80,-48"    fill="url(#aR)" stroke="#cc5500" stroke-width="1.5"/>
-  <line x1="80" y1="16" x2="80" y2="-48" stroke="#e07030" stroke-width="2"   opacity="0.6"/>
+  <line x1="80" y1="16" x2="80" y2="-48" stroke="#e07030" stroke-width="2" opacity="0.6"/>
 
-  <!-- Right face: utility conduit (vertical pipe)  t≈0.125 -->
-  <line x1="70" y1="20" x2="70" y2="-43" stroke="#5a2008" stroke-width="4"/>
-  <line x1="70" y1="20" x2="70" y2="-43" stroke="#ff8c00" stroke-width="1"   opacity="0.35"/>
+  <!-- Right face: bottom-right panel window  (cx=60, cy=10, hw=11, hh=8.5) -->
+  <polygon points="71,13 49,24 49,7 71,-4"    fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="60" y1="1.5"  x2="60" y2="18.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="71" y1="4.5"  x2="49" y2="15.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
-  <!-- Right face: windows row 1 (hz 38→55)  E→S param: x=80(1-t), y=40+40t-hz -->
-  <!-- Window 1  t=0.10→0.38 -->
-  <polygon points="72,6 50,17 50,0 72,-11"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="61"   y1="11.5" x2="61"   y2="-5.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="72"   y1="-2.5" x2="50"   y2="8.5"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <!-- Window 2  t=0.48→0.76 -->
-  <polygon points="42,21 19,32 19,15 42,4"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="30.5" y1="26.5" x2="30.5" y2="9.5"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="42"   y1="12.5" x2="19"   y2="23.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <!-- Right face: bottom-left panel window  (cx=20, cy=30, hw=11, hh=8.5) -->
+  <polygon points="31,33 9,44 9,27 31,16"     fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="20" y1="21.5" x2="20" y2="38.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="31" y1="24.5" x2="9"  y2="35.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
-  <!-- Right face: balcony ledge at hz=60  E(80,-20) S(0,20) -->
-  <line x1="80" y1="-20" x2="0" y2="20"   stroke="#ff8c00" stroke-width="2.5" opacity="0.8"/>
-  <line x1="80" y1="-17" x2="0" y2="23"   stroke="#1a0804" stroke-width="2"   opacity="0.45"/>
+  <!-- Right face: top-right panel window  (cx=60, cy=-22, hw=11, hh=8.5) -->
+  <polygon points="71,-19 49,-8 49,-25 71,-36"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="60" y1="-30.5" x2="60" y2="-13.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="71" y1="-27.5" x2="49" y2="-16.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
-  <!-- Right face: windows row 2 (hz 62→77) -->
-  <!-- Window 3  t=0.10→0.38 -->
-  <polygon points="72,-18 50,-7 50,-22 72,-33"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="61"   y1="-12.5" x2="61"   y2="-27.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="72"   y1="-25.5" x2="50"   y2="-14.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <!-- Window 4  t=0.48→0.76 -->
-  <polygon points="42,-3 19,8 19,-7 42,-18"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="30.5" y1="2.5"   x2="30.5" y2="-12.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="42"   y1="-10.5" x2="19"   y2="-4"    stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <!-- Right face: top-left panel window  (cx=20, cy=-2, hw=11, hh=8.5) -->
+  <polygon points="31,1 9,12 9,-5 31,-16"     fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="20" y1="-10.5" x2="20" y2="6.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="31" y1="-7.5"  x2="9"  y2="3.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
   <!-- Block A top face -->
   <polygon points="0,-88 80,-48 0,-8 -80,-48" fill="url(#aT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- Block A face panel dividers -->
+  <!-- Vertical dividers: right face x=40 and left face x=-40, full height y=-28→36 -->
+  <line x1="40"  y1="-28" x2="40"  y2="36" stroke="#ff8c00" stroke-width="2" opacity="0.75"/>
+  <line x1="-40" y1="-28" x2="-40" y2="36" stroke="#aa4400" stroke-width="1.5" opacity="0.4"/>
+  <!-- Horizontal divider: continuous polyline right→front→left at face midheight -->
+  <line x1="80"  y1="-16" x2="0" y2="24" stroke="#ff8c00" stroke-width="2"   opacity="0.75"/>
+  <line x1="0"   y1="24"  x2="-80" y2="-16" stroke="#aa4400" stroke-width="1.5" opacity="0.4"/>
 
   <!-- Block A: terrace corner lights (marks the step up to Block B) -->
   <circle cx="80"  cy="-48" r="5" fill="#ffaa00" filter="url(#glow)"/>
@@ -175,36 +195,41 @@
        ══════════════════════════════════════════ -->
   <g transform="translate(0, 40)">
 
-  <!-- Left face + details -->
+  <!-- Left face -->
   <polygon points="-48,-64 0,-40 0,-82 -48,-106"  fill="url(#bL)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="-48" y1="-64" x2="-48" y2="-106" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
 
-  <!-- Block B left face: utility conduit (dim mirror of right) -->
-  <line x1="-42" y1="-67" x2="-42" y2="-103" stroke="#2a1004" stroke-width="3"/>
-  <line x1="-42" y1="-67" x2="-42" y2="-103" stroke="#aa4400" stroke-width="0.7" opacity="0.18"/>
+  <!-- Left face: outer-left panel window  (cx=-36, cy=-79, hw=8, hh=8) -->
+  <polygon points="-44,-75 -28,-67 -28,-83 -44,-91"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
+  <line x1="-36" y1="-87"   x2="-36" y2="-71"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-44" y1="-83"   x2="-28" y2="-75"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Block B left face: windows (dim mirror of right) -->
-  <polygon points="-44,-71 -28,-63 -28,-79 -44,-87"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
-  <polygon points="-23,-61 -6,-52 -6,-68 -23,-77"    fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
+  <!-- Left face: inner-right panel window  (cx=-12, cy=-67, hw=8, hh=8) -->
+  <polygon points="-20,-63 -4,-55 -4,-71 -20,-79"    fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
+  <line x1="-12" y1="-75"   x2="-12" y2="-59"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-20" y1="-71"   x2="-4"  y2="-63"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Right face + details -->
+  <!-- Right face -->
   <polygon points="48,-64 0,-40 0,-82 48,-106"    fill="url(#bR)" stroke="#cc5500" stroke-width="1.5"/>
-  <line x1="48" y1="-64" x2="48" y2="-106" stroke="#e07030" stroke-width="2"   opacity="0.55"/>
+  <line x1="48" y1="-64" x2="48" y2="-106" stroke="#e07030" stroke-width="2" opacity="0.55"/>
 
-  <!-- Right face: utility conduit -->
-  <line x1="42" y1="-67" x2="42" y2="-103" stroke="#5a2008" stroke-width="3"/>
-  <line x1="42" y1="-67" x2="42" y2="-103" stroke="#ff8c00" stroke-width="0.9" opacity="0.3"/>
+  <!-- Right face: right panel window  (cx=36, cy=-79, hw=8, hh=8) -->
+  <polygon points="44,-75 28,-67 28,-83 44,-91"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="36" y1="-87"   x2="36" y2="-71"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="44" y1="-83"   x2="28" y2="-75"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
-  <!-- Block B right face: windows (hz 97→113)  E→S param: x=48(1-t), y=24+24t-hz -->
-  <!-- Window B-1  t=0.08→0.42 -->
-  <polygon points="44,-71 28,-63 28,-79 44,-87"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="36"   y1="-67" x2="36"   y2="-83"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <!-- Window B-2  t=0.52→0.88 -->
-  <polygon points="23,-61 6,-52 6,-68 23,-77"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="14.5" y1="-56.5" x2="14.5" y2="-72.5" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <!-- Right face: left panel window  (cx=12, cy=-67, hw=8, hh=8) -->
+  <polygon points="20,-63 4,-55 4,-71 20,-79"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="12" y1="-75"   x2="12" y2="-59"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="20" y1="-71"   x2="4"  y2="-63"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
   <!-- Block B top face -->
   <polygon points="0,-130 48,-106 0,-82 -48,-106" fill="url(#bT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- Block B face panel dividers -->
+  <!-- Vertical dividers only: right face x=24 and left face x=-24, y=-94→-52 -->
+  <line x1="24"  y1="-94" x2="24"  y2="-52" stroke="#ff8c00" stroke-width="2"   opacity="0.75"/>
+  <line x1="-24" y1="-94" x2="-24" y2="-52" stroke="#aa4400" stroke-width="1.5" opacity="0.4"/>
 
   </g>
 
