@@ -89,6 +89,11 @@ export default function IsometricGrid({
     setRotation(next)
   }, [])
 
+  const handleResetView = useCallback(() => {
+    engineRef.current?.resetCamera()
+    setPendingPlacement(null)
+  }, [])
+
   const buildableTypes = buildingTypes.filter((b) => b.isBuildable)
 
   return (
@@ -120,7 +125,7 @@ export default function IsometricGrid({
           onDismiss={() => setPendingPlacement(null)}
         />
       )}
-      <RotationControls rotation={rotation} onRotate={handleRotate} />
+      <RotationControls rotation={rotation} onRotate={handleRotate} onResetView={handleResetView} />
     </div>
   )
 }

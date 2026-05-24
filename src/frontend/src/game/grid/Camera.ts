@@ -68,6 +68,11 @@ export class Camera {
     this.clamp()
   }
 
+  resetToMinScale(): void {
+    this.state.scale = this.minScale
+    this.clamp()
+  }
+
   resize(viewportW: number, viewportH: number, centerX: number, offsetY: number): void {
     this.centerX = centerX
     this.offsetY = offsetY

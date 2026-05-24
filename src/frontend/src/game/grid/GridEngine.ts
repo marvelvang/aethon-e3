@@ -142,6 +142,11 @@ export class GridEngine {
     return this.rotation
   }
 
+  resetCamera(): void {
+    this.camera.resetToMinScale()
+    this.applyCamera()
+  }
+
   destroy(): void {
     if (this.destroyed) return
     this.destroyed = true
