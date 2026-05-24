@@ -32,7 +32,12 @@ public class BuildService
             throw new InvalidOperationException(
                 $"Insufficient industry. Need {def.IndustryCost}, have {state.Industry}.");
 
+        if (state.Energy < def.EnergyCost)
+            throw new InvalidOperationException(
+                $"Insufficient energy. Need {def.EnergyCost}, have {state.Energy}.");
+
         state.Industry -= def.IndustryCost;
+        state.Energy   -= def.EnergyCost;
 
         state.Buildings.Add(new Building
         {

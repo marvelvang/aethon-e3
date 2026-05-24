@@ -9,6 +9,7 @@ public class GameState
     public int Population { get; set; }
     public int ConsumerGoods { get; set; }
     public int Industry { get; set; }
+    public int Energy { get; set; }
 
     public ICollection<Building> Buildings { get; set; } = new List<Building>();
 

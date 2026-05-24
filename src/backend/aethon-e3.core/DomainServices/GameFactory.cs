@@ -12,7 +12,8 @@ public class GameFactory
             Round         = 1,
             Population    = 100,
             ConsumerGoods = 0,
-            Industry      = 200
+            Industry      = 200,
+            Energy        = 200
         };
         state.Buildings.Add(new Building
         {

@@ -5,5 +5,6 @@ public enum BuildingType
     Base,
     Housing,
     Consumer,
-    Industry
+    Industry,
+    PowerPlant
 }

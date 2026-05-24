@@ -219,7 +219,8 @@
           "Base",
           "Housing",
           "Consumer",
-          "Industry"
+          "Industry",
+          "PowerPlant"
         ]
       },
       "PlaceBuildingRequest": {
@@ -289,8 +290,10 @@
           "type",
           "populationCost",
           "industryCost",
+          "energyCost",
           "consumerGoodsProduction",
           "industryProduction",
+          "energyProduction",
           "housingContribution",
           "isBuildable",
           "canAfford"
@@ -316,6 +319,14 @@
             ],
             "format": "int32"
           },
+          "energyCost": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
           "consumerGoodsProduction": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
@@ -325,6 +336,14 @@
             "format": "int32"
           },
           "industryProduction": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "energyProduction": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
               "integer",
@@ -358,9 +377,11 @@
           "boundPopulation",
           "consumerGoods",
           "industry",
+          "energy",
           "housing",
           "consumerGoodsGain",
           "industryGain",
+          "energyGain",
           "housingGain",
           "populationGain",
           "buildings",
@@ -427,6 +448,14 @@
             ],
             "format": "int32"
           },
+          "energy": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
           "housing": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
@@ -444,6 +473,14 @@
             "format": "int32"
           },
           "industryGain": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "energyGain": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
               "integer",

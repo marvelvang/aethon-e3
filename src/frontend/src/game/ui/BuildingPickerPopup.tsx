@@ -127,6 +127,9 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
               {Number(info.industryCost) > 0 && (
                 <span style={{ color: 'var(--color-industry)' }}>Ind {info.industryCost}</span>
               )}
+              {Number(info.energyCost) > 0 && (
+                <span style={{ color: 'var(--color-energy)' }}>Ene {info.energyCost}</span>
+              )}
             </div>
           </div>
         )

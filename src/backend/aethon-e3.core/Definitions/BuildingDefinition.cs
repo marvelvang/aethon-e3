@@ -5,5 +5,7 @@ public record BuildingDefinition(
     int IndustryCost,
     int ConsumerGoodsProduction,
     int IndustryProduction,
-    int HousingContribution
+    int HousingContribution,
+    int EnergyCost,
+    int EnergyProduction
 );

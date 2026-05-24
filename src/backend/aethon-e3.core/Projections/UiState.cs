@@ -14,9 +14,11 @@ public class UiState
     public required int BoundPopulation { get; init; }
     public required int ConsumerGoods { get; init; }
     public required int Industry { get; init; }
+    public required int Energy { get; init; }
     public required int Housing { get; init; }
     public required int ConsumerGoodsGain { get; init; }
     public required int IndustryGain { get; init; }
+    public required int EnergyGain { get; init; }
     public required int HousingGain { get; init; }
     public required int PopulationGain { get; init; }
     public required List<UiBuildingSlot> Buildings { get; init; }
@@ -36,8 +38,10 @@ public class UiBuildingTypeInfo
     public required BuildingType Type { get; init; }
     public required int PopulationCost { get; init; }
     public required int IndustryCost { get; init; }
+    public required int EnergyCost { get; init; }
     public required int ConsumerGoodsProduction { get; init; }
     public required int IndustryProduction { get; init; }
+    public required int EnergyProduction { get; init; }
     public required int HousingContribution { get; init; }
     public required bool IsBuildable { get; init; }
     public required bool CanAfford { get; init; }
