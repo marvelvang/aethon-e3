@@ -63,10 +63,6 @@
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#2a3c58" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#2a3c58" stroke-width="1.5"/>
 
-  <!-- Weiße Querlinien (Energienetzwerk) auf SE- und SW-Seitenfläche -->
-  <polygon points="128,49.8 0,113.8 0,118.2 128,54.2"   fill="white"/>
-  <polygon points="-128,49.8 0,113.8 0,118.2 -128,54.2" fill="white"/>
-
   <!-- ══════════════════════════════════════════════════
        SCHÜSSELN AUF DEN VIER ECKEN DER BASEPLATE
        Jede Schüssel: Pfahl + ovale Schüsselschale + Fokuspunkt
