@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  NukleoCore – Power Plant (Master SVG, 4× tile resolution)
-  Klares, weißes Kondensatorgebäude mit eisblauem Energiekern
+  SolarCore Receiver – Power Plant (Master SVG, 4× tile resolution)
+  Identische Baseplate wie alle anderen Gebäude.
+  Superstruktur: breite Plattform + zwei Kollektorarme + zentrale Empfängerkuppel.
+
+  Koordinatensystem (wie alle anderen Buildings):
+    viewBox: -128 -178 256 308
+    Anker:   sprite.anchor.set(0.5, 178/308)
+    Scale:   64/256
+
+  Schichten (Painter's Algorithm):
+    hz 0→24   Foundation  ±128  (identisch mit Base/Housing/Consumer/Industry)
+    hz 24→72  Platform    ±88
+    Kollektorarme von E/W-Ecken der Platform schräg nach oben
+    hz ~100   Kollektorschüsseln
+    Zentraler Mast
+    Empfängerkuppel oben
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
      width="256" height="308">
   <defs>
-    <!-- Foundation: dark cold gray -->
+
+    <!-- ── Foundation (kaltes Dunkelblau-Grau) ── -->
     <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
       <stop offset="0%"   stop-color="#2c3440"/>
       <stop offset="100%" stop-color="#141a24"/>
@@ -20,172 +35,219 @@
       <stop offset="0%"   stop-color="#3c4858"/>
       <stop offset="100%" stop-color="#1e2a38"/>
     </linearGradient>
-    <!-- Lower block: clean white/ice -->
-    <linearGradient id="lR" gradientUnits="userSpaceOnUse" x1="88" y1="0" x2="0" y2="-56">
-      <stop offset="0%"   stop-color="#f4f8ff"/>
-      <stop offset="40%"  stop-color="#d8e4f4"/>
-      <stop offset="100%" stop-color="#b0bcd0"/>
+
+    <!-- ── Platform (Eisweiß / helles Blaugrau) ── -->
+    <linearGradient id="pR" gradientUnits="userSpaceOnUse" x1="88" y1="20" x2="0" y2="-36">
+      <stop offset="0%"   stop-color="#eaf2ff"/>
+      <stop offset="50%"  stop-color="#c4d4ec"/>
+      <stop offset="100%" stop-color="#8898b8"/>
     </linearGradient>
-    <linearGradient id="lL" gradientUnits="userSpaceOnUse" x1="-88" y1="0" x2="0" y2="-56">
+    <linearGradient id="pL" gradientUnits="userSpaceOnUse" x1="-88" y1="20" x2="0" y2="-36">
       <stop offset="0%"   stop-color="#182030"/>
       <stop offset="100%" stop-color="#0a1018"/>
     </linearGradient>
-    <linearGradient id="lT" gradientUnits="userSpaceOnUse" x1="0" y1="-80" x2="0" y2="-24">
-      <stop offset="0%"   stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#ccd8ec"/>
-    </linearGradient>
-    <!-- Upper block: slightly cooler white -->
-    <linearGradient id="uR" gradientUnits="userSpaceOnUse" x1="56" y1="-44" x2="0" y2="-100">
-      <stop offset="0%"   stop-color="#eef4ff"/>
-      <stop offset="40%"  stop-color="#ccd8f0"/>
-      <stop offset="100%" stop-color="#9aaac4"/>
-    </linearGradient>
-    <linearGradient id="uL" gradientUnits="userSpaceOnUse" x1="-56" y1="-44" x2="0" y2="-100">
-      <stop offset="0%"   stop-color="#141c28"/>
-      <stop offset="100%" stop-color="#0a1018"/>
-    </linearGradient>
-    <linearGradient id="uT" gradientUnits="userSpaceOnUse" x1="0" y1="-128" x2="0" y2="-72">
-      <stop offset="0%"   stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#bec8e0"/>
-    </linearGradient>
-    <!-- Energy core panel: glowing ice blue -->
-    <radialGradient id="core" cx="40%" cy="35%" r="65%">
-      <stop offset="0%"   stop-color="#ffffff"/>
-      <stop offset="15%"  stop-color="#ddeeff"/>
-      <stop offset="45%"  stop-color="#88aaee"/>
-      <stop offset="80%"  stop-color="#334488"/>
-      <stop offset="100%" stop-color="#0a0e1e"/>
-    </radialGradient>
-    <!-- Energy core panel (shadow side, dim) -->
-    <radialGradient id="coreDim" cx="40%" cy="35%" r="65%">
-      <stop offset="0%"   stop-color="#334466"/>
-      <stop offset="30%"  stop-color="#222244"/>
-      <stop offset="70%"  stop-color="#111128"/>
-      <stop offset="100%" stop-color="#06080f"/>
-    </radialGradient>
-    <!-- Energy conduit -->
-    <linearGradient id="conduit" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-130">
-      <stop offset="0%"   stop-color="#aaccff"/>
-      <stop offset="50%"  stop-color="#6688cc"/>
-      <stop offset="100%" stop-color="#334488"/>
+    <linearGradient id="pT" gradientUnits="userSpaceOnUse" x1="0" y1="-80" x2="0" y2="8">
+      <stop offset="0%"   stop-color="#f4f8ff"/>
+      <stop offset="100%" stop-color="#ccd8f0"/>
     </linearGradient>
 
+    <!-- ── Kollektorspiegel auf der Dachfläche (poliertes Silber-Weiß) ── -->
+    <linearGradient id="mR" gradientUnits="userSpaceOnUse" x1="0" y1="-80" x2="88" y2="-36">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="60%"  stop-color="#dde8f8"/>
+      <stop offset="100%" stop-color="#aabbd4"/>
+    </linearGradient>
+    <linearGradient id="mL" gradientUnits="userSpaceOnUse" x1="0" y1="-80" x2="-88" y2="-36">
+      <stop offset="0%"   stop-color="#ccd8ee"/>
+      <stop offset="100%" stop-color="#99aac4"/>
+    </linearGradient>
+
+    <!-- ── Kollektorarm (Strebe) ── -->
+    <linearGradient id="armR" gradientUnits="userSpaceOnUse" x1="88" y1="-36" x2="58" y2="-107">
+      <stop offset="0%"   stop-color="#7a8aaa"/>
+      <stop offset="100%" stop-color="#4a5878"/>
+    </linearGradient>
+    <linearGradient id="armL" gradientUnits="userSpaceOnUse" x1="-88" y1="-36" x2="-58" y2="-107">
+      <stop offset="0%"   stop-color="#222a38"/>
+      <stop offset="100%" stop-color="#141c28"/>
+    </linearGradient>
+
+    <!-- ── Empfängerkuppel: radiales Eisblau-Glühen ── -->
+    <radialGradient id="domeInner" cx="42%" cy="38%" r="65%">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="18%"  stop-color="#ddeeff"/>
+      <stop offset="50%"  stop-color="#6688cc"/>
+      <stop offset="80%"  stop-color="#223366"/>
+      <stop offset="100%" stop-color="#080e1e"/>
+    </radialGradient>
+    <radialGradient id="domeCap" cx="50%" cy="25%" r="70%">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="25%"  stop-color="#ccddff"/>
+      <stop offset="65%"  stop-color="#4466aa"/>
+      <stop offset="100%" stop-color="#0e1a30"/>
+    </radialGradient>
+
+    <!-- ── Filter ── -->
     <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
     <filter id="coreglow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="softglow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+
   </defs>
 
-  <!-- ══ FOUNDATION hz 0→24 (±128) ══ -->
+  <!-- ══════════════════════════════════════════════════════
+       FOUNDATION  hz 0→24  (±128)
+       IDENTISCH mit Base / Housing / Consumer / Industry
+       Bottom: S(0,128) E(128,64) W(-128,64)
+       Top:    N(0,-24) E(128,40) S(0,104) W(-128,40)
+       ══════════════════════════════════════════════════════ -->
   <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#1e2a38" stroke-width="1.5"/>
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#2c3a50" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#2c3a50" stroke-width="1.5"/>
 
-  <!-- ══ LOWER BLOCK hz 24→80 (±88) ══ -->
+  <!-- ══════════════════════════════════════════════════════
+       PLATFORM  hz 24→72  (±88)   translate(0, 20)
+       Breiter, niedriger Sockel — Kollektoren liegen oben auf
+       ══════════════════════════════════════════════════════ -->
   <g transform="translate(0, 20)">
-  <polygon points="-88,20 0,64 0,8 -88,-36"   fill="url(#lL)" stroke="#121824" stroke-width="1.5"/>
-  <line x1="-88" y1="20" x2="-88" y2="-36" stroke="#0a1018" stroke-width="3" opacity="0.7"/>
 
-  <!-- Left face: energy core panel (dim mirror) -->
-  <polygon points="-72.7,17.7 -44.7,31.7 -44.7,-4.4 -72.7,-18.4"    fill="#06080e" stroke="#141c2e" stroke-width="2"/>
-  <polygon points="-70.7,15.7 -46.7,29.7 -46.7,-2.4 -70.7,-16.4"    fill="url(#coreDim)" opacity="0.85"/>
-  <!-- Left face: panel indicators (dim) -->
-  <polygon points="-29.3,28.9 -15.3,35.9 -15.3,20.9 -29.3,13.9"   fill="#080c14" stroke="#141c2e" stroke-width="1"/>
-  <circle cx="-22.3" cy="28.4" r="2.5" fill="#334466" opacity="0.6"/>
-  <circle cx="-22.3" cy="20.9" r="2.5" fill="#222244" opacity="0.5"/>
+    <!-- Linke Seite (Schatten) -->
+    <polygon points="-88,20 0,64 0,8 -88,-36"   fill="url(#pL)" stroke="#141a28" stroke-width="1.5"/>
+    <line x1="-88" y1="20" x2="-88" y2="-36"   stroke="#0a1018" stroke-width="3" opacity="0.7"/>
+    <!-- Linke Seite: horizontale Fuge-Linien -->
+    <line x1="-88" y1="-2"  x2="0" y2="30"  stroke="#1e2a3a" stroke-width="1" opacity="0.5"/>
+    <line x1="-88" y1="-20" x2="0" y2="12"  stroke="#1e2a3a" stroke-width="1" opacity="0.35"/>
 
-  <polygon points="88,20 0,64 0,8 88,-36"     fill="url(#lR)" stroke="#c0cce0" stroke-width="1.5"/>
-  <line x1="88" y1="20" x2="88" y2="-36" stroke="#ffffff" stroke-width="3" opacity="0.6"/>
+    <!-- Rechte Seite (Licht, Eisweiß) -->
+    <polygon points="88,20 0,64 0,8 88,-36"     fill="url(#pR)" stroke="#a0b0cc" stroke-width="1.5"/>
+    <line x1="88" y1="20" x2="88" y2="-36"     stroke="#ffffff" stroke-width="3" opacity="0.55"/>
+    <!-- Rechte Seite: horizontale Fuge-Linien -->
+    <line x1="88" y1="-2"  x2="0" y2="30"  stroke="#b8c8e0" stroke-width="1.5" opacity="0.5"/>
+    <line x1="88" y1="-20" x2="0" y2="12"  stroke="#b8c8e0" stroke-width="1"   opacity="0.35"/>
 
-  <!-- Right face: ENERGY CORE PANEL (main feature) -->
-  <polygon points="72.7,17.7 44.7,31.7 44.7,-4.4 72.7,-18.4"    fill="#0a0e1e" stroke="#334488" stroke-width="2"/>
-  <polygon points="70.7,15.7 46.7,29.7 46.7,-2.4 70.7,-16.4"    fill="url(#core)" opacity="0.9"/>
-  <!-- Core glow bloom -->
-  <polygon points="72.7,17.7 44.7,31.7 44.7,-4.4 72.7,-18.4"    fill="#aaccff" opacity="0.08" filter="url(#coreglow)"/>
-  <!-- Right face: panel indicators (lit) -->
-  <polygon points="29.3,28.9 15.3,35.9 15.3,20.9 29.3,13.9"   fill="#0e1428" stroke="#334488" stroke-width="1"/>
-  <circle cx="22.3" cy="28.4" r="2.5" fill="#aaccff" filter="url(#glow)"/>
-  <circle cx="22.3" cy="20.9" r="2.5" fill="#88aaee" opacity="0.7"/>
+    <!-- Dachfläche (Diamant) -->
+    <polygon points="0,-80 88,-36 0,8 -88,-36"  fill="url(#pT)" stroke="#c0cce0" stroke-width="1.5"/>
 
-  <!-- Lower block top face -->
-  <polygon points="0,-80 88,-36 0,8 -88,-36"    fill="url(#lT)" stroke="#c0cce0" stroke-width="1.5"/>
-  <line x1="0" y1="-80" x2="0" y2="8"       stroke="#aaccff" stroke-width="1" opacity="0.3"/>
-  <line x1="-88" y1="-36" x2="88" y2="-36"  stroke="#aaccff" stroke-width="1" opacity="0.3"/>
+    <!-- ──────────────────────────────────────────
+         KOLLEKTORSPIEGEL AUF DEM DACH
+         Zwei große Spiegelflächen, die schräg nach
+         oben zur Kuppel ausgerichtet sind.
+         Rechte Hälfte (NE) + Linke Hälfte (NW)
+         ────────────────────────────────────────── -->
 
-  <circle cx="88"  cy="-36" r="5" fill="#aaccff" filter="url(#glow)"/>
-  <circle cx="-88" cy="-36" r="5" fill="#aaccff" filter="url(#glow)" opacity="0.6"/>
-  <circle cx="0"   cy="8"   r="5" fill="#aaccff" filter="url(#glow)"/>
+    <!-- Rechte Dach-Kollektorfläche (NE-Hälfte, heller Spiegel) -->
+    <polygon points="4,-74 82,-34 46,-16 -26,-56"
+             fill="url(#mR)" stroke="#aaccff" stroke-width="1.2" opacity="0.96"/>
+    <!-- Spiegel-Rasterlinien (simulieren Facetten) -->
+    <line x1="44" y1="-55" x2="10"  y2="-73" stroke="#ddeeff" stroke-width="1" opacity="0.65"/>
+    <line x1="63" y1="-45" x2="29"  y2="-63" stroke="#ddeeff" stroke-width="1" opacity="0.65"/>
+    <!-- Fokuspunkt rechts -->
+    <circle cx="30" cy="-55" r="4.5" fill="#aaccff" filter="url(#glow)"/>
+
+    <!-- Linke Dach-Kollektorfläche (NW-Hälfte, etwas dunkler) -->
+    <polygon points="-4,-74 -82,-34 -46,-16 26,-56"
+             fill="url(#mL)" stroke="#8899bb" stroke-width="1.2" opacity="0.92"/>
+    <!-- Spiegel-Rasterlinien (dim) -->
+    <line x1="-44" y1="-55" x2="-10"  y2="-73" stroke="#9aaabb" stroke-width="1" opacity="0.5"/>
+    <line x1="-63" y1="-45" x2="-29"  y2="-63" stroke="#9aaabb" stroke-width="1" opacity="0.5"/>
+    <!-- Fokuspunkt links (dim) -->
+    <circle cx="-30" cy="-55" r="4.5" fill="#6677aa" filter="url(#glow)" opacity="0.75"/>
+
+    <!-- Mittelnaht der beiden Spiegelflächen -->
+    <line x1="0" y1="-80" x2="0" y2="8" stroke="#aaccff" stroke-width="1.5" opacity="0.55"/>
+
+    <!-- Platform-Ecksphären (Energienetzwerk-Verbindung, wie bei allen Gebäuden) -->
+    <circle cx="88"  cy="-36" r="5" fill="#aaccff" filter="url(#glow)"/>
+    <circle cx="-88" cy="-36" r="5" fill="#aaccff" filter="url(#glow)" opacity="0.6"/>
+    <circle cx="0"   cy="8"   r="5" fill="#aaccff" filter="url(#glow)"/>
+
+    <!-- ──────────────────────────────────────────
+         ENERGIESTRAHLEN (Fokuspunkte → Kuppel)
+         Sehr fein, halb-transparent
+         ────────────────────────────────────────── -->
+    <line x1="30"  y1="-55"  x2="0" y2="-148" stroke="#aaccff" stroke-width="1.5" opacity="0.45"/>
+    <line x1="-30" y1="-55"  x2="0" y2="-148" stroke="#7788bb" stroke-width="1.5" opacity="0.3"/>
+    <line x1="58"  y1="-107" x2="0" y2="-148" stroke="#aaccff" stroke-width="1.5" opacity="0.5"/>
+    <line x1="-58" y1="-107" x2="0" y2="-148" stroke="#6677aa" stroke-width="1.5" opacity="0.35"/>
+
+    <!-- ──────────────────────────────────────────
+         KOLLEKTORARME
+         Von den E/W-Ecken der Plattform schräg nach
+         oben zu den seitlichen Kollektorschüsseln.
+         E-Arm (hinter der Kuppel) → zuerst zeichnen
+         ────────────────────────────────────────── -->
+
+    <!-- Ost-Arm (von E-Ecke zu östlicher Kollektorschüssel) -->
+    <polygon points="90,-35 86,-38 56,-109 60,-106"
+             fill="url(#armR)" stroke="#5a6a8a" stroke-width="1"/>
+
+    <!-- Östliche Kollektorschüssel -->
+    <!-- Schüsselrand (Ellipse, silbrig) -->
+    <ellipse cx="58" cy="-107" rx="16" ry="8"
+             fill="#c0d0e8" stroke="#ddeeff" stroke-width="1.5"/>
+    <!-- Schüsselinneres (Glühen, auf Kuppel ausgerichtet) -->
+    <ellipse cx="58" cy="-107" rx="10" ry="5" fill="url(#domeInner)" opacity="0.9"/>
+    <!-- Fokuspunkt -->
+    <circle cx="58" cy="-107" r="5" fill="#aaccff" filter="url(#glow)"/>
+
+    <!-- West-Arm (von W-Ecke zu westlicher Kollektorschüssel) -->
+    <polygon points="-90,-35 -86,-38 -56,-109 -60,-106"
+             fill="url(#armL)" stroke="#2a3448" stroke-width="1"/>
+
+    <!-- Westliche Kollektorschüssel (Schattenseite, dunkler) -->
+    <ellipse cx="-58" cy="-107" rx="16" ry="8"
+             fill="#2a3448" stroke="#4a5878" stroke-width="1.5" opacity="0.85"/>
+    <ellipse cx="-58" cy="-107" rx="10" ry="5" fill="#1a2238" opacity="0.9"/>
+    <circle cx="-58" cy="-107" r="5" fill="#5566aa" filter="url(#glow)" opacity="0.7"/>
+
+    <!-- ──────────────────────────────────────────
+         ZENTRALER MAST
+         Verbindet Plattform-Dach mit Kuppelbasis
+         ────────────────────────────────────────── -->
+    <!-- Mast (schmal, vertikal) -->
+    <polygon points="-4,-80 4,-80 4,-148 -4,-148" fill="#3a4a68" stroke="#5a6a8a" stroke-width="0.8"/>
+    <!-- Mast-Highlight (rechte Kante) -->
+    <line x1="4" y1="-80" x2="4" y2="-148" stroke="#8899cc" stroke-width="1" opacity="0.6"/>
+    <!-- Mast-Querstrebe in der Mitte -->
+    <line x1="-16" y1="-114" x2="16" y2="-114" stroke="#5a6a8a" stroke-width="2"/>
+
+    <!-- ──────────────────────────────────────────
+         EMPFÄNGERKUPPEL (Receiver Dome)
+         Zentral, oberhalb des Mastes.
+         In isometrischer Ansicht: Ellipse (Äquator)
+         + Dom-Kappe (obere sichtbare Hemisphäre).
+         ────────────────────────────────────────── -->
+
+    <!-- Kuppel-Sockelring (dunkles Band unterm Äquator) -->
+    <ellipse cx="0" cy="-148" rx="36" ry="18" fill="#0a0e1e" stroke="#223366" stroke-width="2"/>
+
+    <!-- Kuppel-Innenfläche (Äquatorebene, radiales Glühen) -->
+    <ellipse cx="0" cy="-148" rx="34" ry="17" fill="url(#domeInner)" opacity="0.95"/>
+
+    <!-- Dom-Kappe (obere Halbkugel, in isometrischer Projektion als Bogen sichtbar) -->
+    <!-- Arc von W-Rand (-34,-148) über Apex nach E-Rand (34,-148), sweep=0 = aufwärts -->
+    <path d="M -34,-148 A 34,26 0 0,0 34,-148 Z" fill="url(#domeCap)"/>
+
+    <!-- Kuppel-Außenring (leuchtende Umrandung) -->
+    <ellipse cx="0" cy="-148" rx="36" ry="18"
+             fill="none" stroke="#aaccff" stroke-width="2" opacity="0.75"/>
+    <ellipse cx="0" cy="-148" rx="36" ry="18"
+             fill="none" stroke="#ddeeff" stroke-width="6" opacity="0.12"
+             filter="url(#softglow)"/>
+
+    <!-- Kuppel-Kern (weißer Glühpunkt im Zentrum) -->
+    <circle cx="0" cy="-156" r="12" fill="#aaccff" opacity="0.12" filter="url(#softglow)"/>
+    <circle cx="0" cy="-156" r="7"  fill="#aaccff" opacity="0.85" filter="url(#coreglow)"/>
+    <circle cx="0" cy="-156" r="3"  fill="#ffffff"/>
 
   </g>
 
-  <!-- ══ UPPER BLOCK hz 80→128 (±56) ══ -->
-  <g transform="translate(0, 28)">
-  <polygon points="-56,-44 0,-16 0,-72 -56,-100"  fill="url(#uL)" stroke="#101828" stroke-width="1.5"/>
-  <line x1="-56" y1="-44" x2="-56" y2="-100" stroke="#0a1018" stroke-width="2.5" opacity="0.6"/>
-
-  <!-- Upper left: readout panels (dim) -->
-  <polygon points="-46.67,-53.33 -30.67,-45.33 -30.67,-59.33 -46.67,-67.33"  fill="#06080e" stroke="#141c2e" stroke-width="1.5"/>
-  <polygon points="-44.67,-55.33 -32.67,-47.33 -32.67,-57.33 -44.67,-65.33"  fill="url(#coreDim)" opacity="0.8"/>
-  <polygon points="-46.67,-53.33 -30.67,-45.33 -30.67,-59.33 -46.67,-67.33"  fill="#aaccff" opacity="0.03" filter="url(#coreglow)"/>
-
-  <polygon points="-21.33,-40.67 -9.33,-34.67 -9.33,-48.67 -21.33,-54.67"    fill="#06080f" stroke="#141c2e" stroke-width="1.5"/>
-  <circle cx="-15.33" cy="-44.67" r="3" fill="#334466" opacity="0.55"/>
-
-  <polygon points="56,-44 0,-16 0,-72 56,-100"   fill="url(#uR)" stroke="#d0daf0" stroke-width="1.5"/>
-  <line x1="56" y1="-44" x2="56" y2="-100" stroke="#ffffff" stroke-width="2.5" opacity="0.6"/>
-
-  <!-- Upper right: readout panels (lit) -->
-  <polygon points="46.67,-53.33 30.67,-45.33 30.67,-59.33 46.67,-67.33"  fill="#0a0e1e" stroke="#334488" stroke-width="1.5"/>
-  <polygon points="44.67,-55.33 32.67,-47.33 32.67,-57.33 44.67,-65.33"  fill="url(#core)" opacity="0.85"/>
-  <polygon points="46.67,-53.33 30.67,-45.33 30.67,-59.33 46.67,-67.33"  fill="#aaccff" opacity="0.05" filter="url(#coreglow)"/>
-
-  <polygon points="21.33,-40.67 9.33,-34.67 9.33,-48.67 21.33,-54.67"    fill="#0a0e1e" stroke="#334488" stroke-width="1.5"/>
-  <circle cx="15.33" cy="-44.67" r="3" fill="#aaccff" filter="url(#glow)"/>
-
-  <!-- Energy ring band -->
-  <polyline points="56,-86 0,-58 -56,-86"   stroke="#aaccff" stroke-width="2"   fill="none" opacity="0.55"/>
-
-  <!-- Upper block top face -->
-  <polygon points="0,-128 56,-100 0,-72 -56,-100"  fill="url(#uT)" stroke="#c8d4ec" stroke-width="1.5"/>
-  <line x1="0" y1="-128" x2="0" y2="-72"      stroke="#aaccff" stroke-width="1" opacity="0.3"/>
-  <line x1="-56" y1="-100" x2="56" y2="-100"  stroke="#aaccff" stroke-width="1" opacity="0.3"/>
-
-  <circle cx="56"  cy="-100" r="5" fill="#aaccff" filter="url(#glow)"/>
-  <circle cx="-56" cy="-100" r="5" fill="#aaccff" filter="url(#glow)" opacity="0.6"/>
-  <circle cx="0"   cy="-72"  r="5" fill="#aaccff" filter="url(#glow)"/>
-
-  <!-- ══ ROOFTOP: ENERGY EMITTER RING ══ -->
-  <g transform="translate(0, 28)">
-  <!-- Outer ring -->
-  <ellipse cx="0" cy="-128" rx="26" ry="13" fill="none" stroke="#aaccff" stroke-width="2"   opacity="0.7"/>
-  <ellipse cx="0" cy="-128" rx="26" ry="13" fill="none" stroke="#ddeeff" stroke-width="5"   opacity="0.15" filter="url(#softglow)"/>
-  <ellipse cx="0" cy="-128" rx="12" ry="6"  fill="none" stroke="#aaccff" stroke-width="1.5" opacity="0.55"/>
-
-  <!-- Central emitter node -->
-  <circle cx="0" cy="-128" r="6"  fill="#aaccff" opacity="0.9" filter="url(#glow)"/>
-  <circle cx="0" cy="-128" r="12" fill="#aaccff" opacity="0.1" filter="url(#softglow)"/>
-
-  <!-- Energy spire -->
-  <line x1="0" y1="-134" x2="0" y2="-174" stroke="url(#conduit)" stroke-width="2.5"/>
-  <line x1="0" y1="-134" x2="0" y2="-174" stroke="#ddeeff" stroke-width="1"   opacity="0.6"/>
-
-  <!-- Cross bars on spire -->
-  <line x1="-14" y1="-162" x2="14" y2="-162" stroke="#aaccff" stroke-width="2"/>
-  <line x1="-8"  y1="-150" x2="8"  y2="-150" stroke="#aaccff" stroke-width="1.5"/>
-
-  <!-- Apex glow -->
-  <circle cx="0" cy="-174" r="10" fill="#aaccff" opacity="0.12" filter="url(#softglow)"/>
-  <circle cx="0" cy="-174" r="5"  fill="#aaccff" opacity="0.7"  filter="url(#glow)"/>
-  <circle cx="0" cy="-174" r="2.5" fill="#ffffff"/>
-
-  </g>
-  </g>
 </svg>
