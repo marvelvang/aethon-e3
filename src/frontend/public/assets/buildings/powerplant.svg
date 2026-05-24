@@ -63,11 +63,15 @@
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#2a3c58" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#2a3c58" stroke-width="1.5"/>
 
+  <!-- Weiße Querlinien (Energienetzwerk) auf SE- und SW-Seitenfläche -->
+  <polygon points="128,49.8 0,113.8 0,118.2 128,54.2"   fill="white"/>
+  <polygon points="-128,49.8 0,113.8 0,118.2 -128,54.2" fill="white"/>
+
   <!-- ══════════════════════════════════════════════════
        SCHÜSSELN AUF DEN VIER ECKEN DER BASEPLATE
        Jede Schüssel: Pfahl + ovale Schüsselschale + Fokuspunkt
-       Reihenfolge: N → E → W → (Strahlen) → Kugel → S
-       (Painter's Algorithm: Norden zuerst = am weitesten weg)
+       Reihenfolge: N → E → W → S → (Strahlen) → Kugel
+       (Painter's Algorithm: Norden zuerst = am weitesten weg; S vor Strahlen)
        ══════════════════════════════════════════════════ -->
 
   <!-- ─── NORD-SCHÜSSEL  Ecke N(0,−24) ─── -->
@@ -103,6 +107,15 @@
   <ellipse cx="-115" cy="20" rx="8" ry="4"
            fill="#101826" stroke="#304060" stroke-width="1" opacity="0.85"/>
   <circle cx="-115" cy="20" r="3" fill="white" opacity="0.7" filter="url(#glow)"/>
+
+  <!-- ─── SÜD-SCHÜSSEL  Ecke S(0,104)  (vorderste Ebene, vor den Strahlen) ─── -->
+  <line x1="0" y1="104" x2="0" y2="88"
+        stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="0" cy="83" rx="15" ry="7"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="0" cy="83" rx="9" ry="4.5"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+  <circle cx="0" cy="83" r="3.5" fill="white" opacity="0.95" filter="url(#glow)"/>
 
   <!-- ══════════════════════════════════════════════════
        WELLENSTRAHLEN  (von Fokuspunkten zur Kugel)
@@ -156,13 +169,5 @@
   <ellipse cx="0" cy="-132" rx="13" ry="4.5" fill="none"
            stroke="white" stroke-width="0.8" opacity="0.30"/>
 
-  <!-- ─── SÜD-SCHÜSSEL  Ecke S(0,104)  (vorderste Ebene, zuletzt) ─── -->
-  <line x1="0" y1="104" x2="0" y2="88"
-        stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
-  <ellipse cx="0" cy="83" rx="15" ry="7"
-           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
-  <ellipse cx="0" cy="83" rx="9" ry="4.5"
-           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
-  <circle cx="0" cy="83" r="3.5" fill="white" opacity="0.95" filter="url(#glow)"/>
 
 </svg>
