@@ -4,7 +4,7 @@ namespace aethon_e3.core.Projections;
 
 public class UiState
 {
-    public const string APP_VERSION = "0.0.40";
+    public const string APP_VERSION = "0.0.41";
 
     public required string BackendVersion { get; init; }
     public required int GameStateId { get; init; }
