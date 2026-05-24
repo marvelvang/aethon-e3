@@ -63,6 +63,10 @@ export default function IsometricGrid({
         }
       },
       onRotationChanged: setRotation,
+      onResetView: () => {
+        engineRef.current?.resetCamera()
+        setPendingPlacement(null)
+      },
     })
     engineRef.current = engine
 

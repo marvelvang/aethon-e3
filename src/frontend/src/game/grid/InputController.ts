@@ -5,6 +5,7 @@ export interface InputHandlers {
   onWheelZoom: (pivotX: number, pivotY: number, factor: number) => void
   onPinch: (rawFactor: number, midX: number, midY: number, startScale: number, startCamX: number, startCamY: number) => void
   onRotateView: (delta: 1 | -1) => void
+  onResetView: () => void
   onClick: (x: number, y: number) => void
   onHover: (x: number, y: number) => void
   onHoverEnd: () => void
@@ -181,7 +182,9 @@ export class InputController {
   }
 
   private onKeyDown = (e: KeyboardEvent) => {
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
     if (e.key === 'q' || e.key === 'Q') this.handlers.onRotateView(-1)
     if (e.key === 'e' || e.key === 'E') this.handlers.onRotateView(+1)
+    if (e.key === ' ') { e.preventDefault(); this.handlers.onResetView() }
   }
 }

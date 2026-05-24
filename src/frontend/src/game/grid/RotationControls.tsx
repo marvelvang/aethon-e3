@@ -61,7 +61,7 @@ export default function RotationControls({ rotation, onRotate, onResetView }: Pr
       <button
         className="rotation-ctrl-btn"
         onClick={onResetView}
-        title="Ansicht zentrieren & Zoom zurücksetzen"
+        title="Ansicht zentrieren & Zoom zurücksetzen (Leertaste)"
         aria-label="Ansicht zentrieren und Zoom zurücksetzen"
       >
         <CompassResetIcon label={ROTATION_LABELS[rotation]} />
