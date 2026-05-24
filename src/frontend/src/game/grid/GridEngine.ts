@@ -17,6 +17,7 @@ export type TileBounds = { minX: number; maxX: number; minY: number; maxY: numbe
 export interface GridEngineCallbacks {
   onCellClick: (cell: { col: number; row: number } | null, tileBounds: TileBounds | null) => void
   onRotationChanged: (rot: RotationStep) => void
+  onResetView: () => void
 }
 
 export class GridEngine {
@@ -84,6 +85,9 @@ export class GridEngine {
           this.callbacks.onRotationChanged(this.rotation)
           this.rebuildGrid()
         },
+        onResetView: () => {
+          this.callbacks.onResetView()
+        },
         onClick: (x, y) => {
           const cell = this.toGridCell(x, y)
           if (!cell) {
@@ -140,6 +144,11 @@ export class GridEngine {
 
   getRotation(): RotationStep {
     return this.rotation
+  }
+
+  resetCamera(): void {
+    this.camera.resetToMinScale()
+    this.applyCamera()
   }
 
   destroy(): void {
