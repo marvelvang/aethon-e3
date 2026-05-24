@@ -9,14 +9,15 @@
   bottom: 16px;
   right: 152px;
   z-index: 201;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+  width: 56px;
+  height: 56px;
 }
 
 /* Popup pill – matches the round button's glass style */
 .action-menu-popup {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -27,17 +28,18 @@
   border: 2px solid rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(8px);
   box-sizing: border-box;
-  animation: action-menu-in 0.14s ease-out;
+  white-space: nowrap;
+  animation: action-menu-in 0.14s ease-out forwards;
 }
 
 @keyframes action-menu-in {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.93);
+    transform: translateX(-50%) translateY(8px) scale(0.93);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
