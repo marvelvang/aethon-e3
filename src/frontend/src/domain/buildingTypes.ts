@@ -76,6 +76,17 @@ export const BUILDING_TYPES: Record<BuildingType, BuildingTypeMeta> = {
       g.drawRect(4, -5, 4, 12)
     },
   },
+  PowerPlant: {
+    label: 'Kraftwerk',
+    iconBgColor: 0x88AAFF,
+    iconHex: 'var(--color-energy)',
+    assetPath: '/assets/buildings/powerplant.svg',
+    assetAnchorY: ICON_ANCHOR_Y,
+    assetScale: ICON_SCALE,
+    drawIcon: (g) => {
+      g.drawPolygon([3, -9, -3, 0, 1, 0, -3, 9, 5, -1, 1, -1])
+    },
+  },
 }
 
-export const ALL_BUILDING_TYPES: BuildingType[] = ['Base', 'Housing', 'Consumer', 'Industry']
+export const ALL_BUILDING_TYPES: BuildingType[] = ['Base', 'Housing', 'Consumer', 'Industry', 'PowerPlant']

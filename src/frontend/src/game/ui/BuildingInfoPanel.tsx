@@ -29,6 +29,9 @@ function productionRows(info: UiBuildingTypeInfo): ProductionRow[] {
   if (Number(info.industryProduction) > 0) {
     rows.push({ label: 'Industrie', color: COLOR_BY_KEY.industry, value: Number(info.industryProduction) })
   }
+  if (Number(info.energyProduction) > 0) {
+    rows.push({ label: 'Energie', color: COLOR_BY_KEY.energy, value: Number(info.energyProduction) })
+  }
   if (Number(info.housingContribution) > 0) {
     rows.push({ label: 'Wohnraum', color: COLOR_BY_KEY.housing, value: Number(info.housingContribution) })
   }

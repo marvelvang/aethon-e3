@@ -17,6 +17,7 @@ public class RoundService(PopulationGrowthService growthService)
             var def = BuildingDefinitions.For(b.Type);
             state.ConsumerGoods += def.ConsumerGoodsProduction;
             state.Industry      += def.IndustryProduction;
+            state.Energy        += def.EnergyProduction;
         }
 
         // Step 3: Consumption
