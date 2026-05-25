@@ -44,7 +44,6 @@ public class UiStateProjectionService(ResourceGainService gainService)
             ConsumerGoodsGain = gains.ConsumerGoodsGain,
             IndustryGain      = gains.IndustryGain,
             EnergyGain        = gains.EnergyGain,
-            HousingGain       = gains.HousingGain,
             PopulationGain    = gains.PopulationGain,
             GameResult        = gameResult,
             Buildings       = state.Buildings

@@ -34,7 +34,7 @@ function productionRows(info: UiBuildingTypeInfo): InfoRow[] {
     rows.push({ label: 'Energie', color: COLOR_BY_KEY.energy, value: Number(info.energyProduction), prefix: '+' })
   }
   if (Number(info.housingContribution) > 0) {
-    rows.push({ label: 'Wohnraum', color: COLOR_BY_KEY.housing, value: Number(info.housingContribution), prefix: '+' })
+    rows.push({ label: 'Wohnraum', color: 'var(--color-housing)', value: Number(info.housingContribution), prefix: '+' })
   }
   return rows
 }
@@ -42,7 +42,7 @@ function productionRows(info: UiBuildingTypeInfo): InfoRow[] {
 function maintenanceRows(info: UiBuildingTypeInfo): InfoRow[] {
   const rows: InfoRow[] = []
   if (Number(info.maintenancePopulationCost) > 0) {
-    rows.push({ label: 'Bevölkerung', color: COLOR_BY_KEY.population, value: Number(info.maintenancePopulationCost), prefix: '' })
+    rows.push({ label: 'Bevölkerung', color: 'var(--color-population)', value: Number(info.maintenancePopulationCost), prefix: '' })
   }
   if (Number(info.maintenanceIndustryCost) > 0) {
     rows.push({ label: 'Industrie', color: COLOR_BY_KEY.industry, value: Number(info.maintenanceIndustryCost), prefix: '-' })
