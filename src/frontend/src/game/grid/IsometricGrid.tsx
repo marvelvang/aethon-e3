@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { placeBuilding } from '../../api/gameApi'
 import type { components } from '../../api/generated'
 import type { BuildingType } from '../../domain/buildingTypes'
 import BuildingPickerPopup from '../ui/BuildingPickerPopup'
 import { GridEngine, type TileBounds } from './GridEngine'
-import RotationControls from './RotationControls'
 import type { RotationStep } from './coordinates'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
@@ -13,6 +12,11 @@ type UiState = components['schemas']['UiState']
 
 type PendingPlacement = { cell: { col: number; row: number }; tileBounds: TileBounds } | null
 
+export interface IsometricGridHandle {
+  rotate: (delta: 1 | -1) => void
+  resetView: () => void
+}
+
 interface Props {
   buildings: UiBuildingSlot[]
   buildingTypes: UiBuildingTypeInfo[]
@@ -20,16 +24,13 @@ interface Props {
   onBuildingPlaced: (state: UiState) => void
   onCellClick: (building: UiBuildingSlot | null) => void
   selectedCell?: { col: number; row: number } | null
+  onRotationChanged: (rotation: RotationStep) => void
 }
 
-export default function IsometricGrid({
-  buildings,
-  buildingTypes,
-  gameId,
-  onBuildingPlaced,
-  onCellClick,
-  selectedCell,
-}: Props) {
+const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricGrid(
+  { buildings, buildingTypes, gameId, onBuildingPlaced, onCellClick, selectedCell, onRotationChanged },
+  ref,
+) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const engineRef = useRef<GridEngine | null>(null)
   const pendingCellsRef = useRef(new Set<string>())
@@ -42,8 +43,9 @@ export default function IsometricGrid({
   onCellClickRef.current = onCellClick
   const onBuildingPlacedRef = useRef(onBuildingPlaced)
   onBuildingPlacedRef.current = onBuildingPlaced
+  const onRotationChangedRef = useRef(onRotationChanged)
+  onRotationChangedRef.current = onRotationChanged
 
-  const [rotation, setRotation] = useState<RotationStep>(0)
   const [pendingPlacement, setPendingPlacement] = useState<PendingPlacement>(null)
 
   useEffect(() => {
@@ -62,7 +64,7 @@ export default function IsometricGrid({
           setPendingPlacement({ cell, tileBounds: tileBounds! })
         }
       },
-      onRotationChanged: setRotation,
+      onRotationChanged: (r) => onRotationChangedRef.current(r),
       onResetView: () => {
         engineRef.current?.resetCamera()
         setPendingPlacement(null)
@@ -90,13 +92,18 @@ export default function IsometricGrid({
     if (!engine) return
     const next = ((engine.getRotation() + delta + 4) % 4) as RotationStep
     engine.setRotation(next)
-    setRotation(next)
+    onRotationChangedRef.current(next)
   }, [])
 
   const handleResetView = useCallback(() => {
     engineRef.current?.resetCamera()
     setPendingPlacement(null)
   }, [])
+
+  useImperativeHandle(ref, () => ({
+    rotate: handleRotate,
+    resetView: handleResetView,
+  }))
 
   const buildableTypes = buildingTypes.filter((b) => b.isBuildable)
 
@@ -129,7 +136,8 @@ export default function IsometricGrid({
           onDismiss={() => setPendingPlacement(null)}
         />
       )}
-      <RotationControls rotation={rotation} onRotate={handleRotate} onResetView={handleResetView} />
     </div>
   )
-}
+})
+
+export default IsometricGrid
