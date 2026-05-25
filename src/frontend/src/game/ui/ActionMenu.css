@@ -5,9 +5,7 @@
 }
 
 .action-menu-container {
-  position: absolute;
-  bottom: 16px;
-  right: 152px;
+  position: relative;
   z-index: 201;
   width: 56px;
   height: 56px;
