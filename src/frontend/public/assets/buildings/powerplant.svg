@@ -165,16 +165,19 @@
   <path d="M 0,-58 Q 4,-72 0,-86 Q -4,-100 0,-114 Q 3,-123 0,-132"
         stroke="white" stroke-width="1.5" fill="none" opacity="0.80"/>
 
-  <!-- O-Strahl: (75,−12) → (0,−132), diagonal von rechts -->
-  <path d="M 75,-12 Q 58,-30 44,-52 Q 30,-74 18,-96 Q 9,-114 0,-132"
+  <!-- O-Strahl: (75,−12) → (0,−132), diagonal von rechts.
+       5 Segmente, Kontrollpunkte ±16px senkrecht zur Diagonalen versetzt.
+       Senkrecht-Vektoren: A=(+14,−8) oben-rechts, B=(−14,+8) unten-links. -->
+  <path d="M 75,-12 Q 82,-32 60,-36 Q 39,-40 45,-60 Q 52,-80 30,-84 Q 9,-88 15,-108 Q 22,-128 0,-132"
         stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
-  <path d="M 75,-12 Q 58,-30 44,-52 Q 30,-74 18,-96 Q 9,-114 0,-132"
+  <path d="M 75,-12 Q 82,-32 60,-36 Q 39,-40 45,-60 Q 52,-80 30,-84 Q 9,-88 15,-108 Q 22,-128 0,-132"
         stroke="white" stroke-width="1.5" fill="none" opacity="0.80"/>
 
-  <!-- W-Strahl: (−75,−12) → (0,−132), diagonal von links (Schattenseite, schwächer) -->
-  <path d="M -75,-12 Q -58,-30 -44,-52 Q -30,-74 -18,-96 Q -9,-114 0,-132"
+  <!-- W-Strahl: (−75,−12) → (0,−132), diagonal von links (Schattenseite, schwächer).
+       Spiegelsymmetrisch zum O-Strahl. -->
+  <path d="M -75,-12 Q -82,-32 -60,-36 Q -39,-40 -45,-60 Q -52,-80 -30,-84 Q -9,-88 -15,-108 Q -22,-128 0,-132"
         stroke="white" stroke-width="3.5" fill="none" opacity="0.10" filter="url(#beamglow)"/>
-  <path d="M -75,-12 Q -58,-30 -44,-52 Q -30,-74 -18,-96 Q -9,-114 0,-132"
+  <path d="M -75,-12 Q -82,-32 -60,-36 Q -39,-40 -45,-60 Q -52,-80 -30,-84 Q -9,-88 -15,-108 Q -22,-128 0,-132"
         stroke="white" stroke-width="1.5" fill="none" opacity="0.60"/>
 
   <!-- S-Strahl: (0,31) → (0,−132), lang, wellig, zuletzt = vorderster -->
