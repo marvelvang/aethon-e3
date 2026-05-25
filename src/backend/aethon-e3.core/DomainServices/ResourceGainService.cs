@@ -14,9 +14,12 @@ public class ResourceGainService(PopulationGrowthService growthService)
         int eneProduction = state.Buildings.Sum(b => BuildingDefinitions.For(b.Type).EnergyProduction);
         int totalHousing  = state.Buildings.Sum(b => BuildingDefinitions.For(b.Type).HousingContribution);
 
-        int cgGain      = cgProduction - state.Population;
-        int industryGain = indProduction;
-        int energyGain   = eneProduction;
+        int maintenanceInd = state.Buildings.Sum(b => BuildingDefinitions.For(b.Type).MaintenanceIndustryCost);
+        int maintenanceEne = state.Buildings.Sum(b => BuildingDefinitions.For(b.Type).MaintenanceEnergyCost);
+
+        int cgGain       = cgProduction - state.Population;
+        int industryGain = indProduction - maintenanceInd;
+        int energyGain   = eneProduction - maintenanceEne;
         int housingGain  = state.Buildings
                                .Where(b => b.IsNewlyBuilt)
                                .Sum(b => BuildingDefinitions.For(b.Type).HousingContribution);

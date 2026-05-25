@@ -18,8 +18,15 @@ public class UiStateProjectionService(ResourceGainService gainService)
         int housing = state.Buildings.Sum(b => BuildingDefinitions.For(b.Type).HousingContribution);
         int bound   = state.Buildings
                           .Where(b => b.IsNewlyBuilt)
-                          .Sum(b => BuildingDefinitions.For(b.Type).PopulationCost);
+                          .Sum(b => BuildingDefinitions.For(b.Type).PopulationCost)
+                    + state.Buildings
+                          .Where(b => !b.IsNewlyBuilt)
+                          .Sum(b => BuildingDefinitions.For(b.Type).MaintenancePopulationCost);
         int freePopulation = state.Population - bound;
+
+        bool isWon  = state.Buildings.Count == GameState.GridSize * GameState.GridSize;
+        bool isLost = state.Industry < 0 || state.Energy < 0;
+        var gameResult = isLost ? GameResult.Loss : (isWon ? GameResult.Win : GameResult.None);
         var gains = gainService.Calculate(state);
 
         return new UiState
@@ -39,6 +46,7 @@ public class UiStateProjectionService(ResourceGainService gainService)
             EnergyGain        = gains.EnergyGain,
             HousingGain       = gains.HousingGain,
             PopulationGain    = gains.PopulationGain,
+            GameResult        = gameResult,
             Buildings       = state.Buildings
                                   .Select(b => new UiBuildingSlot
                                   {
@@ -63,6 +71,9 @@ public class UiStateProjectionService(ResourceGainService gainService)
                                           IndustryProduction      = def.IndustryProduction,
                                           EnergyProduction        = def.EnergyProduction,
                                           HousingContribution     = def.HousingContribution,
+                                          MaintenancePopulationCost = def.MaintenancePopulationCost,
+                                          MaintenanceIndustryCost   = def.MaintenanceIndustryCost,
+                                          MaintenanceEnergyCost     = def.MaintenanceEnergyCost,
                                           IsBuildable             = buildable,
                                           CanAfford               = buildable
                                                                  && freePopulation >= def.PopulationCost

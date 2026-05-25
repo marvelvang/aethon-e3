@@ -296,7 +296,10 @@
           "energyProduction",
           "housingContribution",
           "isBuildable",
-          "canAfford"
+          "canAfford",
+          "maintenancePopulationCost",
+          "maintenanceIndustryCost",
+          "maintenanceEnergyCost"
         ],
         "type": "object",
         "properties": {
@@ -364,6 +367,30 @@
           },
           "canAfford": {
             "type": "boolean"
+          },
+          "maintenancePopulationCost": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "maintenanceIndustryCost": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "maintenanceEnergyCost": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
           }
         }
       },
@@ -385,7 +412,8 @@
           "housingGain",
           "populationGain",
           "buildings",
-          "buildingTypes"
+          "buildingTypes",
+          "gameResult"
         ],
         "type": "object",
         "properties": {
@@ -515,8 +543,18 @@
             "items": {
               "$ref": "#/components/schemas/UiBuildingTypeInfo"
             }
+          },
+          "gameResult": {
+            "$ref": "#/components/schemas/GameResult"
           }
         }
+      },
+      "GameResult": {
+        "enum": [
+          "None",
+          "Win",
+          "Loss"
+        ]
       }
     }
   },
