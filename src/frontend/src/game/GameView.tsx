@@ -2,12 +2,11 @@ import { useState } from 'react'
 import type { components } from '../api/generated'
 import type { GameController } from './hooks/useGame'
 import { useFullscreen } from './hooks/useFullscreen'
-import ActionMenu from './ui/ActionMenu'
+import BottomBar from './ui/BottomBar'
 import ConfirmDialog from '../shared/ui/ConfirmDialog'
 import IsometricGrid from './grid/IsometricGrid'
 import BuildingInfoPanel from './ui/BuildingInfoPanel'
 import ResourceOverlay from './ui/ResourceOverlay'
-import RoundButton from './ui/RoundButton'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
@@ -40,16 +39,11 @@ export default function GameView({ game }: GameViewProps) {
       />
       <ResourceOverlay state={game.state} />
 
-      <ActionMenu
+      <BottomBar
+        game={game}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
         onDeleteGame={() => setShowDeleteConfirm(true)}
-      />
-      <RoundButton
-        round={game.state ? Number(game.state.round) : undefined}
-        isWorking={game.isEndingRound}
-        disabled={!game.state || game.isEndingRound}
-        onClick={game.endRound}
       />
 
       {showDeleteConfirm && (
