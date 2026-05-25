@@ -4,7 +4,7 @@ namespace aethon_e3.core.Projections;
 
 public class UiState
 {
-    public const string APP_VERSION = "0.1.3";
+    public const string APP_VERSION = "0.1.4";
 
     public required string BackendVersion { get; init; }
     public required int GameStateId { get; init; }
@@ -19,7 +19,6 @@ public class UiState
     public required int ConsumerGoodsGain { get; init; }
     public required int IndustryGain { get; init; }
     public required int EnergyGain { get; init; }
-    public required int HousingGain { get; init; }
     public required int PopulationGain { get; init; }
     public required List<UiBuildingSlot> Buildings { get; init; }
     public required List<UiBuildingTypeInfo> BuildingTypes { get; init; }

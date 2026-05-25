@@ -3,7 +3,7 @@ using aethon_e3.persistence.Entities;
 
 namespace aethon_e3.core.DomainServices;
 
-public record ResourceGains(int ConsumerGoodsGain, int IndustryGain, int EnergyGain, int HousingGain, int PopulationGain);
+public record ResourceGains(int ConsumerGoodsGain, int IndustryGain, int EnergyGain, int PopulationGain);
 
 public class ResourceGainService(PopulationGrowthService growthService)
 {
@@ -14,15 +14,12 @@ public class ResourceGainService(PopulationGrowthService growthService)
         int eneProduction = state.Buildings.Sum(b => BuildingDefinitions.For(b.Type).EnergyProduction);
         int totalHousing  = state.Buildings.Sum(b => BuildingDefinitions.For(b.Type).HousingContribution);
 
-        int cgGain      = cgProduction - state.Population;
+        int cgGain       = cgProduction - state.Population;
         int industryGain = indProduction;
         int energyGain   = eneProduction;
-        int housingGain  = state.Buildings
-                               .Where(b => b.IsNewlyBuilt)
-                               .Sum(b => BuildingDefinitions.For(b.Type).HousingContribution);
         int populationGain = CalculatePopulationGain(state, cgProduction, totalHousing);
 
-        return new ResourceGains(cgGain, industryGain, energyGain, housingGain, populationGain);
+        return new ResourceGains(cgGain, industryGain, energyGain, populationGain);
     }
 
     private int CalculatePopulationGain(GameState state, int cgProduction, int totalHousing)
