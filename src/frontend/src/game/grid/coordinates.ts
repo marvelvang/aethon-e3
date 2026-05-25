@@ -1,4 +1,4 @@
-export const GRID_SIZE = 2
+export const GRID_SIZE = 20
 export const TILE_HALF_WIDTH = 32
 export const TILE_HALF_HEIGHT = 16
 
