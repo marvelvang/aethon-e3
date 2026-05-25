@@ -382,7 +382,6 @@
           "consumerGoodsGain",
           "industryGain",
           "energyGain",
-          "housingGain",
           "populationGain",
           "buildings",
           "buildingTypes"
@@ -481,14 +480,6 @@
             "format": "int32"
           },
           "energyGain": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "housingGain": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
               "integer",
