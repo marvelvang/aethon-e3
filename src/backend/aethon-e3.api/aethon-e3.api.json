@@ -223,6 +223,13 @@
           "PowerPlant"
         ]
       },
+      "GameResult": {
+        "enum": [
+          "None",
+          "Win",
+          "Loss"
+        ]
+      },
       "PlaceBuildingRequest": {
         "required": [
           "x",
@@ -295,11 +302,11 @@
           "industryProduction",
           "energyProduction",
           "housingContribution",
-          "isBuildable",
-          "canAfford",
           "maintenancePopulationCost",
           "maintenanceIndustryCost",
-          "maintenanceEnergyCost"
+          "maintenanceEnergyCost",
+          "isBuildable",
+          "canAfford"
         ],
         "type": "object",
         "properties": {
@@ -362,12 +369,6 @@
             ],
             "format": "int32"
           },
-          "isBuildable": {
-            "type": "boolean"
-          },
-          "canAfford": {
-            "type": "boolean"
-          },
           "maintenancePopulationCost": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
             "type": [
@@ -391,6 +392,12 @@
               "string"
             ],
             "format": "int32"
+          },
+          "isBuildable": {
+            "type": "boolean"
+          },
+          "canAfford": {
+            "type": "boolean"
           }
         }
       },
@@ -411,9 +418,9 @@
           "energyGain",
           "housingGain",
           "populationGain",
+          "gameResult",
           "buildings",
-          "buildingTypes",
-          "gameResult"
+          "buildingTypes"
         ],
         "type": "object",
         "properties": {
@@ -532,6 +539,9 @@
             ],
             "format": "int32"
           },
+          "gameResult": {
+            "$ref": "#/components/schemas/GameResult"
+          },
           "buildings": {
             "type": "array",
             "items": {
@@ -543,18 +553,8 @@
             "items": {
               "$ref": "#/components/schemas/UiBuildingTypeInfo"
             }
-          },
-          "gameResult": {
-            "$ref": "#/components/schemas/GameResult"
           }
         }
-      },
-      "GameResult": {
-        "enum": [
-          "None",
-          "Win",
-          "Loss"
-        ]
       }
     }
   },
