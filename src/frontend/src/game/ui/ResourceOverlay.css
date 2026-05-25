@@ -3,23 +3,21 @@
   top: 16px;
   right: 16px;
   z-index: 100;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   gap: 8px;
   pointer-events: none;
 }
 
-/* Mobile portrait: 4 untereinander */
 @media (max-width: 480px) and (orientation: portrait) {
   .resource-overlay {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 }
 
-/* Mobile landscape: 4 nebeneinander */
 @media (orientation: landscape) and (max-height: 480px) {
   .resource-overlay {
-    grid-template-columns: repeat(4, auto);
     top: 8px;
     right: 8px;
     gap: 6px;
@@ -39,7 +37,6 @@
   backdrop-filter: blur(6px);
 }
 
-/* Landscape: kompakter */
 @media (orientation: landscape) and (max-height: 480px) {
   .resource-card {
     padding: 5px 10px;
@@ -47,6 +44,33 @@
     border-radius: 6px;
   }
 }
+
+/* ── Population merged card ── */
+
+.pop-primary {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: monospace;
+  line-height: 1.1;
+}
+
+.pop-secondary-row {
+  display: flex;
+  align-items: baseline;
+  font-size: 13px;
+  font-weight: bold;
+  font-family: monospace;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.pop-sep {
+  font-size: 10px;
+  color: #444;
+  margin: 0 2px;
+}
+
+/* ── Simple resource cards ── */
 
 .resource-label {
   font-size: 9px;
@@ -65,8 +89,7 @@
   line-height: 1.1;
 }
 
-.resource-value-main,
-.resource-value-free {
+.resource-value-main {
   font-size: inherit;
   font-weight: inherit;
   font-family: inherit;
@@ -81,11 +104,6 @@
   vertical-align: middle;
 }
 
-.resource-value-free {
-  font-size: 14px;
-  opacity: 0.65;
-}
-
 .resource-value-gain {
   font-size: 14px;
   opacity: 0.65;
@@ -95,10 +113,15 @@
   color: #e57373;
 }
 
-/* Landscape: kleiner */
 @media (orientation: landscape) and (max-height: 480px) {
   .resource-value {
     font-size: 16px;
+  }
+  .pop-primary {
+    font-size: 16px;
+  }
+  .pop-secondary-row {
+    font-size: 11px;
   }
 }
 

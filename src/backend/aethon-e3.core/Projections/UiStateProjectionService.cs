@@ -37,7 +37,6 @@ public class UiStateProjectionService(ResourceGainService gainService)
             ConsumerGoodsGain = gains.ConsumerGoodsGain,
             IndustryGain      = gains.IndustryGain,
             EnergyGain        = gains.EnergyGain,
-            HousingGain       = gains.HousingGain,
             PopulationGain    = gains.PopulationGain,
             Buildings       = state.Buildings
                                   .Select(b => new UiBuildingSlot
