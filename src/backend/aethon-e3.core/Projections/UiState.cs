@@ -2,9 +2,11 @@ using aethon_e3.persistence.Enums;
 
 namespace aethon_e3.core.Projections;
 
+public enum GameResult { None, Win, Loss }
+
 public class UiState
 {
-    public const string APP_VERSION = "0.1.5";
+    public const string APP_VERSION = "0.2.0";
 
     public required string BackendVersion { get; init; }
     public required int GameStateId { get; init; }
@@ -20,6 +22,7 @@ public class UiState
     public required int IndustryGain { get; init; }
     public required int EnergyGain { get; init; }
     public required int PopulationGain { get; init; }
+    public required GameResult GameResult { get; init; }
     public required List<UiBuildingSlot> Buildings { get; init; }
     public required List<UiBuildingTypeInfo> BuildingTypes { get; init; }
 }
@@ -42,6 +45,9 @@ public class UiBuildingTypeInfo
     public required int IndustryProduction { get; init; }
     public required int EnergyProduction { get; init; }
     public required int HousingContribution { get; init; }
+    public required int MaintenancePopulationCost { get; init; }
+    public required int MaintenanceIndustryCost   { get; init; }
+    public required int MaintenanceEnergyCost     { get; init; }
     public required bool IsBuildable { get; init; }
     public required bool CanAfford { get; init; }
 }

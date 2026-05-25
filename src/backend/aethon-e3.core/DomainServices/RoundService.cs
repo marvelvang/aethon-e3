@@ -20,6 +20,14 @@ public class RoundService(PopulationGrowthService growthService)
             state.Energy        += def.EnergyProduction;
         }
 
+        // Step 2b: Maintenance — deduct industry and energy for all buildings
+        foreach (var b in state.Buildings)
+        {
+            var mdef = BuildingDefinitions.For(b.Type);
+            state.Industry -= mdef.MaintenanceIndustryCost;
+            state.Energy   -= mdef.MaintenanceEnergyCost;
+        }
+
         // Step 3: Consumption
         state.ConsumerGoods = Math.Max(0, state.ConsumerGoods - state.Population);
 

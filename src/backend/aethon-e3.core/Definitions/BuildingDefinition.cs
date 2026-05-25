@@ -7,5 +7,8 @@ public record BuildingDefinition(
     int IndustryProduction,
     int HousingContribution,
     int EnergyCost,
-    int EnergyProduction
+    int EnergyProduction,
+    int MaintenancePopulationCost,
+    int MaintenanceIndustryCost,
+    int MaintenanceEnergyCost
 );

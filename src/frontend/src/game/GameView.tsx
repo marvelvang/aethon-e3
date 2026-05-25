@@ -66,6 +66,33 @@ export default function GameView({ game }: GameViewProps) {
           onCancel={() => setShowDeleteConfirm(false)}
         />
       )}
+
+      {game.state?.gameResult === 'Win' && (
+        <ConfirmDialog
+          icon="🏆"
+          title="Sieg!"
+          message="Du hast alle Felder bebaut. Beeindruckend!"
+          confirmLabel="Neues Spiel"
+          hideCancelButton
+          isWorking={game.isDeletingGame}
+          onConfirm={game.deleteGame}
+          onCancel={() => {}}
+        />
+      )}
+
+      {game.state?.gameResult === 'Loss' && (
+        <ConfirmDialog
+          icon="💀"
+          title="Niederlage"
+          message="Deine Ressourcen sind ins Negative gerutscht. Von hier gibt es kein Zurück."
+          confirmLabel="Neues Spiel"
+          hideCancelButton
+          variant="danger"
+          isWorking={game.isDeletingGame}
+          onConfirm={game.deleteGame}
+          onCancel={() => {}}
+        />
+      )}
     </>
   )
 }

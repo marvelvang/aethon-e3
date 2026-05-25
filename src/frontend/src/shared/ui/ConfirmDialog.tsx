@@ -7,6 +7,7 @@ interface Props {
   message: string
   confirmLabel: string
   cancelLabel?: string
+  hideCancelButton?: boolean
   isWorking?: boolean
   variant?: 'danger' | 'default'
   onConfirm: () => void
@@ -19,6 +20,7 @@ export default function ConfirmDialog({
   message,
   confirmLabel,
   cancelLabel = 'Abbrechen',
+  hideCancelButton = false,
   isWorking = false,
   variant = 'default',
   onConfirm,
@@ -27,7 +29,7 @@ export default function ConfirmDialog({
   return (
     <div
       className="confirm-backdrop"
-      onClick={() => !isWorking && onCancel()}
+      onClick={() => !isWorking && !hideCancelButton && onCancel()}
     >
       <div
         className="confirm-panel"
@@ -37,13 +39,15 @@ export default function ConfirmDialog({
         <div className="confirm-title">{title}</div>
         <div className="confirm-message">{message}</div>
         <div className="confirm-buttons">
-          <button
-            onClick={onCancel}
-            disabled={isWorking}
-            className="confirm-btn confirm-btn-cancel"
-          >
-            {cancelLabel}
-          </button>
+          {!hideCancelButton && (
+            <button
+              onClick={onCancel}
+              disabled={isWorking}
+              className="confirm-btn confirm-btn-cancel"
+            >
+              {cancelLabel}
+            </button>
+          )}
           <button
             onClick={onConfirm}
             disabled={isWorking}

@@ -223,6 +223,13 @@
           "PowerPlant"
         ]
       },
+      "GameResult": {
+        "enum": [
+          "None",
+          "Win",
+          "Loss"
+        ]
+      },
       "PlaceBuildingRequest": {
         "required": [
           "x",
@@ -295,6 +302,9 @@
           "industryProduction",
           "energyProduction",
           "housingContribution",
+          "maintenancePopulationCost",
+          "maintenanceIndustryCost",
+          "maintenanceEnergyCost",
           "isBuildable",
           "canAfford"
         ],
@@ -359,6 +369,30 @@
             ],
             "format": "int32"
           },
+          "maintenancePopulationCost": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "maintenanceIndustryCost": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "maintenanceEnergyCost": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
           "isBuildable": {
             "type": "boolean"
           },
@@ -383,6 +417,7 @@
           "industryGain",
           "energyGain",
           "populationGain",
+          "gameResult",
           "buildings",
           "buildingTypes"
         ],
@@ -494,6 +529,9 @@
               "string"
             ],
             "format": "int32"
+          },
+          "gameResult": {
+            "$ref": "#/components/schemas/GameResult"
           },
           "buildings": {
             "type": "array",

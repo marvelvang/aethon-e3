@@ -2,7 +2,7 @@ namespace aethon_e3.persistence.Entities;
 
 public class GameState
 {
-    public const int GridSize = 10;
+    public const int GridSize = 20;
 
     public int Id { get; set; }
     public int Round { get; set; }
