@@ -64,12 +64,6 @@
   white-space: nowrap;
 }
 
-.pop-sep {
-  font-size: 10px;
-  color: #444;
-  margin: 0 2px;
-}
-
 /* ── Simple resource cards ── */
 
 .resource-label {

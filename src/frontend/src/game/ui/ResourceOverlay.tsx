@@ -23,9 +23,9 @@ export default function ResourceOverlay({ state }: Props) {
         </span>
         <span className="pop-secondary-row">
           <span style={{ color: 'var(--color-population)' }}>{population ?? '—'}</span>
-          <span className="pop-sep">·</span>
+          <span className="resource-value-sep">/</span>
           <span style={{ color: 'var(--color-housing)' }}>{housing ?? '—'}</span>
-          <span className="pop-sep">·</span>
+          <span className="resource-value-sep">/</span>
           <span style={{ color: gainNegative ? 'var(--color-danger)' : 'var(--color-population)' }}>
             {popGain !== null
               ? (Number(popGain) >= 0 ? `+${popGain}` : `${popGain}`)
