@@ -19,7 +19,6 @@ public class UiState
     public required int ConsumerGoodsGain { get; init; }
     public required int IndustryGain { get; init; }
     public required int EnergyGain { get; init; }
-    public required int HousingGain { get; init; }
     public required int PopulationGain { get; init; }
     public required List<UiBuildingSlot> Buildings { get; init; }
     public required List<UiBuildingTypeInfo> BuildingTypes { get; init; }
