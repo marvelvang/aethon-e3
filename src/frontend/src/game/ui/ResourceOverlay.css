@@ -3,19 +3,21 @@
   top: 16px;
   right: 16px;
   z-index: 100;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: min-content;
   gap: 8px;
   pointer-events: none;
 }
 
+/* Mobile portrait: single column */
 @media (max-width: 480px) and (orientation: portrait) {
   .resource-overlay {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 }
 
+/* Mobile landscape: compact spacing */
 @media (orientation: landscape) and (max-height: 480px) {
   .resource-overlay {
     top: 8px;
@@ -29,7 +31,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
   padding: 8px 12px;
-  min-width: 76px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +42,6 @@
 @media (orientation: landscape) and (max-height: 480px) {
   .resource-card {
     padding: 5px 10px;
-    min-width: 60px;
     border-radius: 6px;
   }
 }
