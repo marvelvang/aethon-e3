@@ -67,6 +67,8 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
       onRotationChanged: (r) => onRotationChangedRef.current(r),
       onResetView: () => {
         engineRef.current?.resetCamera()
+        engineRef.current?.setRotation(0 as RotationStep)
+        onRotationChangedRef.current(0 as RotationStep)
         setPendingPlacement(null)
       },
     })
@@ -96,7 +98,11 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
   }, [])
 
   const handleResetView = useCallback(() => {
-    engineRef.current?.resetCamera()
+    const engine = engineRef.current
+    if (!engine) return
+    engine.resetCamera()
+    engine.setRotation(0 as RotationStep)
+    onRotationChangedRef.current(0 as RotationStep)
     setPendingPlacement(null)
   }, [])
 
