@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   SolarCore – Power Plant (Master SVG, 4× tile resolution)
-  Identische Baseplate wie alle anderen Gebäude (hz 0→24, ±128).
-  Darüber: vier Satellitenschüsseln auf den Eckpfählen der Baseplate,
-  weiße Wellenstrahlen zur schwebenden Empfängerkugel.
+  Foundation (±128, hz 0→24) + Base Unit (±88, hz 24→56)
+  + vier Satellitenschüsseln auf den Base-Unit-Top-Ecken
+  + Wellenstrahlen zur schwebenden Empfängerkugel (0,−132)
+  Base-Unit-Top-Ecken (SVG-Koordinaten): N(0,−36) E(88,8) S(0,52) W(−88,8)
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
@@ -22,6 +23,21 @@
     <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
       <stop offset="0%"   stop-color="#3c5070"/>
       <stop offset="100%" stop-color="#1e2e48"/>
+    </linearGradient>
+
+    <!-- Base Unit: etwas helleres Stahlblau, klar von Foundation abhebend -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#4a6080"/>
+      <stop offset="60%"  stop-color="#304858"/>
+      <stop offset="100%" stop-color="#1e3048"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#182030"/>
+      <stop offset="100%" stop-color="#0a1018"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-72" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#587090"/>
+      <stop offset="100%" stop-color="#3a5070"/>
     </linearGradient>
 
     <!-- Schüssel: bläulich-grau -->
@@ -55,7 +71,6 @@
 
   <!-- ══════════════════════════════════════════════════
        FOUNDATION  hz 0→24  (±128)
-       IDENTISCH mit Base / Housing / Consumer / Industry
        Top:    N(0,−24)  E(128,40)  S(0,104)  W(−128,40)
        Bottom: E(128,64) S(0,128)   W(−128,64)
        ══════════════════════════════════════════════════ -->
@@ -64,54 +79,79 @@
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#2a3c58" stroke-width="1.5"/>
 
   <!-- ══════════════════════════════════════════════════
-       SCHÜSSELN AUF DEN VIER ECKEN DER BASEPLATE
-       Jede Schüssel: Pfahl + ovale Schüsselschale + Fokuspunkt
-       Reihenfolge: N → E → W → S → (Strahlen) → Kugel
-       (Painter's Algorithm: Norden zuerst = am weitesten weg; S vor Strahlen)
+       BASE UNIT  hz 24→56  (±88)
+       Identische Geometrie wie Consumer Base Unit (nach Merge).
+       Farbschema: Powerplant-Stahlblau, abhebend von Foundation.
+       Lokale Koordinaten (innerhalb translate(0,36)):
+         Linke Fläche:  −88,4  0,48  0,16  −88,−28
+         Rechte Fläche:  88,4  0,48  0,16   88,−28
+         Obere Fläche:   0,−72  88,−28  0,16  −88,−28
+       SVG-Top-Ecken: N(0,−36) E(88,8) S(0,52) W(−88,8)
+       ══════════════════════════════════════════════════ -->
+  <g transform="translate(0, 36)">
+  <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#1a2a3a" stroke-width="1.5"/>
+  <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#3a5878" stroke-width="1.5"/>
+  <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#3a5878" stroke-width="1.5"/>
+
+  <!-- Ventilation slots – rechte Fläche (blauer Akzent) -->
+  <line x1="88"  y1="4"   x2="88"   y2="-28" stroke="#5080b0" stroke-width="2"   opacity="0.55"/>
+  <line x1="66"  y1="7"   x2="22"   y2="29"  stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="66"  y1="-1"  x2="22"   y2="21"  stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="66"  y1="-9"  x2="22"   y2="13"  stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Ventilation slots – linke Fläche (gedimmt, Schattenseite) -->
+  <line x1="-88" y1="4"   x2="-88"  y2="-28" stroke="#1a2840" stroke-width="2"   opacity="0.55"/>
+  <line x1="-66" y1="7"   x2="-22"  y2="29"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-66" y1="-1"  x2="-22"  y2="21"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-66" y1="-9"  x2="-22"  y2="13"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Ecknoten: hell-blauer Glow (Licht- und Schattenecke) -->
+  <circle cx="88"  cy="-28" r="5" fill="#80b0e0" filter="url(#glow)"/>
+  <circle cx="-88" cy="-28" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="16"  r="5" fill="#80b0e0" filter="url(#glow)"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       SCHÜSSELN AUF DEN VIER ECKEN DER BASE UNIT
+       Ecken (SVG-Koordinaten): N(0,−36) E(88,8) W(−88,8) S(0,52)
+       Reihenfolge: N → E → W → S  (Painter's Algorithm)
        ══════════════════════════════════════════════════ -->
 
-  <!-- ─── NORD-SCHÜSSEL  Ecke N(0,−24) ─── -->
-  <!-- Pfahl senkrecht nach oben -->
-  <line x1="0" y1="-24" x2="0" y2="-42"
+  <!-- ─── NORD-SCHÜSSEL  N(0,−36) ─── -->
+  <line x1="0" y1="-36" x2="0" y2="-54"
         stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Schüsselschale (Ellipse, Lichtseite) -->
-  <ellipse cx="0" cy="-47" rx="15" ry="7"
+  <ellipse cx="0" cy="-59" rx="15" ry="7"
            fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
-  <!-- Schüsselinnenring -->
-  <ellipse cx="0" cy="-47" rx="9" ry="4.5"
+  <ellipse cx="0" cy="-59" rx="9" ry="4.5"
            fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
-  <!-- Fokuspunkt (weiß) -->
-  <circle cx="0" cy="-46" r="3.5" fill="white" opacity="0.95" filter="url(#glow)"/>
+  <circle cx="0" cy="-58" r="3.5" fill="white" opacity="0.95" filter="url(#glow)"/>
 
-  <!-- ─── OST-SCHÜSSEL  Ecke E(128,40) ─── -->
-  <!-- Pfahl schräg nach innen oben -->
-  <line x1="128" y1="40" x2="118" y2="24"
+  <!-- ─── OST-SCHÜSSEL  E(88,8) ─── -->
+  <line x1="88" y1="8" x2="78" y2="-8"
         stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Schüsselschale -->
-  <ellipse cx="115" cy="20" rx="13" ry="6.5"
+  <ellipse cx="75" cy="-12" rx="13" ry="6.5"
            fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
-  <ellipse cx="115" cy="20" rx="8" ry="4"
+  <ellipse cx="75" cy="-12" rx="8" ry="4"
            fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
-  <!-- Fokuspunkt -->
-  <circle cx="115" cy="20" r="3" fill="white" opacity="0.92" filter="url(#glow)"/>
+  <circle cx="75" cy="-12" r="3" fill="white" opacity="0.92" filter="url(#glow)"/>
 
-  <!-- ─── WEST-SCHÜSSEL  Ecke W(−128,40)  (Schattenenseite, dunkler) ─── -->
-  <line x1="-128" y1="40" x2="-118" y2="24"
+  <!-- ─── WEST-SCHÜSSEL  W(−88,8)  (Schattenseite, dunkler) ─── -->
+  <line x1="-88" y1="8" x2="-78" y2="-8"
         stroke="#283048" stroke-width="2.5" stroke-linecap="round"/>
-  <ellipse cx="-115" cy="20" rx="13" ry="6.5"
+  <ellipse cx="-75" cy="-12" rx="13" ry="6.5"
            fill="url(#dishFaceL)" stroke="#405070" stroke-width="1.5" opacity="0.85"/>
-  <ellipse cx="-115" cy="20" rx="8" ry="4"
+  <ellipse cx="-75" cy="-12" rx="8" ry="4"
            fill="#101826" stroke="#304060" stroke-width="1" opacity="0.85"/>
-  <circle cx="-115" cy="20" r="3" fill="white" opacity="0.7" filter="url(#glow)"/>
+  <circle cx="-75" cy="-12" r="3" fill="white" opacity="0.7" filter="url(#glow)"/>
 
-  <!-- ─── SÜD-SCHÜSSEL  Ecke S(0,104)  (vorderste Ebene, vor den Strahlen) ─── -->
-  <line x1="0" y1="104" x2="0" y2="88"
+  <!-- ─── SÜD-SCHÜSSEL  S(0,52)  (vorderste Ebene, zuletzt) ─── -->
+  <line x1="0" y1="52" x2="0" y2="36"
         stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
-  <ellipse cx="0" cy="83" rx="15" ry="7"
+  <ellipse cx="0" cy="31" rx="15" ry="7"
            fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
-  <ellipse cx="0" cy="83" rx="9" ry="4.5"
+  <ellipse cx="0" cy="31" rx="9" ry="4.5"
            fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
-  <circle cx="0" cy="83" r="3.5" fill="white" opacity="0.95" filter="url(#glow)"/>
+  <circle cx="0" cy="31" r="3.5" fill="white" opacity="0.95" filter="url(#glow)"/>
 
   <!-- ══════════════════════════════════════════════════
        WELLENSTRAHLEN  (von Fokuspunkten zur Kugel)
@@ -119,51 +159,45 @@
        Sphere-Zentrum: (0, −132)
        ══════════════════════════════════════════════════ -->
 
-  <!-- N-Strahl: kurz, fast senkrecht, kleines Welligkeitsamplitude -->
-  <path d="M 0,-46 Q 5,-59 0,-72 Q -5,-85 0,-98 Q 5,-111 0,-124 Q -2,-128 0,-132"
+  <!-- N-Strahl: (0,−58) → (0,−132), kurz, fast senkrecht -->
+  <path d="M 0,-58 Q 4,-72 0,-86 Q -4,-100 0,-114 Q 3,-123 0,-132"
         stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
-  <path d="M 0,-46 Q 5,-59 0,-72 Q -5,-85 0,-98 Q 5,-111 0,-124 Q -2,-128 0,-132"
+  <path d="M 0,-58 Q 4,-72 0,-86 Q -4,-100 0,-114 Q 3,-123 0,-132"
         stroke="white" stroke-width="1.5" fill="none" opacity="0.80"/>
 
-  <!-- O-Strahl: diagonal von rechts, geschwungen -->
-  <path d="M 115,20 Q 90,2 72,-16 Q 52,-36 40,-60 Q 28,-84 18,-106 Q 8,-120 0,-132"
+  <!-- O-Strahl: (75,−12) → (0,−132), diagonal von rechts.
+       5 Segmente, Kontrollpunkte ±16px senkrecht zur Diagonalen versetzt.
+       Senkrecht-Vektoren: A=(+14,−8) oben-rechts, B=(−14,+8) unten-links. -->
+  <path d="M 75,-12 Q 82,-32 60,-36 Q 39,-40 45,-60 Q 52,-80 30,-84 Q 9,-88 15,-108 Q 22,-128 0,-132"
         stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
-  <path d="M 115,20 Q 90,2 72,-16 Q 52,-36 40,-60 Q 28,-84 18,-106 Q 8,-120 0,-132"
+  <path d="M 75,-12 Q 82,-32 60,-36 Q 39,-40 45,-60 Q 52,-80 30,-84 Q 9,-88 15,-108 Q 22,-128 0,-132"
         stroke="white" stroke-width="1.5" fill="none" opacity="0.80"/>
 
-  <!-- W-Strahl: diagonal von links (etwas schwächer, Schattenenseite) -->
-  <path d="M -115,20 Q -90,2 -72,-16 Q -52,-36 -40,-60 Q -28,-84 -18,-106 Q -8,-120 0,-132"
+  <!-- W-Strahl: (−75,−12) → (0,−132), diagonal von links (Schattenseite, schwächer).
+       Spiegelsymmetrisch zum O-Strahl. -->
+  <path d="M -75,-12 Q -82,-32 -60,-36 Q -39,-40 -45,-60 Q -52,-80 -30,-84 Q -9,-88 -15,-108 Q -22,-128 0,-132"
         stroke="white" stroke-width="3.5" fill="none" opacity="0.10" filter="url(#beamglow)"/>
-  <path d="M -115,20 Q -90,2 -72,-16 Q -52,-36 -40,-60 Q -28,-84 -18,-106 Q -8,-120 0,-132"
+  <path d="M -75,-12 Q -82,-32 -60,-36 Q -39,-40 -45,-60 Q -52,-80 -30,-84 Q -9,-88 -15,-108 Q -22,-128 0,-132"
         stroke="white" stroke-width="1.5" fill="none" opacity="0.60"/>
 
-  <!-- S-Strahl: lang, senkrecht, klar wellig — zuletzt gezeichnet = vorderster -->
-  <path d="M 0,84 Q 8,70 0,56 Q -8,42 0,28 Q 8,14 0,0 Q -8,-14 0,-28 Q 8,-42 0,-56
-           Q -8,-70 0,-84 Q 8,-98 0,-112 Q -5,-122 0,-132"
+  <!-- S-Strahl: (0,31) → (0,−132), lang, wellig, zuletzt = vorderster -->
+  <path d="M 0,31 Q 8,17 0,3 Q -8,-11 0,-25 Q 8,-39 0,-53
+           Q -8,-67 0,-81 Q 8,-95 0,-109 Q -5,-120 0,-132"
         stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
-  <path d="M 0,84 Q 8,70 0,56 Q -8,42 0,28 Q 8,14 0,0 Q -8,-14 0,-28 Q 8,-42 0,-56
-           Q -8,-70 0,-84 Q 8,-98 0,-112 Q -5,-122 0,-132"
+  <path d="M 0,31 Q 8,17 0,3 Q -8,-11 0,-25 Q 8,-39 0,-53
+           Q -8,-67 0,-81 Q 8,-95 0,-109 Q -5,-120 0,-132"
         stroke="white" stroke-width="1.5" fill="none" opacity="0.85"/>
 
   <!-- ══════════════════════════════════════════════════
        SCHWEBENDE EMPFÄNGERKUGEL  (0, −132)
-       Rein weiß, wie das Energienetzwerk.
-       Geschichtet: äußerer Halo → Glow-Ring → Körper → Kern
+       Rein weiß. Geschichtet: Halo → Glow → Körper → Kern
        ══════════════════════════════════════════════════ -->
-
-  <!-- Äußerer Halo (sehr weit, fast unsichtbar) -->
   <circle cx="0" cy="-132" r="28" fill="white" opacity="0.05" filter="url(#sphereglow)"/>
-  <!-- Innerer Glow-Ring -->
   <circle cx="0" cy="-132" r="20" fill="white" opacity="0.10" filter="url(#glow)"/>
-  <!-- Kugelkörper -->
   <circle cx="0" cy="-132" r="13" fill="white" opacity="0.88"/>
-  <!-- 3D-Highlight oben-links -->
   <circle cx="-4" cy="-137" r="5.5" fill="white" opacity="0.95"/>
-  <!-- Heller Kern -->
   <circle cx="0" cy="-132" r="6" fill="white"/>
-  <!-- Äquatorring (gibt der Kugel Tiefe) -->
   <ellipse cx="0" cy="-132" rx="13" ry="4.5" fill="none"
            stroke="white" stroke-width="0.8" opacity="0.30"/>
-
 
 </svg>
