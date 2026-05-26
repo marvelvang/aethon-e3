@@ -8,6 +8,12 @@ interface Props {
   state: UiState | null
 }
 
+function resourceBarWidth(value: number | null, gain: number | null): string {
+  if (gain === null || value === null || gain >= 0) return '100%'
+  if (value <= 0) return '0%'
+  return `${Math.max(0, (value + gain) / value * 100).toFixed(1)}%`
+}
+
 export default function ResourceOverlay({ state }: Props) {
   const freePopulation = state?.freePopulation ?? null
   const population     = state?.population     ?? null
@@ -33,7 +39,7 @@ export default function ResourceOverlay({ state }: Props) {
           </span>
         </span>
         <span className="resource-label">Population</span>
-        <div className="resource-bar" style={{ background: 'var(--color-population)' }} />
+        <div className="resource-bar" style={{ background: 'var(--color-population)', width: resourceBarWidth(population, popGain !== null ? Number(popGain) : null) }} />
       </div>
 
       {RESOURCES.map((r) => {
@@ -53,7 +59,7 @@ export default function ResourceOverlay({ state }: Props) {
               )}
             </span>
             <span className="resource-label">{r.label}</span>
-            <div className="resource-bar" style={{ background: r.color }} />
+            <div className="resource-bar" style={{ background: r.color, width: resourceBarWidth(value !== null ? Number(value) : null, gain !== null ? Number(gain) : null) }} />
           </div>
         )
       })}
