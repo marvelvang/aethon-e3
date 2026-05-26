@@ -14,4 +14,9 @@
   --glass-blur:   blur(6px);
 
   --font-mono: monospace;
+  font-family: var(--font-mono);
+
+  --font-size-label: 9px;
+  --font-size-body:  13px;
+  --font-size-value: 20px;
 }
