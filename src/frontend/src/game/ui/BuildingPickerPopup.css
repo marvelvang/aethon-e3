@@ -13,6 +13,13 @@
   user-select: none;
 }
 
+.picker-popup--compact {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px;
+}
+
 .picker-item {
   display: flex;
   flex-direction: column;
@@ -24,6 +31,11 @@
   background: rgba(255, 255, 255, 0.04);
   cursor: pointer;
   transition: background 0.1s;
+}
+
+.picker-item--compact {
+  padding: 6px;
+  gap: 0;
 }
 
 .picker-item--hover {
@@ -51,6 +63,34 @@
 .picker-item-costs {
   display: flex;
   gap: 8px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+
+.picker-tooltip {
+  position: fixed;
+  z-index: 201;
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 7px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.picker-tooltip-label {
+  color: #fff;
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+
+.picker-tooltip-costs {
+  display: flex;
+  gap: 6px;
   font-size: 10px;
   font-family: var(--font-mono);
 }

@@ -14,11 +14,12 @@ interface Props {
   onDismiss: () => void
 }
 
-const POPUP_WIDTH = 200
+const POPUP_WIDTH_EXPANDED = 200
+const POPUP_WIDTH_COMPACT = 160
 const GAP = 8
 const MARGIN = 8
 
-function computePosition(tileBounds: TileBounds, popupH: number) {
+function computePosition(tileBounds: TileBounds, popupW: number, popupH: number) {
   const vw = window.innerWidth
   const vh = window.innerHeight
   const tileCenterX = (tileBounds.minX + tileBounds.maxX) / 2
@@ -34,15 +35,15 @@ function computePosition(tileBounds: TileBounds, popupH: number) {
 
   if (spaceAbove >= popupH) {
     top = tileBounds.minY - GAP - popupH
-    left = tileCenterX - POPUP_WIDTH / 2
+    left = tileCenterX - popupW / 2
   } else if (spaceBelow >= popupH) {
     top = tileBounds.maxY + GAP
-    left = tileCenterX - POPUP_WIDTH / 2
-  } else if (spaceRight >= POPUP_WIDTH) {
+    left = tileCenterX - popupW / 2
+  } else if (spaceRight >= popupW) {
     left = tileBounds.maxX + GAP
     top = Math.max(MARGIN, Math.min(tileCenterY - popupH / 2, vh - popupH - MARGIN))
-  } else if (spaceLeft >= POPUP_WIDTH) {
-    left = tileBounds.minX - GAP - POPUP_WIDTH
+  } else if (spaceLeft >= popupW) {
+    left = tileBounds.minX - GAP - popupW
     top = Math.max(MARGIN, Math.min(tileCenterY - popupH / 2, vh - popupH - MARGIN))
   } else {
     const maxVertical = Math.max(spaceAbove, spaceBelow)
@@ -51,16 +52,16 @@ function computePosition(tileBounds: TileBounds, popupH: number) {
       top = spaceAbove >= spaceBelow
         ? Math.max(MARGIN, tileBounds.minY - GAP - popupH)
         : Math.min(vh - popupH - MARGIN, tileBounds.maxY + GAP)
-      left = tileCenterX - POPUP_WIDTH / 2
+      left = tileCenterX - popupW / 2
     } else {
       left = spaceRight >= spaceLeft
-        ? Math.min(vw - POPUP_WIDTH - MARGIN, tileBounds.maxX + GAP)
-        : Math.max(MARGIN, tileBounds.minX - GAP - POPUP_WIDTH)
+        ? Math.min(vw - popupW - MARGIN, tileBounds.maxX + GAP)
+        : Math.max(MARGIN, tileBounds.minX - GAP - popupW)
       top = Math.max(MARGIN, Math.min(tileCenterY - popupH / 2, vh - popupH - MARGIN))
     }
   }
 
-  left = Math.max(MARGIN, Math.min(left, vw - POPUP_WIDTH - MARGIN))
+  left = Math.max(MARGIN, Math.min(left, vw - popupW - MARGIN))
   top = Math.max(MARGIN, Math.min(top, vh - popupH - MARGIN))
 
   return { top, left }
@@ -68,14 +69,20 @@ function computePosition(tileBounds: TileBounds, popupH: number) {
 
 export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelect, onDismiss }: Props) {
   const [hoveredType, setHoveredType] = useState<string | null>(null)
+  const [focusedType, setFocusedType] = useState<string | null>(null)
+  const [isExpanded, setIsExpanded] = useState(false)
   const popupRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState<{ top: number; left: number } | null>(null)
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({})
+
+  const popupWidth = isExpanded ? POPUP_WIDTH_EXPANDED : POPUP_WIDTH_COMPACT
 
   useLayoutEffect(() => {
     const el = popupRef.current
     if (!el) return
-    setPosition(computePosition(tileBounds, el.offsetHeight))
-  }, [tileBounds, buildingTypes])
+    setPosition(computePosition(tileBounds, popupWidth, el.offsetHeight))
+  }, [tileBounds, buildingTypes, isExpanded, popupWidth])
 
   const onDismissRef = useRef(onDismiss)
   onDismissRef.current = onDismiss
@@ -98,42 +105,138 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
     return () => document.removeEventListener('mousedown', onDocMouseDown)
   }, [])
 
+  useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) clearTimeout(longPressTimerRef.current)
+    }
+  }, [])
+
+  function handleTouchStart() {
+    longPressTimerRef.current = setTimeout(() => {
+      setIsExpanded(true)
+    }, 1000)
+  }
+
+  function handleTouchEnd() {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
+    }
+  }
+
+  const tooltipType = hoveredType ?? focusedType
+  const tooltipInfo = !isExpanded && tooltipType
+    ? buildingTypes.find(b => b.type === tooltipType)
+    : null
+  const tooltipMeta = tooltipInfo ? BUILDING_TYPES[tooltipInfo.type as BuildingType] : null
+
+  const tooltipEl = tooltipInfo && tooltipMeta && (() => {
+    const itemEl = itemRefs.current[tooltipInfo.type]
+    if (!itemEl || !position) return null
+    const rect = itemEl.getBoundingClientRect()
+    const tooltipW = 130
+    let tLeft = rect.right + 6
+    if (tLeft + tooltipW > window.innerWidth - MARGIN) {
+      tLeft = rect.left - tooltipW - 6
+    }
+    const tTop = rect.top
+    return (
+      <div
+        className="picker-tooltip"
+        style={{ top: tTop, left: tLeft, width: tooltipW }}
+      >
+        <span className="picker-tooltip-label">{tooltipMeta.label}</span>
+        <div className="picker-tooltip-costs">
+          <span style={{ color: 'var(--color-population)' }}>Pop {tooltipInfo.populationCost}</span>
+          {Number(tooltipInfo.industryCost) > 0 && (
+            <span style={{ color: 'var(--color-industry)' }}>Ind {tooltipInfo.industryCost}</span>
+          )}
+          {Number(tooltipInfo.energyCost) > 0 && (
+            <span style={{ color: 'var(--color-energy)' }}>Ene {tooltipInfo.energyCost}</span>
+          )}
+        </div>
+      </div>
+    )
+  })()
+
   const style: React.CSSProperties = position
-    ? { left: position.left, top: position.top, width: POPUP_WIDTH }
-    : { visibility: 'hidden', top: 0, left: 0, width: POPUP_WIDTH }
+    ? { left: position.left, top: position.top, width: popupWidth }
+    : { visibility: 'hidden', top: 0, left: 0, width: popupWidth }
 
   return (
-    <div ref={popupRef} className="picker-popup" style={style}>
-      {buildingTypes.map((info) => {
-        const type = info.type as BuildingType
-        const meta = BUILDING_TYPES[type]
-        const isHovered = hoveredType === info.type && info.canAfford
-        return (
-          <div
-            key={info.type}
-            onClick={() => { if (info.canAfford) onSelect(type) }}
-            onMouseEnter={() => setHoveredType(info.type)}
-            onMouseLeave={() => setHoveredType(null)}
-            className={`picker-item${isHovered ? ' picker-item--hover' : ''}${info.canAfford ? '' : ' picker-item--disabled'}`}
-          >
-            <img
-              src={meta.assetPath}
-              alt={meta.label}
-              className="picker-item-img"
-            />
-            <span className="picker-item-label">{meta.label}</span>
-            <div className="picker-item-costs">
-              <span style={{ color: 'var(--color-population)' }}>Pop {info.populationCost}</span>
-              {Number(info.industryCost) > 0 && (
-                <span style={{ color: 'var(--color-industry)' }}>Ind {info.industryCost}</span>
-              )}
-              {Number(info.energyCost) > 0 && (
-                <span style={{ color: 'var(--color-energy)' }}>Ene {info.energyCost}</span>
+    <>
+      <div
+        ref={popupRef}
+        className={`picker-popup${isExpanded ? '' : ' picker-popup--compact'}`}
+        style={style}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchMove={handleTouchEnd}
+      >
+        {buildingTypes.map((info, idx) => {
+          const type = info.type as BuildingType
+          const meta = BUILDING_TYPES[type]
+          const isHovered = hoveredType === info.type && info.canAfford
+          const isFocused = focusedType === info.type
+          return (
+            <div
+              key={info.type}
+              ref={el => { itemRefs.current[info.type] = el }}
+              tabIndex={idx === 0 ? 0 : -1}
+              onClick={() => { if (info.canAfford) onSelect(type) }}
+              onMouseEnter={() => setHoveredType(info.type)}
+              onMouseLeave={() => setHoveredType(null)}
+              onFocus={() => setFocusedType(info.type)}
+              onBlur={() => setFocusedType(null)}
+              onKeyDown={e => {
+                if ((e.key === 'Enter' || e.key === ' ') && info.canAfford) {
+                  e.preventDefault()
+                  onSelect(type)
+                }
+                const types = buildingTypes.map(b => b.type)
+                const cur = types.indexOf(info.type)
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                  e.preventDefault()
+                  const next = itemRefs.current[types[(cur + 1) % types.length]]
+                  next?.focus()
+                }
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                  e.preventDefault()
+                  const prev = itemRefs.current[types[(cur - 1 + types.length) % types.length]]
+                  prev?.focus()
+                }
+              }}
+              className={[
+                'picker-item',
+                isExpanded ? '' : 'picker-item--compact',
+                isHovered || isFocused ? 'picker-item--hover' : '',
+                info.canAfford ? '' : 'picker-item--disabled',
+              ].filter(Boolean).join(' ')}
+            >
+              <img
+                src={meta.assetPath}
+                alt={meta.label}
+                className="picker-item-img"
+              />
+              {isExpanded && (
+                <>
+                  <span className="picker-item-label">{meta.label}</span>
+                  <div className="picker-item-costs">
+                    <span style={{ color: 'var(--color-population)' }}>Pop {info.populationCost}</span>
+                    {Number(info.industryCost) > 0 && (
+                      <span style={{ color: 'var(--color-industry)' }}>Ind {info.industryCost}</span>
+                    )}
+                    {Number(info.energyCost) > 0 && (
+                      <span style={{ color: 'var(--color-energy)' }}>Ene {info.energyCost}</span>
+                    )}
+                  </div>
+                </>
               )}
             </div>
-          </div>
-        )
-      })}
-    </div>
+          )
+        })}
+      </div>
+      {tooltipEl}
+    </>
   )
 }
