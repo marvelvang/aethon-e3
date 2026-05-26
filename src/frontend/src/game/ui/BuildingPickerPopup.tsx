@@ -172,6 +172,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onTouchMove={handleTouchEnd}
+        onContextMenu={e => e.preventDefault()}
       >
         {buildingTypes.map((info, idx) => {
           const type = info.type as BuildingType
