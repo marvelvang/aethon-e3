@@ -95,13 +95,17 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
   }, [])
 
   useEffect(() => {
-    function onDocMouseDown(e: MouseEvent) {
+    function onOutside(e: MouseEvent | TouchEvent) {
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
         onDismissRef.current()
       }
     }
-    document.addEventListener('mousedown', onDocMouseDown)
-    return () => document.removeEventListener('mousedown', onDocMouseDown)
+    document.addEventListener('mousedown', onOutside)
+    document.addEventListener('touchstart', onOutside)
+    return () => {
+      document.removeEventListener('mousedown', onOutside)
+      document.removeEventListener('touchstart', onOutside)
+    }
   }, [])
 
   useEffect(() => {
