@@ -13,11 +13,10 @@
 }
 
 .building-info-title {
-  font-size: 9px;
+  font-size: var(--font-size-label);
   color: #999;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-family: monospace;
   white-space: nowrap;
 }
 
@@ -41,27 +40,24 @@
 }
 
 .building-info-row-label {
-  font-size: 9px;
+  font-size: var(--font-size-label);
   color: #666;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-family: monospace;
   white-space: nowrap;
 }
 
 .building-info-row-value {
   font-size: 18px;
   font-weight: bold;
-  font-family: monospace;
   line-height: 1.1;
 }
 
 .building-info-section-label {
-  font-size: 9px;
+  font-size: var(--font-size-label);
   color: #555;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-family: monospace;
   white-space: nowrap;
   display: block;
   margin-bottom: 4px;

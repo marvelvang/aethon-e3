@@ -27,7 +27,7 @@
 }
 
 .round-btn-label {
-  font-size: 13px;
+  font-size: var(--font-size-body);
   font-weight: 600;
   letter-spacing: 0.02em;
   white-space: nowrap;
