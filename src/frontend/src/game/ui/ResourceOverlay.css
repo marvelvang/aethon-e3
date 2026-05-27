@@ -48,18 +48,16 @@
 /* ── Population merged card ── */
 
 .pop-primary {
-  font-size: 20px;
+  font-size: var(--font-size-value);
   font-weight: bold;
-  font-family: monospace;
   line-height: 1.1;
 }
 
 .pop-secondary-row {
   display: flex;
   align-items: baseline;
-  font-size: 13px;
+  font-size: var(--font-size-body);
   font-weight: bold;
-  font-family: monospace;
   line-height: 1.1;
   white-space: nowrap;
 }
@@ -67,19 +65,17 @@
 /* ── Simple resource cards ── */
 
 .resource-label {
-  font-size: 9px;
+  font-size: var(--font-size-label);
   color: #666;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-family: monospace;
   white-space: nowrap;
 }
 
 .resource-value {
-  font-size: 20px;
+  font-size: var(--font-size-value);
   font-weight: bold;
   color: #fff;
-  font-family: monospace;
   line-height: 1.1;
   white-space: nowrap;
 }
@@ -87,7 +83,6 @@
 .resource-value-main {
   font-size: inherit;
   font-weight: inherit;
-  font-family: inherit;
   color: inherit;
 }
 
