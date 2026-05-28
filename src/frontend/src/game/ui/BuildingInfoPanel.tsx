@@ -1,6 +1,6 @@
 import type { components } from '../../api/generated'
 import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
-import { RESOURCES } from '../../domain/resources'
+import { HOUSING_DEF, POPULATION_DEF, RESOURCES_BY_KEY } from '../../domain/resources'
 import './BuildingInfoPanel.css'
 
 type UiBuildingSlot = components['schemas']['UiBuildingSlot']
@@ -18,38 +18,29 @@ interface InfoRow {
   prefix: string
 }
 
-const COLOR_BY_KEY: Record<string, string> = Object.fromEntries(
-  RESOURCES.map((r) => [r.key, r.color])
-)
-
 function productionRows(info: UiBuildingTypeInfo): InfoRow[] {
+  const r = RESOURCES_BY_KEY
   const rows: InfoRow[] = []
-  if (Number(info.consumerGoodsProduction) > 0) {
-    rows.push({ label: 'Güter', color: COLOR_BY_KEY.consumerGoods, value: Number(info.consumerGoodsProduction), prefix: '+' })
-  }
-  if (Number(info.industryProduction) > 0) {
-    rows.push({ label: 'Industrie', color: COLOR_BY_KEY.industry, value: Number(info.industryProduction), prefix: '+' })
-  }
-  if (Number(info.energyProduction) > 0) {
-    rows.push({ label: 'Energie', color: COLOR_BY_KEY.energy, value: Number(info.energyProduction), prefix: '+' })
-  }
-  if (Number(info.housingContribution) > 0) {
-    rows.push({ label: 'Wohnraum', color: 'var(--color-housing)', value: Number(info.housingContribution), prefix: '+' })
-  }
+  if (Number(info.consumerGoodsProduction) > 0)
+    rows.push({ label: r.consumerGoods.label, color: r.consumerGoods.color, value: Number(info.consumerGoodsProduction), prefix: '+' })
+  if (Number(info.industryProduction) > 0)
+    rows.push({ label: r.industry.label, color: r.industry.color, value: Number(info.industryProduction), prefix: '+' })
+  if (Number(info.energyProduction) > 0)
+    rows.push({ label: r.energy.label, color: r.energy.color, value: Number(info.energyProduction), prefix: '+' })
+  if (Number(info.housingContribution) > 0)
+    rows.push({ label: HOUSING_DEF.label, color: HOUSING_DEF.color, value: Number(info.housingContribution), prefix: '+' })
   return rows
 }
 
 function maintenanceRows(info: UiBuildingTypeInfo): InfoRow[] {
+  const r = RESOURCES_BY_KEY
   const rows: InfoRow[] = []
-  if (Number(info.maintenancePopulationCost) > 0) {
-    rows.push({ label: 'Bevölkerung', color: 'var(--color-population)', value: Number(info.maintenancePopulationCost), prefix: '' })
-  }
-  if (Number(info.maintenanceIndustryCost) > 0) {
-    rows.push({ label: 'Industrie', color: COLOR_BY_KEY.industry, value: Number(info.maintenanceIndustryCost), prefix: '-' })
-  }
-  if (Number(info.maintenanceEnergyCost) > 0) {
-    rows.push({ label: 'Energie', color: COLOR_BY_KEY.energy, value: Number(info.maintenanceEnergyCost), prefix: '-' })
-  }
+  if (Number(info.maintenancePopulationCost) > 0)
+    rows.push({ label: POPULATION_DEF.label, color: POPULATION_DEF.color, value: Number(info.maintenancePopulationCost), prefix: '' })
+  if (Number(info.maintenanceIndustryCost) > 0)
+    rows.push({ label: r.industry.label, color: r.industry.color, value: Number(info.maintenanceIndustryCost), prefix: '-' })
+  if (Number(info.maintenanceEnergyCost) > 0)
+    rows.push({ label: r.energy.label, color: r.energy.color, value: Number(info.maintenanceEnergyCost), prefix: '-' })
   return rows
 }
 

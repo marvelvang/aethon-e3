@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { components } from '../../api/generated'
 import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
+import { POPULATION_DEF, RESOURCES_BY_KEY } from '../../domain/resources'
 import './BuildingPickerPopup.css'
 
 type UiBuildingTypeInfo = components['schemas']['UiBuildingTypeInfo']
@@ -167,12 +168,12 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
       >
         <span className="picker-tooltip-label">{tooltipMeta.label}</span>
         <div className="picker-tooltip-costs">
-          <span style={{ color: 'var(--color-population)' }}>Pop {tooltipInfo.populationCost}</span>
+          <span style={{ color: POPULATION_DEF.color }}>{POPULATION_DEF.shortLabel} {tooltipInfo.populationCost}</span>
           {Number(tooltipInfo.industryCost) > 0 && (
-            <span style={{ color: 'var(--color-industry)' }}>Ind {tooltipInfo.industryCost}</span>
+            <span style={{ color: RESOURCES_BY_KEY.industry.color }}>{RESOURCES_BY_KEY.industry.shortLabel} {tooltipInfo.industryCost}</span>
           )}
           {Number(tooltipInfo.energyCost) > 0 && (
-            <span style={{ color: 'var(--color-energy)' }}>Ene {tooltipInfo.energyCost}</span>
+            <span style={{ color: RESOURCES_BY_KEY.energy.color }}>{RESOURCES_BY_KEY.energy.shortLabel} {tooltipInfo.energyCost}</span>
           )}
         </div>
       </div>
