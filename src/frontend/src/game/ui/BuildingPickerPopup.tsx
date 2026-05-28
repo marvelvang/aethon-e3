@@ -130,8 +130,10 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
     }
     setTouchedType(null)
     if (touchWasLongRef.current) {
-      // was a hold – suppress the upcoming synthetic click so nothing gets selected
       skipNextClickRef.current = true
+      // auto-clear: some browsers don't fire a synthetic click after long-press,
+      // so the flag would otherwise block the next real tap
+      setTimeout(() => { skipNextClickRef.current = false }, 150)
     }
     touchWasLongRef.current = false
   }
