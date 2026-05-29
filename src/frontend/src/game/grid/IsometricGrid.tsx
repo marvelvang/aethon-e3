@@ -168,6 +168,7 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
             const { col, row } = pendingPlacement.cell
             const cellKey = `${col},${row}`
             pendingCellsRef.current.add(cellKey)
+            setPendingPlacement(null)
             try {
               const newState = await placeBuilding(id, { x: col, y: row, type })
               onBuildingPlacedRef.current(newState)
@@ -175,7 +176,6 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
               console.error('placeBuilding failed:', err)
             } finally {
               pendingCellsRef.current.delete(cellKey)
-              setPendingPlacement(null)
             }
           }}
           onDismiss={() => setPendingPlacement(null)}
