@@ -1,5 +1,5 @@
 import type { components } from '../../api/generated'
-import { RESOURCES } from '../../domain/resources'
+import { HOUSING_DEF, POPULATION_DEF, RESOURCES } from '../../domain/resources'
 import './ResourceOverlay.css'
 
 type UiState = components['schemas']['UiState']
@@ -24,22 +24,22 @@ export default function ResourceOverlay({ state }: Props) {
   return (
     <div className="resource-overlay">
       <div className="resource-card">
-        <span className="pop-primary" style={{ color: 'var(--color-population)' }}>
+        <span className="pop-primary" style={{ color: POPULATION_DEF.color }}>
           {freePopulation ?? '—'}
         </span>
         <span className="pop-secondary-row">
-          <span style={{ color: 'var(--color-population)' }}>{population ?? '—'}</span>
+          <span style={{ color: POPULATION_DEF.color }}>{population ?? '—'}</span>
           <span className="resource-value-sep">/</span>
-          <span style={{ color: 'var(--color-housing)' }}>{housing ?? '—'}</span>
+          <span style={{ color: HOUSING_DEF.color }}>{housing ?? '—'}</span>
           <span className="resource-value-sep">/</span>
-          <span style={{ color: gainNegative ? 'var(--color-danger)' : 'var(--color-population)' }}>
+          <span style={{ color: gainNegative ? 'var(--color-danger)' : POPULATION_DEF.color }}>
             {popGain !== null
               ? (Number(popGain) >= 0 ? `+${popGain}` : `${popGain}`)
               : '—'}
           </span>
         </span>
-        <span className="resource-label">Population</span>
-        <div className="resource-bar" style={{ background: 'var(--color-population)', width: resourceBarWidth(population, popGain !== null ? Number(popGain) : null) }} />
+        <span className="resource-label">{POPULATION_DEF.label}</span>
+        <div className="resource-bar" style={{ background: POPULATION_DEF.color, width: resourceBarWidth(population, popGain !== null ? Number(popGain) : null) }} />
       </div>
 
       {RESOURCES.map((r) => {

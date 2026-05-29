@@ -6,7 +6,7 @@ public enum GameResult { None, Win, Loss }
 
 public class UiState
 {
-    public const string APP_VERSION = "0.2.2";
+    public const string APP_VERSION = "0.2.4";
 
     public required string BackendVersion { get; init; }
     public required int GameStateId { get; init; }
