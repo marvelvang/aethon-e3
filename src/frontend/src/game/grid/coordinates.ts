@@ -85,3 +85,30 @@ export function frontNeighbors(col: number, row: number, rot: RotationStep): {
     default: return { right: { col: col + 1, row }, left: { col, row: row + 1 } }
   }
 }
+
+export function getCellsInRect(
+  c1: number, r1: number,
+  c2: number, r2: number,
+): { col: number; row: number }[] {
+  const minC = Math.min(c1, c2), maxC = Math.max(c1, c2)
+  const minR = Math.min(r1, r2), maxR = Math.max(r1, r2)
+  const cells: { col: number; row: number }[] = []
+  for (let c = minC; c <= maxC; c++) {
+    for (let r = minR; r <= maxR; r++) {
+      cells.push({ col: c, row: r })
+    }
+  }
+  return cells
+}
+
+export function getBuildOrder(
+  cells: { col: number; row: number }[],
+  rotation: RotationStep,
+): { col: number; row: number }[] {
+  return [...cells].sort((a, b) => {
+    const pa = tileTopVertex(a.col, a.row, 0, 0, rotation)
+    const pb = tileTopVertex(b.col, b.row, 0, 0, rotation)
+    if (pa.y !== pb.y) return pa.y - pb.y
+    return pa.x - pb.x
+  })
+}
