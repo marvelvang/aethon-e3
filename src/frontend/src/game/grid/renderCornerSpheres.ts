@@ -1,8 +1,6 @@
 import * as PIXI from 'pixi.js'
-import type { components } from '../../api/generated'
+import type { UiBuildingSlot } from '@aethon/models'
 import { TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
 // Screen-space offsets of the 3 visible baseplate-top corners,
 // relative to the tile-top vertex (sprite anchor).

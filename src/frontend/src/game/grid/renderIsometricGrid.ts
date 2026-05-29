@@ -1,12 +1,10 @@
 import * as PIXI from 'pixi.js'
-import type { components } from '../../api/generated'
+import type { UiBuildingSlot } from '@aethon/models'
 import type { BuildingType } from '../../domain/buildingTypes'
 import type { BuildingRenderConfig } from './buildingAssets'
 import { GRID_SIZE, TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
 import { addBuildingBaseplateLines } from './renderBaseplateLines'
 import { renderCornerSpheres } from './renderCornerSpheres'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
 const COLOR_TILE_FILL = 0x9c6b3c
 const COLOR_TILE_FILL_BUILDING = 0x1a6bc4

@@ -1,8 +1,6 @@
-import type { components } from '../../api/generated'
+import type { UiState } from '@aethon/models'
 import { HOUSING_DEF, POPULATION_DEF, RESOURCES } from '../../domain/resources'
 import './ResourceOverlay.css'
-
-type UiState = components['schemas']['UiState']
 
 interface Props {
   state: UiState | null

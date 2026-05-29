@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
-import type { components } from '../api/generated'
+import type { BuildingType } from '@aethon/models'
 
-export type BuildingType = components['schemas']['BuildingType']
+export type { BuildingType }
 
 export interface BuildingTypeMeta {
   label: string

@@ -1,8 +1,6 @@
 import * as PIXI from 'pixi.js'
-import type { components } from '../../api/generated'
+import type { UiBuildingSlot } from '@aethon/models'
 import { frontNeighbors, TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
 function drawDashedLine(
   g: PIXI.Graphics,

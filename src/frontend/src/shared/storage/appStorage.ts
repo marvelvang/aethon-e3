@@ -1,18 +1,28 @@
+import type { GameState } from '@aethon/models'
 import { storage } from './storage'
 
+const GAME_STATE_KEY = 'aethon.gameState'
+
 export const appStorage = {
-  gameId: {
-    get(): number | null {
-      const raw = storage.get('aethon.gameId')
+  gameState: {
+    get(): GameState | null {
+      const raw = storage.get(GAME_STATE_KEY)
       if (raw === null) return null
-      const id = parseInt(raw, 10)
-      return isNaN(id) ? null : id
+      try {
+        const parsed = JSON.parse(raw)
+        if (parsed && typeof parsed === 'object' && Array.isArray(parsed.buildings)) {
+          return parsed as GameState
+        }
+      } catch {
+        // fall through
+      }
+      return null
     },
-    set(id: number): void {
-      storage.set('aethon.gameId', String(id))
+    set(s: GameState): void {
+      storage.set(GAME_STATE_KEY, JSON.stringify(s))
     },
     remove(): void {
-      storage.remove('aethon.gameId')
+      storage.remove(GAME_STATE_KEY)
     },
   },
 

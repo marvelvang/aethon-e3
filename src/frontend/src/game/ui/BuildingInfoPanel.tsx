@@ -1,10 +1,7 @@
-import type { components } from '../../api/generated'
+import type { UiBuildingSlot, UiBuildingTypeInfo } from '@aethon/models'
 import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
 import { HOUSING_DEF, POPULATION_DEF, RESOURCES_BY_KEY } from '../../domain/resources'
 import './BuildingInfoPanel.css'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
-type UiBuildingTypeInfo = components['schemas']['UiBuildingTypeInfo']
 
 interface Props {
   building: UiBuildingSlot | null

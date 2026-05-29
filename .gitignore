@@ -55,10 +55,11 @@ artifacts/
 !.vscode/extensions.json
 
 # ============================================================
-# React / Node.js
+# React / Node.js / Bun
 # ============================================================
-src/frontend/src/api/generated.ts
 node_modules/
+bun.lockb
+.bun/
 dist/
 build/
 .env

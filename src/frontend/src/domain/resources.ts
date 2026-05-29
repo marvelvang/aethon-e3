@@ -1,6 +1,4 @@
-import type { components } from '../api/generated'
-
-type UiState = components['schemas']['UiState']
+import type { UiState } from '@aethon/models'
 
 export type ResourceKey     = 'consumerGoods' | 'industry' | 'energy'
 export type ResourceGainKey = 'consumerGoodsGain' | 'industryGain' | 'energyGain'

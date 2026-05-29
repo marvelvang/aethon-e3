@@ -10,50 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          bun-version: latest
 
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "10.0.x"
+      - name: Install workspace dependencies
+        run: bun install --frozen-lockfile
 
-      - name: Restore
-        run: dotnet restore src/backend/aethon-e3.api/aethon-e3.api.csproj
-
-      - name: Build backend + generate OpenAPI spec
-        run: dotnet build src/backend/aethon-e3.api/aethon-e3.api.csproj --no-restore --configuration Release
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: src/frontend/package-lock.json
-
-      - name: Install frontend dependencies
-        run: npm ci
-        working-directory: src/frontend
-
-      - name: Generate TypeScript types from OpenAPI spec
-        run: npm run generate
-        working-directory: src/frontend
+      - name: Run engine tests
+        run: bun run --filter @aethon/engine test
 
       - name: Build frontend
-        run: npm run build
-        working-directory: src/frontend
-
-      - name: Commit updated OpenAPI spec if changed
-        if: >
-          github.event_name == 'push' &&
-          github.ref != 'refs/heads/main' &&
-          github.actor != 'github-actions[bot]'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/backend/aethon-e3.api/aethon-e3.api.json
-          git diff --staged --quiet || (git commit -m "chore: update OpenAPI spec [skip ci]" && git push origin HEAD:refs/heads/${{ github.ref_name }})
+        run: bun run --filter @aethon/frontend build

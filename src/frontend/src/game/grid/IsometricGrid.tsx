@@ -1,14 +1,9 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { placeBuilding } from '../../api/gameApi'
-import type { components } from '../../api/generated'
+import type { UiBuildingSlot, UiBuildingTypeInfo, UiState } from '@aethon/models'
 import type { BuildingType } from '../../domain/buildingTypes'
 import BuildingPickerPopup from '../ui/BuildingPickerPopup'
 import { GridEngine, type TileBounds } from './GridEngine'
 import { getBuildOrder, getCellsInRect, type RotationStep } from './coordinates'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
-type UiBuildingTypeInfo = components['schemas']['UiBuildingTypeInfo']
-type UiState = components['schemas']['UiState']
 
 type PendingPlacement = { cell: { col: number; row: number }; tileBounds: TileBounds } | null
 type PendingMultiPlacement = {
@@ -25,15 +20,15 @@ export interface IsometricGridHandle {
 interface Props {
   buildings: UiBuildingSlot[]
   buildingTypes: UiBuildingTypeInfo[]
-  gameId: number | null
-  onBuildingPlaced: (state: UiState) => void
+  enabled: boolean
+  build: (x: number, y: number, type: BuildingType) => Promise<UiState>
   onCellClick: (building: UiBuildingSlot | null) => void
   selectedCell?: { col: number; row: number } | null
   onRotationChanged: (rotation: RotationStep) => void
 }
 
 const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricGrid(
-  { buildings, buildingTypes, gameId, onBuildingPlaced, onCellClick, selectedCell, onRotationChanged },
+  { buildings, buildingTypes, enabled, build, onCellClick, selectedCell, onRotationChanged },
   ref,
 ) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -43,12 +38,12 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
 
   const buildingsRef = useRef(buildings)
   buildingsRef.current = buildings
-  const gameIdRef = useRef(gameId)
-  gameIdRef.current = gameId
+  const enabledRef = useRef(enabled)
+  enabledRef.current = enabled
+  const buildRef = useRef(build)
+  buildRef.current = build
   const onCellClickRef = useRef(onCellClick)
   onCellClickRef.current = onCellClick
-  const onBuildingPlacedRef = useRef(onBuildingPlaced)
-  onBuildingPlacedRef.current = onBuildingPlaced
   const onRotationChangedRef = useRef(onRotationChanged)
   onRotationChangedRef.current = onRotationChanged
 
@@ -60,7 +55,7 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
 
     const engine = new GridEngine(canvasRef.current, {
       onCellClick: (cell, tileBounds) => {
-        if (gameIdRef.current === null) return
+        if (!enabledRef.current) return
         if (!cell) { onCellClickRef.current(null); return }
         const existing = buildingsRef.current.find((b) => b.x === cell.col && b.y === cell.row)
         if (existing) {
@@ -74,7 +69,6 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
       onRotationChanged: (r) => {
         rotationRef.current = r
         onRotationChangedRef.current(r)
-        // Cancel any active multi-selection on rotation change
         setPendingMulti(null)
       },
       onResetView: () => {
@@ -86,20 +80,20 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
         setPendingMulti(null)
       },
       onSelectionRect: (start, end, bounds) => {
-        if (gameIdRef.current === null) return
+        if (!enabledRef.current) return
         const allCells = getCellsInRect(start.col, start.row, end.col, end.row)
         const freeCells = allCells.filter(
           (cell) => !buildingsRef.current.some((b) => b.x === cell.col && b.y === cell.row)
             && !pendingCellsRef.current.has(`${cell.col},${cell.row}`)
         )
-        if (freeCells.length === 0) return  // silent cancel when all occupied
+        if (freeCells.length === 0) return
         const ordered = getBuildOrder(freeCells, rotationRef.current)
         setPendingMulti({ cells: ordered, tileBounds: bounds, rotation: rotationRef.current })
         setPendingPlacement(null)
         onCellClickRef.current(null)
       },
       onSelectionRectCancelled: () => {
-        // nothing to do; visual is cleared by GridEngine
+        // visual already cleared by GridEngine
       },
     })
     engineRef.current = engine
@@ -116,7 +110,6 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
 
   useEffect(() => {
     if (pendingMulti) {
-      // During multi-selection popup, don't show single-cell selection
       engineRef.current?.setSelectedCell(null)
     } else {
       const cell = pendingPlacement ? pendingPlacement.cell : (selectedCell ?? null)
@@ -163,15 +156,13 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
           buildingTypes={buildableTypes}
           tileBounds={pendingPlacement.tileBounds}
           onSelect={async (type: BuildingType) => {
-            const id = gameIdRef.current
-            if (id === null) { setPendingPlacement(null); return }
+            if (!enabledRef.current) { setPendingPlacement(null); return }
             const { col, row } = pendingPlacement.cell
             const cellKey = `${col},${row}`
             pendingCellsRef.current.add(cellKey)
             setPendingPlacement(null)
             try {
-              const newState = await placeBuilding(id, { x: col, y: row, type })
-              onBuildingPlacedRef.current(newState)
+              await buildRef.current(col, row, type)
             } catch (err) {
               console.error('placeBuilding failed:', err)
             } finally {
@@ -186,26 +177,22 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
           buildingTypes={buildableTypes}
           tileBounds={pendingMulti.tileBounds}
           onSelect={async (type: BuildingType) => {
-            const id = gameIdRef.current
-            if (id === null) { setPendingMulti(null); return }
+            if (!enabledRef.current) { setPendingMulti(null); return }
             const cells = pendingMulti.cells
             setPendingMulti(null)
 
-            // Mark all cells as pending
             for (const cell of cells) {
               pendingCellsRef.current.add(`${cell.col},${cell.row}`)
             }
 
-            let lastState: UiState | null = null
+            let working: UiBuildingSlot[] = buildingsRef.current.slice()
             try {
               for (const cell of cells) {
-                // Re-check affordability: re-read latest buildings to skip newly occupied cells
-                if (buildingsRef.current.some((b) => b.x === cell.col && b.y === cell.row)) continue
+                if (working.some((b) => b.x === cell.col && b.y === cell.row)) continue
                 try {
-                  lastState = await placeBuilding(id, { x: cell.col, y: cell.row, type })
-                  onBuildingPlacedRef.current(lastState)
+                  const next = await buildRef.current(cell.col, cell.row, type)
+                  working = next.buildings
                 } catch {
-                  // Likely out of resources – stop building
                   break
                 }
               }

@@ -1,9 +1,7 @@
 import * as PIXI from 'pixi.js'
-import type { components } from '../../api/generated'
+import type { UiBuildingSlot } from '@aethon/models'
 import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
 import { TILE_HALF_HEIGHT, tileTopVertex, type RotationStep } from './coordinates'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
 export const ICON_ZOOM_THRESHOLD = 0.4
 const ICON_RADIUS = 14

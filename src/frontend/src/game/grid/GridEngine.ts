@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js'
-import type { components } from '../../api/generated'
-import type { BuildingType } from '../../domain/buildingTypes'
+import type { BuildingType, UiBuildingSlot } from '@aethon/models'
 import { Camera } from './Camera'
 import { GRID_SIZE, screenToGrid, TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
 import { HoverRenderer } from './HoverRenderer'
@@ -9,8 +8,6 @@ import { InputController } from './InputController'
 import { loadBuildingTextures, type BuildingRenderConfig } from './buildingAssets'
 import { renderIsometricGrid } from './renderIsometricGrid'
 import { SelectionRenderer } from './SelectionRenderer'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
 export type TileBounds = { minX: number; maxX: number; minY: number; maxY: number }
 

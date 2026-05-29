@@ -1,10 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import type { components } from '../../api/generated'
+import type { UiBuildingTypeInfo } from '@aethon/models'
 import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
 import { POPULATION_DEF, RESOURCES_BY_KEY } from '../../domain/resources'
 import './BuildingPickerPopup.css'
-
-type UiBuildingTypeInfo = components['schemas']['UiBuildingTypeInfo']
 
 type TileBounds = { minX: number; maxX: number; minY: number; maxY: number }
 

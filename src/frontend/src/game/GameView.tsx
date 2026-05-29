@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import type { components } from '../api/generated'
+import type { UiBuildingSlot } from '@aethon/models'
 import type { GameController } from './hooks/useGame'
 import { useFullscreen } from './hooks/useFullscreen'
 import BottomBar from './ui/BottomBar'
@@ -8,8 +8,6 @@ import IsometricGrid, { type IsometricGridHandle } from './grid/IsometricGrid'
 import BuildingInfoPanel from './ui/BuildingInfoPanel'
 import ResourceOverlay from './ui/ResourceOverlay'
 import type { RotationStep } from './grid/coordinates'
-
-type UiBuildingSlot = components['schemas']['UiBuildingSlot']
 
 interface GameViewProps {
   game: GameController
@@ -23,8 +21,14 @@ export default function GameView({ game }: GameViewProps) {
   const gridRef = useRef<IsometricGridHandle>(null)
 
   const selectedCell = selectedBuilding
-    ? { col: Number(selectedBuilding.x), row: Number(selectedBuilding.y) }
+    ? { col: selectedBuilding.x, row: selectedBuilding.y }
     : null
+
+  const handleDeleteConfirmed = async () => {
+    await game.deleteGame()
+    setShowDeleteConfirm(false)
+    setSelectedBuilding(null)
+  }
 
   return (
     <>
@@ -32,8 +36,8 @@ export default function GameView({ game }: GameViewProps) {
         ref={gridRef}
         buildings={game.state?.buildings ?? []}
         buildingTypes={game.state?.buildingTypes ?? []}
-        gameId={game.state ? Number(game.state.gameStateId) : null}
-        onBuildingPlaced={game.setState}
+        enabled={!!game.state}
+        build={game.build}
         onCellClick={setSelectedBuilding}
         selectedCell={selectedCell}
         onRotationChanged={setRotation}
@@ -62,7 +66,7 @@ export default function GameView({ game }: GameViewProps) {
           confirmLabel="Löschen"
           variant="danger"
           isWorking={game.isDeletingGame}
-          onConfirm={game.deleteGame}
+          onConfirm={handleDeleteConfirmed}
           onCancel={() => setShowDeleteConfirm(false)}
         />
       )}
@@ -75,7 +79,7 @@ export default function GameView({ game }: GameViewProps) {
           confirmLabel="Neues Spiel"
           hideCancelButton
           isWorking={game.isDeletingGame}
-          onConfirm={game.deleteGame}
+          onConfirm={handleDeleteConfirmed}
           onCancel={() => {}}
         />
       )}
@@ -89,7 +93,7 @@ export default function GameView({ game }: GameViewProps) {
           hideCancelButton
           variant="danger"
           isWorking={game.isDeletingGame}
-          onConfirm={game.deleteGame}
+          onConfirm={handleDeleteConfirmed}
           onCancel={() => {}}
         />
       )}

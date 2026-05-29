@@ -1,59 +1,79 @@
-import { useCallback, useEffect, useState } from 'react'
-import { deleteGame, endRound, fetchOrCreateGame } from '../../api/gameApi'
-import type { components } from '../../api/generated'
-
-type UiState = components['schemas']['UiState']
+import { useCallback, useEffect, useRef, useState } from 'react'
+import type { BuildingType, GameState, UiState } from '@aethon/models'
+import { genesis, placeBuilding, project, simulateRound } from '@aethon/engine'
+import { appStorage } from '../../shared/storage/appStorage'
 
 export interface GameController {
   state: UiState | null
   isEndingRound: boolean
   isDeletingGame: boolean
-  setState: (state: UiState) => void
+  build: (x: number, y: number, type: BuildingType) => Promise<UiState>
   endRound: () => Promise<void>
   deleteGame: () => Promise<void>
 }
 
 export function useGame(): GameController {
-  const [state, setState] = useState<UiState | null>(null)
+  const gameStateRef = useRef<GameState | null>(null)
+  const [uiState, setUiState] = useState<UiState | null>(null)
   const [isEndingRound, setIsEndingRound] = useState(false)
   const [isDeletingGame, setIsDeletingGame] = useState(false)
 
   useEffect(() => {
-    fetchOrCreateGame()
-      .then(setState)
-      .catch((err) => console.error('Failed to load game state:', err))
+    let g = appStorage.gameState.get()
+    if (!g) {
+      g = genesis()
+      appStorage.gameState.set(g)
+    }
+    gameStateRef.current = g
+    setUiState(project(g))
   }, [])
 
-  const handleEndRound = useCallback(async () => {
-    if (!state || isEndingRound) return
+  const build = useCallback(async (x: number, y: number, type: BuildingType): Promise<UiState> => {
+    const cur = gameStateRef.current
+    if (!cur) throw new Error('Game not loaded')
+    const next = placeBuilding(cur, x, y, type)
+    gameStateRef.current = next
+    appStorage.gameState.set(next)
+    const ui = project(next)
+    setUiState(ui)
+    return ui
+  }, [])
+
+  const endRound = useCallback(async () => {
+    const cur = gameStateRef.current
+    if (!cur || isEndingRound) return
     setIsEndingRound(true)
     try {
-      const newState = await endRound(Number(state.gameStateId))
-      setState(newState)
+      const next = simulateRound(cur)
+      gameStateRef.current = next
+      appStorage.gameState.set(next)
+      setUiState(project(next))
     } catch (err) {
       console.error('End round failed:', err)
     } finally {
       setIsEndingRound(false)
     }
-  }, [state, isEndingRound])
+  }, [isEndingRound])
 
-  const handleDeleteGame = useCallback(async () => {
-    if (!state || isDeletingGame) return
+  const deleteGame = useCallback(async () => {
+    if (isDeletingGame) return
     setIsDeletingGame(true)
     try {
-      await deleteGame(Number(state.gameStateId))
-    } catch (err) {
-      console.error('Delete game failed:', err)
+      const fresh = genesis()
+      gameStateRef.current = fresh
+      appStorage.gameState.set(fresh)
+      setUiState(project(fresh))
+    } finally {
+      setIsDeletingGame(false)
     }
-    window.location.reload()
-  }, [state, isDeletingGame])
+  }, [isDeletingGame])
 
   return {
-    state,
+    state: uiState,
     isEndingRound,
     isDeletingGame,
-    setState,
-    endRound: handleEndRound,
-    deleteGame: handleDeleteGame,
+    build,
+    endRound,
+    deleteGame,
   }
 }
