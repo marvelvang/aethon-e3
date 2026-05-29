@@ -18,6 +18,8 @@ export interface GridEngineCallbacks {
   onCellClick: (cell: { col: number; row: number } | null, tileBounds: TileBounds | null) => void
   onRotationChanged: (rot: RotationStep) => void
   onResetView: () => void
+  onSelectionRect: (start: { col: number; row: number }, end: { col: number; row: number }, bounds: TileBounds) => void
+  onSelectionRectCancelled: () => void
 }
 
 export class GridEngine {
@@ -32,6 +34,8 @@ export class GridEngine {
   private buildings: UiBuildingSlot[] = []
   private textures: Map<BuildingType, BuildingRenderConfig> = new Map()
   private selectedCell: { col: number; row: number } | null = null
+  private selectionRect: { c1: number; r1: number; c2: number; r2: number } | null = null
+  private dragStartCell: { col: number; row: number } | null = null
 
   private detachInput: () => void = () => {}
   private tickerFn: (delta: number) => void
@@ -68,7 +72,7 @@ export class GridEngine {
     const input = new InputController(
       canvas,
       {
-        onDrag: (x, y) => {
+        onPan: (x, y) => {
           this.camera.setPosition(x, y)
           this.applyCamera()
         },
@@ -81,6 +85,7 @@ export class GridEngine {
           this.applyCamera()
         },
         onRotateView: (delta) => {
+          this.clearSelectionRect()
           this.rotation = ((this.rotation + delta + 4) % 4) as RotationStep
           this.callbacks.onRotationChanged(this.rotation)
           this.rebuildGrid()
@@ -109,6 +114,36 @@ export class GridEngine {
         onHoverEnd: () => {
           this.hover.update(null, this.camera.centerX, this.camera.offsetY, this.rotation)
         },
+        onSelectionDragStart: (x, y) => {
+          const cell = this.toGridCell(x, y)
+          if (!cell) return false
+          this.dragStartCell = cell
+          this.setSelectionRect(cell.col, cell.row, cell.col, cell.row)
+          this.hover.update(null, this.camera.centerX, this.camera.offsetY, this.rotation)
+          return true
+        },
+        onSelectionDragUpdate: (x, y) => {
+          if (!this.dragStartCell) return
+          const cell = this.toGridCell(x, y) ?? this.dragStartCell
+          this.setSelectionRect(this.dragStartCell.col, this.dragStartCell.row, cell.col, cell.row)
+        },
+        onSelectionDragEnd: (x, y) => {
+          if (!this.dragStartCell) return
+          const endCell = this.toGridCell(x, y) ?? this.dragStartCell
+          const start = this.dragStartCell
+          this.dragStartCell = null
+          this.clearSelectionRect()
+          const bounds = this.computeSelectionBounds(
+            Math.min(start.col, endCell.col), Math.min(start.row, endCell.row),
+            Math.max(start.col, endCell.col), Math.max(start.row, endCell.row),
+          )
+          this.callbacks.onSelectionRect(start, endCell, bounds)
+        },
+        onSelectionDragCancel: () => {
+          this.dragStartCell = null
+          this.clearSelectionRect()
+          this.callbacks.onSelectionRectCancelled()
+        },
       },
       () => this.camera.state,
     )
@@ -133,7 +168,17 @@ export class GridEngine {
 
   setSelectedCell(cell: { col: number; row: number } | null): void {
     this.selectedCell = cell
-    this.selection.update(cell, this.buildings, this.camera.centerX, this.camera.offsetY, this.rotation)
+    this.updateSelectionRenderer()
+  }
+
+  setSelectionRect(c1: number, r1: number, c2: number, r2: number): void {
+    this.selectionRect = { c1, r1, c2, r2 }
+    this.updateSelectionRenderer()
+  }
+
+  clearSelectionRect(): void {
+    this.selectionRect = null
+    this.updateSelectionRenderer()
   }
 
   setRotation(rot: RotationStep): void {
@@ -158,6 +203,34 @@ export class GridEngine {
     this.detachInput()
     window.removeEventListener('resize', this.resizeHandler)
     this.app.destroy(false, { children: true, texture: true, baseTexture: true })
+  }
+
+  private updateSelectionRenderer(): void {
+    if (this.selectionRect) {
+      const { c1, r1, c2, r2 } = this.selectionRect
+      this.selection.updateRect(c1, r1, c2, r2, this.buildings, this.camera.centerX, this.camera.offsetY, this.rotation)
+    } else {
+      this.selection.update(this.selectedCell, this.buildings, this.camera.centerX, this.camera.offsetY, this.rotation)
+    }
+  }
+
+  private computeSelectionBounds(minC: number, minR: number, maxC: number, maxR: number): TileBounds {
+    const { scale, x: camX, y: camY } = this.camera.state
+    let bMinX = Infinity, bMaxX = -Infinity, bMinY = Infinity, bMaxY = -Infinity
+    for (let c = minC; c <= maxC; c++) {
+      for (let r = minR; r <= maxR; r++) {
+        const top = tileTopVertex(c, r, this.camera.centerX, this.camera.offsetY, this.rotation)
+        const txMin = (top.x - TILE_HALF_WIDTH) * scale + camX
+        const txMax = (top.x + TILE_HALF_WIDTH) * scale + camX
+        const tyMin = top.y * scale + camY
+        const tyMax = (top.y + TILE_HALF_HEIGHT * 2) * scale + camY
+        if (txMin < bMinX) bMinX = txMin
+        if (txMax > bMaxX) bMaxX = txMax
+        if (tyMin < bMinY) bMinY = tyMin
+        if (tyMax > bMaxY) bMaxY = tyMax
+      }
+    }
+    return { minX: bMinX, maxX: bMaxX, minY: bMinY, maxY: bMaxY }
   }
 
   private toGridCell(x: number, y: number): { col: number; row: number } | null {
@@ -197,7 +270,7 @@ export class GridEngine {
     this.app.stage.addChild(this.iconLayer.container)
 
     this.hover.update(null, this.camera.centerX, this.camera.offsetY, this.rotation)
-    this.selection.update(this.selectedCell, this.buildings, this.camera.centerX, this.camera.offsetY, this.rotation)
+    this.updateSelectionRenderer()
     this.applyCamera()
   }
 
