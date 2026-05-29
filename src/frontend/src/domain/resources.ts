@@ -14,7 +14,7 @@ export interface ResourceDef {
 }
 
 export const RESOURCES: ResourceDef[] = [
-  { key: 'consumerGoods', gainKey: 'consumerGoodsGain', label: 'Güter',     shortLabel: 'Güter', color: 'var(--color-consumer)' },
+  { key: 'consumerGoods', gainKey: 'consumerGoodsGain', label: 'Konsumgüter', shortLabel: 'KGüt', color: 'var(--color-consumer)' },
   { key: 'industry',      gainKey: 'industryGain',      label: 'Industrie', shortLabel: 'Ind',   color: 'var(--color-industry)' },
   { key: 'energy',        gainKey: 'energyGain',        label: 'Energie',   shortLabel: 'Ene',   color: 'var(--color-energy)'   },
 ]
