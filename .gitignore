@@ -58,6 +58,7 @@ artifacts/
 # React / Node.js / Bun
 # ============================================================
 node_modules/
+src/frontend/src/
 bun.lockb
 .bun/
 dist/
