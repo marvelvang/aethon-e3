@@ -49,8 +49,8 @@ Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
 5. **Versionskonflikt prüfen**: Zuerst beide Versionen per grep lesen –
    **Pflicht, niemals aus dem Gedächtnis:**
    ```bash
-   grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
-   grep "APP_VERSION" src/backend/src/version.ts
+   grep "APP_VERSION" frontend/app/src/components/VersionDisplay.tsx
+   grep "APP_VERSION" backend/app/src/version.ts
    ```
    Dann mit den Werten aus `origin/main` vergleichen (Dateipfade siehe Regel 4).
    Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höchste der
@@ -73,8 +73,8 @@ Aufgabe danach.
 ### 4. Versionsnummern inkrementieren (am Aufgabenende aktiv fragen)
 Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
 gesetzt. Die maßgeblichen Stellen:
-- Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
-- Backend: `APP_VERSION` in `src/backend/src/version.ts`
+- Frontend: `APP_VERSION` in `frontend/app/src/components/VersionDisplay.tsx`
+- Backend: `APP_VERSION` in `backend/app/src/version.ts`
 
 **Nie eigenständig** erhöhen – immer per `AskUserQuestion` fragen. Claude stellt die
 Frage proaktiv am Aufgabenende; die Entscheidung Patch oder Minor liegt ausnahmslos
@@ -85,7 +85,7 @@ Pro Branch reicht ein einziges Increment über main hinaus.
 
 **PFLICHT – immer zuerst ausführen, kein Überspringen:**
 ```bash
-grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
+grep "APP_VERSION" frontend/app/src/components/VersionDisplay.tsx
 ```
 Diesen Tool-Call **immer** ausführen – auch wenn die Version „bekannt" zu sein scheint.
 Den Ausgabewert direkt in den Fragetext übernehmen. Die Version im Fragetext **muss**
@@ -133,26 +133,44 @@ Fehler lokal erkennen, bevor sie im CI landen.
 
 ## Projekt-Überblick
 
-Monorepo (Bun-Workspaces), reine TypeScript-Codebase. Architektur in sauberen Schichten:
+Monorepo (Bun-Workspaces), reine TypeScript-Codebase. Architektur in drei disjunkten
+Top-Level-Ordnern mit strikter Dependency-Richtung `shared ← frontend, backend`:
+
+```
+shared/      pakete, die von beiden Seiten benutzt werden
+  models/        Domain-Types (GameState, Building, UiState, Enums)
+  engine/        Reine Game-Logik (genesis, build, round, projection)
+  api-contract/  Zod-Schemas für API-Wire-Format
+
+frontend/    alles, was im Browser läuft
+  app/           React + Vite + Pixi.js
+  api-client/    Type-safe Hono-RPC-Client (`hc<AppType>`, type-only Backend-Import)
+  Dockerfile     Build- + Serve-Setup für Railway
+  railway.toml   Railway-Service-Config
+
+backend/     alles, was nur serverseitig läuft
+  app/           Hono-App + Bun-Entry-Point
+  persistence/   Drizzle-Schema + Repository (Postgres / Neon)
+```
 
 | Paket | Rolle | Abhängigkeiten |
 |---|---|---|
-| `@aethon/models`      | Domain-Types (GameState, Building, UiState, Enums)         | – |
-| `@aethon/engine`      | Reine Game-Logik (genesis, build, round, projection)        | models |
-| `@aethon/api-contract`| Zod-Schemas für API-Wire-Format                             | models |
-| `@aethon/persistence` | Drizzle-Schema + Repository (Postgres / Neon)               | models |
-| `@aethon/backend`     | Hono-App + Bun-Entry-Point                                  | engine, api-contract, persistence |
-| `@aethon/api-client`  | Type-safe Hono-RPC-Client (`hc<AppType>`)                   | backend (type-only) |
-| `@aethon/frontend`    | React + Vite + Pixi.js                                      | models, engine, api-client |
+| `@aethon/models`      | Domain-Types                                                | – |
+| `@aethon/engine`      | Game-Logik                                                  | models |
+| `@aethon/api-contract`| Wire-Format-Schemas                                         | models |
+| `@aethon/frontend`    | React-SPA                                                   | models, engine, api-client |
+| `@aethon/api-client`  | RPC-Client                                                  | api-contract (+ type-only backend) |
+| `@aethon/backend`     | Hono-Server                                                 | engine, api-contract, persistence |
+| `@aethon/persistence` | DB-Zugriff                                                  | models |
 
 **Single-Player-Lokal-Modus:** Frontend importiert `engine` direkt und hält den GameState
 in `localStorage`. Backend & DB werden nicht angesprochen.
 
 **MP-Modus (Vorbereitung, noch nicht aktiv):** dieselbe Engine läuft serverseitig im
-`backend`-Paket. Frontend ruft sie via `api-client` → Hono-RPC auf.
+`backend/app`-Paket. Frontend ruft sie via `api-client` → Hono-RPC auf.
 
 Frontend↔Backend werden **nicht** über OpenAPI verbunden. Typsicherheit kommt direkt aus
-den Workspace-Paketen (Models, api-client mit Hono-RPC-Inferenz).
+den Workspace-Paketen (Models, api-client mit Hono-RPC-Inferenz via type-only Import).
 
 ## Build & Setup
 
@@ -188,7 +206,7 @@ Reihenfolge am Aufgabenende:
 2. `git add` der geänderten Dateien
 3. `git commit` mit aussagekräftiger Message
 4. `git push -u origin <branch>`
-5. **Erst** `grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx`
+5. **Erst** `grep "APP_VERSION" frontend/app/src/components/VersionDisplay.tsx`
    ausführen, Branch-Version mit `origin/main` vergleichen – **dann** nur bei
    Branch = main per `AskUserQuestion` fragen (siehe Regel 4 – Pflichtgrep).
    Falls ja: Frontend `APP_VERSION` + Backend `APP_VERSION` gemeinsam als eigener

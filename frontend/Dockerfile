@@ -2,13 +2,15 @@
 FROM oven/bun:1 AS build
 WORKDIR /app
 COPY package.json bun.lock tsconfig.base.json ./
-COPY src ./src
+COPY shared    ./shared
+COPY frontend  ./frontend
+COPY backend   ./backend
 RUN bun install --frozen-lockfile
 RUN bun run --filter @aethon/frontend build
 
 # Stage 2: Serve the built SPA via nginx on Railway's dynamic $PORT
 FROM nginx:alpine
-COPY --from=build /app/src/frontend/dist /usr/share/nginx/html
+COPY --from=build /app/frontend/app/dist /usr/share/nginx/html
 RUN cat > /etc/nginx/conf.d/default.conf.template <<'EOF'
 server {
     listen       ${PORT};
