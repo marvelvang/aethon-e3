@@ -1,3 +1,4 @@
+import { useState, Fragment } from 'react'
 import type { UiState } from '@aethon/models'
 import { HOUSING_DEF, POPULATION_DEF, RESOURCES } from '../../presentation/resources'
 import './ResourceOverlay.css'
@@ -12,16 +13,56 @@ function resourceBarWidth(value: number | null, gain: number | null): string {
   return `${Math.max(0, (value + gain) / value * 100).toFixed(1)}%`
 }
 
+function fmtGain(g: number | null): string {
+  if (g === null) return '—'
+  return g >= 0 ? `+${g}` : `${g}`
+}
+
 export default function ResourceOverlay({ state }: Props) {
+  const [expanded, setExpanded] = useState(false)
+
   const freePopulation = state?.freePopulation ?? null
   const population     = state?.population     ?? null
   const housing        = state?.housing        ?? null
   const popGain        = state?.populationGain ?? null
-  const gainNegative   = popGain !== null && Number(popGain) < 0
+  const gainNegative   = popGain !== null && popGain < 0
+
+  if (!expanded) {
+    return (
+      <div className="resource-overlay resource-overlay--compact">
+        <div className="compact-bar" onClick={() => setExpanded(true)}>
+          <span style={{ color: POPULATION_DEF.color }}>{freePopulation ?? '—'}</span>
+          <span className="compact-sep">/</span>
+          <span style={{ color: POPULATION_DEF.color }}>{population ?? '—'}</span>
+          <span className="compact-sep">/</span>
+          <span style={{ color: HOUSING_DEF.color }}>{housing ?? '—'}</span>
+          <span className="compact-sep">/</span>
+          <span style={{ color: gainNegative ? 'var(--color-danger)' : POPULATION_DEF.color }}>
+            {fmtGain(popGain)}
+          </span>
+          {RESOURCES.map((r) => {
+            const value = state ? state[r.key]    : null
+            const gain  = state ? state[r.gainKey] : null
+            const isNeg = gain !== null && gain < 0
+            return (
+              <Fragment key={r.key}>
+                <span className="compact-group-sep">·</span>
+                <span style={{ color: r.color }}>{value ?? '—'}</span>
+                <span className="compact-sep">/</span>
+                <span style={{ color: isNeg ? 'var(--color-danger)' : r.color }}>
+                  {fmtGain(gain)}
+                </span>
+              </Fragment>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="resource-overlay">
-      <div className="resource-card">
+    <div className="resource-overlay resource-overlay--expanded">
+      <div className="resource-card" onClick={() => setExpanded(false)}>
         <span className="pop-primary" style={{ color: POPULATION_DEF.color }}>
           {freePopulation ?? '—'}
         </span>
@@ -31,33 +72,37 @@ export default function ResourceOverlay({ state }: Props) {
           <span style={{ color: HOUSING_DEF.color }}>{housing ?? '—'}</span>
           <span className="resource-value-sep">/</span>
           <span style={{ color: gainNegative ? 'var(--color-danger)' : POPULATION_DEF.color }}>
-            {popGain !== null
-              ? (Number(popGain) >= 0 ? `+${popGain}` : `${popGain}`)
-              : '—'}
+            {fmtGain(popGain)}
           </span>
         </span>
         <span className="resource-label">{POPULATION_DEF.label}</span>
-        <div className="resource-bar" style={{ background: POPULATION_DEF.color, width: resourceBarWidth(population, popGain !== null ? Number(popGain) : null) }} />
+        <div
+          className="resource-bar"
+          style={{ background: POPULATION_DEF.color, width: resourceBarWidth(population, popGain) }}
+        />
       </div>
 
       {RESOURCES.map((r) => {
         const value = state ? state[r.key]    : null
         const gain  = state ? state[r.gainKey] : null
         return (
-          <div key={r.key} className="resource-card">
+          <div key={r.key} className="resource-card" onClick={() => setExpanded(false)}>
             <span className="resource-value" style={{ color: r.color }}>
               <span className="resource-value-main">{value ?? '—'}</span>
               {gain !== null && (
                 <>
                   <span className="resource-value-sep">/</span>
-                  <span className={`resource-value-gain${Number(gain) < 0 ? ' negative' : ''}`}>
-                    {Number(gain) >= 0 ? `+${gain}` : `${gain}`}
+                  <span className={`resource-value-gain${gain < 0 ? ' negative' : ''}`}>
+                    {fmtGain(gain)}
                   </span>
                 </>
               )}
             </span>
             <span className="resource-label">{r.label}</span>
-            <div className="resource-bar" style={{ background: r.color, width: resourceBarWidth(value !== null ? Number(value) : null, gain !== null ? Number(gain) : null) }} />
+            <div
+              className="resource-bar"
+              style={{ background: r.color, width: resourceBarWidth(value, gain) }}
+            />
           </div>
         )
       })}
