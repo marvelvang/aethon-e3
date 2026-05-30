@@ -19,7 +19,7 @@ import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
 import { readFileSync, readdirSync, writeFileSync } from 'fs';
 import { resolve, join, basename } from 'path';
 
-const buildingsDir = resolve('/home/user/aethon-e3/src/frontend/public/assets/buildings');
+const buildingsDir = resolve('/home/user/aethon-e3/src/frontend/app/public/assets/buildings');
 const svgFiles = readdirSync(buildingsDir).filter(f => f.endsWith('.svg'));
 
 if (svgFiles.length === 0) {
