@@ -3,13 +3,13 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "shared/models",
-    "shared/engine",
-    "shared/api-contract",
-    "frontend/app",
-    "frontend/api-client",
-    "backend/app",
-    "backend/persistence"
+    "src/shared/models",
+    "src/shared/engine",
+    "src/shared/api-contract",
+    "src/frontend/app",
+    "src/frontend/api-client",
+    "src/backend/app",
+    "src/backend/persistence"
   ],
   "scripts": {
     "build:frontend": "bun --filter @aethon/frontend build",

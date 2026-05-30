@@ -9,7 +9,7 @@
         "typescript": "^5.6.0",
       },
     },
-    "backend/app": {
+    "src/backend/app": {
       "name": "@aethon/backend",
       "version": "0.3.0",
       "dependencies": {
@@ -22,7 +22,7 @@
         "zod": "^3.23.8",
       },
     },
-    "backend/persistence": {
+    "src/backend/persistence": {
       "name": "@aethon/persistence",
       "version": "0.3.0",
       "dependencies": {
@@ -34,7 +34,7 @@
         "drizzle-kit": "^0.30.0",
       },
     },
-    "frontend/api-client": {
+    "src/frontend/api-client": {
       "name": "@aethon/api-client",
       "version": "0.3.0",
       "dependencies": {
@@ -42,7 +42,7 @@
         "hono": "^4.6.13",
       },
     },
-    "frontend/app": {
+    "src/frontend/app": {
       "name": "@aethon/frontend",
       "version": "0.3.0",
       "dependencies": {
@@ -61,7 +61,7 @@
         "vite": "^5.3.4",
       },
     },
-    "shared/api-contract": {
+    "src/shared/api-contract": {
       "name": "@aethon/api-contract",
       "version": "0.3.0",
       "dependencies": {
@@ -69,32 +69,32 @@
         "zod": "^3.23.8",
       },
     },
-    "shared/engine": {
+    "src/shared/engine": {
       "name": "@aethon/engine",
       "version": "0.3.0",
       "dependencies": {
         "@aethon/models": "workspace:*",
       },
     },
-    "shared/models": {
+    "src/shared/models": {
       "name": "@aethon/models",
       "version": "0.3.0",
     },
   },
   "packages": {
-    "@aethon/api-client": ["@aethon/api-client@workspace:frontend/api-client"],
+    "@aethon/api-client": ["@aethon/api-client@workspace:src/frontend/api-client"],
 
-    "@aethon/api-contract": ["@aethon/api-contract@workspace:shared/api-contract"],
+    "@aethon/api-contract": ["@aethon/api-contract@workspace:src/shared/api-contract"],
 
-    "@aethon/backend": ["@aethon/backend@workspace:backend/app"],
+    "@aethon/backend": ["@aethon/backend@workspace:src/backend/app"],
 
-    "@aethon/engine": ["@aethon/engine@workspace:shared/engine"],
+    "@aethon/engine": ["@aethon/engine@workspace:src/shared/engine"],
 
-    "@aethon/frontend": ["@aethon/frontend@workspace:frontend/app"],
+    "@aethon/frontend": ["@aethon/frontend@workspace:src/frontend/app"],
 
-    "@aethon/models": ["@aethon/models@workspace:shared/models"],
+    "@aethon/models": ["@aethon/models@workspace:src/shared/models"],
 
-    "@aethon/persistence": ["@aethon/persistence@workspace:backend/persistence"],
+    "@aethon/persistence": ["@aethon/persistence@workspace:src/backend/persistence"],
 
     "@babel/code-frame": ["@babel/code-frame@7.29.7", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.29.7", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw=="],
 
