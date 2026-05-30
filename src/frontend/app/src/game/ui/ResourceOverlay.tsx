@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react'
+import { useState } from 'react'
 import type { UiState } from '@aethon/models'
 import { HOUSING_DEF, POPULATION_DEF, RESOURCES } from '../../presentation/resources'
 import './ResourceOverlay.css'
@@ -31,28 +31,30 @@ export default function ResourceOverlay({ state }: Props) {
     return (
       <div className="resource-overlay resource-overlay--compact">
         <div className="compact-bar" onClick={() => setExpanded(true)}>
-          <span style={{ color: POPULATION_DEF.color }}>{freePopulation ?? '—'}</span>
-          <span className="compact-sep">/</span>
-          <span style={{ color: POPULATION_DEF.color }}>{population ?? '—'}</span>
-          <span className="compact-sep">/</span>
-          <span style={{ color: HOUSING_DEF.color }}>{housing ?? '—'}</span>
-          <span className="compact-sep">/</span>
-          <span style={{ color: gainNegative ? 'var(--color-danger)' : POPULATION_DEF.color }}>
-            {fmtGain(popGain)}
+          <span className="compact-group">
+            <span style={{ color: POPULATION_DEF.color }}>{freePopulation ?? '—'}</span>
+            <span className="compact-sep">/</span>
+            <span style={{ color: POPULATION_DEF.color }}>{population ?? '—'}</span>
+            <span className="compact-sep">/</span>
+            <span style={{ color: HOUSING_DEF.color }}>{housing ?? '—'}</span>
+            <span className="compact-sep">/</span>
+            <span style={{ color: gainNegative ? 'var(--color-danger)' : POPULATION_DEF.color }}>
+              {fmtGain(popGain)}
+            </span>
           </span>
           {RESOURCES.map((r) => {
             const value = state ? state[r.key]    : null
             const gain  = state ? state[r.gainKey] : null
             const isNeg = gain !== null && gain < 0
             return (
-              <Fragment key={r.key}>
+              <span key={r.key} className="compact-group">
                 <span className="compact-group-sep">·</span>
                 <span style={{ color: r.color }}>{value ?? '—'}</span>
                 <span className="compact-sep">/</span>
                 <span style={{ color: isNeg ? 'var(--color-danger)' : r.color }}>
                   {fmtGain(gain)}
                 </span>
-              </Fragment>
+              </span>
             )
           })}
         </div>

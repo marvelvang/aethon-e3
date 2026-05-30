@@ -135,13 +135,21 @@
   padding: 6px 12px;
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
+  max-width: 50vw;
+  gap: 2px 0;
   backdrop-filter: blur(6px);
   pointer-events: auto;
   cursor: pointer;
   font-size: var(--font-size-body);
   font-weight: bold;
-  white-space: nowrap;
   transition: opacity 0.15s;
+}
+
+.compact-group {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
 }
 
 .compact-bar:hover {
