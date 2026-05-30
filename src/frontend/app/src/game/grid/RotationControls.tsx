@@ -27,17 +27,19 @@ function RotateCWIcon() {
 
 function CompassResetIcon({ label }: { label: string }) {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden>
-      <polygon points="12,3 9.5,9 14.5,9" />
-      <polygon points="12,21 9.5,15 14.5,15" />
-      <polygon points="3,12 9,9.5 9,14.5" />
-      <polygon points="21,12 15,9.5 15,14.5" />
+    <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor" aria-hidden>
+      <g opacity="0.55">
+        <polygon points="12,1 10,5.5 14,5.5" />
+        <polygon points="12,23 10,18.5 14,18.5" />
+        <polygon points="1,12 5.5,10 5.5,14" />
+        <polygon points="23,12 18.5,10 18.5,14" />
+      </g>
       <text
         x="12"
         y="12"
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize="6"
+        fontSize="10"
         fontWeight="bold"
         fontFamily="inherit"
       >

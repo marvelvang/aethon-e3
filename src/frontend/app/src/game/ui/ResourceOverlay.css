@@ -121,3 +121,62 @@
   margin-top: 4px;
   opacity: 0.7;
 }
+
+/* ── Compact bar (collapsed view) ── */
+
+.resource-overlay--compact {
+  display: block;
+}
+
+.compact-bar {
+  background: rgba(10, 10, 10, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  max-width: 50vw;
+  gap: 2px 0;
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+  cursor: pointer;
+  font-size: var(--font-size-body);
+  font-weight: bold;
+  transition: opacity 0.15s;
+}
+
+.compact-group {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+.compact-bar:hover {
+  opacity: 0.85;
+}
+
+.compact-sep {
+  font-size: 11px;
+  font-weight: normal;
+  color: #444;
+  margin: 0 1px;
+}
+
+.compact-group-sep {
+  font-size: 11px;
+  color: #555;
+  margin: 0 6px;
+}
+
+/* ── Expanded cards – clickable to collapse ── */
+
+.resource-overlay--expanded .resource-card {
+  pointer-events: auto;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.resource-overlay--expanded .resource-card:hover {
+  opacity: 0.85;
+}
