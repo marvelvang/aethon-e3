@@ -17,7 +17,7 @@ Nach jeder Aufgabe, die Frontend-Code verändert hat, einen vollständigen Front
 ausführen und sicherstellen, dass er fehlerfrei durchläuft:
 
 ```bash
-cd /home/user/aethon-e3/src/frontend && npm run build
+cd /home/user/aethon-e3 && bun --filter @aethon/frontend build
 ```
 
 Erst danach committen und pushen.
@@ -46,19 +46,11 @@ Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
-5. **TypeScript-Typen neu generieren**, falls der Merge die OpenAPI-Spec verändert hat:
-   ```bash
-   git diff ORIG_HEAD HEAD --name-only | grep -q "aethon-e3.api.json" \
-     && npm run generate --prefix src/frontend
-   ```
-   Der Session-Start-Hook generiert die Typen nur einmalig – ein Merge, der die Spec
-   aktualisiert, macht sie sofort wieder veraltet. Dieser Schritt stellt sicher, dass
-   `src/frontend/src/api/generated.ts` immer mit der aktuellen Spec übereinstimmt.
-6. **Versionskonflikt prüfen**: Zuerst beide Versionen per grep lesen –
+5. **Versionskonflikt prüfen**: Zuerst beide Versionen per grep lesen –
    **Pflicht, niemals aus dem Gedächtnis:**
    ```bash
-   grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
-   grep "APP_VERSION" src/backend/aethon-e3.core/Projections/UiState.cs
+   grep "APP_VERSION" src/frontend/app/src/components/VersionDisplay.tsx
+   grep "APP_VERSION" src/backend/app/src/version.ts
    ```
    Dann mit den Werten aus `origin/main` vergleichen (Dateipfade siehe Regel 4).
    Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höchste der
@@ -71,7 +63,7 @@ Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
      Nach der Antwort: beide Dateien setzen, Frontend-Build, Commit, Push.
      **Hinweis:** Hat dieser Schritt einen Bump ausgelöst, ist Branch strikt > main –
      Regel 4 am Aufgabenende entfällt dann automatisch.
-7. Erst dann mit der eigentlichen Aufgabe beginnen
+6. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
 bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konflikte lösen →
@@ -81,8 +73,8 @@ Aufgabe danach.
 ### 4. Versionsnummern inkrementieren (am Aufgabenende aktiv fragen)
 Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
 gesetzt. Die maßgeblichen Stellen:
-- Frontend: `APP_VERSION` in `src/frontend/src/components/VersionDisplay.tsx`
-- Backend: `APP_VERSION` in `src/backend/aethon-e3.core/Projections/UiState.cs`
+- Frontend: `APP_VERSION` in `src/frontend/app/src/components/VersionDisplay.tsx`
+- Backend: `APP_VERSION` in `src/backend/app/src/version.ts`
 
 **Nie eigenständig** erhöhen – immer per `AskUserQuestion` fragen. Claude stellt die
 Frage proaktiv am Aufgabenende; die Entscheidung Patch oder Minor liegt ausnahmslos
@@ -93,7 +85,7 @@ Pro Branch reicht ein einziges Increment über main hinaus.
 
 **PFLICHT – immer zuerst ausführen, kein Überspringen:**
 ```bash
-grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx
+grep "APP_VERSION" src/frontend/app/src/components/VersionDisplay.tsx
 ```
 Diesen Tool-Call **immer** ausführen – auch wenn die Version „bekannt" zu sein scheint.
 Den Ausgabewert direkt in den Fragetext übernehmen. Die Version im Fragetext **muss**
@@ -128,42 +120,80 @@ Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 ## Umgebungs-Setup (SessionStart-Hook)
 
 Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
-`scripts/dev-setup.sh`. Das Skript führt idempotent aus:
-1. npm dependencies in `src/frontend` installieren (via `npm ci`, falls `node_modules` fehlt)
-2. TypeScript-Typen generieren (via `npm run generate`, falls `aethon-e3.api.json` vorhanden)
-
-**Hinweis:** .NET ist in der Claude Code Web-Sandbox nicht verfügbar. Backend-Build und
-OpenAPI-Spec-Generierung übernimmt der CI-Workflow (GitHub Actions), der die Spec
-automatisch in den Branch zurück-committed.
+`scripts/dev-setup.sh`. Das Skript führt idempotent `bun install` auf Workspace-Root
+aus (falls `node_modules` fehlt).
 
 **Manuell ausführen** (z.B. nach Checkout in neuer Shell):
 ```bash
 bash scripts/dev-setup.sh
 ```
 
-Nach dem Setup kann Claude direkt `tsc` und `npm run build` aufrufen und Fehler
-lokal erkennen, bevor sie im CI landen.
+Nach dem Setup kann Claude `bun run`-Skripte und `bun --filter`-Befehle nutzen und
+Fehler lokal erkennen, bevor sie im CI landen.
 
 ## Projekt-Überblick
 
-Monorepo: C#/.NET 10 Backend + React 18 / TypeScript / Vite Frontend.
-Pixi.js (WebGL) für das Rendering. OpenAPI-Spec wird beim Backend-Build auto-generiert,
-daraus werden TypeScript-Typen für das Frontend erzeugt.
+Monorepo (Bun-Workspaces), reine TypeScript-Codebase. Aller Quellcode liegt unter `src/`,
+aufgeteilt in drei disjunkte Bereiche mit strikter Dependency-Richtung
+`shared ← frontend, backend`:
+
+```
+src/
+  shared/    pakete, die von beiden Seiten benutzt werden
+    models/        Domain-Types (GameState, Building, UiState, Enums)
+    engine/        Reine Game-Logik (genesis, build, round, projection)
+    api-contract/  Zod-Schemas für API-Wire-Format
+
+  frontend/  alles, was im Browser läuft
+    app/           React + Vite + Pixi.js
+    api-client/    Type-safe Hono-RPC-Client (`hc<AppType>`, type-only Backend-Import)
+    Dockerfile     Build- + Serve-Setup für Railway
+    railway.toml   Railway-Service-Config
+
+  backend/   alles, was nur serverseitig läuft
+    app/           Hono-App + Bun-Entry-Point
+    persistence/   Drizzle-Schema + Repository (Postgres / Neon)
+
+docs/        Design-Dokumente
+scripts/     Helfer (dev-setup, asset-rendering)
+```
+
+| Paket | Rolle | Abhängigkeiten |
+|---|---|---|
+| `@aethon/models`      | Domain-Types                                                | – |
+| `@aethon/engine`      | Game-Logik                                                  | models |
+| `@aethon/api-contract`| Wire-Format-Schemas                                         | models |
+| `@aethon/frontend`    | React-SPA                                                   | models, engine, api-client |
+| `@aethon/api-client`  | RPC-Client                                                  | api-contract (+ type-only backend) |
+| `@aethon/backend`     | Hono-Server                                                 | engine, api-contract, persistence |
+| `@aethon/persistence` | DB-Zugriff                                                  | models |
+
+**Single-Player-Lokal-Modus:** Frontend importiert `engine` direkt und hält den GameState
+in `localStorage`. Backend & DB werden nicht angesprochen.
+
+**MP-Modus (Vorbereitung, noch nicht aktiv):** dieselbe Engine läuft serverseitig im
+`backend/app`-Paket. Frontend ruft sie via `api-client` → Hono-RPC auf.
+
+Frontend↔Backend werden **nicht** über OpenAPI verbunden. Typsicherheit kommt direkt aus
+den Workspace-Paketen (Models, api-client mit Hono-RPC-Inferenz via type-only Import).
 
 ## Build & Setup
 
 ```bash
-# Alles: Backend bauen + TS-Typen generieren + Frontend bauen
-cd src/frontend && npm run setup
+# Installation (Workspace-Root)
+bun install
 
-# Nur Backend
-dotnet build src/backend/aethon-e3.api/aethon-e3.api.csproj
+# Frontend-Build
+bun --filter @aethon/frontend build
 
 # Frontend-Dev-Server
-cd src/frontend && npm run dev
+bun --filter @aethon/frontend dev
 
-# TS-Typen aus OpenAPI-Spec regenerieren
-cd src/frontend && npm run generate
+# Backend-Dev-Server (braucht DATABASE_URL)
+DATABASE_URL=... bun --filter @aethon/backend dev
+
+# Engine-Tests
+bun test --filter @aethon/engine
 ```
 
 ## Git
@@ -181,8 +211,8 @@ Reihenfolge am Aufgabenende:
 2. `git add` der geänderten Dateien
 3. `git commit` mit aussagekräftiger Message
 4. `git push -u origin <branch>`
-5. **Erst** `grep "APP_VERSION" src/frontend/src/components/VersionDisplay.tsx`
+5. **Erst** `grep "APP_VERSION" src/frontend/app/src/components/VersionDisplay.tsx`
    ausführen, Branch-Version mit `origin/main` vergleichen – **dann** nur bei
    Branch = main per `AskUserQuestion` fragen (siehe Regel 4 – Pflichtgrep).
-   Falls ja: Frontend `APP_VERSION` + Backend `<Version>` gemeinsam als eigener
+   Falls ja: Frontend `APP_VERSION` + Backend `APP_VERSION` gemeinsam als eigener
    Commit + push.
