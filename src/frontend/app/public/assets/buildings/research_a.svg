@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TriLab A – Research Building Proposal A (Master SVG, 4× tile resolution)
+  Drei metallic Bioreaktoren im Dreieck · Amber-Energiering · Zentralspire
+  Viewbox: -128 -178 256 308  |  Basisplatte identisch zu allen anderen Gebäuden
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation: warm dark amber-brown -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#4c3010"/>
+      <stop offset="100%" stop-color="#241808"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#1c1208"/>
+      <stop offset="100%" stop-color="#0e0a04"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#5c4018"/>
+      <stop offset="100%" stop-color="#3a2a0e"/>
+    </linearGradient>
+    <!-- Base unit -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#4c3c28"/>
+      <stop offset="60%"  stop-color="#2e2418"/>
+      <stop offset="100%" stop-color="#1c160e"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#1a1008"/>
+      <stop offset="100%" stop-color="#0e0a04"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-72" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#5e4c30"/>
+      <stop offset="100%" stop-color="#3a2e1c"/>
+    </linearGradient>
+    <!-- Cylinder right face: horizontal gradient, darker on front edge -->
+    <linearGradient id="cyR" x1="0" y1="0.5" x2="1" y2="0.5">
+      <stop offset="0%"   stop-color="#584c3c"/>
+      <stop offset="100%" stop-color="#7e6e58"/>
+    </linearGradient>
+    <!-- Cylinder left face: dark shadow -->
+    <linearGradient id="cyL" x1="0" y1="0.5" x2="1" y2="0.5">
+      <stop offset="0%"   stop-color="#141008"/>
+      <stop offset="100%" stop-color="#1e1610"/>
+    </linearGradient>
+    <!-- Cylinder top face -->
+    <linearGradient id="cyTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#9c8c70"/>
+      <stop offset="100%" stop-color="#6a5c48"/>
+    </linearGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══ FOUNDATION hz 0→24 (±128) ══ -->
+  <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#3a2808" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#4c3810" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#4c3810" stroke-width="1.5"/>
+
+  <g transform="translate(0, 36)">
+  <!-- ══ BASE UNIT hz 24→56 (±88) ══ -->
+  <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#1e1408" stroke-width="1.5"/>
+  <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#4c3c28" stroke-width="1.5"/>
+  <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#4c3c28" stroke-width="1.5"/>
+  <line x1="88"  y1="4"  x2="88"  y2="-28" stroke="#d49010" stroke-width="2"   opacity="0.5"/>
+  <line x1="66"  y1="7"  x2="22"  y2="29"  stroke="#a87020" stroke-width="1.5" opacity="0.4"/>
+  <line x1="66"  y1="-1" x2="22"  y2="21"  stroke="#a87020" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-88" y1="4"  x2="-88" y2="-28" stroke="#201408" stroke-width="2"   opacity="0.5"/>
+  <circle cx="88"  cy="-28" r="5" fill="#f0b030" filter="url(#glow)"/>
+  <circle cx="-88" cy="-28" r="5" fill="#f0b030" filter="url(#glow)" opacity="0.55"/>
+  <circle cx="0"   cy="16"  r="5" fill="#f0b030" filter="url(#glow)"/>
+
+  <!-- ══ THREE CYLINDERS ══
+       Painter's order: NW → NE → (struts) → S
+       NW: cx=-36 front_y=-35  w=17  h=78
+           left: (-53,-44)(-36,-35)(-36,-113)(-53,-122)
+           right:(-19,-44)(-36,-35)(-36,-113)(-19,-122)
+           top:  (-36,-130)(-19,-122)(-36,-113)(-53,-122)
+       NE: mirror of NW at cx=+36
+       S:  cx=0  front_y=-10  w=17  h=78
+           left: (-17,-19)(0,-10)(0,-88)(-17,-97)
+           right:(17,-19)(0,-10)(0,-88)(17,-97)
+           top:  (0,-105)(17,-97)(0,-88)(-17,-97)            -->
+
+  <!-- ─── NW CYLINDER ─── -->
+  <polygon points="-53,-44 -36,-35 -36,-113 -53,-122" fill="url(#cyL)" stroke="#181008" stroke-width="1.2"/>
+  <polygon points="-19,-44 -36,-35 -36,-113 -19,-122" fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="-19" y1="-44" x2="-19" y2="-122" stroke="#9c8468" stroke-width="1.5" opacity="0.55"/>
+  <!-- amber accent band at mid-height -->
+  <line x1="-19" y1="-78" x2="-36" y2="-74"  stroke="#e0a820" stroke-width="2"   opacity="0.7"/>
+  <polygon points="-36,-130 -19,-122 -36,-113 -53,-122" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="-36" cy="-122" r="4"  fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
+
+  <!-- ─── NE CYLINDER ─── -->
+  <polygon points="19,-44 36,-35 36,-113 19,-122"  fill="url(#cyL)" stroke="#181008" stroke-width="1.2"/>
+  <polygon points="53,-44 36,-35 36,-113 53,-122"  fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="53" y1="-44" x2="53" y2="-122" stroke="#9c8468" stroke-width="1.5" opacity="0.55"/>
+  <line x1="53" y1="-78" x2="36" y2="-74"  stroke="#e0a820" stroke-width="2"   opacity="0.7"/>
+  <polygon points="36,-130 53,-122 36,-113 19,-122" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="36" cy="-122" r="4"  fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
+
+  <!-- ─── CONNECTING STRUTS ─── -->
+  <!-- NW↔NE horizontal at mid-height -->
+  <line x1="-19" y1="-78" x2="19" y2="-78"  stroke="#a07840" stroke-width="3"   stroke-linecap="round" opacity="0.75"/>
+  <line x1="-19" y1="-78" x2="19" y2="-78"  stroke="#f0c040" stroke-width="1"   opacity="0.3"/>
+  <!-- NW→S and NE→S lower diagonals -->
+  <line x1="-22" y1="-56" x2="-14" y2="-30" stroke="#907040" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+  <line x1=" 22" y1="-56" x2=" 14" y2="-30" stroke="#907040" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+
+  <!-- ─── S CYLINDER ─── -->
+  <polygon points="-17,-19 0,-10 0,-88 -17,-97"  fill="url(#cyL)" stroke="#181008" stroke-width="1.2"/>
+  <polygon points="17,-19 0,-10 0,-88 17,-97"    fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="17" y1="-19" x2="17" y2="-97" stroke="#9c8468" stroke-width="1.5" opacity="0.6"/>
+  <line x1="17" y1="-53" x2="0"  y2="-49" stroke="#e0a820" stroke-width="2"   opacity="0.75"/>
+  <polygon points="0,-105 17,-97 0,-88 -17,-97" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="0" cy="-97" r="4"  fill="#f0b030" filter="url(#glow)" opacity="0.9"/>
+
+  <!-- ══ AMBER ENERGY RING – triangle connecting the three cylinder tops ══ -->
+  <!-- Glow halo -->
+  <polyline points="-36,-113 36,-113 0,-88 -36,-113"
+            stroke="#f0c040" stroke-width="6" fill="none" opacity="0.18" filter="url(#softglow)"/>
+  <!-- Visible ring -->
+  <polyline points="-36,-113 36,-113 0,-88 -36,-113"
+            stroke="#d49010" stroke-width="1.5" fill="none" opacity="0.8"/>
+
+  <!-- ══ CENTRAL SPIRE (centroid ≈ 0,-104) ══ -->
+  <line x1="0" y1="-104" x2="0" y2="-152" stroke="#b07810" stroke-width="2.5"/>
+  <line x1="0" y1="-104" x2="0" y2="-152" stroke="#f0c040" stroke-width="1"   opacity="0.55"/>
+  <!-- cross bars -->
+  <line x1="-12" y1="-142" x2="12" y2="-142" stroke="#d49010" stroke-width="2"/>
+  <line x1="-7"  y1="-132" x2="7"  y2="-132" stroke="#d49010" stroke-width="1.5"/>
+  <!-- apex -->
+  <circle cx="0" cy="-152" r="9"  fill="#f0c040" opacity="0.14" filter="url(#softglow)"/>
+  <circle cx="0" cy="-152" r="5"  fill="#f0c040" opacity="0.85" filter="url(#glow)"/>
+  <circle cx="0" cy="-152" r="2"  fill="#ffffff"/>
+
+  </g>
+</svg>

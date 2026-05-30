@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  VaultLab C – Research Building Proposal C (Master SVG, 4× tile resolution)
+  Drei breite Behälter mit leuchtend-Amber-Kuppeln · Rohrverbindungen
+  Viewbox: -128 -178 256 308  |  Basisplatte identisch zu allen anderen Gebäuden
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation: warm dark amber-brown -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#4c3010"/>
+      <stop offset="100%" stop-color="#241808"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#1c1208"/>
+      <stop offset="100%" stop-color="#0e0a04"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#5c4018"/>
+      <stop offset="100%" stop-color="#3a2a0e"/>
+    </linearGradient>
+    <!-- Base unit -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#4c3c28"/>
+      <stop offset="60%"  stop-color="#2e2418"/>
+      <stop offset="100%" stop-color="#1c160e"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#1a1008"/>
+      <stop offset="100%" stop-color="#0e0a04"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-72" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#5e4c30"/>
+      <stop offset="100%" stop-color="#3a2e1c"/>
+    </linearGradient>
+    <!-- Wide vessel right face -->
+    <linearGradient id="cyR" x1="0" y1="0.5" x2="1" y2="0.5">
+      <stop offset="0%"   stop-color="#504030"/>
+      <stop offset="100%" stop-color="#786050"/>
+    </linearGradient>
+    <!-- Vessel left face -->
+    <linearGradient id="cyL" x1="0" y1="0.5" x2="1" y2="0.5">
+      <stop offset="0%"   stop-color="#141008"/>
+      <stop offset="100%" stop-color="#201808"/>
+    </linearGradient>
+    <!-- Vessel top face -->
+    <linearGradient id="cyTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#907868"/>
+      <stop offset="100%" stop-color="#604c3c"/>
+    </linearGradient>
+    <!-- Amber dome (bright) -->
+    <radialGradient id="domeAmber" cx="38%" cy="28%" r="68%">
+      <stop offset="0%"   stop-color="#fff0a0"/>
+      <stop offset="20%"  stop-color="#f0b030"/>
+      <stop offset="55%"  stop-color="#904800"/>
+      <stop offset="85%"  stop-color="#3c1800"/>
+      <stop offset="100%" stop-color="#1a0a00"/>
+    </radialGradient>
+    <!-- Amber dome (dim shadow side) -->
+    <radialGradient id="domeAmberDim" cx="38%" cy="28%" r="68%">
+      <stop offset="0%"   stop-color="#806020"/>
+      <stop offset="40%"  stop-color="#3a2008"/>
+      <stop offset="100%" stop-color="#100800"/>
+    </radialGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="domeglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══ FOUNDATION hz 0→24 (±128) ══ -->
+  <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#3a2808" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#4c3810" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#4c3810" stroke-width="1.5"/>
+
+  <g transform="translate(0, 36)">
+  <!-- ══ BASE UNIT hz 24→56 (±88) ══ -->
+  <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#1e1408" stroke-width="1.5"/>
+  <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#4c3c28" stroke-width="1.5"/>
+  <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#4c3c28" stroke-width="1.5"/>
+  <line x1="88"  y1="4"  x2="88"  y2="-28" stroke="#d49010" stroke-width="2"   opacity="0.5"/>
+  <line x1="66"  y1="7"  x2="22"  y2="29"  stroke="#a87020" stroke-width="1.5" opacity="0.4"/>
+  <line x1="66"  y1="-1" x2="22"  y2="21"  stroke="#a87020" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-88" y1="4"  x2="-88" y2="-28" stroke="#201408" stroke-width="2"   opacity="0.5"/>
+  <circle cx="88"  cy="-28" r="5" fill="#f0b030" filter="url(#glow)"/>
+  <circle cx="-88" cy="-28" r="5" fill="#f0b030" filter="url(#glow)" opacity="0.55"/>
+  <circle cx="0"   cy="16"  r="5" fill="#f0b030" filter="url(#glow)"/>
+
+  <!-- ══ THREE WIDE VESSELS ══
+       NW: cx=-38  front_y=-32  w=24  h=52
+           cy_LR_bot=-44  cy_top=-84  cy_LR_top=-96  cy_N_top=-108
+           left: (-62,-44)(-38,-32)(-38,-84)(-62,-96)
+           right:(-14,-44)(-38,-32)(-38,-84)(-14,-96)
+           top:  (-38,-108)(-14,-96)(-38,-84)(-62,-96)
+       NE: mirror at cx=+38
+       S:  cx=0  front_y=-8  w=24  h=52
+           cy_LR_bot=-20  cy_top=-60  cy_LR_top=-72  cy_N_top=-84
+           left: (-24,-20)(0,-8)(0,-60)(-24,-72)
+           right:(24,-20)(0,-8)(0,-60)(24,-72)
+           top:  (0,-84)(24,-72)(0,-60)(-24,-72)           -->
+
+  <!-- ─── NW VESSEL ─── -->
+  <polygon points="-62,-44 -38,-32 -38,-84 -62,-96" fill="url(#cyL)" stroke="#181008" stroke-width="1.5"/>
+  <polygon points="-14,-44 -38,-32 -38,-84 -14,-96" fill="url(#cyR)" stroke="#7a6048" stroke-width="1.5"/>
+  <!-- vertical edge highlight -->
+  <line x1="-14" y1="-44" x2="-14" y2="-96" stroke="#9a7a58" stroke-width="2"   opacity="0.55"/>
+  <!-- horizontal band -->
+  <line x1="-14" y1="-62" x2="-38" y2="-58" stroke="#d49010" stroke-width="2"   opacity="0.6"/>
+  <polygon points="-38,-108 -14,-96 -38,-84 -62,-96" fill="url(#cyTop)" stroke="#7a6048" stroke-width="1.5"/>
+  <!-- AMBER DOME on NW vessel -->
+  <!-- dome left face (shadow): bezier arc from W corner over peak to front  -->
+  <path d="M -62,-96 C -70,-112 -52,-122 -38,-120 C -24,-118 -14,-108 -14,-96"
+        fill="url(#domeAmberDim)" stroke="#3c1c04" stroke-width="1" opacity="0.85"/>
+  <!-- dome right face (lit): front quarter of dome -->
+  <path d="M -14,-96 C -14,-108 -24,-118 -38,-120 C -38,-120 -38,-120 -38,-120
+           L -38,-96 Z"
+        fill="url(#domeAmber)" opacity="0.0"/>
+  <!-- simpler dome arch over the top face -->
+  <path d="M -62,-96 C -60,-122 -16,-122 -14,-96"
+        fill="url(#domeAmber)" stroke="#d49010" stroke-width="1.2" opacity="0.92"/>
+  <!-- dome glow halo -->
+  <path d="M -62,-96 C -60,-122 -16,-122 -14,-96"
+        fill="#f0a820" opacity="0.12" filter="url(#domeglow)"/>
+  <!-- dome shine -->
+  <ellipse cx="-46" cy="-111" rx="7" ry="4.5" fill="white" opacity="0.18" transform="rotate(-15,-46,-111)"/>
+  <!-- dome top node -->
+  <circle cx="-38" cy="-120" r="3.5" fill="#fff8a0" filter="url(#glow)" opacity="0.8"/>
+
+  <!-- ─── NE VESSEL ─── -->
+  <polygon points="14,-44 38,-32 38,-84 14,-96"  fill="url(#cyL)" stroke="#181008" stroke-width="1.5"/>
+  <polygon points="62,-44 38,-32 38,-84 62,-96"  fill="url(#cyR)" stroke="#7a6048" stroke-width="1.5"/>
+  <line x1="62" y1="-44" x2="62" y2="-96" stroke="#9a7a58" stroke-width="2"   opacity="0.55"/>
+  <line x1="62" y1="-62" x2="38" y2="-58" stroke="#d49010" stroke-width="2"   opacity="0.6"/>
+  <polygon points="38,-108 62,-96 38,-84 14,-96"  fill="url(#cyTop)" stroke="#7a6048" stroke-width="1.5"/>
+  <!-- amber dome NE -->
+  <path d="M 14,-96 C 16,-122 60,-122 62,-96"
+        fill="url(#domeAmber)" stroke="#d49010" stroke-width="1.2" opacity="0.92"/>
+  <path d="M 14,-96 C 16,-122 60,-122 62,-96"
+        fill="#f0a820" opacity="0.12" filter="url(#domeglow)"/>
+  <ellipse cx="30" cy="-111" rx="7" ry="4.5" fill="white" opacity="0.18" transform="rotate(-15,30,-111)"/>
+  <circle cx="38" cy="-120" r="3.5" fill="#fff8a0" filter="url(#glow)" opacity="0.8"/>
+
+  <!-- ─── PIPE CONNECTIONS at base level ─── -->
+  <!-- NW ↔ NE pipe -->
+  <rect x="-14" y="-50" width="28" height="5" rx="2.5" fill="#7a6040" stroke="#a07a40" stroke-width="1" opacity="0.8"/>
+  <!-- NW ↔ S pipe -->
+  <line x1="-20" y1="-45" x2="-16" y2="-22" stroke="#7a6040" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="-20" y1="-45" x2="-16" y2="-22" stroke="#d4a030" stroke-width="1.5" opacity="0.35"/>
+  <!-- NE ↔ S pipe -->
+  <line x1="20" y1="-45" x2="16" y2="-22" stroke="#7a6040" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="20" y1="-45" x2="16" y2="-22" stroke="#d4a030" stroke-width="1.5" opacity="0.35"/>
+
+  <!-- ─── S VESSEL ─── -->
+  <polygon points="-24,-20 0,-8 0,-60 -24,-72"  fill="url(#cyL)" stroke="#181008" stroke-width="1.5"/>
+  <polygon points="24,-20 0,-8 0,-60 24,-72"    fill="url(#cyR)" stroke="#7a6048" stroke-width="1.5"/>
+  <line x1="24" y1="-20" x2="24" y2="-72" stroke="#9a7a58" stroke-width="2"   opacity="0.6"/>
+  <line x1="24" y1="-38" x2="0"  y2="-34" stroke="#d49010" stroke-width="2"   opacity="0.7"/>
+  <polygon points="0,-84 24,-72 0,-60 -24,-72"  fill="url(#cyTop)" stroke="#7a6048" stroke-width="1.5"/>
+  <!-- amber dome S (largest, front = fully visible) -->
+  <path d="M -24,-72 C -22,-100 22,-100 24,-72"
+        fill="url(#domeAmber)" stroke="#d49010" stroke-width="1.5" opacity="0.95"/>
+  <path d="M -24,-72 C -22,-100 22,-100 24,-72"
+        fill="#f0a820" opacity="0.15" filter="url(#domeglow)"/>
+  <ellipse cx="-8" cy="-88" rx="8" ry="5" fill="white" opacity="0.22" transform="rotate(-10,-8,-88)"/>
+  <circle cx="0" cy="-100" r="4" fill="#fff8a0" filter="url(#glow)" opacity="0.9"/>
+
+  </g>
+</svg>
