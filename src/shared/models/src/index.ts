@@ -23,12 +23,13 @@ export interface GameState {
   buildings: Building[]
 }
 
-export interface UiBuildingSlot {
-  x: number
-  y: number
-  type: BuildingType
-  isNewlyBuilt: boolean
-}
+/**
+ * A building as exposed to the UI. Structurally identical to `Building`
+ * today; the alias documents that the projection step intentionally
+ * forwards each tile verbatim, while leaving room to diverge later
+ * (e.g. derived display flags) without ripple-changing the engine.
+ */
+export type UiBuildingSlot = Building
 
 export interface UiBuildingTypeInfo {
   type: BuildingType
@@ -47,6 +48,7 @@ export interface UiBuildingTypeInfo {
 }
 
 export interface UiState {
+  /** Set by the server in MP mode; undefined in SP-local mode (no backend). */
   backendVersion?: string
   gameStateId: string
   round: number

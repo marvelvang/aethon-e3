@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { UiBuildingTypeInfo } from '@aethon/models'
-import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
-import { POPULATION_DEF, RESOURCES_BY_KEY } from '../../domain/resources'
+import { BUILDING_META, type BuildingType } from '../../presentation/buildingTypes'
+import { POPULATION_DEF, RESOURCES_BY_KEY } from '../../presentation/resources'
 import './BuildingPickerPopup.css'
 
 type TileBounds = { minX: number; maxX: number; minY: number; maxY: number }
@@ -148,7 +148,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
 
   const tooltipType = touchedType ?? hoveredType ?? focusedType
   const tooltipInfo = tooltipType ? buildingTypes.find(b => b.type === tooltipType) : null
-  const tooltipMeta = tooltipInfo ? BUILDING_TYPES[tooltipInfo.type as BuildingType] : null
+  const tooltipMeta = tooltipInfo ? BUILDING_META[tooltipInfo.type as BuildingType] : null
 
   const tooltipEl = tooltipInfo && tooltipMeta && (() => {
     const itemEl = itemRefs.current[tooltipInfo.type]
@@ -192,7 +192,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
       >
         {buildingTypes.map((info, idx) => {
           const type = info.type as BuildingType
-          const meta = BUILDING_TYPES[type]
+          const meta = BUILDING_META[type]
           const isActive =
             (hoveredType === info.type || focusedType === info.type || touchedType === info.type) &&
             info.canAfford

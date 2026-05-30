@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import type { UiBuildingSlot } from '@aethon/models'
-import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
+import { BUILDING_META, type BuildingType } from '../../presentation/buildingTypes'
 import { TILE_HALF_HEIGHT, tileTopVertex, type RotationStep } from './coordinates'
 
 export const ICON_ZOOM_THRESHOLD = 0.4
@@ -8,7 +8,7 @@ const ICON_RADIUS = 14
 const FADE_SPEED = 1 / 12
 
 function createIcon(type: BuildingType): PIXI.Graphics {
-  const meta = BUILDING_TYPES[type] ?? null
+  const meta = BUILDING_META[type] ?? null
   const g = new PIXI.Graphics()
   const bgColor = meta?.iconBgColor ?? 0x888888
 

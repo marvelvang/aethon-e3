@@ -1,5 +1,5 @@
 import type { UiState } from '@aethon/models'
-import { HOUSING_DEF, POPULATION_DEF, RESOURCES } from '../../domain/resources'
+import { HOUSING_DEF, POPULATION_DEF, RESOURCES } from '../../presentation/resources'
 import './ResourceOverlay.css'
 
 interface Props {

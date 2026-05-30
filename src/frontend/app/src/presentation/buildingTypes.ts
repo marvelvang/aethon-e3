@@ -3,7 +3,7 @@ import type { BuildingType } from '@aethon/models'
 
 export type { BuildingType }
 
-export interface BuildingTypeMeta {
+export interface BuildingMeta {
   label: string
   iconBgColor: number
   iconHex: string
@@ -29,7 +29,11 @@ function drawStar(g: PIXI.Graphics, spikes: number, outerR: number, innerR: numb
   g.drawPolygon(points)
 }
 
-export const BUILDING_TYPES: Record<BuildingType, BuildingTypeMeta> = {
+/**
+ * View metadata for each building type — labels, colors, SVG assets, Pixi
+ * icon drawers. Keyed by the BuildingType enum from @aethon/models.
+ */
+export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
   Base: {
     label: 'Basis',
     iconBgColor: 0xE8B84B,
@@ -89,4 +93,3 @@ export const BUILDING_TYPES: Record<BuildingType, BuildingTypeMeta> = {
   },
 }
 
-export const ALL_BUILDING_TYPES: BuildingType[] = ['Base', 'Housing', 'Consumer', 'Industry', 'PowerPlant']

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import type { UiBuildingSlot } from '@aethon/models'
+import type { GameResult, UiBuildingSlot } from '@aethon/models'
 import type { GameController } from './hooks/useGame'
 import { useFullscreen } from './hooks/useFullscreen'
 import BottomBar from './ui/BottomBar'
@@ -13,6 +13,18 @@ interface GameViewProps {
   game: GameController
 }
 
+interface ResultDialogConfig {
+  icon: string
+  title: string
+  message: string
+  variant?: 'danger'
+}
+
+const RESULT_DIALOGS: Record<Exclude<GameResult, 'None'>, ResultDialogConfig> = {
+  Win:  { icon: '🏆', title: 'Sieg!',      message: 'Du hast alle Felder bebaut. Beeindruckend!' },
+  Loss: { icon: '💀', title: 'Niederlage', message: 'Deine Ressourcen sind ins Negative gerutscht. Von hier gibt es kein Zurück.', variant: 'danger' },
+}
+
 export default function GameView({ game }: GameViewProps) {
   const [selectedBuilding, setSelectedBuilding] = useState<UiBuildingSlot | null>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -24,11 +36,15 @@ export default function GameView({ game }: GameViewProps) {
     ? { col: selectedBuilding.x, row: selectedBuilding.y }
     : null
 
-  const handleDeleteConfirmed = async () => {
+  const handleReset = async () => {
     await game.deleteGame()
     setShowDeleteConfirm(false)
     setSelectedBuilding(null)
   }
+
+  const resultConfig = game.state && game.state.gameResult !== 'None'
+    ? RESULT_DIALOGS[game.state.gameResult]
+    : null
 
   return (
     <>
@@ -66,34 +82,21 @@ export default function GameView({ game }: GameViewProps) {
           confirmLabel="Löschen"
           variant="danger"
           isWorking={game.isDeletingGame}
-          onConfirm={handleDeleteConfirmed}
+          onConfirm={handleReset}
           onCancel={() => setShowDeleteConfirm(false)}
         />
       )}
 
-      {game.state?.gameResult === 'Win' && (
+      {resultConfig && (
         <ConfirmDialog
-          icon="🏆"
-          title="Sieg!"
-          message="Du hast alle Felder bebaut. Beeindruckend!"
+          icon={resultConfig.icon}
+          title={resultConfig.title}
+          message={resultConfig.message}
+          variant={resultConfig.variant}
           confirmLabel="Neues Spiel"
           hideCancelButton
           isWorking={game.isDeletingGame}
-          onConfirm={handleDeleteConfirmed}
-          onCancel={() => {}}
-        />
-      )}
-
-      {game.state?.gameResult === 'Loss' && (
-        <ConfirmDialog
-          icon="💀"
-          title="Niederlage"
-          message="Deine Ressourcen sind ins Negative gerutscht. Von hier gibt es kein Zurück."
-          confirmLabel="Neues Spiel"
-          hideCancelButton
-          variant="danger"
-          isWorking={game.isDeletingGame}
-          onConfirm={handleDeleteConfirmed}
+          onConfirm={handleReset}
           onCancel={() => {}}
         />
       )}

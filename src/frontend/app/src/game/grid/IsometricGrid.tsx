@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import type { UiBuildingSlot, UiBuildingTypeInfo, UiState } from '@aethon/models'
-import type { BuildingType } from '../../domain/buildingTypes'
+import type { BuildingType } from '../../presentation/buildingTypes'
 import BuildingPickerPopup from '../ui/BuildingPickerPopup'
 import { GridEngine, type TileBounds } from './GridEngine'
 import { getBuildOrder, getCellsInRect, type RotationStep } from './coordinates'

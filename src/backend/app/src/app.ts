@@ -1,18 +1,8 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { zValidator } from '@hono/zod-validator'
-import {
-  GameRepository,
-  GameNotFoundError,
-  type Database,
-} from '@aethon/persistence'
-import {
-  genesis,
-  placeBuilding,
-  simulateRound,
-  project,
-  BuildError,
-} from '@aethon/engine'
+import { GameRepository, GameNotFoundError, type Database } from '@aethon/persistence'
+import { BuildError, genesis, placeBuilding, project, simulateRound } from '@aethon/engine'
 import type { UiState } from '@aethon/models'
 import { PlaceBuildingRequestSchema } from '@aethon/api-contract'
 import { APP_VERSION } from './version.ts'
@@ -31,71 +21,46 @@ export function createApp(deps: AppDeps) {
     .get('/health', c => c.json({ ok: true, version: APP_VERSION }))
 
     .post('/api/game', async c => {
-      const state = await repo.create({
-        round:         1,
-        population:    100,
-        consumerGoods: 0,
-        industry:      200,
-        energy:        200,
-        buildings:     [{ x: 0, y: 0, type: 'Base', isNewlyBuilt: false }],
-      })
+      const state = await repo.create(genesis())
       return c.json(withVersion(project(state)))
     })
 
     .get('/api/game/:id', async c => {
-      const id = c.req.param('id')
-      try {
-        const state = await repo.load(id)
-        return c.json(withVersion(project(state)))
-      } catch (err) {
-        if (err instanceof GameNotFoundError) return c.json({ error: err.message }, 400)
-        throw err
-      }
+      const state = await repo.load(c.req.param('id'))
+      return c.json(withVersion(project(state)))
     })
 
     .post(
       '/api/game/:id/buildings',
       zValidator('json', PlaceBuildingRequestSchema),
       async c => {
-        const id = c.req.param('id')
         const { x, y, type } = c.req.valid('json')
-        try {
-          const state = await repo.load(id)
-          const next = placeBuilding(state, x, y, type)
-          await repo.save(next)
-          return c.json(withVersion(project(next)))
-        } catch (err) {
-          if (err instanceof BuildError || err instanceof GameNotFoundError) {
-            return c.json({ error: err.message }, 400)
-          }
-          throw err
-        }
+        const state = await repo.load(c.req.param('id'))
+        const next  = placeBuilding(state, x, y, type)
+        await repo.save(next)
+        return c.json(withVersion(project(next)))
       },
     )
 
     .post('/api/game/:id/round', async c => {
-      const id = c.req.param('id')
-      try {
-        const state = await repo.load(id)
-        const next = simulateRound(state)
-        await repo.save(next)
-        return c.json(withVersion(project(next)))
-      } catch (err) {
-        if (err instanceof GameNotFoundError) return c.json({ error: err.message }, 400)
-        throw err
-      }
+      const state = await repo.load(c.req.param('id'))
+      const next  = simulateRound(state)
+      await repo.save(next)
+      return c.json(withVersion(project(next)))
     })
 
     .delete('/api/game/:id', async c => {
-      const id = c.req.param('id')
-      await repo.delete(id)
+      await repo.delete(c.req.param('id'))
       return c.body(null, 204)
     })
 
-  // Genesis helper – matches the engine's initial state. Kept inline above
-  // because the repo expects an Omit<GameState,'id'> insert; using
-  // `genesis()` would generate an extra UUID the DB then ignores.
-  void genesis
+    .onError((err, c) => {
+      if (err instanceof BuildError || err instanceof GameNotFoundError) {
+        return c.json({ error: err.message }, 400)
+      }
+      throw err
+    })
+
   return app
 }
 

@@ -1,6 +1,6 @@
 import type { UiBuildingSlot, UiBuildingTypeInfo } from '@aethon/models'
-import { BUILDING_TYPES, type BuildingType } from '../../domain/buildingTypes'
-import { HOUSING_DEF, POPULATION_DEF, RESOURCES_BY_KEY } from '../../domain/resources'
+import { BUILDING_META, type BuildingType } from '../../presentation/buildingTypes'
+import { HOUSING_DEF, POPULATION_DEF, RESOURCES_BY_KEY } from '../../presentation/resources'
 import './BuildingInfoPanel.css'
 
 interface Props {
@@ -48,7 +48,7 @@ export default function BuildingInfoPanel({ building, buildingTypes }: Props) {
 
   const prodRows = productionRows(info)
   const maintRows = maintenanceRows(info)
-  const label = BUILDING_TYPES[building.type as BuildingType].label
+  const label = BUILDING_META[building.type as BuildingType].label
 
   return (
     <div className="building-info-panel">

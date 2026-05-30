@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import type { UiBuildingSlot } from '@aethon/models'
-import type { BuildingType } from '../../domain/buildingTypes'
+import type { BuildingType } from '../../presentation/buildingTypes'
 import type { BuildingRenderConfig } from './buildingAssets'
 import { GRID_SIZE, TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
 import { addBuildingBaseplateLines } from './renderBaseplateLines'
