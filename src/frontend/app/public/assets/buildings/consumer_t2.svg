@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  DualSpire – Consumer Tier 2 (Master SVG, 4× tile resolution)
+  QuadSpire – Consumer Tier 2 (Master SVG, 4× tile resolution)
   ─────────────────────────────────────────────────────────────
   Tile: 64×32 px at 1× → SVG: 256×308 px (4×)
   Anchor: sprite.anchor.set(0.5, 178/308)
   Scale:  sprite.scale.set(64/256)
 
-  Concept: Two parallel hydroponic towers (each ±12) on the same
-  base unit as Tier 1. A connecting bridge-arch links both towers
-  at mid-height. Each tower has its own grow-light rings (3 each),
-  and more prominent leaf clusters. Apex has two glowing tips.
-  Communicates doubled growing capacity on the same footprint.
+  Foundation and base unit: pixel-identical to consumer.svg (Tier 1).
 
-  Geometry:
-    Foundation  hz 0→24   footprint ±128
-    Base unit   hz 24→56  footprint ±88
-    Tower L     hz 56→152 footprint x=−38±12  (left tower)
-    Tower R     hz 56→152 footprint x=+38±12  (right tower)
-    Bridge      hz 108    connecting arch between towers
+  Four towers, each geometrically identical to the Tier-1 single tower
+  (footprint ±22, all polygon coordinates unchanged), placed at the four
+  edge midpoints of the base-unit top-face rhombus so the building looks
+  the same from all four viewing angles.
+
+  Base-unit top-face corners in translate(0,36) local coords:
+    N(0,−72)  E(88,−28)  W(−88,−28)  S(0,16)
+  Edge midpoints (= tower positions, same coordinate system):
+    NW(−44,−50)  NE(44,−50)  SW(−44,−6)  SE(44,−6)
+
+  Each tower translate inside translate(0,36):
+    NW: translate(−44,−8)   [tower front base vertex lands at outer-local (−44,−50)]
+    NE: translate( 44,−8)   [                                            ( 44,−50)]
+    SW: translate(−44, 36)  [                                            (−44, −6)]
+    SE: translate( 44, 36)  [                                            ( 44, −6)]
+
+  Paint order (back → front): base unit → NW → NE → SW → SE
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
@@ -36,8 +43,7 @@
       <stop offset="0%"   stop-color="#50703e"/>
       <stop offset="100%" stop-color="#30461e"/>
     </linearGradient>
-
-    <!-- Base unit -->
+    <!-- Base unit: gray-green equipment -->
     <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="4" x2="0" y2="16">
       <stop offset="0%"   stop-color="#445e3c"/>
       <stop offset="60%"  stop-color="#2e4228"/>
@@ -51,68 +57,54 @@
       <stop offset="0%"   stop-color="#5e7a4a"/>
       <stop offset="100%" stop-color="#3c5030"/>
     </linearGradient>
-
-    <!-- Right tower: clean white-gray hydroponic column -->
-    <linearGradient id="trR" gradientUnits="userSpaceOnUse" x1="50" y1="-53" x2="26" y2="-138">
+    <!-- Tower: clean white-gray hydroponic column (identical to Tier 1) -->
+    <linearGradient id="tR" gradientUnits="userSpaceOnUse" x1="22" y1="-53" x2="0" y2="-138">
       <stop offset="0%"   stop-color="#ccddc8"/>
       <stop offset="50%"  stop-color="#a0b89c"/>
       <stop offset="100%" stop-color="#708a6c"/>
     </linearGradient>
-    <linearGradient id="trL" gradientUnits="userSpaceOnUse" x1="26" y1="-53" x2="50" y2="-138">
+    <linearGradient id="tL" gradientUnits="userSpaceOnUse" x1="-22" y1="-53" x2="0" y2="-138">
       <stop offset="0%"   stop-color="#3a4838"/>
       <stop offset="100%" stop-color="#1e2a1c"/>
     </linearGradient>
-
-    <!-- Left tower: same gradient offset to left -->
-    <linearGradient id="tlR" gradientUnits="userSpaceOnUse" x1="-26" y1="-53" x2="-50" y2="-138">
-      <stop offset="0%"   stop-color="#c8d8c4"/>
-      <stop offset="50%"  stop-color="#9ab49a"/>
-      <stop offset="100%" stop-color="#6a8468"/>
-    </linearGradient>
-    <linearGradient id="tlL" gradientUnits="userSpaceOnUse" x1="-50" y1="-53" x2="-26" y2="-138">
-      <stop offset="0%"   stop-color="#343a32"/>
-      <stop offset="100%" stop-color="#18241a"/>
-    </linearGradient>
-
-    <!-- Bridge arch -->
-    <linearGradient id="bridgeG" gradientUnits="userSpaceOnUse" x1="-26" y1="-108" x2="26" y2="-108">
-      <stop offset="0%"   stop-color="#3a4e38"/>
-      <stop offset="50%"  stop-color="#5a7a54"/>
-      <stop offset="100%" stop-color="#3a4e38"/>
+    <linearGradient id="tTop" gradientUnits="userSpaceOnUse" x1="0" y1="-160" x2="0" y2="-138">
+      <stop offset="0%"   stop-color="#ddeedd"/>
+      <stop offset="100%" stop-color="#aaccaa"/>
     </linearGradient>
 
     <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="3" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
     <filter id="ringbloom" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur stdDeviation="4" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
   </defs>
 
-  <!-- ══ FOUNDATION  hz 0→24  (±128) ══ -->
+  <!-- ══ FOUNDATION hz 0→24 (±128) – identical to Tier 1 ══ -->
   <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#3a6030" stroke-width="1.5"/>
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
 
   <g transform="translate(0, 36)">
-  <!-- ══ BASE UNIT  hz 24→56  (±88) ══ -->
+
+  <!-- ══ BASE UNIT hz 24→56 (±88) – identical to Tier 1 ══ -->
   <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#2e4a28" stroke-width="1.5"/>
   <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#4a6a3a" stroke-width="1.5"/>
   <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#4a6a3a" stroke-width="1.5"/>
 
-  <!-- Ventilation slots right face -->
+  <!-- Ventilation slots – right face -->
   <line x1="88"  y1="4"   x2="88"  y2="-28" stroke="#66aa44" stroke-width="2"   opacity="0.55"/>
   <line x1="66"  y1="7"   x2="22"  y2="29"  stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
   <line x1="66"  y1="-1"  x2="22"  y2="21"  stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
   <line x1="66"  y1="-9"  x2="22"  y2="13"  stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
 
-  <!-- Ventilation slots left face (dim) -->
+  <!-- Ventilation slots – left face (dim mirror) -->
   <line x1="-88" y1="4"   x2="-88" y2="-28" stroke="#2a4a18" stroke-width="2"   opacity="0.55"/>
   <line x1="-66" y1="7"   x2="-22" y2="29"  stroke="#1e3a14" stroke-width="1.5" opacity="0.4"/>
   <line x1="-66" y1="-1"  x2="-22" y2="21"  stroke="#1e3a14" stroke-width="1.5" opacity="0.4"/>
@@ -123,79 +115,156 @@
   <circle cx="-88" cy="-28" r="5" fill="#55ee33" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="16"  r="5" fill="#55ee33" filter="url(#glow)"/>
 
-  <!-- ══ LEFT TOWER  hz 56→152  (cx=−38, ±12) ══ -->
-  <g transform="translate(-38, 25)">
-  <polygon points="-12,-53 0,-47 0,-138 -12,-144"  fill="url(#tlL)" stroke="#2a3a28" stroke-width="1.2"/>
-  <polygon points="12,-53 0,-47 0,-138 12,-144"    fill="url(#tlR)" stroke="#7a9a78" stroke-width="1.2"/>
-  <polygon points="0,-150 12,-144 0,-138 -12,-144"  fill="#ddeedd" stroke="#7a9a78" stroke-width="1.2"/>
-  <line x1="12" y1="-53" x2="12" y2="-144" stroke="#bbddbb" stroke-width="1.5" opacity="0.55"/>
-  <line x1="-12" y1="-53" x2="-12" y2="-144" stroke="#2a3a28" stroke-width="1.5" opacity="0.55"/>
-
-  <!-- Left tower grow-light rings -->
-  <path d="M 18,-82 A 18,9 0 0,1 -18,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 18,-82 A 18,9 0 0,1 -18,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.2" filter="url(#ringbloom)"/>
-  <path d="M 18,-108 A 18,9 0 0,1 -18,-108" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.75"/>
-  <path d="M 18,-108 A 18,9 0 0,1 -18,-108" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.2" filter="url(#ringbloom)"/>
-  <path d="M 18,-134 A 18,9 0 0,1 -18,-134" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
-  <path d="M 18,-134 A 18,9 0 0,1 -18,-134" fill="none" stroke="#ff99ff" stroke-width="5"   opacity="0.18" filter="url(#ringbloom)"/>
-
-  <!-- Left tower leaf accents (right side bright, left side dim) -->
-  <ellipse cx="18"  cy="-82"  rx="5" ry="3.5" fill="#2a8a10" opacity="0.7"  transform="rotate(20,18,-82)"/>
-  <ellipse cx="-18" cy="-82"  rx="5" ry="3.5" fill="#1a4a08" opacity="0.45" transform="rotate(-20,-18,-82)"/>
-  <ellipse cx="18"  cy="-108" rx="5" ry="3.5" fill="#2a8a10" opacity="0.7"  transform="rotate(20,18,-108)"/>
-  <ellipse cx="-18" cy="-108" rx="5" ry="3.5" fill="#1a4a08" opacity="0.45" transform="rotate(-20,-18,-108)"/>
-  <ellipse cx="18"  cy="-134" rx="5" ry="3.5" fill="#338810" opacity="0.75" transform="rotate(20,18,-134)"/>
-  <ellipse cx="-18" cy="-134" rx="5" ry="3.5" fill="#1f4a08" opacity="0.5"  transform="rotate(-20,-18,-134)"/>
-
-  <!-- Left tower apex -->
-  <line x1="0" y1="-150" x2="0" y2="-162" stroke="#aaccaa" stroke-width="2.5"/>
-  <circle cx="0" cy="-162" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
-  <circle cx="0" cy="-162" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.4"/>
+  <!-- ══════════════════════════════════════════
+       TOWER NW  –  translate(−44, −8)
+       Front-base vertex lands at outer-local (−44, −50) = NW edge midpoint
+       ══════════════════════════════════════════ -->
+  <g transform="translate(-44, -8)">
+  <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
+  <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
+  <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
+  <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#bbddbb" stroke-width="2"   opacity="0.6"/>
+  <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+  <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2"   opacity="0.6"/>
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
+  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <ellipse cx="28"  cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-82)"/>
+  <ellipse cx="28"  cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-102)"/>
+  <ellipse cx="28"  cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-122)"/>
+  <ellipse cx="28"  cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
+  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-82)"/>
+  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-102)"/>
+  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-122)"/>
+  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
+  <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
+  <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
+  </g>
   </g>
 
-  <!-- ══ RIGHT TOWER  hz 56→152  (cx=+38, ±12) ══ -->
-  <g transform="translate(38, 25)">
-  <polygon points="-12,-53 0,-47 0,-138 -12,-144"  fill="url(#trL)" stroke="#2a3a28" stroke-width="1.2"/>
-  <polygon points="12,-53 0,-47 0,-138 12,-144"    fill="url(#trR)" stroke="#7a9a78" stroke-width="1.2"/>
-  <polygon points="0,-150 12,-144 0,-138 -12,-144"  fill="#ddeedd" stroke="#7a9a78" stroke-width="1.2"/>
-  <line x1="12" y1="-53" x2="12" y2="-144" stroke="#bbddbb" stroke-width="1.5" opacity="0.55"/>
-  <line x1="-12" y1="-53" x2="-12" y2="-144" stroke="#2a3a28" stroke-width="1.5" opacity="0.55"/>
-
-  <!-- Right tower grow-light rings -->
-  <path d="M 18,-82 A 18,9 0 0,1 -18,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 18,-82 A 18,9 0 0,1 -18,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.2" filter="url(#ringbloom)"/>
-  <path d="M 18,-108 A 18,9 0 0,1 -18,-108" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.75"/>
-  <path d="M 18,-108 A 18,9 0 0,1 -18,-108" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.2" filter="url(#ringbloom)"/>
-  <path d="M 18,-134 A 18,9 0 0,1 -18,-134" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
-  <path d="M 18,-134 A 18,9 0 0,1 -18,-134" fill="none" stroke="#ff99ff" stroke-width="5"   opacity="0.18" filter="url(#ringbloom)"/>
-
-  <!-- Right tower leaf accents -->
-  <ellipse cx="18"  cy="-82"  rx="5" ry="3.5" fill="#2a8a10" opacity="0.7"  transform="rotate(20,18,-82)"/>
-  <ellipse cx="-18" cy="-82"  rx="5" ry="3.5" fill="#1a4a08" opacity="0.45" transform="rotate(-20,-18,-82)"/>
-  <ellipse cx="18"  cy="-108" rx="5" ry="3.5" fill="#2a8a10" opacity="0.7"  transform="rotate(20,18,-108)"/>
-  <ellipse cx="-18" cy="-108" rx="5" ry="3.5" fill="#1a4a08" opacity="0.45" transform="rotate(-20,-18,-108)"/>
-  <ellipse cx="18"  cy="-134" rx="5" ry="3.5" fill="#338810" opacity="0.75" transform="rotate(20,18,-134)"/>
-  <ellipse cx="-18" cy="-134" rx="5" ry="3.5" fill="#1f4a08" opacity="0.5"  transform="rotate(-20,-18,-134)"/>
-
-  <!-- Right tower apex -->
-  <line x1="0" y1="-150" x2="0" y2="-162" stroke="#aaccaa" stroke-width="2.5"/>
-  <circle cx="0" cy="-162" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
-  <circle cx="0" cy="-162" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.4"/>
+  <!-- ══════════════════════════════════════════
+       TOWER NE  –  translate(44, −8)
+       Front-base vertex lands at outer-local (44, −50) = NE edge midpoint
+       ══════════════════════════════════════════ -->
+  <g transform="translate(44, -8)">
+  <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
+  <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
+  <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
+  <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#bbddbb" stroke-width="2"   opacity="0.6"/>
+  <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+  <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2"   opacity="0.6"/>
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
+  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <ellipse cx="28"  cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-82)"/>
+  <ellipse cx="28"  cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-102)"/>
+  <ellipse cx="28"  cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-122)"/>
+  <ellipse cx="28"  cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
+  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-82)"/>
+  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-102)"/>
+  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-122)"/>
+  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
+  <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
+  <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
+  </g>
   </g>
 
-  <!-- ══ CONNECTING BRIDGE  at hz≈108 ══
-       Links the two towers (cx −38 and +38) at their mid-height ring level.
-       In local base-unit translate(0,36) coords the ring sits at y = 25 − 108 = −83 -->
-  <g transform="translate(0, 25)">
-  <!-- Bridge underside (dark) -->
-  <path d="M -26,-108 Q 0,-116 26,-108" fill="none" stroke="#2a4028" stroke-width="5" opacity="0.7"/>
-  <!-- Bridge deck (bright top) -->
-  <path d="M -26,-108 Q 0,-116 26,-108" fill="none" stroke="url(#bridgeG)" stroke-width="3"/>
-  <!-- Bridge glow -->
-  <path d="M -26,-108 Q 0,-116 26,-108" fill="none" stroke="#66ff44" stroke-width="1.5" opacity="0.35" filter="url(#ringbloom)"/>
-  <!-- Bridge endpoint anchors -->
-  <circle cx="-26" cy="-108" r="3" fill="#55ee33" opacity="0.8"/>
-  <circle cx="26"  cy="-108" r="3" fill="#55ee33" opacity="0.8"/>
+  <!-- ══════════════════════════════════════════
+       TOWER SW  –  translate(−44, 36)
+       Front-base vertex lands at outer-local (−44, −6) = SW edge midpoint
+       ══════════════════════════════════════════ -->
+  <g transform="translate(-44, 36)">
+  <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
+  <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
+  <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
+  <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#bbddbb" stroke-width="2"   opacity="0.6"/>
+  <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+  <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2"   opacity="0.6"/>
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
+  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <ellipse cx="28"  cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-82)"/>
+  <ellipse cx="28"  cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-102)"/>
+  <ellipse cx="28"  cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-122)"/>
+  <ellipse cx="28"  cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
+  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-82)"/>
+  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-102)"/>
+  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-122)"/>
+  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
+  <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
+  <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
+  </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════
+       TOWER SE  –  translate(44, 36)
+       Front-base vertex lands at outer-local (44, −6) = SE edge midpoint
+       ══════════════════════════════════════════ -->
+  <g transform="translate(44, 36)">
+  <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
+  <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
+  <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
+  <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#bbddbb" stroke-width="2"   opacity="0.6"/>
+  <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
+  <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2"   opacity="0.6"/>
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
+  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <ellipse cx="28"  cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-82)"/>
+  <ellipse cx="28"  cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-102)"/>
+  <ellipse cx="28"  cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-122)"/>
+  <ellipse cx="28"  cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
+  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-82)"/>
+  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-102)"/>
+  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-122)"/>
+  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
+  <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
+  <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
+  </g>
   </g>
 
   </g>
