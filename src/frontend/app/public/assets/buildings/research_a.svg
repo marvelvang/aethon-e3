@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  TriLab A (rev 3) – Research Building (Master SVG, 4× tile resolution)
+  TriLab A (rev 4) – Research Building (Master SVG, 4× tile resolution)
 
-  GEOMETRIE-BERECHNUNG (local = innerhalb translate(0,36)):
-  ─ Basisplatte-Deckfläche-Diamant: N(0,−72) E(88,−28) S(0,16) W(−88,−28)
-  ─ Randgleichungen:
-      NW-Kante: y = −72 − 0.5·x  (x ≤ 0)
-      NE-Kante: y = −72 + 0.5·x  (x ≥ 0)
-      SW-Kante: y =  16 + 0.5·x  (x ≤ 0)
-      SE-Kante: y =  16 − 0.5·x  (x ≥ 0)
-  ─ Säulen cx = ±44, w = 14, h = 72
-    Außenecke bündig: cy_LR_bot = Randwert am Außen-x (cx±w = ±58):
-      NW/NE:  cy_LR_bot = −72 + 0.5·58 = −43  → cy_front = −43+7 = −36
-      SW/SE:  cy_LR_bot =  16 − 0.5·58 = −13  → cy_front = −13+7 =  −6
-  ─ Säulen-Tops (cy_LR_top = cy_front − 7 − 72):
-      NW/NE:  cy_LR_top = −115   → Glüh-Knoten bei (±44, −115)
-      SW/SE:  cy_LR_top =  −85   → Glüh-Knoten bei (±44,  −85)
-  ─ Ring verbindet exakt diese vier Knoten: (−44,−115)(44,−115)(44,−85)(−44,−85)
-  ─ Ringzentrum: (0, −100)  ← Basis des Spires
-  ─ Basisplatte: identisch Consumer (translate 0,36 / ±88) + 3 Diagonalstriche je Seite
+  GEOMETRIE (local = innerhalb translate(0,36)):
+  ─ Basisplatte-Diamant: N(0,−72) E(88,−28) S(0,16) W(−88,−28)
+  ─ Kantenmittelpunkte (Zylinderzentren):
+      NW/NE: x=±44, y_center=−50  →  cy_front = −50+7 = −43
+      SW/SE: x=±44, y_center=− 6  →  cy_front = − 6+7 =   1
+  ─ Zylinder: w=14, h=72
+      NW/NE  cy_LR_bot=−50  cy_top=−115  cy_LR_top=−122  cy_N_top=−129
+      SW/SE  cy_LR_bot=− 6  cy_top=− 71  cy_LR_top=− 78  cy_N_top=− 85
+  ─ Ring verbindet Glüh-Knoten (cy_LR_top): (±44,−122) und (±44,−78)
+  ─ Ringzentrum: (0,−100)
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
@@ -37,7 +30,7 @@
       <stop offset="0%"   stop-color="#5c4018"/>
       <stop offset="100%" stop-color="#3a2a0e"/>
     </linearGradient>
-    <!-- Base unit: identische Abmaße wie Consumer -->
+    <!-- Base unit: identisch Consumer (±88, translate 0,36) -->
     <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="4" x2="0" y2="16">
       <stop offset="0%"   stop-color="#4c3c28"/>
       <stop offset="60%"  stop-color="#2e2418"/>
@@ -51,12 +44,12 @@
       <stop offset="0%"   stop-color="#5e4c30"/>
       <stop offset="100%" stop-color="#3a2e1c"/>
     </linearGradient>
-    <!-- Cylinder right face: horizontal, darker on front edge -->
+    <!-- Cylinder right face -->
     <linearGradient id="cyR" x1="0" y1="0.5" x2="1" y2="0.5">
       <stop offset="0%"   stop-color="#504030"/>
       <stop offset="100%" stop-color="#7e6a50"/>
     </linearGradient>
-    <!-- Cylinder left face: shadow -->
+    <!-- Cylinder left face -->
     <linearGradient id="cyL" x1="0" y1="0.5" x2="1" y2="0.5">
       <stop offset="0%"   stop-color="#120e06"/>
       <stop offset="100%" stop-color="#1c1408"/>
@@ -87,14 +80,13 @@
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#4c3810" stroke-width="1.5"/>
 
   <g transform="translate(0, 36)">
-  <!-- ══ BASE UNIT – exakt gleiche Abmaße wie Consumer (±88, translate 0,36) ══ -->
+  <!-- ══ BASE UNIT – identische Abmaße wie Consumer ══ -->
   <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#1e1408" stroke-width="1.5"/>
   <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#4c3c28" stroke-width="1.5"/>
   <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#4c3c28" stroke-width="1.5"/>
-
   <!-- Eckkante rechts -->
   <line x1="88"  y1="4"  x2="88"  y2="-28" stroke="#d49010" stroke-width="2"   opacity="0.5"/>
-  <!-- 3 Diagonalstriche rechte Fläche (identische Positionen wie Consumer) -->
+  <!-- 3 Diagonalstriche rechte Fläche (wie Consumer) -->
   <line x1="66"  y1="7"  x2="22"  y2="29"  stroke="#a87020" stroke-width="1.5" opacity="0.45"/>
   <line x1="66"  y1="-1" x2="22"  y2="21"  stroke="#a87020" stroke-width="1.5" opacity="0.45"/>
   <line x1="66"  y1="-9" x2="22"  y2="13"  stroke="#a87020" stroke-width="1.5" opacity="0.45"/>
@@ -104,86 +96,69 @@
   <line x1="-66" y1="7"  x2="-22" y2="29"  stroke="#6a4010" stroke-width="1.5" opacity="0.35"/>
   <line x1="-66" y1="-1" x2="-22" y2="21"  stroke="#6a4010" stroke-width="1.5" opacity="0.35"/>
   <line x1="-66" y1="-9" x2="-22" y2="13"  stroke="#6a4010" stroke-width="1.5" opacity="0.35"/>
-
   <!-- Basis-Eckknoten -->
   <circle cx="88"  cy="-28" r="5" fill="#f0b030" filter="url(#glow)"/>
   <circle cx="-88" cy="-28" r="5" fill="#f0b030" filter="url(#glow)" opacity="0.55"/>
   <circle cx="0"   cy="16"  r="5" fill="#f0b030" filter="url(#glow)"/>
 
-  <!-- ══════════════════════════════════════════════════════
-       VIER ZYLINDER  cx=±44  w=14  h=72
-       Außenecken bündig mit Basisplatte-Diamant-Rand.
-       Painter-Reihenfolge: NW → NE → (Ring-Rückseite) → SW → SE → (Ring-Front+Spire)
+  <!-- ══ VIER ZYLINDER  cx=±44  w=14  h=72
+       Zylinderzentrum = Kantenmittelpunkt der Basisplatte-Deckfläche.
+       Painter-Reihenfolge: NW → NE → (Ring-Rück/Seiten) → SW → SE → (Ring-Front+Spire)
+  ══ -->
 
-       NW: cx=−44  cy_front=−36   cy_LR_bot=−43   cy_LR_top=−115
-           links:  (−58,−43)(−44,−36)(−44,−108)(−58,−115)
-           rechts: (−30,−43)(−44,−36)(−44,−108)(−30,−115)
-           oben:   (−44,−122)(−30,−115)(−44,−108)(−58,−115)
-       NE: cx=+44  (Spiegelbild NW)
-       SW: cx=−44  cy_front=−6    cy_LR_bot=−13   cy_LR_top=−85
-           links:  (−58,−13)(−44,−6)(−44,−78)(−58,−85)
-           rechts: (−30,−13)(−44,−6)(−44,−78)(−30,−85)
-           oben:   (−44,−92)(−30,−85)(−44,−78)(−58,−85)
-       SE: cx=+44  (Spiegelbild SW)
-  ══════════════════════════════════════════════════════ -->
+  <!-- ─── NW  cx=−44  cy_front=−43 ─── -->
+  <polygon points="-58,-50 -44,-43 -44,-115 -58,-122" fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="-30,-50 -44,-43 -44,-115 -30,-122" fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="-30" y1="-50" x2="-30" y2="-122" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
+  <line x1="-30" y1="-86" x2="-44" y2="-82"  stroke="#d49010" stroke-width="2"   opacity="0.62"/>
+  <polygon points="-44,-129 -30,-122 -44,-115 -58,-122" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="-44" cy="-122" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
 
-  <!-- ─── NW ZYLINDER ─── -->
-  <polygon points="-58,-43 -44,-36 -44,-108 -58,-115" fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="-30,-43 -44,-36 -44,-108 -30,-115" fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="-30" y1="-43" x2="-30" y2="-115" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
-  <line x1="-30" y1="-79" x2="-44" y2="-75"  stroke="#d49010" stroke-width="2"   opacity="0.6"/>
-  <polygon points="-44,-122 -30,-115 -44,-108 -58,-115" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
-  <!-- Glüh-Knoten: Ringecke NW  ← wird vom Ring verbunden -->
-  <circle cx="-44" cy="-115" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
+  <!-- ─── NE  cx=+44  cy_front=−43 ─── -->
+  <polygon points="30,-50 44,-43 44,-115 30,-122"  fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="58,-50 44,-43 44,-115 58,-122"  fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="58" y1="-50" x2="58" y2="-122" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
+  <line x1="58" y1="-86" x2="44" y2="-82"  stroke="#d49010" stroke-width="2"   opacity="0.62"/>
+  <polygon points="44,-129 58,-122 44,-115 30,-122" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="44" cy="-122" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
 
-  <!-- ─── NE ZYLINDER ─── -->
-  <polygon points="30,-43 44,-36 44,-108 30,-115"  fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="58,-43 44,-36 44,-108 58,-115"  fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="58" y1="-43" x2="58" y2="-115" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
-  <line x1="58" y1="-79" x2="44" y2="-75"  stroke="#d49010" stroke-width="2"   opacity="0.6"/>
-  <polygon points="44,-122 58,-115 44,-108 30,-115" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
-  <!-- Glüh-Knoten: Ringecke NE -->
-  <circle cx="44" cy="-115" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
+  <!-- ─── RING-RÜCKSEITE + SEITENKANTEN ─── -->
+  <!-- Hinten: NW(−44,−122) → NE(44,−122) -->
+  <line x1="-44" y1="-122" x2="44" y2="-122" stroke="#f0c040" stroke-width="6"   opacity="0.15" filter="url(#ringglow)"/>
+  <line x1="-44" y1="-122" x2="44" y2="-122" stroke="#d49010" stroke-width="2"   opacity="0.82"/>
+  <!-- Links: NW(−44,−122) → SW(−44,−78) -->
+  <line x1="-44" y1="-122" x2="-44" y2="-78" stroke="#f0c040" stroke-width="5"   opacity="0.12" filter="url(#ringglow)"/>
+  <line x1="-44" y1="-122" x2="-44" y2="-78" stroke="#d49010" stroke-width="1.8" opacity="0.72"/>
+  <!-- Rechts: NE(44,−122) → SE(44,−78) -->
+  <line x1="44"  y1="-122" x2="44"  y2="-78" stroke="#f0c040" stroke-width="5"   opacity="0.12" filter="url(#ringglow)"/>
+  <line x1="44"  y1="-122" x2="44"  y2="-78" stroke="#d49010" stroke-width="1.8" opacity="0.72"/>
+  <!-- Kreuzstreben hintere Hälften → Zentrum(0,−100) -->
+  <line x1="-44" y1="-122" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
+  <line x1="44"  y1="-122" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
 
-  <!-- ─── RING-RÜCKSEITE + SEITENKANTEN (hinter SW/SE-Zylindern) ─── -->
-  <!-- Hintere Kante: NW(−44,−115) → NE(44,−115) -->
-  <line x1="-44" y1="-115" x2="44" y2="-115" stroke="#f0c040" stroke-width="6" opacity="0.15" filter="url(#ringglow)"/>
-  <line x1="-44" y1="-115" x2="44" y2="-115" stroke="#d49010" stroke-width="2"  opacity="0.82"/>
-  <!-- Linke Kante: NW(−44,−115) → SW(−44,−85) -->
-  <line x1="-44" y1="-115" x2="-44" y2="-85" stroke="#f0c040" stroke-width="5" opacity="0.12" filter="url(#ringglow)"/>
-  <line x1="-44" y1="-115" x2="-44" y2="-85" stroke="#d49010" stroke-width="1.8" opacity="0.72"/>
-  <!-- Rechte Kante: NE(44,−115) → SE(44,−85) -->
-  <line x1="44"  y1="-115" x2="44"  y2="-85" stroke="#f0c040" stroke-width="5" opacity="0.12" filter="url(#ringglow)"/>
-  <line x1="44"  y1="-115" x2="44"  y2="-85" stroke="#d49010" stroke-width="1.8" opacity="0.72"/>
-  <!-- Kreuzstreben hintere Hälften: NW/NE → Zentrum(0,−100) -->
-  <line x1="-44" y1="-115" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
-  <line x1="44"  y1="-115" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
+  <!-- ─── SW  cx=−44  cy_front=+1 ─── -->
+  <polygon points="-58,-6 -44,1 -44,-71 -58,-78"   fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="-30,-6 -44,1 -44,-71 -30,-78"   fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="-30" y1="-6"  x2="-30" y2="-78"  stroke="#9a8268" stroke-width="1.5" opacity="0.55"/>
+  <line x1="-30" y1="-42" x2="-44" y2="-38"  stroke="#d49010" stroke-width="2"   opacity="0.68"/>
+  <polygon points="-44,-85 -30,-78 -44,-71 -58,-78" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="-44" cy="-78" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.88"/>
 
-  <!-- ─── SW ZYLINDER ─── -->
-  <polygon points="-58,-13 -44,-6 -44,-78 -58,-85"  fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="-30,-13 -44,-6 -44,-78 -30,-85"  fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="-30" y1="-13" x2="-30" y2="-85"  stroke="#9a8268" stroke-width="1.5" opacity="0.55"/>
-  <line x1="-30" y1="-49" x2="-44" y2="-45"  stroke="#d49010" stroke-width="2"   opacity="0.68"/>
-  <polygon points="-44,-92 -30,-85 -44,-78 -58,-85" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
-  <!-- Glüh-Knoten: Ringecke SW -->
-  <circle cx="-44" cy="-85" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.88"/>
-
-  <!-- ─── SE ZYLINDER ─── -->
-  <polygon points="30,-13 44,-6 44,-78 30,-85"   fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="58,-13 44,-6 44,-78 58,-85"   fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="58" y1="-13" x2="58" y2="-85"  stroke="#9a8268" stroke-width="1.5" opacity="0.6"/>
-  <line x1="58" y1="-49" x2="44" y2="-45"  stroke="#d49010" stroke-width="2"   opacity="0.72"/>
-  <polygon points="44,-92 58,-85 44,-78 30,-85"  fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
-  <!-- Glüh-Knoten: Ringecke SE -->
-  <circle cx="44" cy="-85" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.92"/>
+  <!-- ─── SE  cx=+44  cy_front=+1 ─── -->
+  <polygon points="30,-6 44,1 44,-71 30,-78"    fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="58,-6 44,1 44,-71 58,-78"    fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="58" y1="-6"  x2="58" y2="-78"  stroke="#9a8268" stroke-width="1.5" opacity="0.6"/>
+  <line x1="58" y1="-42" x2="44" y2="-38"  stroke="#d49010" stroke-width="2"   opacity="0.72"/>
+  <polygon points="44,-85 58,-78 44,-71 30,-78"  fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="44" cy="-78" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.92"/>
 
   <!-- ─── RING-VORDERKANTE + KREUZSTREBEN-FRONT ─── -->
-  <!-- Vordere Kante: SE(44,−85) → SW(−44,−85) -->
-  <line x1="44"  y1="-85" x2="-44" y2="-85" stroke="#f0c040" stroke-width="7" opacity="0.18" filter="url(#ringglow)"/>
-  <line x1="44"  y1="-85" x2="-44" y2="-85" stroke="#d49010" stroke-width="2"  opacity="0.88"/>
-  <!-- Kreuzstreben vordere Hälften: SW/SE → Zentrum(0,−100) -->
-  <line x1="-44" y1="-85" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.58"/>
-  <line x1="44"  y1="-85" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.58"/>
+  <!-- Vorne: SE(44,−78) → SW(−44,−78) -->
+  <line x1="44"  y1="-78" x2="-44" y2="-78" stroke="#f0c040" stroke-width="7"   opacity="0.18" filter="url(#ringglow)"/>
+  <line x1="44"  y1="-78" x2="-44" y2="-78" stroke="#d49010" stroke-width="2"   opacity="0.88"/>
+  <!-- Kreuzstreben vordere Hälften → Zentrum(0,−100) -->
+  <line x1="-44" y1="-78" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.58"/>
+  <line x1="44"  y1="-78" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.58"/>
   <!-- Zentrumsknoten -->
   <circle cx="0" cy="-100" r="4.5" fill="#f0b030" opacity="0.82" filter="url(#glow)"/>
   <circle cx="0" cy="-100" r="8"   fill="none" stroke="#f0b030" stroke-width="1.2" opacity="0.32"/>
