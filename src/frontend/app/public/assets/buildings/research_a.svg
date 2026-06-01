@@ -8,8 +8,8 @@
       NW/NE: x=±44, y_center=−50  →  cy_front = −50+7 = −43
       SW/SE: x=±44, y_center=− 6  →  cy_front = − 6+7 =   1
   ─ Zylinder: w=14, h=72
-      NW/NE  cy_LR_bot=−50  cy_top=−115  cy_LR_top=−122  cy_N_top=−129
-      SW/SE  cy_LR_bot=− 6  cy_top=− 71  cy_LR_top=− 78  cy_N_top=− 85
+      NW/NE  cy_LR_bot_outer=−43  cy_LR_bot_inner=−50  cy_top=−115  cy_LR_top=−122  cy_N_top=−129
+      SW/SE  cy_LR_bot_outer=−13  cy_LR_bot_inner=− 6  cy_top=− 71  cy_LR_top=− 78  cy_N_top=− 85
   ─ Ring verbindet Glüh-Knoten (cy_LR_top): (±44,−122) und (±44,−78)
   ─ Ringzentrum: (0,−100)
 -->
@@ -107,7 +107,7 @@
   ══ -->
 
   <!-- ─── NW  cx=−44  cy_front=−43 ─── -->
-  <polygon points="-58,-50 -44,-43 -44,-115 -58,-122" fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="-58,-43 -44,-43 -44,-115 -58,-122" fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
   <polygon points="-30,-50 -44,-43 -44,-115 -30,-122" fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
   <line x1="-30" y1="-50" x2="-30" y2="-122" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
   <line x1="-30" y1="-86" x2="-44" y2="-82"  stroke="#d49010" stroke-width="2"   opacity="0.62"/>
@@ -116,8 +116,8 @@
 
   <!-- ─── NE  cx=+44  cy_front=−43 ─── -->
   <polygon points="30,-50 44,-43 44,-115 30,-122"  fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="58,-50 44,-43 44,-115 58,-122"  fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="58" y1="-50" x2="58" y2="-122" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
+  <polygon points="58,-43 44,-43 44,-115 58,-122"  fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="58" y1="-43" x2="58" y2="-122" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
   <line x1="58" y1="-86" x2="44" y2="-82"  stroke="#d49010" stroke-width="2"   opacity="0.62"/>
   <polygon points="44,-129 58,-122 44,-115 30,-122" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
   <circle cx="44" cy="-122" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
@@ -137,7 +137,7 @@
   <line x1="44"  y1="-122" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
 
   <!-- ─── SW  cx=−44  cy_front=+1 ─── -->
-  <polygon points="-58,-6 -44,1 -44,-71 -58,-78"   fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="-58,-13 -44,1 -44,-71 -58,-78"   fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
   <polygon points="-30,-6 -44,1 -44,-71 -30,-78"   fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
   <line x1="-30" y1="-6"  x2="-30" y2="-78"  stroke="#9a8268" stroke-width="1.5" opacity="0.55"/>
   <line x1="-30" y1="-42" x2="-44" y2="-38"  stroke="#d49010" stroke-width="2"   opacity="0.68"/>
@@ -146,8 +146,8 @@
 
   <!-- ─── SE  cx=+44  cy_front=+1 ─── -->
   <polygon points="30,-6 44,1 44,-71 30,-78"    fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="58,-6 44,1 44,-71 58,-78"    fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="58" y1="-6"  x2="58" y2="-78"  stroke="#9a8268" stroke-width="1.5" opacity="0.6"/>
+  <polygon points="58,-13 44,1 44,-71 58,-78"    fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="58" y1="-13"  x2="58" y2="-78"  stroke="#9a8268" stroke-width="1.5" opacity="0.6"/>
   <line x1="58" y1="-42" x2="44" y2="-38"  stroke="#d49010" stroke-width="2"   opacity="0.72"/>
   <polygon points="44,-85 58,-78 44,-71 30,-78"  fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
   <circle cx="44" cy="-78" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.92"/>
