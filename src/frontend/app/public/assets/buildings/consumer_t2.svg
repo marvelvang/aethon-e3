@@ -117,9 +117,9 @@
 
   <!-- ══════════════════════════════════════════
        TOWER NW  –  translate(−44, −8)
-       Front-base vertex lands at outer-local (−44, −50) = NW edge midpoint
+       Outer corner (back-left) lands on NW platform edge at outer-local (−66, −39)
        ══════════════════════════════════════════ -->
-  <g transform="translate(-44, -8)">
+  <g transform="translate(-44, 14)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -155,9 +155,9 @@
 
   <!-- ══════════════════════════════════════════
        TOWER NE  –  translate(44, −8)
-       Front-base vertex lands at outer-local (44, −50) = NE edge midpoint
+       Outer corner (back-right) lands on NE platform edge at outer-local (66, −39)
        ══════════════════════════════════════════ -->
-  <g transform="translate(44, -8)">
+  <g transform="translate(44, 14)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
