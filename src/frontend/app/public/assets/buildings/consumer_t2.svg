@@ -18,11 +18,11 @@
   Edge midpoints (= tower positions, same coordinate system):
     NW(−44,−50)  NE(44,−50)  SW(−44,−6)  SE(44,−6)
 
-  Each tower translate inside translate(0,36):
-    NW: translate(−44,−8)   [tower front base vertex lands at outer-local (−44,−50)]
-    NE: translate( 44,−8)   [                                            ( 44,−50)]
-    SW: translate(−44, 36)  [                                            (−44, −6)]
-    SE: translate( 44, 36)  [                                            ( 44, −6)]
+  Each tower translate inside translate(0,36) — contact edge centered on platform edge midpoint:
+    NW: translate(−33,  8.5)  [back-left edge centered on NW midpoint (−44,−50)]
+    NE: translate( 33,  8.5)  [right-back edge centered on NE midpoint ( 44,−50)]
+    SW: translate(−33, 41.5)  [left-front edge centered on SW midpoint (−44, −6)]
+    SE: translate( 33, 41.5)  [front-right edge centered on SE midpoint ( 44, −6)]
 
   Paint order (back → front): base unit → NW → NE → SW → SE
 -->
@@ -116,10 +116,10 @@
   <circle cx="0"   cy="16"  r="5" fill="#55ee33" filter="url(#glow)"/>
 
   <!-- ══════════════════════════════════════════
-       TOWER NW  –  translate(−44, −8)
-       Outer corner (back-left) lands on NW platform edge at outer-local (−66, −39)
+       TOWER NW  –  translate(−33, 8.5)
+       Back-left edge centered on NW edge midpoint (−44, −50)
        ══════════════════════════════════════════ -->
-  <g transform="translate(-44, 14)">
+  <g transform="translate(-33, 8.5)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -154,10 +154,10 @@
   </g>
 
   <!-- ══════════════════════════════════════════
-       TOWER NE  –  translate(44, −8)
-       Outer corner (back-right) lands on NE platform edge at outer-local (66, −39)
+       TOWER NE  –  translate(33, 8.5)
+       Right-back edge centered on NE edge midpoint (44, −50)
        ══════════════════════════════════════════ -->
-  <g transform="translate(44, 14)">
+  <g transform="translate(33, 8.5)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -192,10 +192,10 @@
   </g>
 
   <!-- ══════════════════════════════════════════
-       TOWER SW  –  translate(−44, 36)
-       Front-base vertex lands at outer-local (−44, −6) = SW edge midpoint
+       TOWER SW  –  translate(−33, 41.5)
+       Left-front edge centered on SW edge midpoint (−44, −6)
        ══════════════════════════════════════════ -->
-  <g transform="translate(-44, 36)">
+  <g transform="translate(-33, 41.5)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -230,10 +230,10 @@
   </g>
 
   <!-- ══════════════════════════════════════════
-       TOWER SE  –  translate(44, 36)
-       Front-base vertex lands at outer-local (44, −6) = SE edge midpoint
+       TOWER SE  –  translate(33, 41.5)
+       Front-right edge centered on SE edge midpoint (44, −6)
        ══════════════════════════════════════════ -->
-  <g transform="translate(44, 36)">
+  <g transform="translate(33, 41.5)">
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
