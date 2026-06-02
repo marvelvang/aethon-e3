@@ -2,6 +2,12 @@
 <!--
   HydroSpire – Consumer Building (Master SVG, 4× tile resolution)
   Vertikaler Hydroponik-Turm mit lila Wachstumslicht-Ringen
+
+  Tower renders in three layers:
+    1. Back ring arcs (sweep=0) before tower body – tower covers x∈[−22,22],
+       sides peek out at x=±(22…28).
+    2. Tower body polygons + edge lines.
+    3. Front ring arcs + pod spheres (right/lit, left/dim, front-centre) + apex.
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
@@ -48,6 +54,16 @@
       <stop offset="0%"   stop-color="#ddeedd"/>
       <stop offset="100%" stop-color="#aaccaa"/>
     </linearGradient>
+    <!-- Pod spheres: lit (right / front) and dim (left / shadow) -->
+    <radialGradient id="podLit" cx="62%" cy="32%" r="62%">
+      <stop offset="0%"   stop-color="#ccff88"/>
+      <stop offset="45%"  stop-color="#3a9918"/>
+      <stop offset="100%" stop-color="#0e3006"/>
+    </radialGradient>
+    <radialGradient id="podDim" cx="38%" cy="35%" r="62%">
+      <stop offset="0%"   stop-color="#559933"/>
+      <stop offset="100%" stop-color="#0a1e04"/>
+    </radialGradient>
 
     <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -93,54 +109,49 @@
 
   <!-- ══ TOWER hz 56→152 (±22) ══ -->
   <g transform="translate(0, 25)">
+  <!-- Back ring arcs (drawn before tower body; tower covers x∈[−22,22], sides peek out) -->
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82  A 28,14 0 0,0 -28,-82"  fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
+  </g>
+  <!-- Tower body -->
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
-
   <!-- Tower edge highlight (right) -->
   <line x1="22" y1="-53" x2="22" y2="-149" stroke="#bbddbb" stroke-width="2"   opacity="0.6"/>
   <line x1="22" y1="-53" x2="22" y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
-
-  <!-- Tower edge shadow (left, dim mirror) -->
+  <!-- Tower edge shadow (left) -->
   <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2" opacity="0.6"/>
-
-  <!-- Axial decorations -->
+  <!-- Front ring arcs + pod spheres + apex -->
   <g transform="translate(0, 11)">
-
-  <!-- ══ GROW-LIGHT RINGS (purple/violet spectrum) ══ -->
-
-  <!-- Ring hz=82 – bottom ring -->
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
-
-  <!-- Ring hz=102 -->
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
-
-  <!-- Ring hz=122 -->
+  <path d="M 14,-102 A 14,7  0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
-
-  <!-- Ring hz=142 – top ring -->
+  <path d="M 14,-122 A 14,7  0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
-  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
-
-  <!-- Growing pod "leaf" accents at each ring (right side) -->
-  <ellipse cx="28" cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(20,28,-82)"/>
-  <ellipse cx="28" cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(20,28,-102)"/>
-  <ellipse cx="28" cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7" transform="rotate(20,28,-122)"/>
-  <ellipse cx="28" cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
-
-  <!-- Growing pod "leaf" accents at each ring (left side, dim mirror) -->
-  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(-20,-28,-82)"/>
-  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(-20,-28,-102)"/>
-  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5" transform="rotate(-20,-28,-122)"/>
-  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
-
+  <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <!-- Pod spheres: right (lit), left (dim), front-centre at each ring -->
+  <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-102" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-122" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-142" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podLit)" opacity="0.8"/>
   <!-- Tower top: apex spire -->
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
