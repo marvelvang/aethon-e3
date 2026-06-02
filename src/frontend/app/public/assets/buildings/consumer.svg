@@ -3,11 +3,16 @@
   HydroSpire – Consumer Building (Master SVG, 4× tile resolution)
   Vertikaler Hydroponik-Turm mit lila Wachstumslicht-Ringen
 
-  Tower renders in three layers:
-    1. Back ring arcs (sweep=0) before tower body – tower covers x∈[−22,22],
-       sides peek out at x=±(22…28).
-    2. Tower body polygons + edge lines.
-    3. Front ring arcs + pod spheres (right/lit, left/dim, front-centre) + apex.
+  Draw order within the tower's translate(0,11) decoration group:
+    1. Back-arc peek segments (x=±22…±28, y=ring_y to ring_y−5√3≈ring_y−8.66)
+       These extend from each sphere centre toward the back/upper direction.
+    2. Pod spheres (cover the peek endpoint; front arc drawn on top will cover too)
+    3. Front ring arcs (drawn on top of spheres – arc pierces each sphere centre)
+    4. Apex
+
+  All three sphere positions (right/left/front-centre) appear correctly threaded:
+  – Side spheres (±28, ring_y): back peek visible upper-side, front arc lower-side.
+  – Front sphere (0, ring_y+14): front arc enters from upper-right, exits upper-left.
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
@@ -109,14 +114,6 @@
 
   <!-- ══ TOWER hz 56→152 (±22) ══ -->
   <g transform="translate(0, 25)">
-  <!-- Back ring arcs (drawn before tower body; tower covers x∈[−22,22], sides peek out) -->
-  <g transform="translate(0, 11)">
-  <path d="M 28,-82  A 28,14 0 0,0 -28,-82"  fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
-  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
-  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
-  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
-  </g>
-  <!-- Tower body -->
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -125,21 +122,23 @@
   <line x1="22" y1="-53" x2="22" y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
   <!-- Tower edge shadow (left) -->
   <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2" opacity="0.6"/>
-  <!-- Front ring arcs + pod spheres + apex -->
+
+  <!-- Decorations – single group, draw order: back-peeks → spheres → front-arcs → apex -->
   <g transform="translate(0, 11)">
-  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
-  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-102 A 14,7  0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
-  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-122 A 14,7  0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
-  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
-  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
-  <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
-  <!-- Pod spheres: right (lit), left (dim), front-centre at each ring -->
+
+  <!-- 1. Back-arc peek segments (x=±22…±28).
+       At x=±22 on the back ellipse: y = ring_y − 5√3 ≈ ring_y − 8.66.
+       sweep=0 (counterclockwise in SVG y-down) traces the back-upper path. -->
+  <path d="M 28,-82   A 28,14 0 0,0 22,-90.66"   fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M -22,-90.66 A 28,14 0 0,0 -28,-82"   fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-102  A 28,14 0 0,0 22,-110.66"  fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M -22,-110.66 A 28,14 0 0,0 -28,-102" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-122  A 28,14 0 0,0 22,-130.66"  fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M -22,-130.66 A 28,14 0 0,0 -28,-122" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-142  A 28,14 0 0,0 22,-150.66"  fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
+  <path d="M -22,-150.66 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
+
+  <!-- 2. Pod spheres (on top of back peeks; front arcs will be drawn on top of these) -->
   <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)" opacity="0.75"/>
   <circle cx="0"   cy="-68"  r="6" fill="url(#podLit)" opacity="0.8"/>
@@ -152,7 +151,22 @@
   <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-142" r="6" fill="url(#podDim)" opacity="0.75"/>
   <circle cx="0"   cy="-128" r="6" fill="url(#podLit)" opacity="0.8"/>
-  <!-- Tower top: apex spire -->
+
+  <!-- 3. Front ring arcs (on top of spheres – arc pierces through all sphere centres) -->
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-102 A 14,7  0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-122 A 14,7  0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
+  <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
+  <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+
+  <!-- 4. Apex spire -->
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
