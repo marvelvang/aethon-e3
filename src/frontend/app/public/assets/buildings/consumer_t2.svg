@@ -8,21 +8,16 @@
 
   Foundation and base unit: pixel-identical to consumer.svg (Tier 1).
 
-  Four towers, each geometrically identical to the Tier-1 single tower
-  (footprint ±22, all polygon coordinates unchanged), placed at the four
-  edge midpoints of the base-unit top-face rhombus so the building looks
-  the same from all four viewing angles.
+  Four towers, contact edge centered on each platform edge midpoint.
+  Each tower renders in three layers:
+    1. Back ring arcs (sweep=0) painted BEFORE tower body — tower covers
+       x∈[−22,22], arcs peek out at x=±(22…28) on both sides.
+    2. Tower body polygons + edge lines.
+    3. Front ring arcs + pod spheres (right/lit, left/dim, front-centre) + apex.
 
-  Base-unit top-face corners in translate(0,36) local coords:
-    N(0,−72)  E(88,−28)  W(−88,−28)  S(0,16)
-  Edge midpoints (= tower positions, same coordinate system):
-    NW(−44,−50)  NE(44,−50)  SW(−44,−6)  SE(44,−6)
-
-  Each tower translate inside translate(0,36) — contact edge centered on platform edge midpoint:
-    NW: translate(−33,  8.5)  [back-left edge centered on NW midpoint (−44,−50)]
-    NE: translate( 33,  8.5)  [right-back edge centered on NE midpoint ( 44,−50)]
-    SW: translate(−33, 41.5)  [left-front edge centered on SW midpoint (−44, −6)]
-    SE: translate( 33, 41.5)  [front-right edge centered on SE midpoint ( 44, −6)]
+  Tower translates inside translate(0,36):
+    NW: translate(−33,  8.5)   NE: translate( 33,  8.5)
+    SW: translate(−33, 41.5)   SE: translate( 33, 41.5)
 
   Paint order (back → front): base unit → NW → NE → SW → SE
 -->
@@ -57,7 +52,7 @@
       <stop offset="0%"   stop-color="#5e7a4a"/>
       <stop offset="100%" stop-color="#3c5030"/>
     </linearGradient>
-    <!-- Tower: clean white-gray hydroponic column (identical to Tier 1) -->
+    <!-- Tower faces -->
     <linearGradient id="tR" gradientUnits="userSpaceOnUse" x1="22" y1="-53" x2="0" y2="-138">
       <stop offset="0%"   stop-color="#ccddc8"/>
       <stop offset="50%"  stop-color="#a0b89c"/>
@@ -71,6 +66,16 @@
       <stop offset="0%"   stop-color="#ddeedd"/>
       <stop offset="100%" stop-color="#aaccaa"/>
     </linearGradient>
+    <!-- Pod spheres: lit (right / front) and dim (left / shadow) -->
+    <radialGradient id="podLit" cx="62%" cy="32%" r="62%">
+      <stop offset="0%"   stop-color="#ccff88"/>
+      <stop offset="45%"  stop-color="#3a9918"/>
+      <stop offset="100%" stop-color="#0e3006"/>
+    </radialGradient>
+    <radialGradient id="podDim" cx="38%" cy="35%" r="62%">
+      <stop offset="0%"   stop-color="#559933"/>
+      <stop offset="100%" stop-color="#0a1e04"/>
+    </radialGradient>
 
     <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -86,40 +91,37 @@
     </filter>
   </defs>
 
-  <!-- ══ FOUNDATION hz 0→24 (±128) – identical to Tier 1 ══ -->
+  <!-- ══ FOUNDATION ══ -->
   <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#3a6030" stroke-width="1.5"/>
   <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#3a6030" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#3a6030" stroke-width="1.5"/>
 
   <g transform="translate(0, 36)">
 
-  <!-- ══ BASE UNIT hz 24→56 (±88) – identical to Tier 1 ══ -->
+  <!-- ══ BASE UNIT ══ -->
   <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#2e4a28" stroke-width="1.5"/>
   <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#4a6a3a" stroke-width="1.5"/>
   <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#4a6a3a" stroke-width="1.5"/>
-
-  <!-- Ventilation slots – right face -->
   <line x1="88"  y1="4"   x2="88"  y2="-28" stroke="#66aa44" stroke-width="2"   opacity="0.55"/>
   <line x1="66"  y1="7"   x2="22"  y2="29"  stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
   <line x1="66"  y1="-1"  x2="22"  y2="21"  stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
   <line x1="66"  y1="-9"  x2="22"  y2="13"  stroke="#4a7a30" stroke-width="1.5" opacity="0.5"/>
-
-  <!-- Ventilation slots – left face (dim mirror) -->
   <line x1="-88" y1="4"   x2="-88" y2="-28" stroke="#2a4a18" stroke-width="2"   opacity="0.55"/>
   <line x1="-66" y1="7"   x2="-22" y2="29"  stroke="#1e3a14" stroke-width="1.5" opacity="0.4"/>
   <line x1="-66" y1="-1"  x2="-22" y2="21"  stroke="#1e3a14" stroke-width="1.5" opacity="0.4"/>
   <line x1="-66" y1="-9"  x2="-22" y2="13"  stroke="#1e3a14" stroke-width="1.5" opacity="0.4"/>
-
-  <!-- Base corners -->
   <circle cx="88"  cy="-28" r="5" fill="#55ee33" filter="url(#glow)"/>
   <circle cx="-88" cy="-28" r="5" fill="#55ee33" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="16"  r="5" fill="#55ee33" filter="url(#glow)"/>
 
-  <!-- ══════════════════════════════════════════
-       TOWER NW  –  translate(−33, 8.5)
-       Back-left edge centered on NW edge midpoint (−44, −50)
-       ══════════════════════════════════════════ -->
+  <!-- ══ TOWER NW  translate(−33, 8.5) ══ -->
   <g transform="translate(-33, 8.5)">
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82  A 28,14 0 0,0 -28,-82"  fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
+  </g>
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -127,37 +129,44 @@
   <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
   <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2"   opacity="0.6"/>
   <g transform="translate(0, 11)">
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 14,-102 A 14,7  0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 14,-122 A 14,7  0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
-  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
-  <ellipse cx="28"  cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-82)"/>
-  <ellipse cx="28"  cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-102)"/>
-  <ellipse cx="28"  cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-122)"/>
-  <ellipse cx="28"  cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
-  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-82)"/>
-  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-102)"/>
-  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-122)"/>
-  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
+  <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-102" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-122" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-142" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podLit)" opacity="0.8"/>
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
   </g>
   </g>
 
-  <!-- ══════════════════════════════════════════
-       TOWER NE  –  translate(33, 8.5)
-       Right-back edge centered on NE edge midpoint (44, −50)
-       ══════════════════════════════════════════ -->
+  <!-- ══ TOWER NE  translate(33, 8.5) ══ -->
   <g transform="translate(33, 8.5)">
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82  A 28,14 0 0,0 -28,-82"  fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
+  </g>
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -165,37 +174,44 @@
   <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
   <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2"   opacity="0.6"/>
   <g transform="translate(0, 11)">
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 14,-102 A 14,7  0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 14,-122 A 14,7  0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
-  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
-  <ellipse cx="28"  cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-82)"/>
-  <ellipse cx="28"  cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-102)"/>
-  <ellipse cx="28"  cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-122)"/>
-  <ellipse cx="28"  cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
-  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-82)"/>
-  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-102)"/>
-  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-122)"/>
-  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
+  <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-102" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-122" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-142" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podLit)" opacity="0.8"/>
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
   </g>
   </g>
 
-  <!-- ══════════════════════════════════════════
-       TOWER SW  –  translate(−33, 41.5)
-       Left-front edge centered on SW edge midpoint (−44, −6)
-       ══════════════════════════════════════════ -->
+  <!-- ══ TOWER SW  translate(−33, 41.5) ══ -->
   <g transform="translate(-33, 41.5)">
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82  A 28,14 0 0,0 -28,-82"  fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
+  </g>
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -203,37 +219,44 @@
   <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
   <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2"   opacity="0.6"/>
   <g transform="translate(0, 11)">
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 14,-102 A 14,7  0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 14,-122 A 14,7  0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
-  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
-  <ellipse cx="28"  cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-82)"/>
-  <ellipse cx="28"  cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-102)"/>
-  <ellipse cx="28"  cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-122)"/>
-  <ellipse cx="28"  cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
-  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-82)"/>
-  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-102)"/>
-  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-122)"/>
-  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
+  <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-102" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-122" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-142" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podLit)" opacity="0.8"/>
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
   </g>
   </g>
 
-  <!-- ══════════════════════════════════════════
-       TOWER SE  –  translate(33, 41.5)
-       Front-right edge centered on SE edge midpoint (44, −6)
-       ══════════════════════════════════════════ -->
+  <!-- ══ TOWER SE  translate(33, 41.5) ══ -->
   <g transform="translate(33, 41.5)">
+  <g transform="translate(0, 11)">
+  <path d="M 28,-82  A 28,14 0 0,0 -28,-82"  fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-102 A 28,14 0 0,0 -28,-102" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-122 A 28,14 0 0,0 -28,-122" fill="none" stroke="#993acc" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 28,-142 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
+  </g>
   <polygon points="-22,-53 0,-42 0,-138 -22,-149"  fill="url(#tL)" stroke="#2a3a28" stroke-width="1.2"/>
   <polygon points="22,-53 0,-42 0,-138 22,-149"    fill="url(#tR)" stroke="#7a9a78" stroke-width="1.2"/>
   <polygon points="0,-160 22,-149 0,-138 -22,-149"  fill="url(#tTop)" stroke="#7a9a78" stroke-width="1.2"/>
@@ -241,26 +264,30 @@
   <line x1="22"  y1="-53" x2="22"  y2="-149" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
   <line x1="-22" y1="-53" x2="-22" y2="-149" stroke="#2a3a28" stroke-width="2"   opacity="0.6"/>
   <g transform="translate(0, 11)">
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
-  <path d="M 28,-82 A 28,14 0 0,1 -28,-82" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-82 A 14,7 0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
+  <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
+  <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-102 A 28,14 0 0,1 -28,-102" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-102 A 14,7 0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 14,-102 A 14,7  0 0,1 -14,-102 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-122 A 28,14 0 0,1 -28,-122" fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
-  <path d="M 14,-122 A 14,7 0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
+  <path d="M 14,-122 A 14,7  0 0,1 -14,-122 Z" fill="#cc44ff" opacity="0.08"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
-  <path d="M 14,-142 A 14,7 0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
-  <ellipse cx="28"  cy="-82"  rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-82)"/>
-  <ellipse cx="28"  cy="-102" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-102)"/>
-  <ellipse cx="28"  cy="-122" rx="6" ry="4" fill="#2a8a10" opacity="0.7"  transform="rotate(20,28,-122)"/>
-  <ellipse cx="28"  cy="-142" rx="6" ry="4" fill="#338810" opacity="0.75" transform="rotate(20,28,-142)"/>
-  <ellipse cx="-28" cy="-82"  rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-82)"/>
-  <ellipse cx="-28" cy="-102" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-102)"/>
-  <ellipse cx="-28" cy="-122" rx="6" ry="4" fill="#1a4a08" opacity="0.5"  transform="rotate(-20,-28,-122)"/>
-  <ellipse cx="-28" cy="-142" rx="6" ry="4" fill="#1f4a08" opacity="0.55" transform="rotate(-20,-28,-142)"/>
+  <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-102" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-122" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
+  <circle cx="-28" cy="-142" r="6" fill="url(#podDim)" opacity="0.75"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podLit)" opacity="0.8"/>
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
