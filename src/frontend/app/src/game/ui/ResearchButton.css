@@ -1,0 +1,75 @@
+.research-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+.research-container {
+  position: relative;
+  z-index: 201;
+  width: 56px;
+  height: 56px;
+}
+
+.research-trigger {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.2s, color 0.15s;
+}
+
+.research-trigger:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.research-trigger--active {
+  background: rgba(255, 255, 255, 0.26);
+  border-color: rgba(255, 255, 255, 0.65);
+  color: #fff;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.12),
+    0 0 18px rgba(255, 255, 255, 0.22);
+}
+
+.research-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(800px, calc(100vw - 32px));
+  height: min(560px, calc(100vh - 120px));
+  background: rgba(20, 20, 30, 0.72);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  backdrop-filter: blur(18px);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 28px;
+  box-sizing: border-box;
+  animation: research-modal-in 0.16s ease-out forwards;
+}
+
+@keyframes research-modal-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.research-modal-placeholder {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.6;
+}

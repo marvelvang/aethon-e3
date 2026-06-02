@@ -1,4 +1,5 @@
 import ActionMenu from './ActionMenu'
+import ResearchButton from './ResearchButton'
 import RoundButton from './RoundButton'
 import RotationControls from '../grid/RotationControls'
 import VersionDisplay from '../../components/VersionDisplay'
@@ -30,6 +31,7 @@ export default function BottomBar({
       <VersionDisplay backendVersion={game.state?.backendVersion} />
       <RotationControls rotation={rotation} onRotate={onRotate} onResetView={onResetView} />
       <div className="bottom-bar-actions">
+        <ResearchButton />
         <ActionMenu
           isFullscreen={isFullscreen}
           onToggleFullscreen={onToggleFullscreen}
