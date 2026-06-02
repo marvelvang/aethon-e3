@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { UiState } from '@aethon/models'
+import { GRID_SIZE } from '@aethon/models'
 import { HOUSING_DEF, POPULATION_DEF, RESOURCES } from '../../presentation/resources'
 import './ResourceOverlay.css'
 
@@ -26,6 +27,9 @@ export default function ResourceOverlay({ state }: Props) {
   const housing        = state?.housing        ?? null
   const popGain        = state?.populationGain ?? null
   const gainNegative   = popGain !== null && popGain < 0
+
+  const totalFields = GRID_SIZE * GRID_SIZE
+  const builtCount  = state?.buildings.length ?? null
 
   if (!expanded) {
     return (
@@ -57,6 +61,12 @@ export default function ResourceOverlay({ state }: Props) {
               </span>
             )
           })}
+          <span className="compact-group">
+            <span className="compact-group-sep">·</span>
+            <span style={{ color: 'var(--color-fields)' }}>{builtCount ?? '—'}</span>
+            <span className="compact-sep">/</span>
+            <span style={{ color: 'var(--color-fields)' }}>{totalFields}</span>
+          </span>
         </div>
       </div>
     )
@@ -108,6 +118,22 @@ export default function ResourceOverlay({ state }: Props) {
           </div>
         )
       })}
+
+      <div className="resource-card" onClick={() => setExpanded(false)}>
+        <span className="resource-value" style={{ color: 'var(--color-fields)' }}>
+          <span className="resource-value-main">{builtCount ?? '—'}</span>
+          <span className="resource-value-sep">/</span>
+          <span className="resource-value-gain">{totalFields}</span>
+        </span>
+        <span className="resource-label">Felder</span>
+        <div
+          className="resource-bar"
+          style={{
+            background: 'var(--color-fields)',
+            width: builtCount !== null ? `${(builtCount / totalFields * 100).toFixed(1)}%` : '0%',
+          }}
+        />
+      </div>
     </div>
   )
 }
