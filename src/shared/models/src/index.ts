@@ -1,4 +1,4 @@
-export const GRID_SIZE = 20
+export const GRID_SIZE = 3
 
 export const BUILDING_TYPES = ['Base', 'Housing', 'Consumer', 'Industry', 'PowerPlant'] as const
 export type BuildingType = (typeof BUILDING_TYPES)[number]
