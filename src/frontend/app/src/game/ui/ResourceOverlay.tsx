@@ -14,6 +14,14 @@ function resourceBarWidth(value: number | null, gain: number | null): string {
   return `${Math.max(0, (value + gain) / value * 100).toFixed(1)}%`
 }
 
+function fieldsBarProps(built: number, total: number): { width: string; color: string } {
+  const builtRatio = built / total
+  const freeRatio  = 1 - builtRatio
+  const color = builtRatio > 0.9 ? 'var(--color-danger)' : 'var(--color-fields)'
+  const width = builtRatio <= 0.1 ? '100%' : `${(freeRatio * 100).toFixed(1)}%`
+  return { width, color }
+}
+
 function fmtGain(g: number | null): string {
   if (g === null) return '—'
   return g >= 0 ? `+${g}` : `${g}`
@@ -119,21 +127,23 @@ export default function ResourceOverlay({ state }: Props) {
         )
       })}
 
-      <div className="resource-card" onClick={() => setExpanded(false)}>
-        <span className="resource-value" style={{ color: 'var(--color-fields)' }}>
-          <span className="resource-value-main">{builtCount ?? '—'}</span>
-          <span className="resource-value-sep">/</span>
-          <span className="resource-value-gain">{totalFields}</span>
-        </span>
-        <span className="resource-label">Felder</span>
-        <div
-          className="resource-bar"
-          style={{
-            background: 'var(--color-fields)',
-            width: builtCount !== null ? `${(builtCount / totalFields * 100).toFixed(1)}%` : '0%',
-          }}
-        />
-      </div>
+      {(() => {
+        const bar = builtCount !== null ? fieldsBarProps(builtCount, totalFields) : null
+        return (
+          <div className="resource-card" onClick={() => setExpanded(false)}>
+            <span className="resource-value" style={{ color: 'var(--color-fields)' }}>
+              <span className="resource-value-main">{builtCount ?? '—'}</span>
+              <span className="resource-value-sep">/</span>
+              <span className="resource-value-gain">{totalFields}</span>
+            </span>
+            <span className="resource-label">Felder</span>
+            <div
+              className="resource-bar"
+              style={{ background: bar?.color ?? 'var(--color-fields)', width: bar?.width ?? '0%' }}
+            />
+          </div>
+        )
+      })()}
     </div>
   )
 }
