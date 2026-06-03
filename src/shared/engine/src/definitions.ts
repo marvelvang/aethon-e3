@@ -1,4 +1,4 @@
-import type { BuildingType } from '@aethon/models'
+import type { BuildingType, ResearchBranch } from '@aethon/models'
 
 export interface BuildingDefinition {
   populationCost: number
@@ -11,6 +11,8 @@ export interface BuildingDefinition {
   maintenancePopulationCost: number
   maintenanceIndustryCost: number
   maintenanceEnergyCost: number
+  researchProduction: number
+  requiredResearch: { branch: ResearchBranch; level: number } | null
 }
 
 export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
@@ -45,6 +47,8 @@ function def(
     maintenancePopulationCost,
     maintenanceIndustryCost,
     maintenanceEnergyCost,
+    researchProduction: 0,
+    requiredResearch: null,
   }
 }
 
