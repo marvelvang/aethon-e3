@@ -36,8 +36,9 @@ export default function ResourceOverlay({ state }: Props) {
   const popGain        = state?.populationGain ?? null
   const gainNegative   = popGain !== null && popGain < 0
 
-  const totalFields = GRID_SIZE * GRID_SIZE
-  const builtCount  = state?.buildings.length ?? null
+  const totalFields  = GRID_SIZE * GRID_SIZE
+  const builtCount   = state?.buildings.length ?? null
+  const fieldsColor  = builtCount !== null ? fieldsBarProps(builtCount, totalFields).color : 'var(--color-fields)'
 
   if (!expanded) {
     return (
@@ -71,7 +72,7 @@ export default function ResourceOverlay({ state }: Props) {
           })}
           <span className="compact-group">
             <span className="compact-group-sep">·</span>
-            <span style={{ color: 'var(--color-fields)' }}>{builtCount ?? '—'}</span>
+            <span style={{ color: fieldsColor }}>{builtCount ?? '—'}</span>
             <span className="compact-sep">/</span>
             <span style={{ color: 'var(--color-fields)' }}>{totalFields}</span>
           </span>
@@ -132,7 +133,7 @@ export default function ResourceOverlay({ state }: Props) {
         return (
           <div className="resource-card" onClick={() => setExpanded(false)}>
             <span className="resource-value" style={{ color: 'var(--color-fields)' }}>
-              <span className="resource-value-main">{builtCount ?? '—'}</span>
+              <span className="resource-value-main" style={{ color: fieldsColor }}>{builtCount ?? '—'}</span>
               <span className="resource-value-sep">/</span>
               <span className="resource-value-gain">{totalFields}</span>
             </span>
