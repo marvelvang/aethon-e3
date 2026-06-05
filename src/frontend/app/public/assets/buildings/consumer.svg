@@ -143,21 +143,17 @@
   <path d="M 28,-142  A 28,14 0 0,0 22,-150.66"  fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
   <path d="M -22,-150.66 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
 
-  <!-- 2. Pod spheres (on top of back peeks; front arcs will be drawn on top of these) -->
+  <!-- 2. Side pod spheres (right + left; arcs drawn on top will pierce them) -->
   <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-102" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-122" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-142" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
 
-  <!-- 3. Front ring arcs (on top of spheres – arc pierces through all sphere centres) -->
+  <!-- 3. Front ring arcs (pierce side spheres; front-centre spheres drawn after) -->
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
   <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
@@ -170,6 +166,12 @@
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
   <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+
+  <!-- 3b. Front-centre spheres (drawn after arcs – sphere covers arc interior) -->
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
 
   <!-- 4. Apex spire -->
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>

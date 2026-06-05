@@ -138,16 +138,12 @@
   <path d="M -22,-150.66 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
   <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-102" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-122" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-142" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
   <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
@@ -160,6 +156,10 @@
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
   <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
@@ -185,16 +185,12 @@
   <path d="M -22,-150.66 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
   <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-102" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-122" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-142" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
   <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
@@ -207,6 +203,10 @@
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
   <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
@@ -232,16 +232,12 @@
   <path d="M -22,-150.66 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
   <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-102" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-122" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-142" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
   <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
@@ -254,6 +250,10 @@
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
   <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
@@ -279,16 +279,12 @@
   <path d="M -22,-150.66 A 28,14 0 0,0 -28,-142" fill="none" stroke="#aa44dd" stroke-width="1.5" opacity="0.45"/>
   <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-102" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-122" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
   <circle cx="-28" cy="-142" r="6" fill="url(#podDim)"/>
-  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#ee88ff" stroke-width="4"   opacity="0.25" filter="url(#ringbloom)"/>
   <path d="M 14,-82  A 14,7  0 0,1 -14,-82 Z" fill="#cc44ff" opacity="0.08"/>
@@ -301,6 +297,10 @@
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#dd66ff" stroke-width="2"   opacity="0.85"/>
   <path d="M 28,-142 A 28,14 0 0,1 -28,-142" fill="none" stroke="#ff99ff" stroke-width="6"   opacity="0.2"  filter="url(#ringbloom)"/>
   <path d="M 14,-142 A 14,7  0 0,1 -14,-142 Z" fill="#cc44ff" opacity="0.1"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
   <line x1="0" y1="-160" x2="0" y2="-176" stroke="#aaccaa" stroke-width="2.5"/>
   <circle cx="0" cy="-176" r="5"  fill="#88ffaa" opacity="0.9" filter="url(#glow)"/>
   <circle cx="0" cy="-176" r="10" fill="none"    stroke="#66ff88" stroke-width="1.5" opacity="0.45"/>
