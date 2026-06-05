@@ -59,11 +59,16 @@
       <stop offset="0%"   stop-color="#ddeedd"/>
       <stop offset="100%" stop-color="#aaccaa"/>
     </linearGradient>
-    <!-- Pod spheres: lit (right / front) and dim (left / shadow) -->
+    <!-- Pod spheres – three fully-opaque gradients for right/front/left lighting -->
     <radialGradient id="podLit" cx="62%" cy="32%" r="62%">
       <stop offset="0%"   stop-color="#ccff88"/>
       <stop offset="45%"  stop-color="#3a9918"/>
       <stop offset="100%" stop-color="#0e3006"/>
+    </radialGradient>
+    <radialGradient id="podFront" cx="55%" cy="33%" r="62%">
+      <stop offset="0%"   stop-color="#aaee55"/>
+      <stop offset="45%"  stop-color="#2a7a12"/>
+      <stop offset="100%" stop-color="#0a2404"/>
     </radialGradient>
     <radialGradient id="podDim" cx="38%" cy="35%" r="62%">
       <stop offset="0%"   stop-color="#559933"/>
@@ -140,17 +145,17 @@
 
   <!-- 2. Pod spheres (on top of back peeks; front arcs will be drawn on top of these) -->
   <circle cx="28"  cy="-82"  r="6" fill="url(#podLit)"/>
-  <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)" opacity="0.75"/>
-  <circle cx="0"   cy="-68"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="-28" cy="-82"  r="6" fill="url(#podDim)"/>
+  <circle cx="0"   cy="-68"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-102" r="6" fill="url(#podLit)"/>
-  <circle cx="-28" cy="-102" r="6" fill="url(#podDim)" opacity="0.75"/>
-  <circle cx="0"   cy="-88"  r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="-28" cy="-102" r="6" fill="url(#podDim)"/>
+  <circle cx="0"   cy="-88"  r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-122" r="6" fill="url(#podLit)"/>
-  <circle cx="-28" cy="-122" r="6" fill="url(#podDim)" opacity="0.75"/>
-  <circle cx="0"   cy="-108" r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="-28" cy="-122" r="6" fill="url(#podDim)"/>
+  <circle cx="0"   cy="-108" r="6" fill="url(#podFront)"/>
   <circle cx="28"  cy="-142" r="6" fill="url(#podLit)"/>
-  <circle cx="-28" cy="-142" r="6" fill="url(#podDim)" opacity="0.75"/>
-  <circle cx="0"   cy="-128" r="6" fill="url(#podLit)" opacity="0.8"/>
+  <circle cx="-28" cy="-142" r="6" fill="url(#podDim)"/>
+  <circle cx="0"   cy="-128" r="6" fill="url(#podFront)"/>
 
   <!-- 3. Front ring arcs (on top of spheres – arc pierces through all sphere centres) -->
   <path d="M 28,-82  A 28,14 0 0,1 -28,-82"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.8"/>
