@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  TriLab A (rev 5) – Research Building (Master SVG, 4× tile resolution)
+  TriLab A (rev 6) – Research Building (Master SVG, 4× tile resolution)
 
   GEOMETRIE (local = innerhalb translate(0,36)):
   ─ Basisplatte-Diamant: N(0,−72) E(88,−28) S(0,16) W(−88,−28)
-  ─ Zylinderzentren (äußerer Untereckpunkt auf Plattenrand):
-      NW/NE: center_y=−43  →  cy_front = −36  (outer vertex on NW/NE boundary at x=±58, y=−43)
-      SW/SE: center_y=−13  →  cy_front = − 6  (outer vertex on SW/SE boundary at x=±58, y=−13)
-  ─ Alle Seitenflächen-Unterkanten haben Steigung ±0,5 (isometrisch korrekt)
-  ─ Zylinder: w=14, h=72
-      NW/NE  cy_LR_bot=−43  cy_top=−108  cy_LR_top=−115  cy_N_top=−122
-      SW/SE  cy_LR_bot=−13  cy_top=− 78  cy_LR_top=− 85  cy_N_top=− 92
-  ─ Ring verbindet Glüh-Knoten (cy_LR_top): (±44,−115) und (±44,−85)
-  ─ Ringzentrum: (0,−100)  ←  unverändert
+  ─ Zylinder: cx=±30  w=14  h=72
+      Äußerer Untereckpunkt liegt exakt auf dem Kantenmittelpunkt (t=0.5):
+        NW outer (−44,−50) = NW-Kantenmittelpunkt  NW boundary: y=−72−0.5x → ✓
+        NE outer (+44,−50) = NE-Kantenmittelpunkt
+        SW outer (−44,− 6) = SW-Kantenmittelpunkt  SW boundary: y=16+0.5x  → ✓
+        SE outer (+44,− 6) = SE-Kantenmittelpunkt
+      SW/SE: gesamte linke Flächen-Unterkante liegt auf Plattenrand (slope +0.5 = SW boundary)
+      Alle Seitenflächen-Unterkanten: Steigung ±0.5 (isometrisch korrekt)
+  ─ Ring verbindet Außen-Oben-Knoten (unverändert): (±44,−122) und (±44,−78)
+  ─ Ringzentrum: (0,−100)
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
@@ -31,7 +32,7 @@
       <stop offset="0%"   stop-color="#5c4018"/>
       <stop offset="100%" stop-color="#3a2a0e"/>
     </linearGradient>
-    <!-- Base unit: identisch Consumer (±88, translate 0,36) -->
+    <!-- Base unit -->
     <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="4" x2="0" y2="16">
       <stop offset="0%"   stop-color="#4c3c28"/>
       <stop offset="60%"  stop-color="#2e2418"/>
@@ -102,68 +103,62 @@
   <circle cx="-88" cy="-28" r="5" fill="#f0b030" filter="url(#glow)" opacity="0.55"/>
   <circle cx="0"   cy="16"  r="5" fill="#f0b030" filter="url(#glow)"/>
 
-  <!-- ══ VIER ZYLINDER  cx=±44  w=14  h=72
-       Painter-Reihenfolge: NW → NE → (Ring-Rück/Seiten) → SW → SE → (Ring-Front+Spire)
+  <!-- ══ VIER ZYLINDER  cx=±30  w=14  h=72
+       Outer vertex at edge midpoint of each plate edge.
+       Painter-order: NW → NE → (Ring back) → SW → SE → (Ring front + Spire)
   ══ -->
 
-  <!-- ─── NW  cx=−44  cy_front=−36 ─── -->
-  <polygon points="-58,-43 -44,-36 -44,-108 -58,-115" fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="-30,-43 -44,-36 -44,-108 -30,-115" fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="-30" y1="-43" x2="-30" y2="-115" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
-  <line x1="-30" y1="-79" x2="-44" y2="-75"  stroke="#d49010" stroke-width="2"   opacity="0.62"/>
-  <polygon points="-44,-122 -30,-115 -44,-108 -58,-115" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
-  <circle cx="-44" cy="-115" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
+  <!-- ─── NW  cx=−30  outer=(−44,−50)  cy_front=−43 ─── -->
+  <polygon points="-44,-50 -30,-43 -30,-115 -44,-122" fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="-16,-50 -30,-43 -30,-115 -16,-122" fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="-16" y1="-50" x2="-16" y2="-122" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
+  <line x1="-16" y1="-86" x2="-30" y2="-82"  stroke="#d49010" stroke-width="2"   opacity="0.62"/>
+  <polygon points="-30,-129 -16,-122 -30,-115 -44,-122" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="-44" cy="-122" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
 
-  <!-- ─── NE  cx=+44  cy_front=−36 ─── -->
-  <polygon points="30,-43 44,-36 44,-108 30,-115"  fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="58,-43 44,-36 44,-108 58,-115"  fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="58" y1="-43" x2="58" y2="-115" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
-  <line x1="58" y1="-79" x2="44" y2="-75"  stroke="#d49010" stroke-width="2"   opacity="0.62"/>
-  <polygon points="44,-122 58,-115 44,-108 30,-115" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
-  <circle cx="44" cy="-115" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
+  <!-- ─── NE  cx=+30  outer=(+44,−50)  cy_front=−43 ─── -->
+  <polygon points="16,-50 30,-43 30,-115 16,-122"  fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="44,-50 30,-43 30,-115 44,-122"  fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="44" y1="-50" x2="44" y2="-122" stroke="#9a8268" stroke-width="1.5" opacity="0.5"/>
+  <line x1="44" y1="-86" x2="30" y2="-82"  stroke="#d49010" stroke-width="2"   opacity="0.62"/>
+  <polygon points="30,-129 44,-122 30,-115 16,-122" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="44" cy="-122" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.8"/>
 
-  <!-- ─── RING-RÜCKSEITE + SEITENKANTEN ─── -->
-  <!-- Hinten: NW(−44,−115) → NE(44,−115) -->
-  <line x1="-44" y1="-115" x2="44" y2="-115" stroke="#f0c040" stroke-width="6"   opacity="0.15" filter="url(#ringglow)"/>
-  <line x1="-44" y1="-115" x2="44" y2="-115" stroke="#d49010" stroke-width="2"   opacity="0.82"/>
-  <!-- Links: NW(−44,−115) → SW(−44,−85) -->
-  <line x1="-44" y1="-115" x2="-44" y2="-85" stroke="#f0c040" stroke-width="5"   opacity="0.12" filter="url(#ringglow)"/>
-  <line x1="-44" y1="-115" x2="-44" y2="-85" stroke="#d49010" stroke-width="1.8" opacity="0.72"/>
-  <!-- Rechts: NE(44,−115) → SE(44,−85) -->
-  <line x1="44"  y1="-115" x2="44"  y2="-85" stroke="#f0c040" stroke-width="5"   opacity="0.12" filter="url(#ringglow)"/>
-  <line x1="44"  y1="-115" x2="44"  y2="-85" stroke="#d49010" stroke-width="1.8" opacity="0.72"/>
-  <!-- Kreuzstreben hintere Hälften → Zentrum(0,−100) -->
-  <line x1="-44" y1="-115" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
-  <line x1="44"  y1="-115" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
+  <!-- ─── RING-RÜCKSEITE + SEITENKANTEN (unverändert) ─── -->
+  <line x1="-44" y1="-122" x2="44" y2="-122" stroke="#f0c040" stroke-width="6"   opacity="0.15" filter="url(#ringglow)"/>
+  <line x1="-44" y1="-122" x2="44" y2="-122" stroke="#d49010" stroke-width="2"   opacity="0.82"/>
+  <line x1="-44" y1="-122" x2="-44" y2="-78" stroke="#f0c040" stroke-width="5"   opacity="0.12" filter="url(#ringglow)"/>
+  <line x1="-44" y1="-122" x2="-44" y2="-78" stroke="#d49010" stroke-width="1.8" opacity="0.72"/>
+  <line x1="44"  y1="-122" x2="44"  y2="-78" stroke="#f0c040" stroke-width="5"   opacity="0.12" filter="url(#ringglow)"/>
+  <line x1="44"  y1="-122" x2="44"  y2="-78" stroke="#d49010" stroke-width="1.8" opacity="0.72"/>
+  <line x1="-44" y1="-122" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
+  <line x1="44"  y1="-122" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.5"/>
 
-  <!-- ─── SW  cx=−44  cy_front=−6 ─── -->
-  <polygon points="-58,-13 -44,-6 -44,-78 -58,-85"   fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="-30,-13 -44,-6 -44,-78 -30,-85"   fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="-30" y1="-13"  x2="-30" y2="-85"  stroke="#9a8268" stroke-width="1.5" opacity="0.55"/>
-  <line x1="-30" y1="-49"  x2="-44" y2="-45"  stroke="#d49010" stroke-width="2"   opacity="0.68"/>
-  <polygon points="-44,-92 -30,-85 -44,-78 -58,-85" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
-  <circle cx="-44" cy="-85" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.88"/>
+  <!-- ─── SW  cx=−30  outer=(−44,−6)  cy_front=+1 ─── -->
+  <polygon points="-44,-6 -30,1 -30,-71 -44,-78"   fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="-16,-6 -30,1 -30,-71 -16,-78"   fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="-16" y1="-6"  x2="-16" y2="-78"  stroke="#9a8268" stroke-width="1.5" opacity="0.55"/>
+  <line x1="-16" y1="-42" x2="-30" y2="-38"  stroke="#d49010" stroke-width="2"   opacity="0.68"/>
+  <polygon points="-30,-85 -16,-78 -30,-71 -44,-78" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="-44" cy="-78" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.88"/>
 
-  <!-- ─── SE  cx=+44  cy_front=−6 ─── -->
-  <polygon points="30,-13 44,-6 44,-78 30,-85"    fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <polygon points="58,-13 44,-6 44,-78 58,-85"    fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
-  <line x1="58" y1="-13"  x2="58" y2="-85"  stroke="#9a8268" stroke-width="1.5" opacity="0.6"/>
-  <line x1="58" y1="-49"  x2="44" y2="-45"  stroke="#d49010" stroke-width="2"   opacity="0.72"/>
-  <polygon points="44,-92 58,-85 44,-78 30,-85"  fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
-  <circle cx="44" cy="-85" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.92"/>
+  <!-- ─── SE  cx=+30  outer=(+44,−6)  cy_front=+1 ─── -->
+  <polygon points="16,-6 30,1 30,-71 16,-78"    fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
+  <polygon points="44,-6 30,1 30,-71 44,-78"    fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
+  <line x1="44" y1="-6"  x2="44" y2="-78"  stroke="#9a8268" stroke-width="1.5" opacity="0.6"/>
+  <line x1="44" y1="-42" x2="30" y2="-38"  stroke="#d49010" stroke-width="2"   opacity="0.72"/>
+  <polygon points="30,-85 44,-78 30,-71 16,-78"  fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
+  <circle cx="44" cy="-78" r="4" fill="#f0b030" filter="url(#glow)" opacity="0.92"/>
 
-  <!-- ─── RING-VORDERKANTE + KREUZSTREBEN-FRONT ─── -->
-  <!-- Vorne: SE(44,−85) → SW(−44,−85) -->
-  <line x1="44"  y1="-85" x2="-44" y2="-85" stroke="#f0c040" stroke-width="7"   opacity="0.18" filter="url(#ringglow)"/>
-  <line x1="44"  y1="-85" x2="-44" y2="-85" stroke="#d49010" stroke-width="2"   opacity="0.88"/>
-  <!-- Kreuzstreben vordere Hälften → Zentrum(0,−100) -->
-  <line x1="-44" y1="-85" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.58"/>
-  <line x1="44"  y1="-85" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.58"/>
-  <!-- Zentrumsknoten -->
+  <!-- ─── RING-VORDERKANTE + KREUZSTREBEN-FRONT (unverändert) ─── -->
+  <line x1="44"  y1="-78" x2="-44" y2="-78" stroke="#f0c040" stroke-width="7"   opacity="0.18" filter="url(#ringglow)"/>
+  <line x1="44"  y1="-78" x2="-44" y2="-78" stroke="#d49010" stroke-width="2"   opacity="0.88"/>
+  <line x1="-44" y1="-78" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.58"/>
+  <line x1="44"  y1="-78" x2="0"   y2="-100" stroke="#c08010" stroke-width="1.2" opacity="0.58"/>
   <circle cx="0" cy="-100" r="4.5" fill="#f0b030" opacity="0.82" filter="url(#glow)"/>
   <circle cx="0" cy="-100" r="8"   fill="none" stroke="#f0b030" stroke-width="1.2" opacity="0.32"/>
 
-  <!-- ══ ZENTRALER SPIRE (Basis am Ringzentrum 0,−100) ══ -->
+  <!-- ══ ZENTRALER SPIRE (unverändert) ══ -->
   <line x1="0" y1="-100" x2="0" y2="-158" stroke="#b07810" stroke-width="2.5"/>
   <line x1="0" y1="-100" x2="0" y2="-158" stroke="#f0c040" stroke-width="1"   opacity="0.52"/>
   <line x1="-13" y1="-146" x2="13" y2="-146" stroke="#d49010" stroke-width="2"/>
