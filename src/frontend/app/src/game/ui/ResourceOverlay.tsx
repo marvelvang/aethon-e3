@@ -8,24 +8,52 @@ interface Props {
   state: UiState | null
 }
 
+// Width of the bar showing how much of the current value survives the next gain
 function resourceBarWidth(value: number | null, gain: number | null): string {
   if (gain === null || value === null || gain >= 0) return '100%'
   if (value <= 0) return '0%'
   return `${Math.max(0, (value + gain) / value * 100).toFixed(1)}%`
 }
 
-function fieldsBarProps(built: number, total: number): { width: string; color: string } {
+// Width of the fields bar: represents free space remaining
+function fieldsBarWidth(built: number, total: number): string {
   const builtRatio = built / total
-  const freeRatio  = 1 - builtRatio
-  const color = builtRatio > 0.9 ? 'var(--color-danger)' : 'var(--color-fields)'
-  const width = builtRatio <= 0.1 ? '100%' : `${(freeRatio * 100).toFixed(1)}%`
-  return { width, color }
+  if (builtRatio <= 0.1) return '100%'
+  return `${((1 - builtRatio) * 100).toFixed(1)}%`
+}
+
+// Color for both the fields bar and the built-count number
+function fieldsAccentColor(built: number, total: number): string {
+  return built / total > 0.9 ? 'var(--color-danger)' : 'var(--color-fields)'
 }
 
 function fmtGain(g: number | null): string {
   if (g === null) return '—'
   return g >= 0 ? `+${g}` : `${g}`
 }
+
+// ── Shared card shell used by every panel in expanded view ──────────────────
+
+interface CardProps {
+  label: string
+  color: string
+  barWidth: string
+  barColor?: string
+  onClick: () => void
+  children: React.ReactNode
+}
+
+function Card({ label, color, barWidth, barColor, onClick, children }: CardProps) {
+  return (
+    <div className="resource-card" onClick={onClick}>
+      {children}
+      <span className="resource-label">{label}</span>
+      <div className="resource-bar" style={{ background: barColor ?? color, width: barWidth }} />
+    </div>
+  )
+}
+
+// ── Main overlay ────────────────────────────────────────────────────────────
 
 export default function ResourceOverlay({ state }: Props) {
   const [expanded, setExpanded] = useState(false)
@@ -38,7 +66,10 @@ export default function ResourceOverlay({ state }: Props) {
 
   const totalFields  = GRID_SIZE * GRID_SIZE
   const builtCount   = state?.buildings.length ?? null
-  const fieldsColor  = builtCount !== null ? fieldsBarProps(builtCount, totalFields).color : 'var(--color-fields)'
+  const fAccent      = builtCount !== null ? fieldsAccentColor(builtCount, totalFields) : 'var(--color-fields)'
+  const fBarWidth    = builtCount !== null ? fieldsBarWidth(builtCount, totalFields)    : '0%'
+
+  const collapse = () => setExpanded(false)
 
   if (!expanded) {
     return (
@@ -58,13 +89,12 @@ export default function ResourceOverlay({ state }: Props) {
           {RESOURCES.map((r) => {
             const value = state ? state[r.key]    : null
             const gain  = state ? state[r.gainKey] : null
-            const isNeg = gain !== null && gain < 0
             return (
               <span key={r.key} className="compact-group">
                 <span className="compact-group-sep">·</span>
                 <span style={{ color: r.color }}>{value ?? '—'}</span>
                 <span className="compact-sep">/</span>
-                <span style={{ color: isNeg ? 'var(--color-danger)' : r.color }}>
+                <span style={{ color: gain !== null && gain < 0 ? 'var(--color-danger)' : r.color }}>
                   {fmtGain(gain)}
                 </span>
               </span>
@@ -72,7 +102,7 @@ export default function ResourceOverlay({ state }: Props) {
           })}
           <span className="compact-group">
             <span className="compact-group-sep">·</span>
-            <span style={{ color: fieldsColor }}>{builtCount ?? '—'}</span>
+            <span style={{ color: fAccent }}>{builtCount ?? '—'}</span>
             <span className="compact-sep">/</span>
             <span style={{ color: 'var(--color-fields)' }}>{totalFields}</span>
           </span>
@@ -83,7 +113,13 @@ export default function ResourceOverlay({ state }: Props) {
 
   return (
     <div className="resource-overlay resource-overlay--expanded">
-      <div className="resource-card" onClick={() => setExpanded(false)}>
+
+      <Card
+        label={POPULATION_DEF.label}
+        color={POPULATION_DEF.color}
+        barWidth={resourceBarWidth(population, popGain)}
+        onClick={collapse}
+      >
         <span className="pop-primary" style={{ color: POPULATION_DEF.color }}>
           {freePopulation ?? '—'}
         </span>
@@ -96,18 +132,19 @@ export default function ResourceOverlay({ state }: Props) {
             {fmtGain(popGain)}
           </span>
         </span>
-        <span className="resource-label">{POPULATION_DEF.label}</span>
-        <div
-          className="resource-bar"
-          style={{ background: POPULATION_DEF.color, width: resourceBarWidth(population, popGain) }}
-        />
-      </div>
+      </Card>
 
       {RESOURCES.map((r) => {
         const value = state ? state[r.key]    : null
         const gain  = state ? state[r.gainKey] : null
         return (
-          <div key={r.key} className="resource-card" onClick={() => setExpanded(false)}>
+          <Card
+            key={r.key}
+            label={r.label}
+            color={r.color}
+            barWidth={resourceBarWidth(value, gain)}
+            onClick={collapse}
+          >
             <span className="resource-value" style={{ color: r.color }}>
               <span className="resource-value-main">{value ?? '—'}</span>
               {gain !== null && (
@@ -119,32 +156,24 @@ export default function ResourceOverlay({ state }: Props) {
                 </>
               )}
             </span>
-            <span className="resource-label">{r.label}</span>
-            <div
-              className="resource-bar"
-              style={{ background: r.color, width: resourceBarWidth(value, gain) }}
-            />
-          </div>
+          </Card>
         )
       })}
 
-      {(() => {
-        const bar = builtCount !== null ? fieldsBarProps(builtCount, totalFields) : null
-        return (
-          <div className="resource-card" onClick={() => setExpanded(false)}>
-            <span className="resource-value" style={{ color: 'var(--color-fields)' }}>
-              <span className="resource-value-main" style={{ color: fieldsColor }}>{builtCount ?? '—'}</span>
-              <span className="resource-value-sep">/</span>
-              <span className="resource-value-gain">{totalFields}</span>
-            </span>
-            <span className="resource-label">Felder</span>
-            <div
-              className="resource-bar"
-              style={{ background: bar?.color ?? 'var(--color-fields)', width: bar?.width ?? '0%' }}
-            />
-          </div>
-        )
-      })()}
+      <Card
+        label="Felder"
+        color="var(--color-fields)"
+        barWidth={fBarWidth}
+        barColor={fAccent}
+        onClick={collapse}
+      >
+        <span className="resource-value" style={{ color: 'var(--color-fields)' }}>
+          <span className="resource-value-main" style={{ color: fAccent }}>{builtCount ?? '—'}</span>
+          <span className="resource-value-sep">/</span>
+          <span className="resource-value-gain">{totalFields}</span>
+        </span>
+      </Card>
+
     </div>
   )
 }
