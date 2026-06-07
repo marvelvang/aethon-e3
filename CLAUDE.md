@@ -123,29 +123,33 @@ Das Frontend wird automatisch auf Cloudflare Pages deployed. Projekt: **`aethon-
 - Produktion (main): `https://aethon-e3.pages.dev`
 - Branch-Previews: hash-basierte URL, die Cloudflare bei jedem Deployment vergibt
 
-**Pflicht nach jedem Push:** Die URL per Cloudflare API abfragen und als klickbaren Link ausgeben.
+**Wie die URL abgerufen wird:**
+Ein GitHub Actions Workflow (`.github/workflows/cloudflare-preview-url.yml`) läuft nach
+jedem Push auf `claude/**`-Branches automatisch. Er pollt die Cloudflare API und gibt
+die URL als `CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus.
 
-Benötigte Umgebungsvariablen (in Claude Code Web Session Settings hinterlegt):
-- `CLOUDFLARE_API_TOKEN` – read-only API Token (Pages:Read)
+**Ablauf nach jedem Push auf einen `claude/**`-Branch:**
+1. Sofort nach dem Push: Workflow-Run per MCP suchen und Log lesen:
+   ```
+   mcp__github__actions_list → neuesten Run für diesen Branch finden
+   mcp__github__get_job_logs → Log auf "CLOUDFLARE_PREVIEW_URL=" prüfen
+   ```
+2. Wenn URL im Log gefunden → als klickbaren Link ausgeben:
+   ```
+   Preview: [https://xxxx.aethon-e3.pages.dev](https://xxxx.aethon-e3.pages.dev) *(Build läuft noch ~1–2 Min)*
+   ```
+3. Wenn Workflow noch läuft (Log noch leer) → ausgeben:
+   ```
+   Deployment gestartet. Schreib "URL" und ich hole die Preview-URL sobald der Workflow fertig ist.
+   ```
+
+**Kurzbefehl "URL":** Schreibt der User nur das Wort `URL`, sofort Workflow-Log des
+letzten Runs für den aktuellen Branch per MCP lesen und die Preview-URL ausgeben.
+
+**Voraussetzung (einmalig durch den User im GitHub Repo einzurichten):**
+Repository Settings → Secrets → Actions → zwei Secrets:
+- `CLOUDFLARE_API_TOKEN` – read-only API Token (Account / Cloudflare Pages / Read)
 - `CLOUDFLARE_ACCOUNT_ID` – Cloudflare Account ID
-
-**Befehl nach jedem Push ausführen:**
-```bash
-BRANCH=$(git branch --show-current) && \
-sleep 5 && \
-curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-  "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/aethon-e3/deployments" \
-  | jq -r --arg b "$BRANCH" \
-  '[.result[] | select(.deployment_trigger.metadata.branch == $b)] | sort_by(.created_on) | last | .url'
-```
-
-Die URL als Markdown-Link ausgeben:
-```
-Preview: [https://xxxx.aethon-e3.pages.dev](https://xxxx.aethon-e3.pages.dev) *(Build läuft noch ~1–2 Min)*
-```
-
-Falls `CLOUDFLARE_API_TOKEN` oder `CLOUDFLARE_ACCOUNT_ID` nicht gesetzt sind, Hinweis ausgeben
-dass die Env-Variablen fehlen – keine URL erfinden.
 
 ## Umgebungs-Setup (SessionStart-Hook)
 
