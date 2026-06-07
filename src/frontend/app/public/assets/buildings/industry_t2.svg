@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BiFab – Industry Tier 2 (Master SVG, 4× tile resolution)
+  ─────────────────────────────────────────────────────────
+  Tile: 64×32 px at 1× → SVG: 256×308 px (4×)
+  Anchor: sprite.anchor.set(0.5, 178/308)
+  Scale:  sprite.scale.set(64/256)
+
+  Concept: Two reactor glass panels on the lower block's right face
+  (instead of one large panel in Tier 1). An additional narrow
+  processing spire (±24) sits on the upper block roof. More visible
+  lila energy conduit lines running along block edges. Two emitter
+  nodes on the roof ring instead of one. Conveys higher throughput.
+
+  Geometry:
+    Foundation    hz 0→24    footprint ±128
+    Lower block   hz 24→80   footprint ±88
+    Upper block   hz 80→128  footprint ±56
+    Spire         hz 128→160 footprint ±24
+    Roof emitter  above hz 128
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation: very dark gunmetal -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#3c3c44"/>
+      <stop offset="100%" stop-color="#1c1c22"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#14141a"/>
+      <stop offset="100%" stop-color="#080810"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#4e4e58"/>
+      <stop offset="100%" stop-color="#2c2c34"/>
+    </linearGradient>
+
+    <!-- Lower block: silver-platinum -->
+    <linearGradient id="lR" gradientUnits="userSpaceOnUse" x1="88" y1="0" x2="0" y2="-56">
+      <stop offset="0%"   stop-color="#c0c4cc"/>
+      <stop offset="40%"  stop-color="#909098"/>
+      <stop offset="100%" stop-color="#606068"/>
+    </linearGradient>
+    <linearGradient id="lL" gradientUnits="userSpaceOnUse" x1="-88" y1="0" x2="0" y2="-56">
+      <stop offset="0%"   stop-color="#282830"/>
+      <stop offset="100%" stop-color="#141418"/>
+    </linearGradient>
+    <linearGradient id="lT" gradientUnits="userSpaceOnUse" x1="0" y1="-80" x2="0" y2="-24">
+      <stop offset="0%"   stop-color="#d8dce4"/>
+      <stop offset="100%" stop-color="#a0a4ac"/>
+    </linearGradient>
+
+    <!-- Upper block: lighter platinum -->
+    <linearGradient id="uR" gradientUnits="userSpaceOnUse" x1="56" y1="-44" x2="0" y2="-100">
+      <stop offset="0%"   stop-color="#d4d8e0"/>
+      <stop offset="40%"  stop-color="#a8acb4"/>
+      <stop offset="100%" stop-color="#78788a"/>
+    </linearGradient>
+    <linearGradient id="uL" gradientUnits="userSpaceOnUse" x1="-56" y1="-44" x2="0" y2="-100">
+      <stop offset="0%"   stop-color="#303038"/>
+      <stop offset="100%" stop-color="#18181e"/>
+    </linearGradient>
+    <linearGradient id="uT" gradientUnits="userSpaceOnUse" x1="0" y1="-128" x2="0" y2="-72">
+      <stop offset="0%"   stop-color="#e8eaf0"/>
+      <stop offset="100%" stop-color="#b8bac4"/>
+    </linearGradient>
+
+    <!-- Processing spire: dark metal -->
+    <linearGradient id="spR" gradientUnits="userSpaceOnUse" x1="24" y1="-128" x2="0" y2="-160">
+      <stop offset="0%"   stop-color="#b0b4bc"/>
+      <stop offset="100%" stop-color="#707078"/>
+    </linearGradient>
+    <linearGradient id="spL" gradientUnits="userSpaceOnUse" x1="-24" y1="-128" x2="0" y2="-160">
+      <stop offset="0%"   stop-color="#242428"/>
+      <stop offset="100%" stop-color="#101012"/>
+    </linearGradient>
+    <linearGradient id="spT" gradientUnits="userSpaceOnUse" x1="0" y1="-160" x2="0" y2="-128">
+      <stop offset="0%"   stop-color="#d0d4dc"/>
+      <stop offset="100%" stop-color="#909098"/>
+    </linearGradient>
+
+    <!-- Reactor panel: glowing core -->
+    <radialGradient id="reactor" cx="40%" cy="35%" r="65%">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="20%"  stop-color="#cc88ff"/>
+      <stop offset="55%"  stop-color="#7722cc"/>
+      <stop offset="85%"  stop-color="#330066"/>
+      <stop offset="100%" stop-color="#110022"/>
+    </radialGradient>
+    <radialGradient id="reactorDim" cx="40%" cy="35%" r="65%">
+      <stop offset="0%"   stop-color="#553388"/>
+      <stop offset="25%"  stop-color="#442266"/>
+      <stop offset="60%"  stop-color="#220044"/>
+      <stop offset="90%"  stop-color="#110022"/>
+      <stop offset="100%" stop-color="#06000c"/>
+    </radialGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="coreglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══ FOUNDATION  hz 0→24  (±128) ══ -->
+  <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#3a3a44" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#4e4e5a" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#4e4e5a" stroke-width="1.5"/>
+
+  <!-- ══ LOWER BLOCK  hz 24→80  (±88) ══ -->
+  <g transform="translate(0, 20)">
+  <polygon points="-88,20 0,64 0,8 -88,-36"   fill="url(#lL)" stroke="#2a2a34" stroke-width="1.5"/>
+  <line x1="-88" y1="20" x2="-88" y2="-36" stroke="#181820" stroke-width="3" opacity="0.6"/>
+
+  <!-- Left face: dim shadow mirror of two reactor panels -->
+  <polygon points="-78,16 -58,26 -58,-2 -78,-12"  fill="#06000c" stroke="#2a1144" stroke-width="1.5"/>
+  <polygon points="-76,14 -60,23 -60,0 -76,-10"   fill="url(#reactorDim)" opacity="0.75"/>
+  <polygon points="-50,22 -30,32 -30,4 -50,-6"    fill="#06000c" stroke="#2a1144" stroke-width="1.5"/>
+  <polygon points="-48,20 -32,30 -32,6 -48,-4"    fill="url(#reactorDim)" opacity="0.75"/>
+
+  <!-- Left: two small tech indicator dots (dim) -->
+  <circle cx="-22" cy="40" r="2.5" fill="#553388" opacity="0.5"/>
+  <circle cx="-14" cy="44" r="2"   fill="#3a1a5a" opacity="0.4"/>
+
+  <!-- Energy conduits left (dim) -->
+  <line x1="-88" y1="20"  x2="-88" y2="-36" stroke="#6622aa" stroke-width="1.5" opacity="0.25"/>
+  <line x1="-68" y1="0"   x2="-60" y2="-36" stroke="#4a1488" stroke-width="1"   opacity="0.2"/>
+
+  <polygon points="88,20 0,64 0,8 88,-36"     fill="url(#lR)" stroke="#9898a8" stroke-width="1.5"/>
+  <line x1="88" y1="20" x2="88" y2="-36" stroke="#d0d0e0" stroke-width="3" opacity="0.65"/>
+
+  <!-- Right face: TWO reactor glass panels (main feature, T2 upgrade) -->
+  <!-- Reactor panel 1 (outer, larger) -->
+  <polygon points="78,16 58,26 58,-2 78,-12"  fill="#0a0014" stroke="#6622aa" stroke-width="2"/>
+  <polygon points="76,14 60,23 60,0 76,-10"   fill="url(#reactor)" opacity="0.92"/>
+  <polygon points="78,16 58,26 58,-2 78,-12"  fill="#cc44ff" opacity="0.09" filter="url(#coreglow)"/>
+
+  <!-- Reactor panel 2 (inner, smaller) -->
+  <polygon points="50,22 30,32 30,4 50,-6"    fill="#0a0014" stroke="#5522aa" stroke-width="2"/>
+  <polygon points="48,20 32,30 32,6 48,-4"    fill="url(#reactor)" opacity="0.88"/>
+  <polygon points="50,22 30,32 30,4 50,-6"    fill="#cc44ff" opacity="0.07" filter="url(#coreglow)"/>
+
+  <!-- Right: tech indicator dots (lit) -->
+  <circle cx="22" cy="40" r="2.5" fill="#cc44ff" filter="url(#glow)"/>
+  <circle cx="14" cy="44" r="2"   fill="#aa44ff" opacity="0.7"/>
+
+  <!-- Energy conduits right (lit) – running up the edge -->
+  <line x1="88"  y1="20"  x2="88"  y2="-36" stroke="#cc44ff" stroke-width="2"   opacity="0.4"/>
+  <line x1="68"  y1="0"   x2="60"  y2="-36" stroke="#aa33cc" stroke-width="1.2" opacity="0.35"/>
+
+  <!-- Lower block top face -->
+  <polygon points="0,-80 88,-36 0,8 -88,-36"    fill="url(#lT)" stroke="#9898a8" stroke-width="1.5"/>
+  <line x1="0" y1="-80" x2="0" y2="8"         stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
+  <line x1="-88" y1="-36" x2="88" y2="-36"    stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
+
+  <circle cx="88"  cy="-36" r="5" fill="#cc44ff" filter="url(#glow)"/>
+  <circle cx="-88" cy="-36" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="8"   r="5" fill="#cc44ff" filter="url(#glow)"/>
+  </g>
+
+  <!-- ══ UPPER BLOCK  hz 80→128  (±56) ══ -->
+  <g transform="translate(0, 28)">
+  <polygon points="-56,-44 0,-16 0,-72 -56,-100"  fill="url(#uL)" stroke="#202028" stroke-width="1.5"/>
+  <line x1="-56" y1="-44" x2="-56" y2="-100" stroke="#181820" stroke-width="2.5" opacity="0.55"/>
+
+  <!-- Upper left: dim precision windows -->
+  <polygon points="-46.7,-53.3 -30.7,-45.3 -30.7,-59.3 -46.7,-67.3"  fill="#06000c" stroke="#2a1144" stroke-width="1.5"/>
+  <polygon points="-44.7,-55.3 -32.7,-47.3 -32.7,-57.3 -44.7,-65.3"  fill="url(#reactorDim)" opacity="0.75"/>
+  <polygon points="-21.3,-40.7 -9.3,-34.7 -9.3,-48.7 -21.3,-54.7"    fill="#06000f" stroke="#2a1144" stroke-width="1.5"/>
+  <circle cx="-15.3" cy="-44.7" r="3" fill="#553388" opacity="0.5"/>
+
+  <!-- Energy conduit on left edge (dim) -->
+  <line x1="-56" y1="-44"  x2="-56" y2="-100" stroke="#7722aa" stroke-width="1.5" opacity="0.3"/>
+
+  <polygon points="56,-44 0,-16 0,-72 56,-100"   fill="url(#uR)" stroke="#b0b0c4" stroke-width="1.5"/>
+  <line x1="56" y1="-44" x2="56" y2="-100" stroke="#d8d8e8" stroke-width="2.5" opacity="0.65"/>
+
+  <!-- Upper right: precision windows (lit) -->
+  <polygon points="46.7,-53.3 30.7,-45.3 30.7,-59.3 46.7,-67.3"  fill="#0a0014" stroke="#6622aa" stroke-width="1.5"/>
+  <polygon points="44.7,-55.3 32.7,-47.3 32.7,-57.3 44.7,-65.3"  fill="url(#reactor)" opacity="0.85"/>
+  <polygon points="46.7,-53.3 30.7,-45.3 30.7,-59.3 46.7,-67.3"  fill="#cc44ff" opacity="0.06" filter="url(#coreglow)"/>
+  <polygon points="21.3,-40.7 9.3,-34.7 9.3,-48.7 21.3,-54.7"    fill="#0a0018" stroke="#5522aa" stroke-width="1.5"/>
+  <circle cx="15.3" cy="-44.7" r="3" fill="#bb44ff" filter="url(#glow)"/>
+
+  <!-- Energy conduit on right edge (lit) -->
+  <line x1="56"  y1="-44"  x2="56"  y2="-100" stroke="#cc44ff" stroke-width="2"   opacity="0.4"/>
+
+  <!-- Energy ring band at hz≈112 -->
+  <polyline points="56,-86 0,-58 -56,-86" stroke="#cc44ff" stroke-width="2" fill="none" opacity="0.55"/>
+
+  <!-- Upper block top face -->
+  <polygon points="0,-128 56,-100 0,-72 -56,-100"  fill="url(#uT)" stroke="#b0b0c4" stroke-width="1.5"/>
+  <line x1="0" y1="-128" x2="0" y2="-72"       stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
+  <line x1="-56" y1="-100" x2="56" y2="-100"   stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
+
+  <circle cx="56"  cy="-100" r="5" fill="#cc44ff" filter="url(#glow)"/>
+  <circle cx="-56" cy="-100" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-72"  r="5" fill="#cc44ff" filter="url(#glow)"/>
+
+  <!-- ══ PROCESSING SPIRE  hz 128→160  (±24) ══ -->
+  <g transform="translate(0, 28)">
+  <polygon points="-24,-100 0,-88 0,-128 -24,-140"  fill="url(#spL)" stroke="#181820" stroke-width="1.2"/>
+  <polygon points="24,-100 0,-88 0,-128 24,-140"    fill="url(#spR)" stroke="#a0a0b0" stroke-width="1.2"/>
+  <polygon points="0,-148 24,-140 0,-128 -24,-140"  fill="url(#spT)" stroke="#a0a0b0" stroke-width="1.2"/>
+
+  <!-- Spire: energy conduit lines -->
+  <line x1="24"  y1="-100" x2="24"  y2="-140" stroke="#cc44ff" stroke-width="1.5" opacity="0.5"/>
+  <line x1="-24" y1="-100" x2="-24" y2="-140" stroke="#7722aa" stroke-width="1.2" opacity="0.3"/>
+  <line x1="24"  y1="-120" x2="-24" y2="-120" stroke="#cc44ff" stroke-width="1"   opacity="0.35"/>
+
+  <!-- Spire corner lights -->
+  <circle cx="24"  cy="-140" r="4" fill="#cc44ff" filter="url(#glow)"/>
+  <circle cx="-24" cy="-140" r="4" fill="#cc44ff" filter="url(#glow)" opacity="0.55"/>
+  <circle cx="0"   cy="-128" r="4" fill="#cc44ff" filter="url(#glow)"/>
+
+  <!-- ══ ROOFTOP: DUAL QUANTUM EMITTER ══ -->
+  <!-- Outer ring (wider than T1) -->
+  <ellipse cx="0" cy="-148" rx="30" ry="15" fill="none" stroke="#cc44ff" stroke-width="2"   opacity="0.7"/>
+  <ellipse cx="0" cy="-148" rx="30" ry="15" fill="none" stroke="#ff88ff" stroke-width="6"   opacity="0.12" filter="url(#softglow)"/>
+  <!-- Inner ring -->
+  <ellipse cx="0" cy="-148" rx="14" ry="7"  fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.55"/>
+
+  <!-- Two emitter nodes (T2: dual instead of single) -->
+  <circle cx="-14" cy="-148" r="5"  fill="#cc44ff" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="14"  cy="-148" r="5"  fill="#cc44ff" opacity="0.9" filter="url(#glow)"/>
+  <!-- Connector between nodes -->
+  <line x1="-14" y1="-148" x2="14" y2="-148" stroke="#cc44ff" stroke-width="2" opacity="0.6"/>
+
+  <!-- Energy spire apex -->
+  <line x1="0" y1="-155" x2="0" y2="-174" stroke="#aa33dd" stroke-width="2.5"/>
+  <line x1="0" y1="-155" x2="0" y2="-174" stroke="#ff88ff" stroke-width="1"   opacity="0.65"/>
+  <line x1="-14" y1="-163" x2="14" y2="-163" stroke="#cc44ff" stroke-width="2"/>
+  <line x1="-8"  y1="-170" x2="8"  y2="-170" stroke="#cc44ff" stroke-width="1.5"/>
+
+  <circle cx="0" cy="-174" r="9"   fill="#cc44ff" opacity="0.12" filter="url(#softglow)"/>
+  <circle cx="0" cy="-174" r="5"   fill="#cc44ff" opacity="0.7"  filter="url(#glow)"/>
+  <circle cx="0" cy="-174" r="2.5" fill="#ffffff"/>
+  </g>
+  </g>
+</svg>

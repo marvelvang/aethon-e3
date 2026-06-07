@@ -20,7 +20,6 @@ ipch/
 TestResults/
 [Bb]uild/
 [Dd]ebug*/
-!src/frontend/src/shared/DebugConsole/
 [Rr]elease*/
 x64/
 x86/

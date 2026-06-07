@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  DualOrbit – Power Plant Tier 2 (Master SVG, 4× tile resolution)
+  ────────────────────────────────────────────────────────────────
+  Tile: 64×32 px at 1× → SVG: 256×308 px (4×)
+  Anchor: sprite.anchor.set(0.5, 178/308)
+  Scale:  sprite.scale.set(64/256)
+
+  Concept: Taller base unit (hz 24→72 instead of 24→56). On the roof
+  a raised hexagonal relay platform with two upward-facing dishes.
+  The four ground dishes remain and now converge their beams to the
+  relay platform first; from there two secondary beams rise to a
+  larger receiver sphere surrounded by an orbital ring ellipse.
+  Communicates improved beam-focusing / higher energy yield.
+
+  Geometry:
+    Foundation    hz 0→24    footprint ±128
+    Base unit     hz 24→72   footprint ±88  (taller than T1)
+    Relay ring    hz 72→88   footprint ±32  (hexagonal platform top)
+    Relay pillar  hz 72→80   footprint ±8   (center pillar)
+    Sphere        (0, −142)  r=16
+    Orbital ring  ellipse rx=28, ry=10 around sphere
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+
+    <!-- Foundation: dark blue-gray -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#2c3c54"/>
+      <stop offset="100%" stop-color="#141e30"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#0c1018"/>
+      <stop offset="100%" stop-color="#080c14"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#3c5070"/>
+      <stop offset="100%" stop-color="#1e2e48"/>
+    </linearGradient>
+
+    <!-- Base unit: steel-blue, taller than T1 -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#4a6080"/>
+      <stop offset="60%"  stop-color="#304858"/>
+      <stop offset="100%" stop-color="#1e3048"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#182030"/>
+      <stop offset="100%" stop-color="#0a1018"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-72" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#587090"/>
+      <stop offset="100%" stop-color="#3a5070"/>
+    </linearGradient>
+
+    <!-- Relay platform: brighter blue-steel -->
+    <linearGradient id="rpR" gradientUnits="userSpaceOnUse" x1="32" y1="-72" x2="0" y2="-88">
+      <stop offset="0%"   stop-color="#6888b0"/>
+      <stop offset="100%" stop-color="#3a5880"/>
+    </linearGradient>
+    <linearGradient id="rpL" gradientUnits="userSpaceOnUse" x1="-32" y1="-72" x2="0" y2="-88">
+      <stop offset="0%"   stop-color="#1e2c44"/>
+      <stop offset="100%" stop-color="#101824"/>
+    </linearGradient>
+    <linearGradient id="rpT" gradientUnits="userSpaceOnUse" x1="0" y1="-88" x2="0" y2="-72">
+      <stop offset="0%"   stop-color="#7898c8"/>
+      <stop offset="100%" stop-color="#4a6898"/>
+    </linearGradient>
+
+    <!-- Dish: bläulich-grau -->
+    <radialGradient id="dishFaceR" cx="35%" cy="35%" r="70%">
+      <stop offset="0%"   stop-color="#7090c0"/>
+      <stop offset="60%"  stop-color="#3a5080"/>
+      <stop offset="100%" stop-color="#1a2840"/>
+    </radialGradient>
+    <radialGradient id="dishFaceL" cx="35%" cy="35%" r="70%">
+      <stop offset="0%"   stop-color="#304060"/>
+      <stop offset="100%" stop-color="#141e30"/>
+    </radialGradient>
+
+    <filter id="beamglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="sphereglow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="orbitglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══ FOUNDATION  hz 0→24  (±128) ══ -->
+  <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#1a2438" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#2a3c58" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#2a3c58" stroke-width="1.5"/>
+
+  <!-- ══ BASE UNIT  hz 24→72  (±88, TALLER than T1) ══
+       In translate(0,36): left/right faces now hz 0→48 instead of 0→32 -->
+  <g transform="translate(0, 36)">
+  <polygon points="-88,4 0,48 0,-32 -88,-76"   fill="url(#bL)" stroke="#1a2a3a" stroke-width="1.5"/>
+  <polygon points="88,4 0,48 0,-32 88,-76"     fill="url(#bR)" stroke="#3a5878" stroke-width="1.5"/>
+  <polygon points="0,-120 88,-76 0,-32 -88,-76"  fill="url(#bT)" stroke="#3a5878" stroke-width="1.5"/>
+
+  <!-- Ventilation slots right (4 rows, taller block) -->
+  <line x1="88"  y1="4"   x2="88"   y2="-76" stroke="#5080b0" stroke-width="2"   opacity="0.55"/>
+  <line x1="66"  y1="7"   x2="22"   y2="29"  stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="66"  y1="-5"  x2="22"   y2="17"  stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="66"  y1="-17" x2="22"   y2="5"   stroke="#3a6090" stroke-width="1.5" opacity="0.45"/>
+  <line x1="66"  y1="-29" x2="22"   y2="-7"  stroke="#3a6090" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Ventilation slots left (dim) -->
+  <line x1="-88" y1="4"   x2="-88"  y2="-76" stroke="#1a2840" stroke-width="2"   opacity="0.55"/>
+  <line x1="-66" y1="7"   x2="-22"  y2="29"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-66" y1="-5"  x2="-22"  y2="17"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-66" y1="-17" x2="-22"  y2="5"   stroke="#142030" stroke-width="1.5" opacity="0.35"/>
+  <line x1="-66" y1="-29" x2="-22"  y2="-7"  stroke="#142030" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Base unit corner nodes -->
+  <circle cx="88"  cy="-76" r="5" fill="#80b0e0" filter="url(#glow)"/>
+  <circle cx="-88" cy="-76" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-32" r="5" fill="#80b0e0" filter="url(#glow)"/>
+  </g>
+
+  <!-- Base unit SVG-top corners (after translate 36):
+       N(0,−84) E(88,−28) W(−88,−28) S(0,16) -->
+
+  <!-- ══ FOUR GROUND DISHES on base unit top corners ══
+       N(0,−84) E(88,−28) W(−88,−28) S(0,16)
+       Painter order: N, E, W, S -->
+
+  <!-- NORTH dish -->
+  <line x1="0" y1="-84" x2="0" y2="-100" stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="0" cy="-105" rx="14" ry="7"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="0" cy="-105" rx="8"  ry="4"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+  <circle  cx="0" cy="-104" r="3"   fill="white" opacity="0.95" filter="url(#glow)"/>
+
+  <!-- EAST dish -->
+  <line x1="88" y1="-28" x2="80" y2="-44" stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="78" cy="-48" rx="12" ry="6"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="78" cy="-48" rx="7"  ry="3.5"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+  <circle  cx="78" cy="-48" r="2.8" fill="white" opacity="0.92" filter="url(#glow)"/>
+
+  <!-- WEST dish (shadow side) -->
+  <line x1="-88" y1="-28" x2="-80" y2="-44" stroke="#283048" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="-78" cy="-48" rx="12" ry="6"
+           fill="url(#dishFaceL)" stroke="#405070" stroke-width="1.5" opacity="0.85"/>
+  <ellipse cx="-78" cy="-48" rx="7"  ry="3.5"
+           fill="#101826" stroke="#304060" stroke-width="1" opacity="0.85"/>
+  <circle  cx="-78" cy="-48" r="2.8" fill="white" opacity="0.7" filter="url(#glow)"/>
+
+  <!-- SOUTH dish (frontmost) -->
+  <line x1="0" y1="16" x2="0" y2="2" stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="0" cy="-3" rx="14" ry="7"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="0" cy="-3" rx="8"  ry="4"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+  <circle  cx="0" cy="-3" r="3"   fill="white" opacity="0.95" filter="url(#glow)"/>
+
+  <!-- ══ PRIMARY BEAMS: ground dishes → relay platform center (0,−84) ══ -->
+
+  <!-- North beam (very short, direct) -->
+  <path d="M 0,-104 Q 2,-110 0,-120 Q -2,-130 0,-138"
+        stroke="white" stroke-width="3" fill="none" opacity="0.12" filter="url(#beamglow)"/>
+  <path d="M 0,-104 Q 2,-110 0,-120 Q -2,-130 0,-138"
+        stroke="white" stroke-width="1.2" fill="none" opacity="0.70"/>
+
+  <!-- East beam → relay -->
+  <path d="M 78,-48 Q 80,-64 60,-72 Q 40,-78 36,-92 Q 18,-110 0,-120 Q -2,-130 0,-138"
+        stroke="white" stroke-width="3" fill="none" opacity="0.12" filter="url(#beamglow)"/>
+  <path d="M 78,-48 Q 80,-64 60,-72 Q 40,-78 36,-92 Q 18,-110 0,-120 Q -2,-130 0,-138"
+        stroke="white" stroke-width="1.2" fill="none" opacity="0.70"/>
+
+  <!-- West beam → relay (shadow, weaker) -->
+  <path d="M -78,-48 Q -80,-64 -60,-72 Q -40,-78 -36,-92 Q -18,-110 0,-120 Q 2,-130 0,-138"
+        stroke="white" stroke-width="3" fill="none" opacity="0.08" filter="url(#beamglow)"/>
+  <path d="M -78,-48 Q -80,-64 -60,-72 Q -40,-78 -36,-92 Q -18,-110 0,-120 Q 2,-130 0,-138"
+        stroke="white" stroke-width="1.2" fill="none" opacity="0.55"/>
+
+  <!-- South beam → relay (long, frontmost) -->
+  <path d="M 0,-3 Q 6,-15 0,-27 Q -6,-39 0,-51 Q 6,-63 0,-75
+           Q -6,-87 0,-99 Q 4,-114 0,-126 Q -2,-132 0,-138"
+        stroke="white" stroke-width="3" fill="none" opacity="0.12" filter="url(#beamglow)"/>
+  <path d="M 0,-3 Q 6,-15 0,-27 Q -6,-39 0,-51 Q 6,-63 0,-75
+           Q -6,-87 0,-99 Q 4,-114 0,-126 Q -2,-132 0,-138"
+        stroke="white" stroke-width="1.2" fill="none" opacity="0.80"/>
+
+  <!-- ══ RELAY PLATFORM  hz 72→88  centered at (0, −84 to −100) ══ -->
+  <!-- Right face -->
+  <polygon points="32,-84 0,-68 0,-84 32,-100"
+           fill="url(#rpR)" stroke="#5878a8" stroke-width="1.5"/>
+  <!-- Left face (dim) -->
+  <polygon points="-32,-84 0,-68 0,-84 -32,-100"
+           fill="url(#rpL)" stroke="#2a3c5a" stroke-width="1.5" opacity="0.85"/>
+  <!-- Top face -->
+  <polygon points="0,-116 32,-100 0,-84 -32,-100"
+           fill="url(#rpT)" stroke="#5878a8" stroke-width="1.5"/>
+
+  <!-- Platform glow nodes -->
+  <circle cx="32"  cy="-100" r="4" fill="#80b0e0" filter="url(#glow)"/>
+  <circle cx="-32" cy="-100" r="4" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-84"  r="4" fill="#80b0e0" filter="url(#glow)"/>
+
+  <!-- Two upward relay dishes on platform top -->
+  <!-- Relay dish L (cx=−16, y=−100) -->
+  <line x1="-16" y1="-108" x2="-16" y2="-118" stroke="#5070a0" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="-16" cy="-122" rx="10" ry="5"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <circle  cx="-16" cy="-121" r="2.5" fill="white" opacity="0.92" filter="url(#glow)"/>
+
+  <!-- Relay dish R (cx=+16, y=−100) -->
+  <line x1="16"  y1="-108" x2="16"  y2="-118" stroke="#5070a0" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="16"  cy="-122" rx="10" ry="5"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <circle  cx="16"  cy="-121" r="2.5" fill="white" opacity="0.92" filter="url(#glow)"/>
+
+  <!-- ══ SECONDARY BEAMS: relay dishes → sphere (0,−155) ══ -->
+  <path d="M -16,-121 Q -10,-132 0,-142"
+        stroke="white" stroke-width="2.5" fill="none" opacity="0.18" filter="url(#beamglow)"/>
+  <path d="M -16,-121 Q -10,-132 0,-142"
+        stroke="white" stroke-width="1.2" fill="none" opacity="0.80"/>
+
+  <path d="M 16,-121 Q 10,-132 0,-142"
+        stroke="white" stroke-width="2.5" fill="none" opacity="0.18" filter="url(#beamglow)"/>
+  <path d="M 16,-121 Q 10,-132 0,-142"
+        stroke="white" stroke-width="1.2" fill="none" opacity="0.80"/>
+
+  <!-- ══ ORBITAL RING around sphere ══ -->
+  <!-- Back half of orbit (rendered before sphere) -->
+  <ellipse cx="0" cy="-155" rx="28" ry="9"
+           fill="none" stroke="white" stroke-width="1.5" opacity="0.50"
+           stroke-dasharray="4 3"/>
+  <ellipse cx="0" cy="-155" rx="28" ry="9"
+           fill="none" stroke="white" stroke-width="3"   opacity="0.08" filter="url(#orbitglow)"/>
+
+  <!-- ══ RECEIVER SPHERE  (0, −155), larger than T1 ══ -->
+  <circle cx="0" cy="-155" r="32" fill="white" opacity="0.05" filter="url(#sphereglow)"/>
+  <circle cx="0" cy="-155" r="22" fill="white" opacity="0.10" filter="url(#glow)"/>
+  <circle cx="0" cy="-155" r="15" fill="white" opacity="0.88"/>
+  <circle cx="-5" cy="-160" r="6"  fill="white" opacity="0.95"/>
+  <circle cx="0"  cy="-155" r="7"  fill="white"/>
+
+  <!-- Front half of orbit (rendered after sphere) -->
+  <path d="M -28,-155 A 28,9 0 0,0 28,-155"
+        fill="none" stroke="white" stroke-width="1.5" opacity="0.65"
+        stroke-dasharray="4 3"/>
+  <path d="M -28,-155 A 28,9 0 0,0 28,-155"
+        fill="none" stroke="white" stroke-width="3"   opacity="0.10" filter="url(#orbitglow)"/>
+
+</svg>

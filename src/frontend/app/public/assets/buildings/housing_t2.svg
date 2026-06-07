@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TriRise – Housing Tier 2 (Master SVG, 4× tile resolution)
+  ──────────────────────────────────────────────────────────
+  Tile: 64×32 px at 1× → SVG: 256×308 px (4×)
+  Anchor: sprite.anchor.set(0.5, 178/308)
+  Scale:  sprite.scale.set(64/256)
+
+  Concept: Three equal-width stepped blocks (±72 each) instead of
+  Tier-1's two asymmetric blocks. More uniform, modern, planned-city
+  feel. Floor-to-ceiling glass strips replace individual window panels.
+  Rooftop greenhouse dome signals higher habitability rating.
+
+  Geometry:
+    Foundation  hz 0→24   footprint ±128  (full tile)
+    Block A     hz 24→72  footprint ±72   (lower residential)
+    Block B     hz 72→116 footprint ±72   (middle residential)
+    Block C     hz 116→142 footprint ±48  (upper penthouse)
+    Greenhouse  hz 142→160 footprint ±28
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- Foundation -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#8a3818"/>
+      <stop offset="100%" stop-color="#4a1c0c"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#2a1008"/>
+      <stop offset="100%" stop-color="#100604"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#b04820"/>
+      <stop offset="100%" stop-color="#7a3010"/>
+    </linearGradient>
+
+    <!-- Block A – lower (hz 24→72, ±72) -->
+    <linearGradient id="aR" gradientUnits="userSpaceOnUse" x1="72" y1="0" x2="0" y2="-48">
+      <stop offset="0%"   stop-color="#d06030"/>
+      <stop offset="60%"  stop-color="#9a4020"/>
+      <stop offset="100%" stop-color="#602a10"/>
+    </linearGradient>
+    <linearGradient id="aL" gradientUnits="userSpaceOnUse" x1="-72" y1="0" x2="0" y2="-48">
+      <stop offset="0%"   stop-color="#3a1208"/>
+      <stop offset="100%" stop-color="#120604"/>
+    </linearGradient>
+    <linearGradient id="aT" gradientUnits="userSpaceOnUse" x1="0" y1="-72" x2="0" y2="-8">
+      <stop offset="0%"   stop-color="#e87038"/>
+      <stop offset="100%" stop-color="#b05028"/>
+    </linearGradient>
+
+    <!-- Block B – middle (hz 72→116, ±72) – same width as A -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="72" y1="-48" x2="0" y2="-96">
+      <stop offset="0%"   stop-color="#d86830"/>
+      <stop offset="60%"  stop-color="#a84a20"/>
+      <stop offset="100%" stop-color="#703010"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-72" y1="-48" x2="0" y2="-96">
+      <stop offset="0%"   stop-color="#2e0e04"/>
+      <stop offset="100%" stop-color="#0c0402"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-116" x2="0" y2="-60">
+      <stop offset="0%"   stop-color="#f07840"/>
+      <stop offset="100%" stop-color="#c05a28"/>
+    </linearGradient>
+
+    <!-- Block C – penthouse (hz 116→142, ±48) -->
+    <linearGradient id="cR" gradientUnits="userSpaceOnUse" x1="48" y1="-92" x2="0" y2="-118">
+      <stop offset="0%"   stop-color="#e07840"/>
+      <stop offset="100%" stop-color="#b05828"/>
+    </linearGradient>
+    <linearGradient id="cL" gradientUnits="userSpaceOnUse" x1="-48" y1="-92" x2="0" y2="-118">
+      <stop offset="0%"   stop-color="#280c02"/>
+      <stop offset="100%" stop-color="#0a0402"/>
+    </linearGradient>
+    <linearGradient id="cT" gradientUnits="userSpaceOnUse" x1="0" y1="-142" x2="0" y2="-110">
+      <stop offset="0%"   stop-color="#f88050"/>
+      <stop offset="100%" stop-color="#d06030"/>
+    </linearGradient>
+
+    <!-- Glass strip – lit (right face) -->
+    <linearGradient id="glassR" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1" gradientTransform="rotate(90)">
+      <stop offset="0%"   stop-color="#fff8d0" stop-opacity="0.95"/>
+      <stop offset="40%"  stop-color="#ffdd66" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#cc8800" stop-opacity="0.70"/>
+    </linearGradient>
+    <!-- Glass strip – shadow (left face) -->
+    <linearGradient id="glassL" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1" gradientTransform="rotate(90)">
+      <stop offset="0%"   stop-color="#ddaa44" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#664400" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <!-- Greenhouse glass dome -->
+    <radialGradient id="domeTop" cx="40%" cy="30%" r="65%">
+      <stop offset="0%"   stop-color="#ccffcc" stop-opacity="0.85"/>
+      <stop offset="50%"  stop-color="#66cc66" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#228822" stop-opacity="0.30"/>
+    </radialGradient>
+    <radialGradient id="domeSide" cx="35%" cy="40%" r="70%">
+      <stop offset="0%"   stop-color="#99ee99" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#115511" stop-opacity="0.20"/>
+    </radialGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="greenglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══ FOUNDATION  hz 0→24  (±128) ══ -->
+  <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#cc5500" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#cc5500" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- ══ BLOCK A  hz 24→72  (±72) ══ -->
+  <g transform="translate(0, 20)">
+
+  <!-- Left face -->
+  <polygon points="-72,16 0,52 0,4 -72,-32"  fill="url(#aL)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="-72" y1="16" x2="-72" y2="-32" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
+
+  <!-- Left face glass strips (3 vertical bands, dim) -->
+  <polygon points="-60,10.5  -48,16.5  -48,-1.5  -60,-7.5"   fill="url(#glassL)" opacity="0.55" stroke="#884400" stroke-width="0.8"/>
+  <polygon points="-34,22.5  -22,28.5  -22,10.5  -34,4.5"    fill="url(#glassL)" opacity="0.55" stroke="#884400" stroke-width="0.8"/>
+  <polygon points="-8,34.5   4,40.5    4,22.5   -8,16.5"     fill="url(#glassL)" opacity="0.55" stroke="#884400" stroke-width="0.8"/>
+
+  <!-- Right face -->
+  <polygon points="72,16 0,52 0,4 72,-32"    fill="url(#aR)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="72" y1="16" x2="72" y2="-32" stroke="#e07030" stroke-width="2" opacity="0.6"/>
+
+  <!-- Right face glass strips (3 vertical bands, lit) -->
+  <polygon points="60,10.5  48,16.5  48,-1.5  60,-7.5"    fill="url(#glassR)" stroke="#ffaa00" stroke-width="1"/>
+  <polygon points="34,22.5  22,28.5  22,10.5  34,4.5"     fill="url(#glassR)" stroke="#ffaa00" stroke-width="1"/>
+  <polygon points="8,34.5  -4,40.5  -4,22.5  8,16.5"      fill="url(#glassR)" stroke="#ffaa00" stroke-width="1"/>
+
+  <!-- Block A top face -->
+  <polygon points="0,-68 72,-32 0,4 -72,-32"  fill="url(#aT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- Horizontal belt at top of block A (terrace ledge) -->
+  <line x1="72"  y1="-32" x2="0"   y2="-68" stroke="#ff8c00" stroke-width="2"   opacity="0.7"/>
+  <line x1="-72" y1="-32" x2="0"   y2="-68" stroke="#aa4400" stroke-width="1.5" opacity="0.35"/>
+  <line x1="72"  y1="-32" x2="-72" y2="-32" stroke="#cc6600" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Terrace corner lights -->
+  <circle cx="72"  cy="-32" r="5" fill="#ffaa00" filter="url(#glow)"/>
+  <circle cx="-72" cy="-32" r="5" fill="#ff8c00" filter="url(#glow)" opacity="0.65"/>
+  <circle cx="0"   cy="4"   r="5" fill="#ffaa00" filter="url(#glow)"/>
+
+  </g>
+
+  <!-- ══ BLOCK B  hz 72→116  (±72) same width as A ══ -->
+  <g transform="translate(0, 20)">
+
+  <!-- Left face -->
+  <polygon points="-72,-32 0,-4 0,-48 -72,-76"  fill="url(#bL)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="-72" y1="-32" x2="-72" y2="-76" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
+
+  <!-- Left face glass strips (2 bands, dim) -->
+  <polygon points="-60,-36.5 -48,-30.5 -48,-47.5 -60,-53.5"  fill="url(#glassL)" opacity="0.5" stroke="#884400" stroke-width="0.8"/>
+  <polygon points="-28,-21.5 -16,-15.5 -16,-32.5 -28,-38.5"  fill="url(#glassL)" opacity="0.5" stroke="#884400" stroke-width="0.8"/>
+
+  <!-- Right face -->
+  <polygon points="72,-32 0,-4 0,-48 72,-76"   fill="url(#bR)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="72" y1="-32" x2="72" y2="-76" stroke="#e07030" stroke-width="2" opacity="0.55"/>
+
+  <!-- Right face glass strips (2 bands, lit) -->
+  <polygon points="60,-36.5 48,-30.5 48,-47.5 60,-53.5"  fill="url(#glassR)" stroke="#ffaa00" stroke-width="1"/>
+  <polygon points="28,-21.5 16,-15.5 16,-32.5 28,-38.5"  fill="url(#glassR)" stroke="#ffaa00" stroke-width="1"/>
+
+  <!-- Block B top face -->
+  <polygon points="0,-112 72,-76 0,-48 -72,-76" fill="url(#bT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- Ledge lines at top of B -->
+  <line x1="72"  y1="-76" x2="0"   y2="-112" stroke="#ff8c00" stroke-width="2"   opacity="0.7"/>
+  <line x1="-72" y1="-76" x2="0"   y2="-112" stroke="#aa4400" stroke-width="1.5" opacity="0.35"/>
+  <line x1="72"  y1="-76" x2="-72" y2="-76"  stroke="#cc6600" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Terrace corner lights B -->
+  <circle cx="72"  cy="-76" r="5" fill="#ffaa00" filter="url(#glow)"/>
+  <circle cx="-72" cy="-76" r="5" fill="#ff8c00" filter="url(#glow)" opacity="0.65"/>
+  <circle cx="0"   cy="-48" r="5" fill="#ffaa00" filter="url(#glow)"/>
+
+  </g>
+
+  <!-- ══ BLOCK C  hz 116→142  (±48) penthouse ══ -->
+  <g transform="translate(0, 20)">
+
+  <!-- Left face -->
+  <polygon points="-48,-76 0,-52 0,-86 -48,-110"  fill="url(#cL)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="-48" y1="-76" x2="-48" y2="-110" stroke="#2a0e04" stroke-width="2" opacity="0.5"/>
+
+  <!-- Left: single glass strip (dim) -->
+  <polygon points="-38,-80 -24,-73 -24,-91 -38,-98"  fill="url(#glassL)" opacity="0.45" stroke="#884400" stroke-width="0.8"/>
+
+  <!-- Right face -->
+  <polygon points="48,-76 0,-52 0,-86 48,-110"    fill="url(#cR)" stroke="#cc5500" stroke-width="1.5"/>
+  <line x1="48" y1="-76" x2="48" y2="-110" stroke="#e07030" stroke-width="2" opacity="0.55"/>
+
+  <!-- Right: single glass strip (lit) -->
+  <polygon points="38,-80 24,-73 24,-91 38,-98"  fill="url(#glassR)" stroke="#ffaa00" stroke-width="1"/>
+
+  <!-- Block C top face -->
+  <polygon points="0,-130 48,-110 0,-86 -48,-110"  fill="url(#cT)" stroke="#cc5500" stroke-width="1.5"/>
+
+  <!-- Corner lights C -->
+  <circle cx="48"  cy="-110" r="4" fill="#ffaa00" filter="url(#glow)"/>
+  <circle cx="-48" cy="-110" r="4" fill="#ff8c00" filter="url(#glow)" opacity="0.65"/>
+  <circle cx="0"   cy="-86"  r="4" fill="#ffaa00" filter="url(#glow)"/>
+
+  <!-- ══ GREENHOUSE DOME  hz 142→162  (±28) ══ -->
+  <g transform="translate(0, 20)">
+
+  <!-- Dome right side -->
+  <polygon points="28,-110 0,-96 0,-126 28,-140"
+           fill="url(#domeSide)" stroke="#44aa44" stroke-width="1.2" opacity="0.85"/>
+  <!-- Dome left side -->
+  <polygon points="-28,-110 0,-96 0,-126 -28,-140"
+           fill="#112211" stroke="#226622" stroke-width="1.2" opacity="0.7"/>
+  <!-- Dome top face -->
+  <polygon points="0,-150 28,-140 0,-126 -28,-140"
+           fill="url(#domeTop)" stroke="#44cc44" stroke-width="1.2"/>
+
+  <!-- Green glow from greenhouse -->
+  <polygon points="28,-110 0,-96 0,-126 28,-140"
+           fill="#44ff44" opacity="0.06" filter="url(#greenglow)"/>
+
+  <!-- Greenhouse struts (right) -->
+  <line x1="0"  y1="-150" x2="28"  y2="-110" stroke="#55cc55" stroke-width="1"   opacity="0.55"/>
+  <line x1="0"  y1="-138" x2="28"  y2="-125" stroke="#55cc55" stroke-width="0.8" opacity="0.4"/>
+  <!-- Greenhouse struts (left, dim) -->
+  <line x1="0"  y1="-150" x2="-28" y2="-110" stroke="#225522" stroke-width="1"   opacity="0.45"/>
+  <line x1="0"  y1="-138" x2="-28" y2="-125" stroke="#225522" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Apex grow-light -->
+  <circle cx="0" cy="-150" r="5"  fill="#88ff88" opacity="0.9" filter="url(#greenglow)"/>
+  <circle cx="0" cy="-150" r="10" fill="none"    stroke="#44ff44" stroke-width="1.2" opacity="0.4"/>
+
+  </g>
+  </g>
+</svg>
