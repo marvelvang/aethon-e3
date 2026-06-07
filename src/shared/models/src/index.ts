@@ -6,6 +6,14 @@ export type BuildingType = (typeof BUILDING_TYPES)[number]
 export const GAME_RESULTS = ['None', 'Win', 'Loss'] as const
 export type GameResult = (typeof GAME_RESULTS)[number]
 
+export const RESEARCH_BRANCHES = ['Housing', 'Consumer', 'Industry', 'Energy'] as const
+export type ResearchBranch = (typeof RESEARCH_BRANCHES)[number]
+
+export interface ResearchBranchProgress {
+  level: 0 | 1 | 2 | 3 | 4 | 5
+  investedPoints: number
+}
+
 export interface Building {
   x: number
   y: number
@@ -21,6 +29,9 @@ export interface GameState {
   industry: number
   energy: number
   buildings: Building[]
+  researchPoints: number
+  researchFocus: ResearchBranch | null
+  researchProgress: Record<ResearchBranch, ResearchBranchProgress>
 }
 
 /**
