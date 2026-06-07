@@ -16,12 +16,13 @@ export interface BuildingDefinition {
 }
 
 export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
-  //                           popCost indCost cgProd indProd housing eneCost eneProd mPop mInd mEne
+  //                           popCost indCost cgProd indProd housing eneCost eneProd mPop mInd mEne  rsProd
   Base:       def(0,  0,  100, 100, 150, 0,  100, 10, 15, 15),
   Consumer:   def(25, 15, 40,  0,   0,   15, 0,   7,  5,  5),
   Industry:   def(40, 70, 10,  50,  0,   70, 0,   10, 7,  7),
   Housing:    def(50, 60, 0,   0,   20,  60, 0,   0,  0,  0),
   PowerPlant: def(40, 70, 0,   0,   0,   70, 50,  10, 7,  7),
+  Research:   def(30, 60, 0,   0,   0,   50, 0,   8,  5,  15, 20),
 }
 
 function def(
@@ -35,6 +36,7 @@ function def(
   maintenancePopulationCost: number,
   maintenanceIndustryCost: number,
   maintenanceEnergyCost: number,
+  researchProduction = 0,
 ): BuildingDefinition {
   return {
     populationCost,
@@ -47,7 +49,7 @@ function def(
     maintenancePopulationCost,
     maintenanceIndustryCost,
     maintenanceEnergyCost,
-    researchProduction: 0,
+    researchProduction,
     requiredResearch: null,
   }
 }

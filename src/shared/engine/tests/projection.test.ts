@@ -11,7 +11,7 @@ describe('project', () => {
     expect(ui.housing).toBe(150)
     expect(ui.gameResult).toBe('None')
     expect(ui.buildings).toHaveLength(1)
-    expect(ui.buildingTypes).toHaveLength(5)
+    expect(ui.buildingTypes).toHaveLength(6)
     expect(ui.buildingTypes.find(t => t.type === 'Base')?.isBuildable).toBe(false)
     expect(ui.buildingTypes.find(t => t.type === 'Housing')?.isBuildable).toBe(true)
   })
