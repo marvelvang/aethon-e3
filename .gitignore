@@ -96,8 +96,3 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
-
-# ============================================================
-# Stale generated files (recycled sandbox artefact)
-# ============================================================
-src/frontend/src/
