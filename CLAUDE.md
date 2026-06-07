@@ -117,6 +117,27 @@ Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 - **Major** (`x.0.0`): **Nur nach expliziter Absprache mit dem User**, niemals
   eigenständig hochzählen.
 
+### 5. Cloudflare Pages Preview-URL nach jedem Push ausgeben
+Das Frontend wird automatisch auf Cloudflare Pages deployed. Projekt: **`aethon-e3`**
+
+- Produktion (main): `https://aethon-e3.pages.dev`
+- Branch-Preview: `https://<sanitized-branch>.aethon-e3.pages.dev`
+
+**Sanitierung des Branch-Namens für die URL:**
+1. Alles Kleinschreiben
+2. Jeden Zeichen, der nicht `[a-z0-9]` ist (also auch `/`, `.`, `_`), durch `-` ersetzen
+3. Mehrfache aufeinanderfolgende `-` zu einem `-` zusammenfassen
+4. Führende und abschließende `-` entfernen
+
+Beispiel: `claude/mobile-dev-workflow-YUkAt` → `claude-mobile-dev-workflow-yukat`
+→ `https://claude-mobile-dev-workflow-yukat.aethon-e3.pages.dev`
+
+**Pflicht nach jedem Push:** Die fertige Preview-URL als klickbaren Markdown-Link ausgeben:
+```
+Preview: [https://claude-mobile-dev-workflow-yukat.aethon-e3.pages.dev](https://claude-mobile-dev-workflow-yukat.aethon-e3.pages.dev)
+```
+Der Deploy dauert ca. 1–2 Minuten – die URL ist kurz danach aktiv.
+
 ## Umgebungs-Setup (SessionStart-Hook)
 
 Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
