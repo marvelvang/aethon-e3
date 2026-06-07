@@ -143,7 +143,7 @@ die URL als `CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus.
    Deployment gestartet. Schreib "URL" und ich hole die Preview-URL sobald der Workflow fertig ist.
    ```
 
-**Kurzbefehl "URL":** Schreibt der User nur das Wort `URL`, sofort Workflow-Log des
+**Kurzbefehl "url":** Schreibt der User nur das Wort `url`, sofort Workflow-Log des
 letzten Runs für den aktuellen Branch per MCP lesen und die Preview-URL ausgeben.
 
 **Voraussetzung (einmalig durch den User im GitHub Repo einzurichten):**
