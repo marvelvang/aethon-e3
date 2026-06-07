@@ -1,14 +1,15 @@
 import * as PIXI from 'pixi.js'
 import type { UiBuildingSlot } from '@aethon/models'
 import { TILE_HALF_HEIGHT, TILE_HALF_WIDTH, tileTopVertex, type RotationStep } from './coordinates'
+import { MID_Y_EW, MID_Y_S } from './renderBaseplateLines'
 
-// Screen-space offsets of the 3 visible baseplate-top corners,
-// relative to the tile-top vertex (sprite anchor).
-// SVG corners are at (±128, 40) and (0, 104) at 4× scale, displayed at 0.25.
+// Screen-space offsets of the 3 visible baseplate corner spheres,
+// relative to the tile-top vertex. Centered on the baseplate side-face
+// midline so spheres sit flush on the white connecting lines.
 const SPHERE_OFFSETS = {
-  east:  { x:  TILE_HALF_WIDTH, y:  10 },
-  west:  { x: -TILE_HALF_WIDTH, y:  10 },
-  south: { x: 0,                y:  26 },
+  east:  { x:  TILE_HALF_WIDTH, y: MID_Y_EW },
+  west:  { x: -TILE_HALF_WIDTH, y: MID_Y_EW },
+  south: { x: 0,                y: MID_Y_S  },
 } as const
 
 const ACTIVE_ALPHA = 1
