@@ -98,14 +98,13 @@
   <!-- ══ ZENTRALER TURM – mittig auf Sockel-Deckfläche (0,−28) ══ -->
   <!-- left face (shadow) -->
   <polygon points="-14,-28 0,-21 0,-93 -14,-100" fill="url(#cyL)" stroke="#120e06" stroke-width="1.2"/>
-  <!-- isometric band – left face (shaded): slope +0.5, band at t=0.5 of tower height -->
-  <polygon points="-14,-60 0,-53 0,-61 -14,-68" fill="#7a3808" opacity="0.55"/>
   <!-- right face (lit) -->
   <polygon points="14,-28 0,-21 0,-93 14,-100"   fill="url(#cyR)" stroke="#6a5840" stroke-width="1.2"/>
   <!-- right edge highlight -->
   <line x1="14" y1="-28" x2="14" y2="-100" stroke="#9a8268" stroke-width="1.5" opacity="0.55"/>
-  <!-- isometric band – right face (amber lit): slope -0.5 -->
-  <polygon points="14,-60 0,-53 0,-61 14,-68" fill="#d49010" opacity="0.8"/>
+  <!-- isometric band at tower midpoint: left (shaded) + right (lit), slope ±0.5 -->
+  <line x1="-14" y1="-64" x2="0" y2="-57" stroke="#7a3808" stroke-width="1.5" opacity="0.7"/>
+  <line x1="14"  y1="-64" x2="0" y2="-57" stroke="#d49010" stroke-width="1.5" opacity="0.85"/>
   <!-- top face -->
   <polygon points="0,-107 14,-100 0,-93 -14,-100" fill="url(#cyTop)" stroke="#6a5840" stroke-width="1.2"/>
   <!-- top glow node -->
