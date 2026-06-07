@@ -121,22 +121,31 @@ Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 Das Frontend wird automatisch auf Cloudflare Pages deployed. Projekt: **`aethon-e3`**
 
 - Produktion (main): `https://aethon-e3.pages.dev`
-- Branch-Preview: `https://<sanitized-branch>.aethon-e3.pages.dev`
+- Branch-Previews: hash-basierte URL, die Cloudflare bei jedem Deployment vergibt
 
-**Sanitierung des Branch-Namens für die URL:**
-1. Alles Kleinschreiben
-2. Jeden Zeichen, der nicht `[a-z0-9]` ist (also auch `/`, `.`, `_`), durch `-` ersetzen
-3. Mehrfache aufeinanderfolgende `-` zu einem `-` zusammenfassen
-4. Führende und abschließende `-` entfernen
+**Pflicht nach jedem Push:** Die URL per Cloudflare API abfragen und als klickbaren Link ausgeben.
 
-Beispiel: `claude/mobile-dev-workflow-YUkAt` → `claude-mobile-dev-workflow-yukat`
-→ `https://claude-mobile-dev-workflow-yukat.aethon-e3.pages.dev`
+Benötigte Umgebungsvariablen (in Claude Code Web Session Settings hinterlegt):
+- `CLOUDFLARE_API_TOKEN` – read-only API Token (Pages:Read)
+- `CLOUDFLARE_ACCOUNT_ID` – Cloudflare Account ID
 
-**Pflicht nach jedem Push:** Die fertige Preview-URL als klickbaren Markdown-Link ausgeben:
+**Befehl nach jedem Push ausführen:**
+```bash
+BRANCH=$(git branch --show-current) && \
+sleep 5 && \
+curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+  "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/aethon-e3/deployments" \
+  | jq -r --arg b "$BRANCH" \
+  '[.result[] | select(.deployment_trigger.metadata.branch == $b)] | sort_by(.created_on) | last | .url'
 ```
-Preview: [https://claude-mobile-dev-workflow-yukat.aethon-e3.pages.dev](https://claude-mobile-dev-workflow-yukat.aethon-e3.pages.dev)
+
+Die URL als Markdown-Link ausgeben:
 ```
-Der Deploy dauert ca. 1–2 Minuten – die URL ist kurz danach aktiv.
+Preview: [https://xxxx.aethon-e3.pages.dev](https://xxxx.aethon-e3.pages.dev) *(Build läuft noch ~1–2 Min)*
+```
+
+Falls `CLOUDFLARE_API_TOKEN` oder `CLOUDFLARE_ACCOUNT_ID` nicht gesetzt sind, Hinweis ausgeben
+dass die Env-Variablen fehlen – keine URL erfinden.
 
 ## Umgebungs-Setup (SessionStart-Hook)
 
