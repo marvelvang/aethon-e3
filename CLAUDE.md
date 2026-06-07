@@ -117,6 +117,40 @@ Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
 - **Major** (`x.0.0`): **Nur nach expliziter Absprache mit dem User**, niemals
   eigenständig hochzählen.
 
+### 5. Cloudflare Pages Preview-URL nach jedem Push ausgeben
+Das Frontend wird automatisch auf Cloudflare Pages deployed. Projekt: **`aethon-e3`**
+
+- Produktion (main): `https://aethon-e3.pages.dev`
+- Branch-Previews: hash-basierte URL, die Cloudflare bei jedem Deployment vergibt
+
+**Wie die URL abgerufen wird:**
+Ein GitHub Actions Workflow (`.github/workflows/cloudflare-preview-url.yml`) läuft nach
+jedem Push auf `claude/**`-Branches automatisch. Er pollt die Cloudflare API und gibt
+die URL als `CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus.
+
+**Ablauf nach jedem Push auf einen `claude/**`-Branch:**
+1. Sofort nach dem Push: Workflow-Run per MCP suchen und Log lesen:
+   ```
+   mcp__github__actions_list → neuesten Run für diesen Branch finden
+   mcp__github__get_job_logs → Log auf "CLOUDFLARE_PREVIEW_URL=" prüfen
+   ```
+2. Wenn URL im Log gefunden → als klickbaren Link ausgeben:
+   ```
+   Preview: [https://xxxx.aethon-e3.pages.dev](https://xxxx.aethon-e3.pages.dev) *(Build läuft noch ~1–2 Min)*
+   ```
+3. Wenn Workflow noch läuft (Log noch leer) → ausgeben:
+   ```
+   Deployment gestartet. Schreib "URL" und ich hole die Preview-URL sobald der Workflow fertig ist.
+   ```
+
+**Kurzbefehl "url":** Schreibt der User nur das Wort `url`, sofort Workflow-Log des
+letzten Runs für den aktuellen Branch per MCP lesen und die Preview-URL ausgeben.
+
+**Voraussetzung (einmalig durch den User im GitHub Repo einzurichten):**
+Repository Settings → Secrets → Actions → zwei Secrets:
+- `CLOUDFLARE_API_TOKEN` – read-only API Token (Account / Cloudflare Pages / Read)
+- `CLOUDFLARE_ACCOUNT_ID` – Cloudflare Account ID
+
 ## Umgebungs-Setup (SessionStart-Hook)
 
 Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
