@@ -49,7 +49,7 @@ Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
 5. **Versionskonflikt prüfen**: Zuerst beide Versionen per grep lesen –
    **Pflicht, niemals aus dem Gedächtnis:**
    ```bash
-   grep "APP_VERSION" src/frontend/app/src/components/VersionDisplay.tsx
+   grep "APP_VERSION" src/frontend/app/src/version.ts
    grep "APP_VERSION" src/backend/app/src/version.ts
    ```
    Dann mit den Werten aus `origin/main` vergleichen (Dateipfade siehe Regel 4).
@@ -73,7 +73,7 @@ Aufgabe danach.
 ### 4. Versionsnummern inkrementieren (am Aufgabenende aktiv fragen)
 Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
 gesetzt. Die maßgeblichen Stellen:
-- Frontend: `APP_VERSION` in `src/frontend/app/src/components/VersionDisplay.tsx`
+- Frontend: `APP_VERSION` in `src/frontend/app/src/version.ts`
 - Backend: `APP_VERSION` in `src/backend/app/src/version.ts`
 
 **Nie eigenständig** erhöhen – immer per `AskUserQuestion` fragen. Claude stellt die
@@ -85,7 +85,7 @@ Pro Branch reicht ein einziges Increment über main hinaus.
 
 **PFLICHT – immer zuerst ausführen, kein Überspringen:**
 ```bash
-grep "APP_VERSION" src/frontend/app/src/components/VersionDisplay.tsx
+grep "APP_VERSION" src/frontend/app/src/version.ts
 ```
 Diesen Tool-Call **immer** ausführen – auch wenn die Version „bekannt" zu sein scheint.
 Den Ausgabewert direkt in den Fragetext übernehmen. Die Version im Fragetext **muss**
