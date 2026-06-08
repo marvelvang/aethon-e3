@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Amber Stack – Housing Building (Master SVG, 4× tile resolution)
-  ──────────────────────────────────────────────────────────────
-  Tile: TILE_HALF_WIDTH=32, TILE_HALF_HEIGHT=16 → 64×32 px at 1×
-  This SVG: 4× → tile footprint 256×128 px, total 256×308 px
+  Amber Stack T2 – Housing Tier 2 (Master SVG, 4× tile resolution)
+  Tile: 64×32 px at 1× → SVG: 256×308 px (4×)
+  Anchor: sprite.anchor.set(0.5, 178/308)
+  Scale:  sprite.scale.set(64/256)
 
-  Isometric origin (0,0) = tile-top vertex
-  Projection: screen_x = (wx-wy)×128,  screen_y = (wx+wy)×64 − hz
-
-  PixiJS usage (displayed at 1× tile size):
-    sprite.anchor.set(0.5, 178/308)   // tile-top vertex in image coords
-    sprite.position.set(tileTopX, tileTopY)
-    sprite.scale.set(64/256)           // 4× → 1×
-
-  Geometry summary (screen coords at 4× scale):
-    Foundation  hz 0→24   footprint ±128  (full tile)
-    Block A     hz 24→88  footprint ±88   (lower residential block)
-    Block B     hz 88→130 footprint ±48   (upper residential block)
-    Parapet     hz 130→138 footprint ±50
-    Roof utilities above hz 138
+  Geometry:
+    Foundation  hz 0→24    footprint ±128
+    Block A     hz 24→88   footprint ±88   (lower residential, 2×2 windows)
+    Block B     hz 88→148  footprint ±68   (middle residential, 2×1 windows)  ← new
+    Block C     hz 148→190 footprint ±48   (upper residential, 1×1 windows)
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="-128 -178 256 308"
      width="256" height="308">
   <defs>
-    <!-- Foundation (dark terracotta platform) -->
+    <!-- Foundation -->
     <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
       <stop offset="0%"   stop-color="#8a3818"/>
       <stop offset="100%" stop-color="#4a1c0c"/>
@@ -38,7 +29,7 @@
       <stop offset="100%" stop-color="#7a3010"/>
     </linearGradient>
 
-    <!-- Block A – main lower residential block -->
+    <!-- Block A – lower residential (±88) -->
     <linearGradient id="aR" gradientUnits="userSpaceOnUse" x1="88" y1="16" x2="0" y2="-44">
       <stop offset="0%"   stop-color="#c05828"/>
       <stop offset="60%"  stop-color="#8c3a18"/>
@@ -53,192 +44,94 @@
       <stop offset="100%" stop-color="#a84820"/>
     </linearGradient>
 
-    <!-- Block B – upper residential block -->
-    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="48" y1="-64" x2="0" y2="-106">
-      <stop offset="0%"   stop-color="#d86830"/>
-      <stop offset="50%"  stop-color="#a84a20"/>
-      <stop offset="100%" stop-color="#7c3010"/>
-    </linearGradient>
-    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-48" y1="-64" x2="0" y2="-106">
-      <stop offset="0%"   stop-color="#2a0e04"/>
-      <stop offset="100%" stop-color="#0c0402"/>
-    </linearGradient>
-    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-130" x2="0" y2="-82">
-      <stop offset="0%"   stop-color="#f07840"/>
-      <stop offset="100%" stop-color="#c05a28"/>
-    </linearGradient>
-
-    <!-- Window – warm amber glow (lit / right face) -->
+    <!-- Window – lit (right face) -->
     <radialGradient id="winW" cx="35%" cy="30%" r="70%">
       <stop offset="0%"   stop-color="#fff8c0"/>
       <stop offset="40%"  stop-color="#ffcc44"/>
       <stop offset="100%" stop-color="#aa6600"/>
     </radialGradient>
-    <!-- Window – dim amber (shadow / left face) -->
+    <!-- Window – dim (left face) -->
     <radialGradient id="winD" cx="35%" cy="30%" r="70%">
       <stop offset="0%"   stop-color="#cc9922"/>
       <stop offset="100%" stop-color="#442200"/>
     </radialGradient>
 
-    <!-- Glow filters -->
     <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="3" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
   </defs>
 
-  <!-- ══════════════════════════════════════════
-       FOUNDATION   hz 0 → 24
-       ══════════════════════════════════════════ -->
-
+  <!-- ══ FOUNDATION  hz 0→24  (±128) ══ -->
   <polygon points="-128,64 0,128 0,104 -128,40" fill="url(#fL)" stroke="#cc5500" stroke-width="1.5"/>
   <polygon points="128,64 0,128 0,104 128,40"   fill="url(#fR)" stroke="#cc5500" stroke-width="1.5"/>
   <polygon points="0,-24 128,40 0,104 -128,40"  fill="url(#fT)" stroke="#cc5500" stroke-width="1.5"/>
 
-  <!-- ══════════════════════════════════════════
-       BLOCK A – hz 24 → 88  (footprint ±88)
-       ══════════════════════════════════════════ -->
+  <!-- ══ BLOCK A  hz 24→88  (±88) ══ -->
   <g transform="translate(0, 24)">
 
   <!-- Left face -->
   <polygon points="-88,16 0,60 0,-4 -88,-48"  fill="url(#aL)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="-88" y1="16" x2="-88" y2="-48" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
 
-  <!-- Left face: outer-bottom panel window -->
-  <polygon points="-78.1,13.45 -53.9,25.55 -53.9,8.55 -78.1,-3.55"   fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
-  <line x1="-66" y1="2.5"   x2="-66" y2="19.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <!-- Left face: bottom-outer window -->
+  <polygon points="-78.1,13.45 -53.9,25.55 -53.9,8.55 -78.1,-3.55"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <line x1="-66"   y1="2.5"   x2="-66"   y2="19.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
   <line x1="-78.1" y1="4.95"  x2="-53.9" y2="17.05" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Left face: inner-bottom panel window -->
-  <polygon points="-34.1,35.45 -9.9,47.55 -9.9,30.55 -34.1,18.45"   fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
-  <line x1="-22" y1="24.5"  x2="-22" y2="41.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
-  <line x1="-34.1" y1="26.95"  x2="-9.9"  y2="39.05" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <!-- Left face: bottom-inner window -->
+  <polygon points="-34.1,35.45 -9.9,47.55 -9.9,30.55 -34.1,18.45"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <line x1="-22"   y1="24.5"  x2="-22"   y2="41.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-34.1" y1="26.95" x2="-9.9"  y2="39.05" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Left face: outer-top panel window -->
-  <polygon points="-78.1,-18.55 -53.9,-6.45 -53.9,-23.45 -78.1,-35.55"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
-  <line x1="-66" y1="-29.5"  x2="-66" y2="-12.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
-  <line x1="-78.1" y1="-27.05"  x2="-53.9" y2="-14.95" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <!-- Left face: top-outer window -->
+  <polygon points="-78.1,-18.55 -53.9,-6.45 -53.9,-23.45 -78.1,-35.55" fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <line x1="-66"   y1="-29.5"  x2="-66"   y2="-12.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-78.1" y1="-27.05" x2="-53.9" y2="-14.95" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
-  <!-- Left face: inner-top panel window -->
-  <polygon points="-34.1,3.45 -9.9,15.55 -9.9,-1.45 -34.1,-13.55"   fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
-  <line x1="-22" y1="-7.5"   x2="-22" y2="9.5"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
-  <line x1="-34.1" y1="-5.05"   x2="-9.9"  y2="7.05"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <!-- Left face: top-inner window -->
+  <polygon points="-34.1,3.45 -9.9,15.55 -9.9,-1.45 -34.1,-13.55"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.75"/>
+  <line x1="-22"   y1="-7.5"  x2="-22"   y2="9.5"  stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
+  <line x1="-34.1" y1="-5.05" x2="-9.9"  y2="7.05" stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
 
   <!-- Right face -->
   <polygon points="88,16 0,60 0,-4 88,-48"    fill="url(#aR)" stroke="#cc5500" stroke-width="1.5"/>
   <line x1="88" y1="16" x2="88" y2="-48" stroke="#e07030" stroke-width="2" opacity="0.6"/>
 
-  <!-- Right face: bottom-right panel window -->
-  <polygon points="78.1,13.45 53.9,25.55 53.9,8.55 78.1,-3.55"    fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="66" y1="2.5"   x2="66" y2="19.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="78.1" y1="4.95"   x2="53.9" y2="17.05" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <!-- Right face: bottom-outer window -->
+  <polygon points="78.1,13.45 53.9,25.55 53.9,8.55 78.1,-3.55"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="66"   y1="2.5"   x2="66"   y2="19.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="78.1" y1="4.95"  x2="53.9" y2="17.05" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
-  <!-- Right face: bottom-left panel window -->
-  <polygon points="34.1,35.45 9.9,47.55 9.9,30.55 34.1,18.45"     fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="22" y1="24.5"  x2="22" y2="41.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="34.1" y1="26.95"   x2="9.9"  y2="39.05" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <!-- Right face: bottom-inner window -->
+  <polygon points="34.1,35.45 9.9,47.55 9.9,30.55 34.1,18.45"    fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
+  <line x1="22"   y1="24.5"  x2="22"   y2="41.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="34.1" y1="26.95" x2="9.9"  y2="39.05" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
-  <!-- Right face: top-right panel window -->
+  <!-- Right face: top-outer window -->
   <polygon points="78.1,-18.55 53.9,-6.45 53.9,-23.45 78.1,-35.55"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="66" y1="-29.5"  x2="66" y2="-12.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="78.1" y1="-27.05"   x2="53.9" y2="-14.95" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="66"   y1="-29.5"  x2="66"   y2="-12.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="78.1" y1="-27.05" x2="53.9" y2="-14.95" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
-  <!-- Right face: top-left panel window -->
+  <!-- Right face: top-inner window -->
   <polygon points="34.1,3.45 9.9,15.55 9.9,-1.45 34.1,-13.55"     fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="22" y1="-7.5"   x2="22" y2="9.5"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="34.1" y1="-5.05"   x2="9.9"  y2="7.05"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="22"   y1="-7.5"  x2="22"   y2="9.5"  stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
+  <line x1="34.1" y1="-5.05" x2="9.9"  y2="7.05" stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
 
   <!-- Block A top face -->
   <polygon points="0,-92 88,-48 0,-4 -88,-48" fill="url(#aT)" stroke="#cc5500" stroke-width="1.5"/>
 
-  <!-- Block A face panel dividers -->
-  <!-- Vertical dividers: right face x=44 and left face x=-44 -->
-  <line x1="44"  y1="-26" x2="44"  y2="38" stroke="#ff8c00" stroke-width="2" opacity="0.75"/>
-  <line x1="-44" y1="-26" x2="-44" y2="38" stroke="#aa4400" stroke-width="1.5" opacity="0.4"/>
-  <!-- Horizontal divider at face midheight -->
-  <line x1="88"  y1="-16" x2="0" y2="28" stroke="#ff8c00" stroke-width="2"   opacity="0.75"/>
+  <!-- Panel dividers (cross) -->
+  <line x1="44"  y1="-26" x2="44"  y2="38"  stroke="#ff8c00" stroke-width="2"   opacity="0.75"/>
+  <line x1="-44" y1="-26" x2="-44" y2="38"  stroke="#aa4400" stroke-width="1.5" opacity="0.4"/>
+  <line x1="88"  y1="-16" x2="0"   y2="28"  stroke="#ff8c00" stroke-width="2"   opacity="0.75"/>
   <line x1="0"   y1="28"  x2="-88" y2="-16" stroke="#aa4400" stroke-width="1.5" opacity="0.4"/>
 
-  <!-- Block A: terrace corner lights -->
+  <!-- Terrace corner lights -->
   <circle cx="88"  cy="-48" r="5" fill="#ffaa00" filter="url(#glow)"/>
   <circle cx="-88" cy="-48" r="5" fill="#ff8c00" filter="url(#glow)" opacity="0.65"/>
   <circle cx="0"   cy="-4"  r="5" fill="#ffaa00" filter="url(#glow)"/>
 
   </g>
 
-  <!-- ══════════════════════════════════════════
-       BLOCK B – hz 88 → 130  (footprint ±48)
-       ══════════════════════════════════════════ -->
-  <g transform="translate(0, 40)">
-
-  <!-- Left face -->
-  <polygon points="-48,-64 0,-40 0,-82 -48,-106"  fill="url(#bL)" stroke="#cc5500" stroke-width="1.5"/>
-  <line x1="-48" y1="-64" x2="-48" y2="-106" stroke="#3a1208" stroke-width="2" opacity="0.5"/>
-
-  <!-- Left face: outer-left panel window  (cx=-36, cy=-79) -->
-  <polygon points="-44,-75 -28,-67 -28,-83 -44,-91"  fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
-  <line x1="-36" y1="-87"   x2="-36" y2="-71"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
-  <line x1="-44" y1="-83"   x2="-28" y2="-75"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
-
-  <!-- Left face: inner-right panel window  (cx=-12, cy=-67) -->
-  <polygon points="-20,-63 -4,-55 -4,-71 -20,-79"    fill="url(#winD)" stroke="#884400" stroke-width="1" opacity="0.65"/>
-  <line x1="-12" y1="-75"   x2="-12" y2="-59"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
-  <line x1="-20" y1="-71"   x2="-4"  y2="-63"   stroke="#aa6600" stroke-width="0.8" opacity="0.28"/>
-
-  <!-- Right face -->
-  <polygon points="48,-64 0,-40 0,-82 48,-106"    fill="url(#bR)" stroke="#cc5500" stroke-width="1.5"/>
-  <line x1="48" y1="-64" x2="48" y2="-106" stroke="#e07030" stroke-width="2" opacity="0.55"/>
-
-  <!-- Right face: right panel window  (cx=36, cy=-79) -->
-  <polygon points="44,-75 28,-67 28,-83 44,-91"  fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="36" y1="-87"   x2="36" y2="-71"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="44" y1="-83"   x2="28" y2="-75"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-
-  <!-- Right face: left panel window  (cx=12, cy=-67) -->
-  <polygon points="20,-63 4,-55 4,-71 20,-79"   fill="url(#winW)" stroke="#ffaa00" stroke-width="1.2"/>
-  <line x1="12" y1="-75"   x2="12" y2="-59"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-  <line x1="20" y1="-71"   x2="4"  y2="-63"   stroke="#fff8c0" stroke-width="0.8" opacity="0.55"/>
-
-  <!-- Block B top face -->
-  <polygon points="0,-130 48,-106 0,-82 -48,-106" fill="url(#bT)" stroke="#cc5500" stroke-width="1.5"/>
-
-  <!-- Block B face panel dividers -->
-  <line x1="24"  y1="-94" x2="24"  y2="-52" stroke="#ff8c00" stroke-width="2"   opacity="0.75"/>
-  <line x1="-24" y1="-94" x2="-24" y2="-52" stroke="#aa4400" stroke-width="1.5" opacity="0.4"/>
-
-  </g>
-
-  <!-- ══════════════════════════════════════════
-       PARAPET / ROOF RIM   hz 130 → 138  (±50)
-       ══════════════════════════════════════════ -->
-  <g transform="translate(0, 39)">
-
-  <polygon points="-50,-105 0,-80 0,-88 -50,-113" fill="#3a1208" stroke="#aa4400" stroke-width="1.2"/>
-  <polygon points="50,-105 0,-80 0,-88 50,-113"   fill="#c05020" stroke="#ff8c00" stroke-width="1.2"/>
-  <polygon points="0,-138 50,-113 0,-88 -50,-113" fill="#d86030" stroke="#ff8c00" stroke-width="1.2"/>
-
-  <!-- Parapet corner lights -->
-  <circle cx="50"  cy="-113" r="4" fill="#ff6600" filter="url(#glow)"/>
-  <circle cx="-50" cy="-113" r="4" fill="#ff8c00" filter="url(#glow)" opacity="0.7"/>
-  <circle cx="0"   cy="-88"  r="4" fill="#ff6600" filter="url(#glow)"/>
-
-  <!-- ══════════════════════════════════════════
-       ROOFTOP UTILITIES
-       ══════════════════════════════════════════ -->
-  <g transform="translate(0, 25)">
-
-  <!-- Communication dish -->
-  <line x1="0" y1="-132" x2="0" y2="-148"   stroke="#cc7730" stroke-width="2.5"/>
-  <ellipse cx="0" cy="-151" rx="14" ry="8"
-           fill="#b85020" stroke="#ff8c00" stroke-width="1.5" opacity="0.9"/>
-  <ellipse cx="0" cy="-151" rx="8" ry="4.5"
-           fill="none" stroke="#ffcc44" stroke-width="1"   opacity="0.65"/>
-  <circle  cx="0" cy="-151" r="2.5" fill="#ffcc44"/>
-
-  </g>
-  </g>
 </svg>
