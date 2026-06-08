@@ -12,6 +12,7 @@ describe('aggregateBuildings', () => {
       industryProduction:        100,
       energyProduction:          100,
       housing:                   150,
+      researchProduction:        0,
       maintenanceIndustry:       15,
       maintenanceEnergy:         15,
       newlyBuiltPopulationCost:  0,  // Base is not newlyBuilt

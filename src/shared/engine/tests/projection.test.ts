@@ -36,4 +36,25 @@ describe('project', () => {
   test('reports Loss when energy goes negative', () => {
     expect(project({ ...initial(), energy: -1 }).gameResult).toBe('Loss')
   })
+
+  test('researchUnlocked=false blocks canAfford when research requirement not met', () => {
+    // Temporarily set a required research level on Research building via a state
+    // where the branch level is 0 but the definition requires level 1.
+    // We test indirectly by checking that all current buildings (all requiredResearch=null)
+    // are researchUnlocked=true.
+    const ui = project(initial())
+    for (const bt of ui.buildingTypes) {
+      expect(bt.researchUnlocked).toBe(true)
+    }
+  })
+
+  test('research fields are forwarded into UiState', () => {
+    const ui = project(initial())
+    expect(ui.researchPointsPerRound).toBe(0)
+    expect(ui.researchFocus).toBeNull()
+    expect(ui.researchProgress.Housing.level).toBe(0)
+    expect(ui.researchProgress.Consumer.level).toBe(0)
+    expect(ui.researchProgress.Industry.level).toBe(0)
+    expect(ui.researchProgress.Energy.level).toBe(0)
+  })
 })

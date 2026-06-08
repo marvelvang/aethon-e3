@@ -19,6 +19,8 @@ export function project(state: GameState): UiState {
   const buildingTypes: UiBuildingTypeInfo[] = ALL_TYPES.map(t => {
     const d = BUILDING_DEFINITIONS[t]
     const buildable = BUILDABLE_TYPES.has(t)
+    const researchUnlocked = d.requiredResearch === null
+      || state.researchProgress[d.requiredResearch.branch].level >= d.requiredResearch.level
     return {
       type: t,
       populationCost:            d.populationCost,
@@ -31,8 +33,11 @@ export function project(state: GameState): UiState {
       maintenancePopulationCost: d.maintenancePopulationCost,
       maintenanceIndustryCost:   d.maintenanceIndustryCost,
       maintenanceEnergyCost:     d.maintenanceEnergyCost,
+      requiredResearch:          d.requiredResearch,
+      researchUnlocked,
       isBuildable:               buildable,
       canAfford:                 buildable
+                              && researchUnlocked
                               && freePopulation >= d.populationCost
                               && state.industry  >= d.industryCost
                               && state.energy    >= d.energyCost,
@@ -40,21 +45,24 @@ export function project(state: GameState): UiState {
   })
 
   return {
-    gameStateId:       state.id,
-    round:             state.round,
-    population:        state.population,
+    gameStateId:           state.id,
+    round:                 state.round,
+    population:            state.population,
     freePopulation,
-    boundPopulation:   bound,
-    consumerGoods:     state.consumerGoods,
-    industry:          state.industry,
-    energy:            state.energy,
-    housing:           a.housing,
-    consumerGoodsGain: gains.consumerGoodsGain,
-    industryGain:      gains.industryGain,
-    energyGain:        gains.energyGain,
-    populationGain:    gains.populationGain,
+    boundPopulation:       bound,
+    consumerGoods:         state.consumerGoods,
+    industry:              state.industry,
+    energy:                state.energy,
+    housing:               a.housing,
+    consumerGoodsGain:     gains.consumerGoodsGain,
+    industryGain:          gains.industryGain,
+    energyGain:            gains.energyGain,
+    populationGain:        gains.populationGain,
     gameResult,
-    buildings:         state.buildings.map(b => ({ x: b.x, y: b.y, type: b.type, isNewlyBuilt: b.isNewlyBuilt })),
+    buildings:             state.buildings.map(b => ({ x: b.x, y: b.y, type: b.type, isNewlyBuilt: b.isNewlyBuilt })),
     buildingTypes,
+    researchPointsPerRound: a.researchProduction,
+    researchFocus:          state.researchFocus,
+    researchProgress:       state.researchProgress,
   }
 }

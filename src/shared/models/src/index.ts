@@ -54,6 +54,8 @@ export interface UiBuildingTypeInfo {
   maintenancePopulationCost: number
   maintenanceIndustryCost: number
   maintenanceEnergyCost: number
+  requiredResearch: { branch: ResearchBranch; level: number } | null
+  researchUnlocked: boolean
   isBuildable: boolean
   canAfford: boolean
 }
@@ -77,4 +79,7 @@ export interface UiState {
   gameResult: GameResult
   buildings: UiBuildingSlot[]
   buildingTypes: UiBuildingTypeInfo[]
+  researchPointsPerRound: number
+  researchFocus: ResearchBranch | null
+  researchProgress: Record<ResearchBranch, ResearchBranchProgress>
 }
