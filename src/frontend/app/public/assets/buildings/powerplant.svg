@@ -106,6 +106,7 @@
   <line x1="-66" y1="-9"  x2="-22"  y2="13"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
 
   <!-- Ecknoten: hell-blauer Glow (Licht- und Schattenecke) -->
+  <circle cx="0"   cy="-72" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.45"/>
   <circle cx="88"  cy="-28" r="5" fill="#80b0e0" filter="url(#glow)"/>
   <circle cx="-88" cy="-28" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="16"  r="5" fill="#80b0e0" filter="url(#glow)"/>
