@@ -1,4 +1,4 @@
-import type { BuildingType, GameState, UiState } from '@aethon/models'
+import type { BuildingType, GameState, ResearchBranch, UiState } from '@aethon/models'
 import { genesis, placeBuilding, project, simulateRound } from '@aethon/engine'
 import { appStorage } from '../../shared/storage/appStorage'
 import type { GameGateway } from './GameGateway'
@@ -29,6 +29,10 @@ export class LocalGameGateway implements GameGateway {
 
   async endRound(): Promise<UiState> {
     return this.apply(simulateRound)
+  }
+
+  async setResearchFocus(branch: ResearchBranch | null): Promise<UiState> {
+    return this.apply(s => ({ ...s, researchFocus: branch }))
   }
 
   async reset(): Promise<UiState> {

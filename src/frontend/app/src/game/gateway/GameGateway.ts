@@ -1,4 +1,4 @@
-import type { BuildingType, UiState } from '@aethon/models'
+import type { BuildingType, ResearchBranch, UiState } from '@aethon/models'
 
 /**
  * The frontend's contract for talking to "a game" — local or remote.
@@ -15,6 +15,7 @@ export interface GameGateway {
   load(): Promise<UiState>
   build(x: number, y: number, type: BuildingType): Promise<UiState>
   endRound(): Promise<UiState>
+  setResearchFocus(branch: ResearchBranch | null): Promise<UiState>
   /** Abandon the current game and start fresh. */
   reset(): Promise<UiState>
 }

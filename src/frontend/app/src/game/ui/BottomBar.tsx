@@ -31,7 +31,7 @@ export default function BottomBar({
       <VersionDisplay backendVersion={game.state?.backendVersion} />
       <RotationControls rotation={rotation} onRotate={onRotate} onResetView={onResetView} />
       <div className="bottom-bar-actions">
-        <ResearchButton />
+        <ResearchButton game={game} />
         <ActionMenu
           isFullscreen={isFullscreen}
           onToggleFullscreen={onToggleFullscreen}
