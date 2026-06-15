@@ -157,11 +157,11 @@
   <polyline points="56,-86 0,-58 -56,-86"   stroke="#cc44ff" stroke-width="2"   fill="none" opacity="0.55"/>
 
   <!-- Upper block top face -->
+  <circle cx="0"   cy="-128" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.45"/>
   <polygon points="0,-128 56,-100 0,-72 -56,-100"  fill="url(#uT)" stroke="#b0b0c4" stroke-width="1.5"/>
   <line x1="0" y1="-128" x2="0" y2="-72"      stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
   <line x1="-56" y1="-100" x2="56" y2="-100"  stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
 
-  <circle cx="0"   cy="-128" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.45"/>
   <circle cx="56"  cy="-100" r="5" fill="#cc44ff" filter="url(#glow)"/>
   <circle cx="-56" cy="-100" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="-72"  r="5" fill="#cc44ff" filter="url(#glow)"/>

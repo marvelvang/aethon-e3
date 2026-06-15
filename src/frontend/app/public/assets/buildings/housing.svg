@@ -219,10 +219,10 @@
 
   <polygon points="-50,-105 0,-80 0,-88 -50,-113" fill="#3a1208" stroke="#aa4400" stroke-width="1.2"/>
   <polygon points="50,-105 0,-80 0,-88 50,-113"   fill="#c05020" stroke="#ff8c00" stroke-width="1.2"/>
+  <circle cx="0"   cy="-138" r="4" fill="#ff6600" filter="url(#glow)" opacity="0.45"/>
   <polygon points="0,-138 50,-113 0,-88 -50,-113" fill="#d86030" stroke="#ff8c00" stroke-width="1.2"/>
 
-  <!-- Parapet corner lights (back → right → left → front) -->
-  <circle cx="0"   cy="-138" r="4" fill="#ff6600" filter="url(#glow)" opacity="0.45"/>
+  <!-- Parapet corner lights -->
   <circle cx="50"  cy="-113" r="4" fill="#ff6600" filter="url(#glow)"/>
   <circle cx="-50" cy="-113" r="4" fill="#ff8c00" filter="url(#glow)" opacity="0.7"/>
   <circle cx="0"   cy="-88"  r="4" fill="#ff6600" filter="url(#glow)"/>

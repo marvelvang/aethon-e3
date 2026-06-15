@@ -86,6 +86,7 @@
 
   <polygon points="88,16 0,60 0,-52 88,-96"    fill="url(#tR)" stroke="#00aac8" stroke-width="1.5"/>
   <polygon points="-88,16 0,60 0,-52 -88,-96"  fill="url(#tL)" stroke="#00aac8" stroke-width="1.5"/>
+  <circle cx="0" cy="-140" r="5" fill="#00d4ff" filter="url(#glow)" opacity="0.45"/>
   <polygon points="0,-140 88,-96 0,-52 -88,-96" fill="url(#tT)" stroke="#00aac8" stroke-width="1.5"/>
 
   <!-- Structural vertical edge highlights -->
@@ -96,8 +97,7 @@
   <line x1="88"  y1="-40" x2="0" y2="4"  stroke="#3a8ab8" stroke-width="2.5" opacity="0.75"/>
   <line x1="-88" y1="-40" x2="0" y2="4"  stroke="#1a3850" stroke-width="2.5" opacity="0.55"/>
 
-  <!-- Tower top corner lights (back → right → left → front) -->
-  <circle cx="0"   cy="-140" r="5" fill="#00d4ff" filter="url(#glow)" opacity="0.45"/>
+  <!-- Tower top corner lights -->
   <circle cx="88"  cy="-96"  r="5" fill="#00d4ff" filter="url(#glow)"/>
   <circle cx="-88" cy="-96"  r="5" fill="#00d4ff" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="-52"  r="5" fill="#00d4ff" filter="url(#glow)"/>

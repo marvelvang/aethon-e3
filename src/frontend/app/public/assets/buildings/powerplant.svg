@@ -91,6 +91,7 @@
   <g transform="translate(0, 36)">
   <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#1a2a3a" stroke-width="1.5"/>
   <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#3a5878" stroke-width="1.5"/>
+  <circle cx="0" cy="-72" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.45"/>
   <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#3a5878" stroke-width="1.5"/>
 
   <!-- Ventilation slots – rechte Fläche (blauer Akzent) -->
@@ -106,7 +107,6 @@
   <line x1="-66" y1="-9"  x2="-22"  y2="13"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
 
   <!-- Ecknoten: hell-blauer Glow (Licht- und Schattenecke) -->
-  <circle cx="0"   cy="-72" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.45"/>
   <circle cx="88"  cy="-28" r="5" fill="#80b0e0" filter="url(#glow)"/>
   <circle cx="-88" cy="-28" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="16"  r="5" fill="#80b0e0" filter="url(#glow)"/>
