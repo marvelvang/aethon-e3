@@ -1,6 +1,7 @@
 import type { BuildingType, GameState, ResearchBranch, UiState } from '@aethon/models'
 import { genesis, placeBuilding, project, simulateRound } from '@aethon/engine'
 import { appStorage } from '../../shared/storage/appStorage'
+import { DEV_SEED_ENABLED, createDevSeed } from '../devSeed'
 import type { GameGateway } from './GameGateway'
 
 /**
@@ -16,7 +17,7 @@ export class LocalGameGateway implements GameGateway {
   async load(): Promise<UiState> {
     let s = appStorage.gameState.get()
     if (!s) {
-      s = { ...genesis(), id: newGameId() }
+      s = { ...(DEV_SEED_ENABLED ? createDevSeed() : genesis()), id: newGameId() }
       appStorage.gameState.set(s)
     }
     this.state = s
@@ -36,7 +37,7 @@ export class LocalGameGateway implements GameGateway {
   }
 
   async reset(): Promise<UiState> {
-    const fresh: GameState = { ...genesis(), id: newGameId() }
+    const fresh: GameState = { ...(DEV_SEED_ENABLED ? createDevSeed() : genesis()), id: newGameId() }
     this.state = fresh
     appStorage.gameState.set(fresh)
     return project(fresh)
