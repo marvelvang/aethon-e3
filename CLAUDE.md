@@ -55,6 +55,11 @@ bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konfli
 Versionskonflikt per Pflicht-grep prüfen und ggf. sofort beheben → push) – ohne weitere
 Aufgabe danach.
 
+**Kurzbefehl „fbuild":** Schreibt der User nur das Wort `fbuild` (allein in einer Nachricht),
+bedeutet das: sofort einen vollständigen Frontend-Build ausführen (`bun --filter @aethon/frontend build`),
+alle Fehler analysieren und beheben, erneut bauen bis der Build fehlerfrei durchläuft,
+dann committen und pushen – ohne weitere Aufgabe danach.
+
 ### 4. Versionsverwaltung
 
 **Versionsdateien** – beide immer im Gleichtakt auf dieselbe Nummer setzen:
