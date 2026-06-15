@@ -58,7 +58,9 @@ Aufgabe danach.
 **Kurzbefehl „fbuild":** Schreibt der User nur das Wort `fbuild` (allein in einer Nachricht),
 bedeutet das: sofort einen vollständigen Frontend-Build ausführen (`bun --filter @aethon/frontend build`),
 alle Fehler analysieren und beheben, erneut bauen bis der Build fehlerfrei durchläuft,
-dann committen und pushen – ohne weitere Aufgabe danach.
+dann committen und pushen. Falls für den aktuellen Branch ein offener PR existiert, zusätzlich
+die CI-Fehler dort auslesen (via GitHub MCP Tools), analysieren und ebenfalls beheben –
+alles in einem Durchgang, ohne weitere Aufgabe danach.
 
 ### 4. Versionsverwaltung
 
