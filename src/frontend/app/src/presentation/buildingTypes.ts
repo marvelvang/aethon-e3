@@ -91,5 +91,17 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
       g.drawPolygon([3, -9, -3, 0, 1, 0, -3, 9, 5, -1, 1, -1])
     },
   },
+  Research: {
+    label: 'Forschung',
+    iconBgColor: 0x00BFD8,
+    iconHex: 'var(--color-research)',
+    assetPath: '/assets/buildings/research.svg',
+    assetAnchorY: ICON_ANCHOR_Y,
+    assetScale: ICON_SCALE,
+    drawIcon: (g) => {
+      g.drawEllipse(0, -2, 5, 5)
+      g.drawRect(-1.5, 3, 3, 6)
+    },
+  },
 }
 

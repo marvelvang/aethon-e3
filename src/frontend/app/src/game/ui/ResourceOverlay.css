@@ -171,6 +171,16 @@
 
 /* ── Expanded cards – clickable to collapse ── */
 
+.resource-overlay--expanded {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 480px) and (orientation: portrait) {
+  .resource-overlay--expanded {
+    grid-template-columns: 1fr;
+  }
+}
+
 .resource-overlay--expanded .resource-card {
   pointer-events: auto;
   cursor: pointer;

@@ -5,8 +5,8 @@ import { TILE_HALF_HEIGHT, TILE_HALF_WIDTH } from './coordinates'
 // Top face corners:   East(TW, 10)  West(-TW, 10)  South(0, 26)
 // Bottom face corners: East(TW, TH)  West(-TW, TH)  South(0, 2·TH)
 // Mid-line: average of top and bottom edge at each corner
-const MID_Y_EW = (10 + TILE_HALF_HEIGHT) / 2   // = 13  (east / west ends)
-const MID_Y_S  = (26 + 2 * TILE_HALF_HEIGHT) / 2  // = 29  (south end)
+export const MID_Y_EW = (10 + TILE_HALF_HEIGHT) / 2   // = 13  (east / west ends)
+export const MID_Y_S  = (26 + 2 * TILE_HALF_HEIGHT) / 2  // = 29  (south end)
 
 const TW = TILE_HALF_WIDTH
 const DY = MID_Y_S - MID_Y_EW  // vertical span of each face line = 16

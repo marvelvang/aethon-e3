@@ -1,4 +1,5 @@
-export const GRID_SIZE = 20
+import { GRID_SIZE } from '@aethon/models'
+export { GRID_SIZE }
 export const TILE_HALF_WIDTH = 32
 export const TILE_HALF_HEIGHT = 16
 

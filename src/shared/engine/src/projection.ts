@@ -2,8 +2,8 @@ import { GRID_SIZE, type BuildingType, type GameResult, type GameState, type UiB
 import { BUILDING_DEFINITIONS } from './definitions.ts'
 import { aggregateBuildings, calculateGains } from './gains.ts'
 
-const ALL_TYPES: BuildingType[] = ['Base', 'Consumer', 'Industry', 'Housing', 'PowerPlant']
-const BUILDABLE_TYPES = new Set<BuildingType>(['Consumer', 'Industry', 'Housing', 'PowerPlant'])
+const ALL_TYPES: BuildingType[] = ['Base', 'Consumer', 'Industry', 'Housing', 'PowerPlant', 'Research']
+const BUILDABLE_TYPES = new Set<BuildingType>(['Consumer', 'Industry', 'Housing', 'PowerPlant', 'Research'])
 
 export function project(state: GameState): UiState {
   const a    = aggregateBuildings(state.buildings)

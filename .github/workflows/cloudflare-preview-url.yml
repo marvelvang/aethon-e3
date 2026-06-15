@@ -1,0 +1,28 @@
+name: Cloudflare Preview URL
+
+on:
+  push:
+    branches: ['claude/**']
+
+jobs:
+  preview-url:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Cloudflare Preview URL
+        run: |
+          BRANCH="${{ github.ref_name }}"
+          echo "Branch: $BRANCH"
+          sleep 10
+          for i in 1 2 3 4 5 6; do
+            RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+              "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/aethon-e3/deployments")
+            URL=$(echo "$RESPONSE" | jq -r --arg b "$BRANCH" \
+              '[.result[] | select(.deployment_trigger.metadata.branch == $b)] | sort_by(.created_on) | last | .url // empty')
+            if [ -n "$URL" ] && [ "$URL" != "null" ]; then
+              echo "CLOUDFLARE_PREVIEW_URL=$URL"
+              exit 0
+            fi
+            echo "Attempt $i: deployment not registered yet, retrying in 15s..."
+            sleep 15
+          done
+          echo "CLOUDFLARE_PREVIEW_URL=not_found"
