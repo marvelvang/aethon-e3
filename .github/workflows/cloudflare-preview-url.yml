@@ -1,28 +1,38 @@
-name: Cloudflare Preview URL
+name: Cloudflare Deploy
 
 on:
   push:
-    branches: ['claude/**']
+    branches:
+      - 'claude/**'
+      - 'main'
 
 jobs:
   preview-url:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
     steps:
-      - name: Fetch Cloudflare Preview URL
-        run: |
-          BRANCH="${{ github.ref_name }}"
-          echo "Branch: $BRANCH"
-          sleep 10
-          for i in 1 2 3 4 5 6; do
-            RESPONSE=$(curl -s -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-              "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/aethon-e3/deployments")
-            URL=$(echo "$RESPONSE" | jq -r --arg b "$BRANCH" \
-              '[.result[] | select(.deployment_trigger.metadata.branch == $b)] | sort_by(.created_on) | last | .url // empty')
-            if [ -n "$URL" ] && [ "$URL" != "null" ]; then
-              echo "CLOUDFLARE_PREVIEW_URL=$URL"
-              exit 0
-            fi
-            echo "Attempt $i: deployment not registered yet, retrying in 15s..."
-            sleep 15
-          done
-          echo "CLOUDFLARE_PREVIEW_URL=not_found"
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build frontend
+        run: bun run --filter @aethon/frontend build
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy src/frontend/app/dist --project-name=aethon-e3 --branch=${{ github.ref_name }}
+
+      - name: Output preview URL
+        run: echo "CLOUDFLARE_PREVIEW_URL=${{ steps.deploy.outputs.deployment-url }}"
