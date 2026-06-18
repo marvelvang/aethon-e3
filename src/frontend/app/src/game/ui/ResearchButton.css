@@ -182,11 +182,23 @@
   letter-spacing: 0.5px;
 }
 
+.research-bar-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: -2px;
+}
+
+.research-bar-numbers {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.3px;
+}
+
 .research-branch-rate {
   font-size: 10px;
   color: var(--color-research);
   opacity: 0.7;
-  margin-top: -2px;
 }
 
 /* ── Progress bar ─────────────────────────────────────────────── */

@@ -45,6 +45,7 @@ function BranchRow({ branch, progress, isFocused, onToggle, pointsPerRound }: Br
   const meta  = BUILDING_META[BRANCH_BUILDING[branch]]
   const pct   = progressPercent(progress, branch)
   const isMax = progress.level >= 5
+  const cost  = isMax ? null : RESEARCH_COSTS[branch][(progress.level - 1) as 0 | 1 | 2 | 3]
 
   return (
     <div
@@ -75,8 +76,13 @@ function BranchRow({ branch, progress, isFocused, onToggle, pointsPerRound }: Br
             }}
           />
         </div>
-        {!isMax && isFocused && pointsPerRound > 0 && (
-          <div className="research-branch-rate">+{pointsPerRound} / Runde</div>
+        {!isMax && (
+          <div className="research-bar-meta">
+            <span className="research-bar-numbers">{progress.investedPoints} / {cost}</span>
+            {isFocused && pointsPerRound > 0 && (
+              <span className="research-branch-rate">+{pointsPerRound} / Runde</span>
+            )}
+          </div>
         )}
       </div>
     </div>
