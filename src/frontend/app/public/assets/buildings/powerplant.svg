@@ -119,7 +119,7 @@
        ══════════════════════════════════════════════════ -->
 
   <!-- ─── NORD-SCHÜSSEL  N(0,−36) ─── -->
-  <line x1="0" y1="-36" x2="0" y2="-54"
+  <line x1="0" y1="-36" x2="0" y2="-58"
         stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
   <ellipse cx="0" cy="-59" rx="15" ry="7"
            fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
@@ -128,7 +128,7 @@
   <circle cx="0" cy="-58" r="3.5" fill="white" opacity="0.95" filter="url(#glow)"/>
 
   <!-- ─── OST-SCHÜSSEL  E(88,8) ─── -->
-  <line x1="88" y1="8" x2="78" y2="-8"
+  <line x1="88" y1="8" x2="75" y2="-12"
         stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
   <ellipse cx="75" cy="-12" rx="13" ry="6.5"
            fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
@@ -137,7 +137,7 @@
   <circle cx="75" cy="-12" r="3" fill="white" opacity="0.92" filter="url(#glow)"/>
 
   <!-- ─── WEST-SCHÜSSEL  W(−88,8)  (Schattenseite, dunkler) ─── -->
-  <line x1="-88" y1="8" x2="-78" y2="-8"
+  <line x1="-88" y1="8" x2="-75" y2="-12"
         stroke="#283048" stroke-width="2.5" stroke-linecap="round"/>
   <ellipse cx="-75" cy="-12" rx="13" ry="6.5"
            fill="url(#dishFaceL)" stroke="#405070" stroke-width="1.5" opacity="0.85"/>
@@ -146,7 +146,7 @@
   <circle cx="-75" cy="-12" r="3" fill="white" opacity="0.7" filter="url(#glow)"/>
 
   <!-- ─── SÜD-SCHÜSSEL  S(0,52)  (vorderste Ebene, zuletzt) ─── -->
-  <line x1="0" y1="52" x2="0" y2="36"
+  <line x1="0" y1="52" x2="0" y2="31"
         stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
   <ellipse cx="0" cy="31" rx="15" ry="7"
            fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>

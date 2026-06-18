@@ -233,12 +233,12 @@
   <g transform="translate(0, 25)">
 
   <!-- Communication dish -->
-  <line x1="0" y1="-132" x2="0" y2="-148"   stroke="#cc7730" stroke-width="2.5"/>
+  <line x1="0" y1="-132" x2="0" y2="-151"   stroke="#cc7730" stroke-width="2.5"/>
   <ellipse cx="0" cy="-151" rx="14" ry="8"
            fill="#b85020" stroke="#ff8c00" stroke-width="1.5" opacity="0.9"/>
   <ellipse cx="0" cy="-151" rx="8" ry="4.5"
            fill="none" stroke="#ffcc44" stroke-width="1"   opacity="0.65"/>
-  <circle  cx="0" cy="-151" r="2.5" fill="#ffcc44"/>
+  <circle  cx="0" cy="-151" r="3" fill="#ffcc44"/>
 
   </g>
   </g>
