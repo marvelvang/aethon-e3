@@ -71,6 +71,17 @@
       <stop offset="100%" stop-color="#c05a28"/>
     </linearGradient>
 
+    <!-- Roof dish face gradients -->
+    <radialGradient id="dishAmber" cx="35%" cy="35%" r="70%">
+      <stop offset="0%"   stop-color="#ffe088"/>
+      <stop offset="50%"  stop-color="#cc7720"/>
+      <stop offset="100%" stop-color="#7a3808"/>
+    </radialGradient>
+    <radialGradient id="dishAmberD" cx="35%" cy="35%" r="70%">
+      <stop offset="0%"   stop-color="#996622"/>
+      <stop offset="100%" stop-color="#3a1a04"/>
+    </radialGradient>
+
     <!-- Block B – middle residential (±68) -->
     <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="68" y1="-34" x2="0" y2="-60">
       <stop offset="0%"   stop-color="#c86030"/>
@@ -263,6 +274,37 @@
   <circle cx="48"  cy="-66" r="4" fill="#ffaa00" filter="url(#glow)"/>
   <circle cx="-48" cy="-66" r="4" fill="#ff8c00" filter="url(#glow)" opacity="0.65"/>
   <circle cx="0"   cy="-42" r="4" fill="#ffaa00" filter="url(#glow)"/>
+
+  </g>
+
+  <!-- ══ ROOFTOP: FOUR CORNER DISHES ══ -->
+  <!-- Same translate(0,−60) as Block C; painter order N→E→W→S             -->
+  <!-- Block C top corners (local): N(0,−90) E(48,−66) W(−48,−66) S(0,−42) -->
+  <g transform="translate(0, -60)">
+
+  <!-- N dish – back corner (0,−90), drawn first -->
+  <line x1="0" y1="-90" x2="0" y2="-102" stroke="#cc7730" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="0" cy="-106" rx="11" ry="5.5" fill="url(#dishAmber)" stroke="#ffaa00" stroke-width="1.2" opacity="0.85"/>
+  <ellipse cx="0" cy="-106" rx="6"  ry="3"   fill="#5a2008" stroke="#cc7730" stroke-width="0.8"/>
+  <circle  cx="0" cy="-106" r="2"   fill="#ffcc44" opacity="0.9" filter="url(#glow)"/>
+
+  <!-- E dish – right corner (48,−66) -->
+  <line x1="48" y1="-66" x2="42" y2="-79" stroke="#cc7730" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="40" cy="-82" rx="10" ry="5"   fill="url(#dishAmber)" stroke="#ffaa00" stroke-width="1.2"/>
+  <ellipse cx="40" cy="-82" rx="5.5" ry="2.8" fill="#5a2008" stroke="#cc7730" stroke-width="0.8"/>
+  <circle  cx="40" cy="-82" r="2"   fill="#ffcc44" opacity="0.9" filter="url(#glow)"/>
+
+  <!-- W dish – left corner (−48,−66), shadow side -->
+  <line x1="-48" y1="-66" x2="-42" y2="-79" stroke="#7a3010" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="-40" cy="-82" rx="10"  ry="5"   fill="url(#dishAmberD)" stroke="#994400" stroke-width="1.2" opacity="0.8"/>
+  <ellipse cx="-40" cy="-82" rx="5.5" ry="2.8"  fill="#2a0e04" stroke="#7a3010" stroke-width="0.8" opacity="0.8"/>
+  <circle  cx="-40" cy="-82" r="2"   fill="#cc8822" opacity="0.6" filter="url(#glow)"/>
+
+  <!-- S dish – front corner (0,−42), drawn last -->
+  <line x1="0" y1="-42" x2="0" y2="-54" stroke="#cc7730" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="0" cy="-58" rx="11" ry="5.5" fill="url(#dishAmber)" stroke="#ffaa00" stroke-width="1.2"/>
+  <ellipse cx="0" cy="-58" rx="6"  ry="3"   fill="#5a2008" stroke="#cc7730" stroke-width="0.8"/>
+  <circle  cx="0" cy="-58" r="2"   fill="#ffcc44" opacity="0.9" filter="url(#glow)"/>
 
   </g>
 
