@@ -29,7 +29,7 @@ const BRANCH_LABEL: Record<ResearchBranch, string> = {
 
 function progressPercent(progress: ResearchBranchProgress, branch: ResearchBranch): number {
   if (progress.level >= 5) return 100
-  const cost = RESEARCH_COSTS[branch][progress.level as 0 | 1 | 2 | 3 | 4]
+  const cost = RESEARCH_COSTS[branch][(progress.level - 1) as 0 | 1 | 2 | 3]
   return Math.min(100, Math.round((progress.investedPoints / cost) * 100))
 }
 

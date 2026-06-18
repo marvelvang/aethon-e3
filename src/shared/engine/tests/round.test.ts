@@ -72,35 +72,35 @@ describe('simulateRound – research', () => {
   })
 
   test('level-up triggers when investedPoints reach threshold', () => {
-    // Cost to reach level 1 = 500. Inject state with 480 already invested.
+    // Cost to advance from level 1→2 = 500. Inject state with 480 already invested.
     const s = withResearch({
       researchFocus: 'Housing',
       researchProgress: {
-        Housing:  { level: 0, investedPoints: 480 },
-        Consumer: { level: 0, investedPoints: 0 },
-        Industry: { level: 0, investedPoints: 0 },
-        Energy:   { level: 0, investedPoints: 0 },
+        Housing:  { level: 1, investedPoints: 480 },
+        Consumer: { level: 1, investedPoints: 0 },
+        Industry: { level: 1, investedPoints: 0 },
+        Energy:   { level: 1, investedPoints: 0 },
       },
     })
-    // After one round (+20 pts): 480 + 20 = 500 >= 500 → level up, 0 overflow
+    // After one round (+20 pts): 480 + 20 = 500 >= 500 → level up to 2, 0 overflow
     const after = simulateRound(s)
-    expect(after.researchProgress.Housing.level).toBe(1)
+    expect(after.researchProgress.Housing.level).toBe(2)
     expect(after.researchProgress.Housing.investedPoints).toBe(0)
   })
 
   test('overflow points carry over to the next level after level-up', () => {
-    // 490 invested + 20 pts = 510 >= 500 → level up, 10 pts overflow into level 1
+    // 490 invested + 20 pts = 510 >= 500 → level 1→2, 10 pts overflow
     const s = withResearch({
       researchFocus: 'Housing',
       researchProgress: {
-        Housing:  { level: 0, investedPoints: 490 },
-        Consumer: { level: 0, investedPoints: 0 },
-        Industry: { level: 0, investedPoints: 0 },
-        Energy:   { level: 0, investedPoints: 0 },
+        Housing:  { level: 1, investedPoints: 490 },
+        Consumer: { level: 1, investedPoints: 0 },
+        Industry: { level: 1, investedPoints: 0 },
+        Energy:   { level: 1, investedPoints: 0 },
       },
     })
     const after = simulateRound(s)
-    expect(after.researchProgress.Housing.level).toBe(1)
+    expect(after.researchProgress.Housing.level).toBe(2)
     expect(after.researchProgress.Housing.investedPoints).toBe(10)
   })
 
@@ -108,9 +108,9 @@ describe('simulateRound – research', () => {
     const s = withResearch({
       researchFocus: 'Energy',
       researchProgress: {
-        Housing:  { level: 0, investedPoints: 0 },
-        Consumer: { level: 0, investedPoints: 0 },
-        Industry: { level: 0, investedPoints: 0 },
+        Housing:  { level: 1, investedPoints: 0 },
+        Consumer: { level: 1, investedPoints: 0 },
+        Industry: { level: 1, investedPoints: 0 },
         Energy:   { level: 5, investedPoints: 0 },
       },
     })

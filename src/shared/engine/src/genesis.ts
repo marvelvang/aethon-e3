@@ -17,7 +17,7 @@ export function genesis(): Omit<GameState, 'id'> {
     researchPoints: 0,
     researchFocus:  null,
     researchProgress: Object.fromEntries(
-      RESEARCH_BRANCHES.map(branch => [branch, { level: 0, investedPoints: 0 }])
+      RESEARCH_BRANCHES.map(branch => [branch, { level: 1, investedPoints: 0 }])
     ) as GameState['researchProgress'],
   }
 }

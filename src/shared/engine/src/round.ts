@@ -11,7 +11,7 @@ function advanceBranch(
   let level    = current.level as number
   let invested = current.investedPoints + points
   while (level < 5) {
-    const costToNext = RESEARCH_COSTS[branch][level as 0 | 1 | 2 | 3 | 4]
+    const costToNext = RESEARCH_COSTS[branch][(level - 1) as 0 | 1 | 2 | 3]
     if (invested < costToNext) break
     invested -= costToNext
     level++

@@ -34,10 +34,10 @@ export function createDevSeed(): Omit<GameState, 'id'> {
     researchPoints: 60,
     researchFocus: null,
     researchProgress: {
-      Housing:  { level: 0, investedPoints: 300 },
-      Consumer: { level: 0, investedPoints: 300 },
-      Industry: { level: 0, investedPoints: 300 },
-      Energy:   { level: 0, investedPoints: 300 },
+      Housing:  { level: 1, investedPoints: 300 },
+      Consumer: { level: 1, investedPoints: 300 },
+      Industry: { level: 1, investedPoints: 300 },
+      Energy:   { level: 1, investedPoints: 300 },
     },
     buildings: [
       // ── Base ──────────────────────────────────────────────────────

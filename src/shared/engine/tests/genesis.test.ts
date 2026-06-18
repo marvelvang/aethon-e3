@@ -14,10 +14,10 @@ describe('genesis', () => {
       researchPoints: 0,
       researchFocus:  null,
       researchProgress: {
-        Housing:  { level: 0, investedPoints: 0 },
-        Consumer: { level: 0, investedPoints: 0 },
-        Industry: { level: 0, investedPoints: 0 },
-        Energy:   { level: 0, investedPoints: 0 },
+        Housing:  { level: 1, investedPoints: 0 },
+        Consumer: { level: 1, investedPoints: 0 },
+        Industry: { level: 1, investedPoints: 0 },
+        Energy:   { level: 1, investedPoints: 0 },
       },
     })
     // No id in the engine's output — identity is the caller's concern.
