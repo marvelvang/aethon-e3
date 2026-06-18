@@ -1,3 +1,4 @@
+// dev-only
 import type { GameState } from '@aethon/models'
 
 /**
