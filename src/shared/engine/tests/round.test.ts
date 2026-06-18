@@ -82,10 +82,26 @@ describe('simulateRound – research', () => {
         Energy:   { level: 0, investedPoints: 0 },
       },
     })
-    // After one round (+20 pts): 480 + 20 = 500 >= 500 → level up, reset
+    // After one round (+20 pts): 480 + 20 = 500 >= 500 → level up, 0 overflow
     const after = simulateRound(s)
     expect(after.researchProgress.Housing.level).toBe(1)
     expect(after.researchProgress.Housing.investedPoints).toBe(0)
+  })
+
+  test('overflow points carry over to the next level after level-up', () => {
+    // 490 invested + 20 pts = 510 >= 500 → level up, 10 pts overflow into level 1
+    const s = withResearch({
+      researchFocus: 'Housing',
+      researchProgress: {
+        Housing:  { level: 0, investedPoints: 490 },
+        Consumer: { level: 0, investedPoints: 0 },
+        Industry: { level: 0, investedPoints: 0 },
+        Energy:   { level: 0, investedPoints: 0 },
+      },
+    })
+    const after = simulateRound(s)
+    expect(after.researchProgress.Housing.level).toBe(1)
+    expect(after.researchProgress.Housing.investedPoints).toBe(10)
   })
 
   test('level 5 is the cap — no further advancement', () => {

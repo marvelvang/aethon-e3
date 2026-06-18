@@ -8,13 +8,18 @@ function advanceBranch(
   points: number,
 ): ResearchBranchProgress {
   if (current.level >= 5 || points === 0) return current
-  const level       = current.level as 0 | 1 | 2 | 3 | 4
-  const newInvested = current.investedPoints + points
-  const costToNext  = RESEARCH_COSTS[branch][level]
-  if (newInvested >= costToNext) {
-    return { level: (current.level + 1) as ResearchBranchProgress['level'], investedPoints: 0 }
+  let level    = current.level as number
+  let invested = current.investedPoints + points
+  while (level < 5) {
+    const costToNext = RESEARCH_COSTS[branch][level as 0 | 1 | 2 | 3 | 4]
+    if (invested < costToNext) break
+    invested -= costToNext
+    level++
   }
-  return { ...current, investedPoints: newInvested }
+  return {
+    level:          level as ResearchBranchProgress['level'],
+    investedPoints: level >= 5 ? 0 : invested,
+  }
 }
 
 function distributeResearch(
