@@ -150,9 +150,10 @@
   </g>
 
   <!-- ══ BLOCK B  hz 88→148  (±68) ══ -->
-  <!-- translate(0,20): local front-bottom=(0,0), screen front-bottom=(0,20)  -->
+  <!-- translate(0,10): local front-bottom=(0,0), screen front-bottom=(0,10)  -->
+  <!-- Centered on Block A: inset 20 3D units on all sides (88−68=20)        -->
   <!-- Top face local: N(0,−128) E(68,−94) S(0,−60) W(−68,−94)              -->
-  <g transform="translate(0, 20)">
+  <g transform="translate(0, 10)">
 
   <!-- Left face -->
   <polygon points="-68,-34 0,0 0,-60 -68,-94" fill="url(#bL)" stroke="#cc5500" stroke-width="1.5"/>
