@@ -21,4 +21,10 @@ else
   echo "[setup] Dependencies already installed."
 fi
 
+# Remove stale generated artefact that reappears in recycled sandboxes.
+if [ -e "$REPO_ROOT/src/frontend/src" ]; then
+  rm -rf "$REPO_ROOT/src/frontend/src"
+  echo "[setup] Removed stale src/frontend/src/ artefact."
+fi
+
 echo "[setup] Dev environment ready."
