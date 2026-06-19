@@ -89,6 +89,12 @@
       <feGaussianBlur stdDeviation="5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+
+    <!-- Dish mast mask: clip mast inside anchor ball (inner-group local coords) -->
+    <mask id="mH1dish" maskUnits="userSpaceOnUse" x="-200" y="-350" width="400" height="600">
+      <rect x="-200" y="-350" width="400" height="600" fill="white"/>
+      <circle cx="0" cy="-132" r="3" fill="black"/>
+    </mask>
   </defs>
 
   <!-- ══════════════════════════════════════════
@@ -233,7 +239,8 @@
   <g transform="translate(0, 25)">
 
   <!-- Communication dish -->
-  <line x1="0" y1="-132" x2="0" y2="-151"   stroke="#cc7730" stroke-width="2.5"/>
+  <line x1="0" y1="-132" x2="0" y2="-151"   stroke="#cc7730" stroke-width="2.5" mask="url(#mH1dish)"/>
+  <circle cx="0" cy="-132" r="4" fill="#ff6600" filter="url(#glow)"/>
   <ellipse cx="0" cy="-151" rx="14" ry="8"
            fill="#b85020" stroke="#ff8c00" stroke-width="1.5" opacity="0.9"/>
   <ellipse cx="0" cy="-151" rx="8" ry="4.5"
