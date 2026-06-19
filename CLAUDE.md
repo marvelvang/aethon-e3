@@ -62,6 +62,16 @@ dann committen und pushen. Falls für den aktuellen Branch ein offener PR existi
 die CI-Fehler dort auslesen (via GitHub MCP Tools), analysieren und ebenfalls beheben –
 alles in einem Durchgang, ohne weitere Aufgabe danach.
 
+**Kurzbefehl „zbild":** Schreibt der User `zbild` gefolgt von einem Hinweis, welches Bild
+er sehen möchte (z.B. `zbild industry_t2` oder `zbild housing alt`), das passende SVG aus
+`src/frontend/app/public/assets/buildings/` ermitteln, mit cairosvg in ein PNG konvertieren
+(scale=2) und direkt per `SendUserFile` in den Chat schicken. Kein Download-Link, sondern
+die PNG-Datei selbst. Ablauf:
+```bash
+python3 -c "import cairosvg; cairosvg.svg2png(url='<pfad>.svg', write_to='/tmp/zbild.png', scale=2)"
+```
+Dann `SendUserFile(["/tmp/zbild.png"])`. Mehrere Bilder gleichzeitig sind möglich.
+
 ### 4. Versionsverwaltung
 
 **Versionsdateien** – beide immer im Gleichtakt auf dieselbe Nummer setzen:
@@ -226,3 +236,7 @@ Reihenfolge am Aufgabenende:
 3. `git commit` mit aussagekräftiger Message
 4. `git push -u origin <branch>`
 5. Versionscheck gemäß Regel 4 ausführen.
+6. **SVG-Vorschau:** Falls die Aufgabe eine oder mehrere SVG-Dateien unter
+   `src/frontend/app/public/assets/buildings/` verändert hat, jede geänderte SVG
+   automatisch mit cairosvg (scale=2) in PNG umwandeln und per `SendUserFile` in den
+   Chat schicken – ohne dass der User danach fragen muss.
