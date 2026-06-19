@@ -70,19 +70,19 @@
     <!-- Dish mast masks: clip mast inside corner light balls (SVG root coords) -->
     <mask id="mNpp" maskUnits="userSpaceOnUse" x="-128" y="-178" width="256" height="308">
       <rect x="-128" y="-178" width="256" height="308" fill="white"/>
-      <circle cx="0" cy="-36" r="3" fill="black"/>
+      <circle cx="0" cy="-36" r="5" fill="black"/>
     </mask>
     <mask id="mEpp" maskUnits="userSpaceOnUse" x="-128" y="-178" width="256" height="308">
       <rect x="-128" y="-178" width="256" height="308" fill="white"/>
-      <circle cx="88" cy="8" r="3" fill="black"/>
+      <circle cx="88" cy="8" r="5" fill="black"/>
     </mask>
     <mask id="mWpp" maskUnits="userSpaceOnUse" x="-128" y="-178" width="256" height="308">
       <rect x="-128" y="-178" width="256" height="308" fill="white"/>
-      <circle cx="-88" cy="8" r="3" fill="black"/>
+      <circle cx="-88" cy="8" r="5" fill="black"/>
     </mask>
     <mask id="mSpp" maskUnits="userSpaceOnUse" x="-128" y="-178" width="256" height="308">
       <rect x="-128" y="-178" width="256" height="308" fill="white"/>
-      <circle cx="0" cy="52" r="3" fill="black"/>
+      <circle cx="0" cy="52" r="5" fill="black"/>
     </mask>
 
   </defs>
