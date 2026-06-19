@@ -14,6 +14,7 @@ export interface BuildingAggregate {
   housing:                   number
   maintenanceIndustry:       number
   maintenanceEnergy:         number
+  researchProduction:        number
   /** Sum of populationCost over buildings with `isNewlyBuilt = true`. */
   newlyBuiltPopulationCost:  number
   /** Sum of maintenancePopulationCost over buildings with `isNewlyBuilt = false`. */
@@ -21,7 +22,7 @@ export interface BuildingAggregate {
 }
 
 export function aggregateBuildings(buildings: readonly Building[]): BuildingAggregate {
-  let cg = 0, ind = 0, ene = 0, housing = 0
+  let cg = 0, ind = 0, ene = 0, housing = 0, rs = 0
   let mInd = 0, mEne = 0, newPop = 0, mPop = 0
   for (const b of buildings) {
     const d = defFor(b.type)
@@ -29,6 +30,7 @@ export function aggregateBuildings(buildings: readonly Building[]): BuildingAggr
     ind     += d.industryProduction
     ene     += d.energyProduction
     housing += d.housingContribution
+    rs      += d.researchProduction
     mInd    += d.maintenanceIndustryCost
     mEne    += d.maintenanceEnergyCost
     if (b.isNewlyBuilt) newPop += d.populationCost
@@ -39,6 +41,7 @@ export function aggregateBuildings(buildings: readonly Building[]): BuildingAggr
     industryProduction:        ind,
     energyProduction:          ene,
     housing,
+    researchProduction:        rs,
     maintenanceIndustry:       mInd,
     maintenanceEnergy:         mEne,
     newlyBuiltPopulationCost:  newPop,

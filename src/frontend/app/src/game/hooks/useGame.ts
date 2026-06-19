@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import type { BuildingType, UiState } from '@aethon/models'
+import type { BuildingType, ResearchBranch, UiState } from '@aethon/models'
 import { defaultGateway, type GameGateway } from '../gateway'
 
 export interface GameController {
@@ -9,6 +9,7 @@ export interface GameController {
   build: (x: number, y: number, type: BuildingType) => Promise<UiState>
   endRound: () => Promise<void>
   deleteGame: () => Promise<void>
+  setResearchFocus: (branch: ResearchBranch | null) => Promise<void>
 }
 
 /**
@@ -57,5 +58,9 @@ export function useGame(gateway: GameGateway = defaultGateway): GameController {
     }
   }, [gateway, isDeletingGame])
 
-  return { state, isEndingRound, isDeletingGame, build, endRound, deleteGame }
+  const setResearchFocus = useCallback(async (branch: ResearchBranch | null) => {
+    setState(await gateway.setResearchFocus(branch))
+  }, [gateway])
+
+  return { state, isEndingRound, isDeletingGame, build, endRound, deleteGame, setResearchFocus }
 }
