@@ -105,19 +105,19 @@
     <!-- Mast masks: clip mast line inside corner anchor ball (local coords of translate-60 group) -->
     <mask id="mNdish" maskUnits="userSpaceOnUse" x="-128" y="-178" width="256" height="308">
       <rect x="-128" y="-178" width="256" height="308" fill="white"/>
-      <circle cx="0" cy="-90" r="3" fill="black"/>
+      <circle cx="0" cy="-90" r="4" fill="black"/>
     </mask>
     <mask id="mEdish" maskUnits="userSpaceOnUse" x="-128" y="-178" width="256" height="308">
       <rect x="-128" y="-178" width="256" height="308" fill="white"/>
-      <circle cx="48" cy="-66" r="3" fill="black"/>
+      <circle cx="48" cy="-66" r="4" fill="black"/>
     </mask>
     <mask id="mWdish" maskUnits="userSpaceOnUse" x="-128" y="-178" width="256" height="308">
       <rect x="-128" y="-178" width="256" height="308" fill="white"/>
-      <circle cx="-48" cy="-66" r="3" fill="black"/>
+      <circle cx="-48" cy="-66" r="4" fill="black"/>
     </mask>
     <mask id="mSdish" maskUnits="userSpaceOnUse" x="-128" y="-178" width="256" height="308">
       <rect x="-128" y="-178" width="256" height="308" fill="white"/>
-      <circle cx="0" cy="-42" r="3" fill="black"/>
+      <circle cx="0" cy="-42" r="4" fill="black"/>
     </mask>
   </defs>
 
