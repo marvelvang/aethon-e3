@@ -71,6 +71,21 @@
       <stop offset="100%" stop-color="#b8bac4"/>
     </linearGradient>
 
+    <!-- Top block: brightest platinum -->
+    <linearGradient id="tbR" gradientUnits="userSpaceOnUse" x1="36" y1="-110" x2="0" y2="-150">
+      <stop offset="0%"   stop-color="#dce0e8"/>
+      <stop offset="40%"  stop-color="#b4b8c0"/>
+      <stop offset="100%" stop-color="#888898"/>
+    </linearGradient>
+    <linearGradient id="tbL" gradientUnits="userSpaceOnUse" x1="-36" y1="-110" x2="0" y2="-150">
+      <stop offset="0%"   stop-color="#383840"/>
+      <stop offset="100%" stop-color="#202028"/>
+    </linearGradient>
+    <linearGradient id="tbT" gradientUnits="userSpaceOnUse" x1="0" y1="-168" x2="0" y2="-132">
+      <stop offset="0%"   stop-color="#f0f2f8"/>
+      <stop offset="100%" stop-color="#c8cad4"/>
+    </linearGradient>
+
     <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="3" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -160,6 +175,44 @@
   <circle cx="56"  cy="-100" r="5" fill="#cc44ff" filter="url(#glow)"/>
   <circle cx="-56" cy="-100" r="5" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="-72"  r="5" fill="#cc44ff" filter="url(#glow)"/>
+
+  </g>
+
+  <!-- ══ TOP BLOCK hz 128→168 (±36) ══
+       Same translate(0,28) as upper block. Bottom face = upper block top face at ±36.
+       Bottom: N(0,−128) E(36,−110) S(0,−92) W(−36,−110)
+       Top:    N(0,−168) E(36,−150) S(0,−132) W(−36,−150)  -->
+  <g transform="translate(0, 28)">
+
+  <!-- Left face (shadow) -->
+  <polygon points="-36,-110 0,-92 0,-132 -36,-150"  fill="url(#tbL)" stroke="#202028" stroke-width="1.5"/>
+  <line x1="-36" y1="-110" x2="-36" y2="-150" stroke="#181820" stroke-width="2" opacity="0.55"/>
+
+  <!-- Left face: dim small panel (mirror) -->
+  <polygon points="-24,-114 -10,-107 -10,-119 -24,-126"  fill="#06000f" stroke="#2a1144" stroke-width="1.2"/>
+  <circle cx="-17" cy="-113" r="2" fill="#553388" opacity="0.55"/>
+
+  <!-- Right face (lit) -->
+  <polygon points="36,-110 0,-92 0,-132 36,-150"   fill="url(#tbR)" stroke="#b0b0c4" stroke-width="1.5"/>
+  <line x1="36" y1="-110" x2="36" y2="-150" stroke="#d8d8e8" stroke-width="2" opacity="0.65"/>
+
+  <!-- Right face: small precision window -->
+  <polygon points="24,-114 10,-107 10,-119 24,-126"  fill="#0a0014" stroke="#6622aa" stroke-width="1.5"/>
+  <polygon points="22,-113 12,-108 12,-116 22,-121"  fill="url(#reactor)" opacity="0.85"/>
+  <polygon points="24,-114 10,-107 10,-119 24,-126"  fill="#cc44ff" opacity="0.06" filter="url(#coreglow)"/>
+
+  <!-- Back corner light (before top face) -->
+  <circle cx="0" cy="-168" r="4" fill="#cc44ff" filter="url(#glow)" opacity="0.45"/>
+
+  <!-- Top face -->
+  <polygon points="0,-168 36,-150 0,-132 -36,-150"  fill="url(#tbT)" stroke="#b0b0c4" stroke-width="1.5"/>
+  <line x1="0" y1="-168" x2="0" y2="-132"       stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
+  <line x1="-36" y1="-150" x2="36" y2="-150"    stroke="#cc44ff" stroke-width="1" opacity="0.3"/>
+
+  <!-- Top corner lights -->
+  <circle cx="36"  cy="-150" r="4" fill="#cc44ff" filter="url(#glow)"/>
+  <circle cx="-36" cy="-150" r="4" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-132" r="4" fill="#cc44ff" filter="url(#glow)"/>
 
   </g>
 
