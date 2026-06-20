@@ -60,8 +60,6 @@
   <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#1e1408" stroke-width="1.5"/>
   <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#4c3c28" stroke-width="1.5"/>
   <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#4c3c28" stroke-width="1.5"/>
-  <!-- Eckkante rechts -->
-  <line x1="88"  y1="4"  x2="88"  y2="-28" stroke="#d49010" stroke-width="2"   opacity="0.5"/>
   <!-- 3 Diagonalstriche rechte Fläche -->
   <line x1="66"  y1="7"  x2="22"  y2="29"  stroke="#a87020" stroke-width="1.5" opacity="0.45"/>
   <line x1="66"  y1="-1" x2="22"  y2="21"  stroke="#a87020" stroke-width="1.5" opacity="0.45"/>
