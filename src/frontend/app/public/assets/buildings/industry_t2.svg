@@ -94,6 +94,10 @@
       <feGaussianBlur stdDeviation="5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
 
   <!-- ══ FOUNDATION hz 0→24 (±128) ══ -->
@@ -214,6 +218,57 @@
   <circle cx="36"  cy="-140" r="4" fill="#cc44ff" filter="url(#glow)"/>
   <circle cx="-36" cy="-140" r="4" fill="#cc44ff" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="-122" r="4" fill="#cc44ff" filter="url(#glow)"/>
+
+  <!-- ══ ROOFTOP: QUAD SPIRE ARRAY ══
+       Back-to-front: N → W → E → central ring → S
+       Spire start = top of corner ball (r=4 above ball center) -->
+
+  <!-- N mini-spire (back corner, dim) -->
+  <g opacity="0.45">
+    <line x1="0" y1="-162" x2="0" y2="-178" stroke="#aa33dd" stroke-width="2"/>
+    <line x1="0" y1="-162" x2="0" y2="-178" stroke="#ff88ff" stroke-width="0.8" opacity="0.7"/>
+    <line x1="-4" y1="-168" x2="4"  y2="-168" stroke="#cc44ff" stroke-width="1.5"/>
+    <line x1="-7" y1="-173" x2="7"  y2="-173" stroke="#cc44ff" stroke-width="2"/>
+    <circle cx="0" cy="-178" r="6"   fill="#cc44ff" opacity="0.12" filter="url(#softglow)"/>
+    <circle cx="0" cy="-178" r="3"   fill="#cc44ff" opacity="0.7"  filter="url(#glow)"/>
+    <circle cx="0" cy="-178" r="1.5" fill="#ffffff"/>
+  </g>
+
+  <!-- W mini-spire (shadow side) -->
+  <g opacity="0.6">
+    <line x1="-36" y1="-144" x2="-36" y2="-160" stroke="#aa33dd" stroke-width="2"/>
+    <line x1="-36" y1="-144" x2="-36" y2="-160" stroke="#ff88ff" stroke-width="0.8" opacity="0.7"/>
+    <line x1="-40" y1="-150" x2="-32" y2="-150" stroke="#cc44ff" stroke-width="1.5"/>
+    <line x1="-43" y1="-155" x2="-29" y2="-155" stroke="#cc44ff" stroke-width="2"/>
+    <circle cx="-36" cy="-160" r="6"   fill="#cc44ff" opacity="0.12" filter="url(#softglow)"/>
+    <circle cx="-36" cy="-160" r="3"   fill="#cc44ff" opacity="0.7"  filter="url(#glow)"/>
+    <circle cx="-36" cy="-160" r="1.5" fill="#ffffff"/>
+  </g>
+
+  <!-- E mini-spire (lit side) -->
+  <line x1="36" y1="-144" x2="36" y2="-160" stroke="#aa33dd" stroke-width="2"/>
+  <line x1="36" y1="-144" x2="36" y2="-160" stroke="#ff88ff" stroke-width="0.8" opacity="0.7"/>
+  <line x1="32" y1="-150" x2="40" y2="-150" stroke="#cc44ff" stroke-width="1.5"/>
+  <line x1="29" y1="-155" x2="43" y2="-155" stroke="#cc44ff" stroke-width="2"/>
+  <circle cx="36" cy="-160" r="6"   fill="#cc44ff" opacity="0.12" filter="url(#softglow)"/>
+  <circle cx="36" cy="-160" r="3"   fill="#cc44ff" opacity="0.7"  filter="url(#glow)"/>
+  <circle cx="36" cy="-160" r="1.5" fill="#ffffff"/>
+
+  <!-- Central emitter ring (top face centroid) -->
+  <ellipse cx="0" cy="-140" rx="22" ry="11"  fill="none" stroke="#cc44ff" stroke-width="2"   opacity="0.7"/>
+  <ellipse cx="0" cy="-140" rx="22" ry="11"  fill="none" stroke="#ff88ff" stroke-width="5"   opacity="0.15" filter="url(#softglow)"/>
+  <ellipse cx="0" cy="-140" rx="9"  ry="4.5" fill="none" stroke="#cc44ff" stroke-width="1.5" opacity="0.55"/>
+  <circle  cx="0" cy="-140" r="5"  fill="#cc44ff" opacity="0.9" filter="url(#glow)"/>
+  <circle  cx="0" cy="-140" r="10" fill="#cc44ff" opacity="0.1" filter="url(#softglow)"/>
+
+  <!-- S mini-spire (front corner, brightest) -->
+  <line x1="0" y1="-126" x2="0" y2="-142" stroke="#aa33dd" stroke-width="2"/>
+  <line x1="0" y1="-126" x2="0" y2="-142" stroke="#ff88ff" stroke-width="0.8" opacity="0.7"/>
+  <line x1="-4" y1="-132" x2="4"  y2="-132" stroke="#cc44ff" stroke-width="1.5"/>
+  <line x1="-7" y1="-137" x2="7"  y2="-137" stroke="#cc44ff" stroke-width="2"/>
+  <circle cx="0" cy="-142" r="6"   fill="#cc44ff" opacity="0.12" filter="url(#softglow)"/>
+  <circle cx="0" cy="-142" r="3"   fill="#cc44ff" opacity="0.7"  filter="url(#glow)"/>
+  <circle cx="0" cy="-142" r="1.5" fill="#ffffff"/>
 
   </g>
 
