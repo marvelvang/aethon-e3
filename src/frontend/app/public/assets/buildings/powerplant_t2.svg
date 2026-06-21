@@ -44,6 +44,10 @@
       <feGaussianBlur stdDeviation="3" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="beamglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
 
     <!-- Dritter Block -->
     <linearGradient id="t3R" gradientUnits="userSpaceOnUse" x1="60" y1="-36" x2="0" y2="-36">
@@ -168,5 +172,27 @@
   <circle cx="60"  cy="-64" r="4.5" fill="#80b0e0" filter="url(#glow)"/>
   <circle cx="-60" cy="-64" r="4.5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="-34" r="4.5" fill="#80b0e0" filter="url(#glow)"/>
+
+  <!-- ══ WELLENSTRAHLEN  (Schüsseln → Eckknoten dritter Block)
+       Doppelschicht: breiter Glow-Halo + dünner Kern
+       E/W-Schüssel → E/W-Ecke, S-Schüssel → S-Ecke  ══ -->
+
+  <!-- E-Strahl: (75,−12) → (60,−64), diagonal, S-Kurve rechts-links -->
+  <path d="M 75,-12 Q 82,-26 68,-38 Q 54,-52 60,-64"
+        stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
+  <path d="M 75,-12 Q 82,-26 68,-38 Q 54,-52 60,-64"
+        stroke="white" stroke-width="1.5" fill="none" opacity="0.80"/>
+
+  <!-- W-Strahl: (−75,−12) → (−60,−64), gespiegelt, Schattenseite schwächer -->
+  <path d="M -75,-12 Q -82,-26 -68,-38 Q -54,-52 -60,-64"
+        stroke="white" stroke-width="3.5" fill="none" opacity="0.10" filter="url(#beamglow)"/>
+  <path d="M -75,-12 Q -82,-26 -68,-38 Q -54,-52 -60,-64"
+        stroke="white" stroke-width="1.5" fill="none" opacity="0.60"/>
+
+  <!-- S-Strahl: (0,31) → (0,−34), fast senkrecht, zuletzt = vorderster -->
+  <path d="M 0,31 Q 8,12 0,-5 Q -8,-22 0,-34"
+        stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
+  <path d="M 0,31 Q 8,12 0,-5 Q -8,-22 0,-34"
+        stroke="white" stroke-width="1.5" fill="none" opacity="0.85"/>
 
 </svg>
