@@ -50,6 +50,11 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
   const [pendingPlacement, setPendingPlacement] = useState<PendingPlacement>(null)
   const [pendingMulti, setPendingMulti] = useState<PendingMultiPlacement>(null)
 
+  const pendingPlacementRef = useRef(pendingPlacement)
+  pendingPlacementRef.current = pendingPlacement
+  const pendingMultiRef = useRef(pendingMulti)
+  pendingMultiRef.current = pendingMulti
+
   useEffect(() => {
     if (!canvasRef.current) return
 
@@ -127,6 +132,48 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
     setPendingMulti(null)
   }, [])
 
+  const handlePickerSelect = useCallback(async (type: BuildingType) => {
+    if (!enabledRef.current) { setPendingPlacement(null); setPendingMulti(null); return }
+    const multi = pendingMultiRef.current
+    const single = pendingPlacementRef.current
+    if (multi) {
+      const cells = multi.cells
+      setPendingMulti(null)
+      for (const cell of cells) pendingCellsRef.current.add(`${cell.col},${cell.row}`)
+      let working: UiBuildingSlot[] = buildingsRef.current.slice()
+      try {
+        for (const cell of cells) {
+          if (working.some((b) => b.x === cell.col && b.y === cell.row)) continue
+          try {
+            const next = await buildRef.current(cell.col, cell.row, type)
+            working = next.buildings
+          } catch {
+            break
+          }
+        }
+      } finally {
+        for (const cell of cells) pendingCellsRef.current.delete(`${cell.col},${cell.row}`)
+      }
+    } else if (single) {
+      const { col, row } = single.cell
+      const cellKey = `${col},${row}`
+      pendingCellsRef.current.add(cellKey)
+      setPendingPlacement(null)
+      try {
+        await buildRef.current(col, row, type)
+      } catch (err) {
+        console.error('placeBuilding failed:', err)
+      } finally {
+        pendingCellsRef.current.delete(cellKey)
+      }
+    }
+  }, [])
+
+  const handlePickerDismiss = useCallback(() => {
+    setPendingPlacement(null)
+    setPendingMulti(null)
+  }, [])
+
   const handleResetView = useCallback(() => {
     const engine = engineRef.current
     if (!engine) return
@@ -151,60 +198,13 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
         ref={canvasRef}
         style={{ display: 'block', width: '100%', height: '100%' }}
       />
-      {pendingPlacement && !pendingMulti && (
-        <BuildingPickerPopup
-          buildingTypes={buildableTypes}
-          tileBounds={pendingPlacement.tileBounds}
-          onSelect={async (type: BuildingType) => {
-            if (!enabledRef.current) { setPendingPlacement(null); return }
-            const { col, row } = pendingPlacement.cell
-            const cellKey = `${col},${row}`
-            pendingCellsRef.current.add(cellKey)
-            setPendingPlacement(null)
-            try {
-              await buildRef.current(col, row, type)
-            } catch (err) {
-              console.error('placeBuilding failed:', err)
-            } finally {
-              pendingCellsRef.current.delete(cellKey)
-            }
-          }}
-          onDismiss={() => setPendingPlacement(null)}
-        />
-      )}
-      {pendingMulti && (
-        <BuildingPickerPopup
-          buildingTypes={buildableTypes}
-          tileBounds={pendingMulti.tileBounds}
-          onSelect={async (type: BuildingType) => {
-            if (!enabledRef.current) { setPendingMulti(null); return }
-            const cells = pendingMulti.cells
-            setPendingMulti(null)
-
-            for (const cell of cells) {
-              pendingCellsRef.current.add(`${cell.col},${cell.row}`)
-            }
-
-            let working: UiBuildingSlot[] = buildingsRef.current.slice()
-            try {
-              for (const cell of cells) {
-                if (working.some((b) => b.x === cell.col && b.y === cell.row)) continue
-                try {
-                  const next = await buildRef.current(cell.col, cell.row, type)
-                  working = next.buildings
-                } catch {
-                  break
-                }
-              }
-            } finally {
-              for (const cell of cells) {
-                pendingCellsRef.current.delete(`${cell.col},${cell.row}`)
-              }
-            }
-          }}
-          onDismiss={() => setPendingMulti(null)}
-        />
-      )}
+      <BuildingPickerPopup
+        buildingTypes={buildableTypes}
+        visible={!!pendingPlacement || !!pendingMulti}
+        tileBounds={pendingMulti?.tileBounds ?? pendingPlacement?.tileBounds ?? null}
+        onSelect={handlePickerSelect}
+        onDismiss={handlePickerDismiss}
+      />
     </div>
   )
 })

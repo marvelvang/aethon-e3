@@ -8,7 +8,8 @@ type TileBounds = { minX: number; maxX: number; minY: number; maxY: number }
 
 interface Props {
   buildingTypes: UiBuildingTypeInfo[]
-  tileBounds: TileBounds
+  tileBounds: TileBounds | null
+  visible: boolean
   onSelect: (type: BuildingType) => void
   onDismiss: () => void
 }
@@ -72,7 +73,7 @@ function computePosition(tileBounds: TileBounds, popupH: number) {
   return { top, left }
 }
 
-export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelect, onDismiss }: Props) {
+export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible, onSelect, onDismiss }: Props) {
   const [hoveredType, setHoveredType] = useState<string | null>(null)
   const [focusedType, setFocusedType] = useState<string | null>(null)
   const [touchedType, setTouchedType] = useState<string | null>(null)
@@ -83,24 +84,40 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
   const skipNextClickRef = useRef(false)
   const itemRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
+  // Keep last valid bounds so position stays stable while transitioning to hidden
+  const lastBoundsRef = useRef<TileBounds | null>(null)
+  if (visible && tileBounds) lastBoundsRef.current = tileBounds
+  const effectiveBounds = lastBoundsRef.current
+
+  // Compute position only when visible (offsetHeight requires element in layout)
   useLayoutEffect(() => {
+    if (!visible || !effectiveBounds) return
     const el = popupRef.current
     if (!el) return
-    setPosition(computePosition(tileBounds, el.offsetHeight))
-  }, [tileBounds, buildingTypes])
+    setPosition(computePosition(effectiveBounds, el.offsetHeight))
+  }, [visible, effectiveBounds, buildingTypes])
+
+  // Reset position when hidden so next open always recomputes fresh
+  useEffect(() => {
+    if (!visible) setPosition(null)
+  }, [visible])
 
   const onDismissRef = useRef(onDismiss)
   onDismissRef.current = onDismiss
 
+  // Keyboard dismiss — only active when visible
   useEffect(() => {
+    if (!visible) return
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onDismissRef.current()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [])
+  }, [visible])
 
+  // Outside-click dismiss — only active when visible
   useEffect(() => {
+    if (!visible) return
     function onOutside(e: MouseEvent | TouchEvent) {
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
         onDismissRef.current()
@@ -112,7 +129,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
       document.removeEventListener('mousedown', onOutside)
       document.removeEventListener('touchstart', onOutside)
     }
-  }, [])
+  }, [visible])
 
   useEffect(() => {
     return () => {
@@ -137,8 +154,6 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
     setTouchedType(null)
     if (touchWasLongRef.current) {
       skipNextClickRef.current = true
-      // auto-clear: some browsers don't fire a synthetic click after long-press,
-      // so the flag would otherwise block the next real tap
       setTimeout(() => { skipNextClickRef.current = false }, 150)
     }
     touchWasLongRef.current = false
@@ -157,7 +172,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
   const tooltipInfo = tooltipType ? buildingTypes.find(b => b.type === tooltipType) : null
   const tooltipMeta = tooltipInfo ? BUILDING_META[tooltipInfo.type as BuildingType] : null
 
-  const tooltipEl = tooltipInfo && tooltipMeta && (() => {
+  const tooltipEl = visible && tooltipInfo && tooltipMeta && (() => {
     const itemEl = itemRefs.current[tooltipInfo.type]
     if (!itemEl || !position) return null
     const rect = itemEl.getBoundingClientRect()
@@ -190,9 +205,10 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
     )
   })()
 
-  const style: React.CSSProperties = position
+  // When visible+positioned: normal display. Otherwise off-screen and non-interactive.
+  const style: React.CSSProperties = visible && position
     ? { left: position.left, top: position.top, width: POPUP_WIDTH }
-    : { visibility: 'hidden', top: 0, left: 0, width: POPUP_WIDTH }
+    : { visibility: 'hidden', pointerEvents: 'none', position: 'fixed', top: -9999, left: -9999, width: POPUP_WIDTH }
 
   return (
     <>
