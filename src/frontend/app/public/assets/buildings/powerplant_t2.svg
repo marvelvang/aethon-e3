@@ -45,6 +45,21 @@
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
 
+    <!-- Dritter Block -->
+    <linearGradient id="t3R" gradientUnits="userSpaceOnUse" x1="60" y1="-36" x2="0" y2="-36">
+      <stop offset="0%"   stop-color="#4a6080"/>
+      <stop offset="60%"  stop-color="#304858"/>
+      <stop offset="100%" stop-color="#1e3048"/>
+    </linearGradient>
+    <linearGradient id="t3L" gradientUnits="userSpaceOnUse" x1="-60" y1="-36" x2="0" y2="-36">
+      <stop offset="0%"   stop-color="#182030"/>
+      <stop offset="100%" stop-color="#0a1018"/>
+    </linearGradient>
+    <linearGradient id="t3T" gradientUnits="userSpaceOnUse" x1="0" y1="-94" x2="0" y2="-34">
+      <stop offset="0%"   stop-color="#587090"/>
+      <stop offset="100%" stop-color="#3a5070"/>
+    </linearGradient>
+
     <!-- Schüssel: bläulich-grau -->
     <radialGradient id="dishFaceR" cx="35%" cy="35%" r="70%">
       <stop offset="0%"   stop-color="#7090c0"/>
@@ -125,5 +140,33 @@
            fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
   <ellipse cx="0" cy="31" rx="9" ry="4.5"
            fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+
+  <!-- ══ DRITTER BLOCK  rx=60 ry=30 h=28
+       Faktor 88/128 = 0.6875 → 88×0.6875 ≈ 60
+       Unterseite: N(0,−66) E(60,−36) W(−60,−36) S(0,−6)
+       Oberseite:  N(0,−94) E(60,−64) W(−60,−64) S(0,−34)  ══ -->
+
+  <!-- linke Fläche (Schattenseite) -->
+  <polygon points="-60,-36 0,-6 0,-34 -60,-64" fill="url(#t3L)" stroke="#1a2a3a" stroke-width="1.5"/>
+  <line x1="-60" y1="-64" x2="-60" y2="-36" stroke="#1a2840" stroke-width="2"   opacity="0.55"/>
+  <line x1="-45" y1="-54" x2="-15" y2="-39" stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-45" y1="-48" x2="-15" y2="-33" stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- rechte Fläche (Lichtseite) -->
+  <polygon points="60,-36 0,-6 0,-34 60,-64"  fill="url(#t3R)" stroke="#3a5878" stroke-width="1.5"/>
+  <line x1="60"  y1="-64" x2="60"  y2="-36" stroke="#5080b0" stroke-width="2"   opacity="0.55"/>
+  <line x1="45"  y1="-54" x2="15"  y2="-39" stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="45"  y1="-48" x2="15"  y2="-33" stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- hintere N-Ecke (verdeckt von Deckfläche) -->
+  <circle cx="0" cy="-94" r="4" fill="#80b0e0" filter="url(#glow)" opacity="0.45"/>
+
+  <!-- Deckfläche -->
+  <polygon points="0,-94 60,-64 0,-34 -60,-64" fill="url(#t3T)" stroke="#3a5878" stroke-width="1.5"/>
+
+  <!-- Eckknoten oben -->
+  <circle cx="60"  cy="-64" r="4.5" fill="#80b0e0" filter="url(#glow)"/>
+  <circle cx="-60" cy="-64" r="4.5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-34" r="4.5" fill="#80b0e0" filter="url(#glow)"/>
 
 </svg>
