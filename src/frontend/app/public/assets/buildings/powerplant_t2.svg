@@ -45,6 +45,17 @@
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
 
+    <!-- Schüssel: bläulich-grau -->
+    <radialGradient id="dishFaceR" cx="35%" cy="35%" r="70%">
+      <stop offset="0%"   stop-color="#7090c0"/>
+      <stop offset="60%"  stop-color="#3a5080"/>
+      <stop offset="100%" stop-color="#1a2840"/>
+    </radialGradient>
+    <radialGradient id="dishFaceL" cx="35%" cy="35%" r="70%">
+      <stop offset="0%"   stop-color="#304060"/>
+      <stop offset="100%" stop-color="#141e30"/>
+    </radialGradient>
+
   </defs>
 
   <!-- ══ FOUNDATION hz 0→24 (±128) ══ -->
@@ -77,5 +88,42 @@
   <circle cx="-88" cy="-28" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
   <circle cx="0"   cy="16"  r="5" fill="#80b0e0" filter="url(#glow)"/>
   </g>
+
+  <!-- ══ SCHÜSSELN AUF DEN VIER ECKEN DER BASE UNIT ══
+       Ecken (SVG-Koordinaten): N(0,−36) E(88,8) W(−88,8) S(0,52)
+       Masten: Startpunkt an Kugeloberfläche (r=5 ab Zentrum), kein Mask
+       Reihenfolge: N → E → W → S  (Painter's Algorithm) -->
+
+  <!-- ─── NORD-SCHÜSSEL  N(0,−36) ─── -->
+  <line x1="0" y1="-41" x2="0" y2="-59"
+        stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="0" cy="-59" rx="15" ry="7"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="0" cy="-59" rx="9" ry="4.5"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+
+  <!-- ─── OST-SCHÜSSEL  E(88,8) ─── -->
+  <line x1="85.3" y1="3.8" x2="75" y2="-12"
+        stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="75" cy="-12" rx="13" ry="6.5"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="75" cy="-12" rx="8" ry="4"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+
+  <!-- ─── WEST-SCHÜSSEL  W(−88,8)  (Schattenseite) ─── -->
+  <line x1="-85.3" y1="3.8" x2="-75" y2="-12"
+        stroke="#283048" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="-75" cy="-12" rx="13" ry="6.5"
+           fill="url(#dishFaceL)" stroke="#405070" stroke-width="1.5" opacity="0.85"/>
+  <ellipse cx="-75" cy="-12" rx="8" ry="4"
+           fill="#101826" stroke="#304060" stroke-width="1" opacity="0.85"/>
+
+  <!-- ─── SÜD-SCHÜSSEL  S(0,52)  (vorderste Ebene) ─── -->
+  <line x1="0" y1="47" x2="0" y2="31"
+        stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="0" cy="31" rx="15" ry="7"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="0" cy="31" rx="9" ry="4.5"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
 
 </svg>
