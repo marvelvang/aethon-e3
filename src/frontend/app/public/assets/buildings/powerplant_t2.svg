@@ -149,14 +149,14 @@
   <!-- linke Fläche (Schattenseite) -->
   <polygon points="-60,-36 0,-6 0,-34 -60,-64" fill="url(#t3L)" stroke="#1a2a3a" stroke-width="1.5"/>
   <line x1="-60" y1="-64" x2="-60" y2="-36" stroke="#1a2840" stroke-width="2"   opacity="0.55"/>
-  <line x1="-45" y1="-54" x2="-15" y2="-39" stroke="#142030" stroke-width="1.5" opacity="0.4"/>
-  <line x1="-45" y1="-48" x2="-15" y2="-33" stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-45" y1="-46" x2="-15" y2="-31" stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-45" y1="-40" x2="-15" y2="-25" stroke="#142030" stroke-width="1.5" opacity="0.4"/>
 
   <!-- rechte Fläche (Lichtseite) -->
   <polygon points="60,-36 0,-6 0,-34 60,-64"  fill="url(#t3R)" stroke="#3a5878" stroke-width="1.5"/>
   <line x1="60"  y1="-64" x2="60"  y2="-36" stroke="#5080b0" stroke-width="2"   opacity="0.55"/>
-  <line x1="45"  y1="-54" x2="15"  y2="-39" stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
-  <line x1="45"  y1="-48" x2="15"  y2="-33" stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="45"  y1="-46" x2="15"  y2="-31" stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="45"  y1="-40" x2="15"  y2="-25" stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
 
   <!-- hintere N-Ecke (verdeckt von Deckfläche) -->
   <circle cx="0" cy="-94" r="4" fill="#80b0e0" filter="url(#glow)" opacity="0.45"/>
