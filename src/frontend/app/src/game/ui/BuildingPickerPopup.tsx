@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { UiBuildingTypeInfo } from '@aethon/models'
 import { BUILDING_META, type BuildingType } from '../../presentation/buildingTypes'
 import { POPULATION_DEF, RESOURCES_BY_KEY } from '../../presentation/resources'
+import { getPopupSrc } from './buildingImageCache'
 import './BuildingPickerPopup.css'
 
 type TileBounds = { minX: number; maxX: number; minY: number; maxY: number }
@@ -246,7 +247,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
                 info.canAfford ? '' : 'picker-item--disabled',
               ].filter(Boolean).join(' ')}
             >
-              <img src={meta.assetPath} alt={meta.label} className="picker-item-img" />
+              <img src={getPopupSrc(meta.assetPath)} alt={meta.label} className="picker-item-img" />
             </div>
           )
         })}
