@@ -1,17 +1,31 @@
 import * as PIXI from 'pixi.js'
 import type { BuildingType } from '@aethon/models'
 
-import baseSvg         from '../assets/buildings/base.svg'
-import housingSvg      from '../assets/buildings/housing.svg'
-import housingT2Svg    from '../assets/buildings/housing_t2.svg'
-import consumerSvg     from '../assets/buildings/consumer.svg'
-import consumerT2Svg   from '../assets/buildings/consumer_t2.svg'
-import industrySvg     from '../assets/buildings/industry.svg'
-import industryT2Svg   from '../assets/buildings/industry_t2.svg'
-import powerplantSvg   from '../assets/buildings/powerplant.svg'
-import powerplantT2Svg from '../assets/buildings/powerplant_t2.svg'
-import researchSvg     from '../assets/buildings/research.svg'
-import researchT2Svg   from '../assets/buildings/research_t2.svg'
+// SVG raw strings — for inline <svg> rendering in browser UI (vector quality, no decode delay)
+import baseSvgRaw         from '../assets/buildings/base.svg?raw'
+import housingSvgRaw      from '../assets/buildings/housing.svg?raw'
+import housingT2SvgRaw    from '../assets/buildings/housing_t2.svg?raw'
+import consumerSvgRaw     from '../assets/buildings/consumer.svg?raw'
+import consumerT2SvgRaw   from '../assets/buildings/consumer_t2.svg?raw'
+import industrySvgRaw     from '../assets/buildings/industry.svg?raw'
+import industryT2SvgRaw   from '../assets/buildings/industry_t2.svg?raw'
+import powerplantSvgRaw   from '../assets/buildings/powerplant.svg?raw'
+import powerplantT2SvgRaw from '../assets/buildings/powerplant_t2.svg?raw'
+import researchSvgRaw     from '../assets/buildings/research.svg?raw'
+import researchT2SvgRaw   from '../assets/buildings/research_t2.svg?raw'
+
+// PNG URLs — for Pixi.js texture loading (generated at build time via render-building-pngs.py)
+import basePng         from '../assets/buildings/png/base.png'
+import housingPng      from '../assets/buildings/png/housing.png'
+import housingT2Png    from '../assets/buildings/png/housing_t2.png'
+import consumerPng     from '../assets/buildings/png/consumer.png'
+import consumerT2Png   from '../assets/buildings/png/consumer_t2.png'
+import industryPng     from '../assets/buildings/png/industry.png'
+import industryT2Png   from '../assets/buildings/png/industry_t2.png'
+import powerplantPng   from '../assets/buildings/png/powerplant.png'
+import powerplantT2Png from '../assets/buildings/png/powerplant_t2.png'
+import researchPng     from '../assets/buildings/png/research.png'
+import researchT2Png   from '../assets/buildings/png/research_t2.png'
 
 export type { BuildingType }
 
@@ -19,7 +33,8 @@ export interface BuildingMeta {
   label: string
   iconBgColor: number
   iconHex: string
-  assetPath: string
+  assetSvg: string     // raw SVG string — use as <svg> inline in browser UI
+  assetPath: string    // PNG URL — use for Pixi.js texture loading
   assetAnchorY: number
   assetScale: number
   drawIcon: (g: PIXI.Graphics) => void
@@ -41,16 +56,13 @@ function drawStar(g: PIXI.Graphics, spikes: number, outerR: number, innerR: numb
   g.drawPolygon(points)
 }
 
-/**
- * View metadata for each building type — labels, colors, SVG assets, Pixi
- * icon drawers. Keyed by the BuildingType enum from @aethon/models.
- */
 export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
   Base: {
     label: 'Basis',
     iconBgColor: 0xE8B84B,
     iconHex: '#E8B84B',
-    assetPath: baseSvg,
+    assetSvg: baseSvgRaw,
+    assetPath: basePng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => drawStar(g, 5, 8, 3.5),
@@ -59,7 +71,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Wohngebäude',
     iconBgColor: 0xE07030,
     iconHex: 'var(--color-housing)',
-    assetPath: housingSvg,
+    assetSvg: housingSvgRaw,
+    assetPath: housingPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -71,7 +84,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Wohngebäude II',
     iconBgColor: 0xFF9050,
     iconHex: 'var(--color-housing)',
-    assetPath: housingT2Svg,
+    assetSvg: housingT2SvgRaw,
+    assetPath: housingT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -84,7 +98,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Güterwerk',
     iconBgColor: 0x66AA44,
     iconHex: 'var(--color-consumer)',
-    assetPath: consumerSvg,
+    assetSvg: consumerSvgRaw,
+    assetPath: consumerPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -96,7 +111,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Güterwerk II',
     iconBgColor: 0x88CC55,
     iconHex: 'var(--color-consumer)',
-    assetPath: consumerT2Svg,
+    assetSvg: consumerT2SvgRaw,
+    assetPath: consumerT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -109,7 +125,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Industriewerk',
     iconBgColor: 0xCC44FF,
     iconHex: 'var(--color-industry)',
-    assetPath: industrySvg,
+    assetSvg: industrySvgRaw,
+    assetPath: industryPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -122,7 +139,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Industriewerk II',
     iconBgColor: 0xDD66FF,
     iconHex: 'var(--color-industry)',
-    assetPath: industryT2Svg,
+    assetSvg: industryT2SvgRaw,
+    assetPath: industryT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -136,7 +154,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Kraftwerk',
     iconBgColor: 0x88AAFF,
     iconHex: 'var(--color-energy)',
-    assetPath: powerplantSvg,
+    assetSvg: powerplantSvgRaw,
+    assetPath: powerplantPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -147,7 +166,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Kraftwerk II',
     iconBgColor: 0xAABBFF,
     iconHex: 'var(--color-energy)',
-    assetPath: powerplantT2Svg,
+    assetSvg: powerplantT2SvgRaw,
+    assetPath: powerplantT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -159,7 +179,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Forschung',
     iconBgColor: 0x00BFD8,
     iconHex: 'var(--color-research)',
-    assetPath: researchSvg,
+    assetSvg: researchSvgRaw,
+    assetPath: researchPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -171,7 +192,8 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Forschung II',
     iconBgColor: 0x00DDEE,
     iconHex: 'var(--color-research)',
-    assetPath: researchT2Svg,
+    assetSvg: researchT2SvgRaw,
+    assetPath: researchT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -181,4 +203,3 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     },
   },
 }
-

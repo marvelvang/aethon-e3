@@ -88,6 +88,12 @@ pnpm-debug.log*
 coverage/
 
 # ============================================================
+# Generated build artefacts
+# ============================================================
+# Building PNGs are generated from SVGs at build time (scripts/render-building-pngs.py)
+src/frontend/app/src/assets/buildings/png/
+
+# ============================================================
 # OS
 # ============================================================
 .DS_Store
