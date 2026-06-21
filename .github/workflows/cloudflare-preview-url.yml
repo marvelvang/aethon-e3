@@ -38,12 +38,4 @@ jobs:
           command: pages deploy src/frontend/app/dist --project-name=aethon-e3 --branch=${{ github.ref_name }}
 
       - name: Output preview URL
-        run: |
-          BRANCH="${{ github.ref_name }}"
-          SLUG="${BRANCH//\//-}"
-          SLUG="${SLUG,,}"
-          if [ "$BRANCH" = "main" ]; then
-            echo "CLOUDFLARE_PREVIEW_URL=https://aethon-e3.pages.dev"
-          else
-            echo "CLOUDFLARE_PREVIEW_URL=https://${SLUG}.aethon-e3.pages.dev"
-          fi
+        run: echo "CLOUDFLARE_PREVIEW_URL=${{ steps.deploy.outputs.deployment-url }}"
