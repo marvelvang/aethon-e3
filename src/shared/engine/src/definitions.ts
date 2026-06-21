@@ -12,7 +12,7 @@ export interface BuildingDefinition {
   maintenanceIndustryCost: number
   maintenanceEnergyCost: number
   researchProduction: number
-  requiredResearch: { branch: ResearchBranch; level: number } | null
+  requiredResearch: { branch: ResearchBranch; level: number }[] | null
 }
 
 export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
@@ -27,7 +27,7 @@ export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
   PowerPlant:   def(40, 70, 0,   0,   0,   70,  50,  10, 7,  7),
   PowerPlantT2: def(60, 105,0,   0,   0,   105, 100, 15, 11, 11,  0,  'Energy',   2),
   Research:     def(30, 60, 0,   0,   0,   50,  0,   8,  5,  15,  20),
-  ResearchT2:   def(45, 90, 0,   0,   0,   75,  0,   12, 8,  23,  45, 'Industry', 2),
+  ResearchT2:   { ...def(45, 90, 0, 0, 0, 75, 0, 12, 8, 23, 45), requiredResearch: [{ branch: 'Industry' as const, level: 2 }, { branch: 'Energy' as const, level: 2 }] },
 }
 
 function def(
@@ -57,7 +57,7 @@ function def(
     maintenanceIndustryCost,
     maintenanceEnergyCost,
     researchProduction,
-    requiredResearch: requiredBranch !== null ? { branch: requiredBranch, level: requiredLevel } : null,
+    requiredResearch: requiredBranch !== null ? [{ branch: requiredBranch, level: requiredLevel }] : null,
   }
 }
 

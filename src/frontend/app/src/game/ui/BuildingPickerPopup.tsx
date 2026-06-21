@@ -183,7 +183,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
         </div>
         {!tooltipInfo.researchUnlocked && tooltipInfo.requiredResearch && (
           <div className="picker-tooltip-research">
-            🔒 {RESEARCH_BRANCH_LABEL[tooltipInfo.requiredResearch.branch]} Lvl {tooltipInfo.requiredResearch.level}
+            🔒 {tooltipInfo.requiredResearch.map(r => `${RESEARCH_BRANCH_LABEL[r.branch]} Lvl ${r.level}`).join(' + ')}
           </div>
         )}
       </div>

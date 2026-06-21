@@ -33,7 +33,7 @@ export function project(state: GameState): UiState {
     const d = BUILDING_DEFINITIONS[t]
     const buildable = BUILDABLE_TYPES.has(t)
     const researchUnlocked = d.requiredResearch === null
-      || state.researchProgress[d.requiredResearch.branch].level >= d.requiredResearch.level
+      || d.requiredResearch.every(r => state.researchProgress[r.branch].level >= r.level)
     return {
       type: t,
       populationCost:            d.populationCost,
