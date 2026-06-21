@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: './',
+  build: {
+    assetsInlineLimit: 30000,
+  },
   server: {
     fs: { allow: ['../../..'] },
     proxy: {

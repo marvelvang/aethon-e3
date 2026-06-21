@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Command Nexus – Base Building (Master SVG, 4× tile resolution)
+  ──────────────────────────────────────────────────────────────
+  Tile: TILE_HALF_WIDTH=32, TILE_HALF_HEIGHT=16 → 64×32 px at 1×
+  This SVG: 4× → tile footprint 256×128 px, total 256×308 px
+
+  Isometric origin (0,0) = tile-top vertex
+  Projection: screen_x = (wx-wy)×128,  screen_y = (wx+wy)×64 − hz
+
+  PixiJS usage (displayed at 1× tile size):
+    sprite.anchor.set(0.5, 178/308)   // tile-top vertex in image coords
+    sprite.position.set(tileTopX, tileTopY)
+    sprite.scale.set(64/256)           // 4× → 1×
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+    <!-- ── Gradients ── -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="16" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#3d5e7e"/>
+      <stop offset="100%" stop-color="#1a2d42"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="16" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#111d2c"/>
+      <stop offset="100%" stop-color="#07101a"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="-64" y1="-48" x2="64" y2="80">
+      <stop offset="0%"   stop-color="#527090"/>
+      <stop offset="100%" stop-color="#2d4d68"/>
+    </linearGradient>
+    <linearGradient id="tR" gradientUnits="userSpaceOnUse" x1="88" y1="-96" x2="0" y2="60">
+      <stop offset="0%"   stop-color="#1c6090"/>
+      <stop offset="60%"  stop-color="#0d3a5c"/>
+      <stop offset="100%" stop-color="#07202e"/>
+    </linearGradient>
+    <linearGradient id="tL" gradientUnits="userSpaceOnUse" x1="-88" y1="-96" x2="0" y2="60">
+      <stop offset="0%"   stop-color="#082638"/>
+      <stop offset="100%" stop-color="#030c14"/>
+    </linearGradient>
+    <linearGradient id="tT" gradientUnits="userSpaceOnUse" x1="-44" y1="-140" x2="44" y2="-52">
+      <stop offset="0%"   stop-color="#2c8abe"/>
+      <stop offset="100%" stop-color="#124e72"/>
+    </linearGradient>
+    <radialGradient id="dome" cx="32%" cy="22%" r="72%">
+      <stop offset="0%"   stop-color="#f2fdff"/>
+      <stop offset="28%"  stop-color="#00d8ff"/>
+      <stop offset="72%"  stop-color="#0055a0"/>
+      <stop offset="100%" stop-color="#002244" stop-opacity="0.45"/>
+    </radialGradient>
+    <radialGradient id="winR" cx="38%" cy="32%" r="65%">
+      <stop offset="0%"   stop-color="#c8f4ff"/>
+      <stop offset="100%" stop-color="#003a6a"/>
+    </radialGradient>
+    <radialGradient id="winL" cx="38%" cy="32%" r="65%">
+      <stop offset="0%"   stop-color="#50aacc"/>
+      <stop offset="100%" stop-color="#001828"/>
+    </radialGradient>
+
+    <!-- ── Glow filter ── -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ══════════════════════════════════════════
+       FOUNDATION   hz 0 → 48
+       Bottom: N(0,0) E(128,64) S(0,128) W(-128,64)
+       Top:    N(0,-48) E(128,16) S(0,80) W(-128,16)
+       ══════════════════════════════════════════ -->
+
+  <polygon points="128,64 0,128 0,104 128,40"   fill="url(#fR)" stroke="#00aac8" stroke-width="1.5"/>
+  <polygon points="-128,64 0,128 0,104 -128,40" fill="url(#fL)" stroke="#00aac8" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"  fill="url(#fT)" stroke="#00aac8" stroke-width="1.5"/>
+
+  <g transform="translate(0, 24)">
+  <!-- ══════════════════════════════════════════
+       TOWER   hz 48 → 160   footprint ±88
+       ══════════════════════════════════════════ -->
+
+  <polygon points="88,16 0,60 0,-52 88,-96"    fill="url(#tR)" stroke="#00aac8" stroke-width="1.5"/>
+  <polygon points="-88,16 0,60 0,-52 -88,-96"  fill="url(#tL)" stroke="#00aac8" stroke-width="1.5"/>
+  <circle cx="0" cy="-140" r="5" fill="#00d4ff" filter="url(#glow)" opacity="0.45"/>
+  <polygon points="0,-140 88,-96 0,-52 -88,-96" fill="url(#tT)" stroke="#00aac8" stroke-width="1.5"/>
+
+  <!-- Structural vertical edge highlights -->
+  <line x1="88"  y1="-96" x2="88"  y2="16" stroke="#4898c8" stroke-width="2.5" opacity="0.65"/>
+  <line x1="-88" y1="-96" x2="-88" y2="16" stroke="#183850" stroke-width="2.5" opacity="0.5"/>
+
+  <!-- Horizontal rib between window rows -->
+  <line x1="88"  y1="-40" x2="0" y2="4"  stroke="#3a8ab8" stroke-width="2.5" opacity="0.75"/>
+  <line x1="-88" y1="-40" x2="0" y2="4"  stroke="#1a3850" stroke-width="2.5" opacity="0.55"/>
+
+  <!-- Tower top corner lights -->
+  <circle cx="88"  cy="-96"  r="5" fill="#00d4ff" filter="url(#glow)"/>
+  <circle cx="-88" cy="-96"  r="5" fill="#00d4ff" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-52"  r="5" fill="#00d4ff" filter="url(#glow)"/>
+
+  <!-- ── RIGHT FACE: 2×2 windows ── -->
+  <!-- Lower-left quadrant -->
+  <polygon points="10.31,41.59 33.69,30.41 33.69,0.41 10.31,11.59"  fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
+  <!-- Lower-right quadrant -->
+  <polygon points="53.63,20.19 78.38,7.81 78.38,-22.19 53.63,-9.81" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
+
+  <!-- Upper-left quadrant -->
+  <polygon points="10.31,-14.41 33.69,-25.59 33.69,-55.59 10.31,-44.41" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
+  <!-- Upper-right quadrant -->
+  <polygon points="53.63,-35.81 78.38,-48.19 78.38,-78.19 53.63,-65.81" fill="url(#winR)" stroke="#00c8e8" stroke-width="1.5"/>
+
+  <!-- ── LEFT FACE: windows (shadow side, dimmer) ── -->
+  <!-- Lower-right quadrant -->
+  <polygon points="-10.31,41.59 -33.69,30.41 -33.69,0.41 -10.31,11.59"  fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
+  <!-- Lower-left quadrant -->
+  <polygon points="-53.63,20.19 -78.38,7.81 -78.38,-22.19 -53.63,-9.81"  fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
+  <!-- Upper-right quadrant -->
+  <polygon points="-10.31,-14.41 -33.69,-25.59 -33.69,-55.59 -10.31,-44.41" fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
+  <!-- Upper-left quadrant -->
+  <polygon points="-53.63,-35.81 -78.38,-48.19 -78.38,-78.19 -53.63,-65.81" fill="url(#winL)" stroke="#006880" stroke-width="1" opacity="0.75"/>
+
+  <!-- ── Energy conduits (vertical dividers between window columns, x=±44) ── -->
+  <!-- Right face: glow halo + bright core -->
+  <line x1="44" y1="38" x2="44" y2="-74" stroke="#00d4ff" stroke-width="6"   opacity="0.18" filter="url(#glow)"/>
+  <line x1="44" y1="38" x2="44" y2="-74" stroke="#00d4ff" stroke-width="2.5" opacity="0.85"/>
+  <line x1="44" y1="38" x2="44" y2="-74" stroke="#d0f8ff" stroke-width="1"   opacity="0.9"/>
+  <!-- Left face: dimmer -->
+  <line x1="-44" y1="38" x2="-44" y2="-74" stroke="#00d4ff" stroke-width="3"   opacity="0.10"/>
+  <line x1="-44" y1="38" x2="-44" y2="-74" stroke="#00d4ff" stroke-width="1.5" opacity="0.35"/>
+
+  <!-- Mid-band ring -->
+  <polyline points="88,-40 0,4 -88,-40"  stroke="#00d4ff" stroke-width="2.5" fill="none" opacity="0.8"/>
+
+  <!-- Tower top: power emitter ring -->
+  <ellipse cx="0" cy="-96" rx="38.5" ry="19.25" fill="none" stroke="#00d4ff" stroke-width="2"   opacity="0.65"/>
+  <circle  cx="0" cy="-96" r="6"                 fill="#00d4ff"                                    filter="url(#glow)"/>
+
+  <!-- ══════════════════════════════════════════
+       DOME   center (0,-112)  rx=32 ry=20
+       ══════════════════════════════════════════ -->
+
+  <!-- Outer ambient glow ring -->
+  <ellipse cx="0" cy="-96" rx="46" ry="17" fill="none" stroke="#00d4ff" stroke-width="2"   opacity="0.3" filter="url(#softglow)"/>
+  <!-- Energy collar (orange accent) -->
+  <ellipse cx="0" cy="-98" rx="36" ry="13" fill="none" stroke="#ff8c00" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Dome body -->
+  <ellipse cx="0" cy="-112" rx="32" ry="20" fill="url(#dome)" stroke="#00d4ff" stroke-width="2"/>
+
+  <!-- Dome facet rings -->
+  <ellipse cx="0" cy="-112" rx="21" ry="13" fill="none" stroke="#60d8ff" stroke-width="1"   opacity="0.38"/>
+  <ellipse cx="0" cy="-112" rx="10" ry="6"  fill="none" stroke="#60d8ff" stroke-width="1"   opacity="0.38"/>
+
+  <!-- Specular highlight -->
+  <ellipse cx="-9" cy="-121" rx="11" ry="6"  fill="white" opacity="0.22"/>
+  <ellipse cx="-5" cy="-124" rx="4"  ry="2.5" fill="white" opacity="0.35"/>
+
+  <!-- ══════════════════════════════════════════
+       ANTENNA   (0,-132) → (0,-176)
+       ══════════════════════════════════════════ -->
+  <line x1="0" y1="-132" x2="0" y2="-176" stroke="#90e8ff" stroke-width="2.5"/>
+  <!-- Cross bars -->
+  <line x1="-13" y1="-160" x2="13" y2="-160" stroke="#90e8ff" stroke-width="2.5"/>
+  <line x1="-8"  y1="-148" x2="8"  y2="-148" stroke="#90e8ff" stroke-width="2"/>
+  <!-- Tip glow layers -->
+  <circle cx="0" cy="-176" r="10" fill="#00ffff" opacity="0.15" filter="url(#softglow)"/>
+  <circle cx="0" cy="-176" r="5"  fill="#00ffff" opacity="0.55"/>
+  <circle cx="0" cy="-176" r="3"  fill="#ffffff"/>
+  </g>
+</svg>

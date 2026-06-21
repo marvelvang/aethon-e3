@@ -1,6 +1,18 @@
 import * as PIXI from 'pixi.js'
 import type { BuildingType } from '@aethon/models'
 
+import baseSvg         from '../assets/buildings/base.svg'
+import housingSvg      from '../assets/buildings/housing.svg'
+import housingT2Svg    from '../assets/buildings/housing_t2.svg'
+import consumerSvg     from '../assets/buildings/consumer.svg'
+import consumerT2Svg   from '../assets/buildings/consumer_t2.svg'
+import industrySvg     from '../assets/buildings/industry.svg'
+import industryT2Svg   from '../assets/buildings/industry_t2.svg'
+import powerplantSvg   from '../assets/buildings/powerplant.svg'
+import powerplantT2Svg from '../assets/buildings/powerplant_t2.svg'
+import researchSvg     from '../assets/buildings/research.svg'
+import researchT2Svg   from '../assets/buildings/research_t2.svg'
+
 export type { BuildingType }
 
 export interface BuildingMeta {
@@ -38,7 +50,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Basis',
     iconBgColor: 0xE8B84B,
     iconHex: '#E8B84B',
-    assetPath: '/assets/buildings/base.svg',
+    assetPath: baseSvg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => drawStar(g, 5, 8, 3.5),
@@ -47,7 +59,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Wohngebäude',
     iconBgColor: 0xE07030,
     iconHex: 'var(--color-housing)',
-    assetPath: '/assets/buildings/housing.svg',
+    assetPath: housingSvg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -59,7 +71,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Wohngebäude II',
     iconBgColor: 0xFF9050,
     iconHex: 'var(--color-housing)',
-    assetPath: '/assets/buildings/housing_t2.svg',
+    assetPath: housingT2Svg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -72,7 +84,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Güterwerk',
     iconBgColor: 0x66AA44,
     iconHex: 'var(--color-consumer)',
-    assetPath: '/assets/buildings/consumer.svg',
+    assetPath: consumerSvg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -84,7 +96,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Güterwerk II',
     iconBgColor: 0x88CC55,
     iconHex: 'var(--color-consumer)',
-    assetPath: '/assets/buildings/consumer_t2.svg',
+    assetPath: consumerT2Svg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -97,7 +109,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Industriewerk',
     iconBgColor: 0xCC44FF,
     iconHex: 'var(--color-industry)',
-    assetPath: '/assets/buildings/industry.svg',
+    assetPath: industrySvg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -110,7 +122,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Industriewerk II',
     iconBgColor: 0xDD66FF,
     iconHex: 'var(--color-industry)',
-    assetPath: '/assets/buildings/industry_t2.svg',
+    assetPath: industryT2Svg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -124,7 +136,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Kraftwerk',
     iconBgColor: 0x88AAFF,
     iconHex: 'var(--color-energy)',
-    assetPath: '/assets/buildings/powerplant.svg',
+    assetPath: powerplantSvg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -135,7 +147,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Kraftwerk II',
     iconBgColor: 0xAABBFF,
     iconHex: 'var(--color-energy)',
-    assetPath: '/assets/buildings/powerplant_t2.svg',
+    assetPath: powerplantT2Svg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -147,7 +159,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Forschung',
     iconBgColor: 0x00BFD8,
     iconHex: 'var(--color-research)',
-    assetPath: '/assets/buildings/research.svg',
+    assetPath: researchSvg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
@@ -159,7 +171,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     label: 'Forschung II',
     iconBgColor: 0x00DDEE,
     iconHex: 'var(--color-research)',
-    assetPath: '/assets/buildings/research_t2.svg',
+    assetPath: researchT2Svg,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
     drawIcon: (g) => {
