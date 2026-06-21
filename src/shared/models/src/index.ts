@@ -1,6 +1,13 @@
 export const GRID_SIZE = 20
 
-export const BUILDING_TYPES = ['Base', 'Housing', 'Consumer', 'Industry', 'PowerPlant', 'Research'] as const
+export const BUILDING_TYPES = [
+  'Base',
+  'Housing',    'HousingT2',
+  'Consumer',   'ConsumerT2',
+  'Industry',   'IndustryT2',
+  'PowerPlant', 'PowerPlantT2',
+  'Research',   'ResearchT2',
+] as const
 export type BuildingType = (typeof BUILDING_TYPES)[number]
 
 export const GAME_RESULTS = ['None', 'Win', 'Loss'] as const

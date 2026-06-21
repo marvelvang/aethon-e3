@@ -14,6 +14,13 @@ interface Props {
 }
 
 const POPUP_WIDTH = 160
+
+const RESEARCH_BRANCH_LABEL: Record<string, string> = {
+  Housing: 'Wohnbau',
+  Consumer: 'Güter',
+  Industry: 'Industrie',
+  Energy: 'Energie',
+}
 const GAP = 8
 const MARGIN = 8
 
@@ -174,6 +181,11 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, onSelec
             <span style={{ color: RESOURCES_BY_KEY.energy.color }}>{RESOURCES_BY_KEY.energy.shortLabel} {tooltipInfo.energyCost}</span>
           )}
         </div>
+        {!tooltipInfo.researchUnlocked && tooltipInfo.requiredResearch && (
+          <div className="picker-tooltip-research">
+            🔒 {RESEARCH_BRANCH_LABEL[tooltipInfo.requiredResearch.branch]} Lvl {tooltipInfo.requiredResearch.level}
+          </div>
+        )}
       </div>
     )
   })()
