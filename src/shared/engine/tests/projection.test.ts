@@ -11,7 +11,7 @@ describe('project', () => {
     expect(ui.housing).toBe(150)
     expect(ui.gameResult).toBe('None')
     expect(ui.buildings).toHaveLength(1)
-    expect(ui.buildingTypes).toHaveLength(6)
+    expect(ui.buildingTypes).toHaveLength(11)
     expect(ui.buildingTypes.find(t => t.type === 'Base')?.isBuildable).toBe(false)
     expect(ui.buildingTypes.find(t => t.type === 'Housing')?.isBuildable).toBe(true)
   })
@@ -38,13 +38,15 @@ describe('project', () => {
   })
 
   test('researchUnlocked=false blocks canAfford when research requirement not met', () => {
-    // Temporarily set a required research level on Research building via a state
-    // where the branch level is 0 but the definition requires level 1.
-    // We test indirectly by checking that all current buildings (all requiredResearch=null)
-    // are researchUnlocked=true.
     const ui = project(initial())
-    for (const bt of ui.buildingTypes) {
+    // T1 buildings have no research requirement → always unlocked
+    for (const bt of ui.buildingTypes.filter(b => b.requiredResearch === null)) {
       expect(bt.researchUnlocked).toBe(true)
+    }
+    // T2 buildings require branch level 2; initial level is 1 → locked
+    for (const bt of ui.buildingTypes.filter(b => b.requiredResearch !== null)) {
+      expect(bt.researchUnlocked).toBe(false)
+      expect(bt.canAfford).toBe(false)
     }
   })
 
