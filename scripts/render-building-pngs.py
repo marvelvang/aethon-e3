@@ -18,7 +18,7 @@ for fname in svgs:
     cairosvg.svg2png(
         url=os.path.join(SVG_DIR, fname),
         write_to=os.path.join(PNG_DIR, fname[:-4] + '.png'),
-        scale=2,
+        scale=1,
     )
 
 print(f'[render-pngs] {len(svgs)} PNGs generated in {PNG_DIR}')
