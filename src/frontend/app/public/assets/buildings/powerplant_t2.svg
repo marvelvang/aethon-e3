@@ -48,6 +48,10 @@
       <feGaussianBlur stdDeviation="2.5" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="sphereglow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
 
     <!-- Dritter Block -->
     <linearGradient id="t3R" gradientUnits="userSpaceOnUse" x1="60" y1="-36" x2="0" y2="-36">
@@ -194,5 +198,73 @@
         stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
   <path d="M 0,31 Q 8,12 0,-5 Q -8,-22 0,-34"
         stroke="white" stroke-width="1.5" fill="none" opacity="0.85"/>
+
+  <!-- ══ MINI-SCHÜSSELN + MASTEN auf Block-3-Deckfläche
+       Skaliert 60/88≈0.682 von T1.
+       Mastrichtung identisch zu T1 (E/W diagonal, S senkrecht).
+       Schüsselmittelpunkte: E(51,−78) W(−51,−78) S(0,−48)  ══ -->
+
+  <!-- E-Mast: Kugeloberfläche (57.6,−67.8) → Schüssel (51,−78) -->
+  <line x1="57.6" y1="-67.8" x2="51" y2="-78"
+        stroke="#4a6090" stroke-width="1.7" stroke-linecap="round"/>
+  <ellipse cx="51" cy="-78" rx="9" ry="4.5"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1"/>
+  <ellipse cx="51" cy="-78" rx="5.5" ry="2.7"
+           fill="#1a2840" stroke="#4060a0" stroke-width="0.7"/>
+
+  <!-- W-Mast: (−57.6,−67.8) → (−51,−78) (Schattenseite) -->
+  <line x1="-57.6" y1="-67.8" x2="-51" y2="-78"
+        stroke="#283048" stroke-width="1.7" stroke-linecap="round"/>
+  <ellipse cx="-51" cy="-78" rx="9" ry="4.5"
+           fill="url(#dishFaceL)" stroke="#405070" stroke-width="1" opacity="0.85"/>
+  <ellipse cx="-51" cy="-78" rx="5.5" ry="2.7"
+           fill="#101826" stroke="#304060" stroke-width="0.7" opacity="0.85"/>
+
+  <!-- S-Mast: (0,−38.5) → (0,−48) senkrecht -->
+  <line x1="0" y1="-38.5" x2="0" y2="-48"
+        stroke="#4a6090" stroke-width="1.7" stroke-linecap="round"/>
+  <ellipse cx="0" cy="-48" rx="10" ry="5"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1"/>
+  <ellipse cx="0" cy="-48" rx="6" ry="3"
+           fill="#1a2840" stroke="#4060a0" stroke-width="0.7"/>
+
+  <!-- ══ MINI-WELLENSTRAHLEN senkrecht nach oben + je eine Kugel
+       Strahlenlänge je 40 px. Kugeln: E(51,−118) W(−51,−118) S(0,−88)  ══ -->
+
+  <!-- E-Strahl (51,−78) → (51,−118) + Kugel -->
+  <path d="M 51,-78 Q 57,-88 51,-98 Q 45,-108 51,-118"
+        stroke="white" stroke-width="2.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
+  <path d="M 51,-78 Q 57,-88 51,-98 Q 45,-108 51,-118"
+        stroke="white" stroke-width="1" fill="none" opacity="0.80"/>
+  <circle cx="51"  cy="-118" r="14"  fill="white" opacity="0.05" filter="url(#sphereglow)"/>
+  <circle cx="51"  cy="-118" r="10"  fill="white" opacity="0.10" filter="url(#glow)"/>
+  <circle cx="51"  cy="-118" r="7"   fill="white" opacity="0.88"/>
+  <circle cx="49"  cy="-121" r="3"   fill="white" opacity="0.95"/>
+  <circle cx="51"  cy="-118" r="3.5" fill="white"/>
+  <ellipse cx="51" cy="-118" rx="7" ry="2.5" fill="none" stroke="white" stroke-width="0.7" opacity="0.30"/>
+
+  <!-- W-Strahl (−51,−78) → (−51,−118) + Kugel (Schattenseite schwächer) -->
+  <path d="M -51,-78 Q -57,-88 -51,-98 Q -45,-108 -51,-118"
+        stroke="white" stroke-width="2.5" fill="none" opacity="0.10" filter="url(#beamglow)"/>
+  <path d="M -51,-78 Q -57,-88 -51,-98 Q -45,-108 -51,-118"
+        stroke="white" stroke-width="1" fill="none" opacity="0.60"/>
+  <circle cx="-51"  cy="-118" r="14"  fill="white" opacity="0.05" filter="url(#sphereglow)"/>
+  <circle cx="-51"  cy="-118" r="10"  fill="white" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="-51"  cy="-118" r="7"   fill="white" opacity="0.70"/>
+  <circle cx="-49"  cy="-121" r="3"   fill="white" opacity="0.80"/>
+  <circle cx="-51"  cy="-118" r="3.5" fill="white" opacity="0.80"/>
+  <ellipse cx="-51" cy="-118" rx="7" ry="2.5" fill="none" stroke="white" stroke-width="0.7" opacity="0.25"/>
+
+  <!-- S-Strahl (0,−48) → (0,−88) + Kugel, vorderster zuletzt -->
+  <path d="M 0,-48 Q 6,-58 0,-68 Q -6,-78 0,-88"
+        stroke="white" stroke-width="2.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
+  <path d="M 0,-48 Q 6,-58 0,-68 Q -6,-78 0,-88"
+        stroke="white" stroke-width="1" fill="none" opacity="0.85"/>
+  <circle cx="0"  cy="-88" r="14"  fill="white" opacity="0.05" filter="url(#sphereglow)"/>
+  <circle cx="0"  cy="-88" r="10"  fill="white" opacity="0.10" filter="url(#glow)"/>
+  <circle cx="0"  cy="-88" r="7"   fill="white" opacity="0.88"/>
+  <circle cx="-2" cy="-91" r="3"   fill="white" opacity="0.95"/>
+  <circle cx="0"  cy="-88" r="3.5" fill="white"/>
+  <ellipse cx="0" cy="-88" rx="7" ry="2.5" fill="none" stroke="white" stroke-width="0.7" opacity="0.30"/>
 
 </svg>
