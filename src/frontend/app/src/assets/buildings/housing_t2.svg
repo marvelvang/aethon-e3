@@ -78,8 +78,9 @@
       <stop offset="100%" stop-color="#7a3808"/>
     </radialGradient>
     <radialGradient id="dishAmberD" cx="35%" cy="35%" r="70%">
-      <stop offset="0%"   stop-color="#996622"/>
-      <stop offset="100%" stop-color="#3a1a04"/>
+      <stop offset="0%"   stop-color="#ddaa44"/>
+      <stop offset="50%"  stop-color="#996622"/>
+      <stop offset="100%" stop-color="#5a2c0a"/>
     </radialGradient>
 
     <!-- Block B – middle residential (±68) -->
@@ -312,9 +313,9 @@
   <ellipse cx="40" cy="-82" rx="5.5" ry="2.8" fill="#5a2008" stroke="#cc7730" stroke-width="0.8"/>
 
   <!-- W dish – left corner (−48,−66), shadow side -->
-  <line x1="-48" y1="-66" x2="-42" y2="-78" stroke="#7a3010" stroke-width="2" stroke-linecap="round" mask="url(#mWdish)"/>
-  <ellipse cx="-40" cy="-82" rx="10"  ry="5"   fill="url(#dishAmberD)" stroke="#994400" stroke-width="1.2" opacity="0.8"/>
-  <ellipse cx="-40" cy="-82" rx="5.5" ry="2.8"  fill="#2a0e04" stroke="#7a3010" stroke-width="0.8" opacity="0.8"/>
+  <line x1="-48" y1="-66" x2="-42" y2="-78" stroke="#994422" stroke-width="2" stroke-linecap="round" mask="url(#mWdish)"/>
+  <ellipse cx="-40" cy="-82" rx="10"  ry="5"   fill="url(#dishAmberD)" stroke="#bb6622" stroke-width="1.2" opacity="0.85"/>
+  <ellipse cx="-40" cy="-82" rx="5.5" ry="2.8"  fill="#3a1a08" stroke="#884422" stroke-width="0.8" opacity="0.85"/>
 
   <!-- S dish – front corner (0,−42), drawn last -->
   <line x1="0" y1="-42" x2="0" y2="-53" stroke="#cc7730" stroke-width="2" stroke-linecap="round" mask="url(#mSdish)"/>
