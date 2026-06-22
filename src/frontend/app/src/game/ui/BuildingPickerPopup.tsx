@@ -89,18 +89,24 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
   if (visible && tileBounds) lastBoundsRef.current = tileBounds
   const effectiveBounds = lastBoundsRef.current
 
-  // Compute position only when visible (offsetHeight requires element in layout)
+  // Cache popup height so subsequent opens can position immediately (single render)
+  const cachedHeightRef = useRef<number>(0)
+
+  // Compute position as soon as bounds + height are known.
+  // After first open, cachedHeightRef is set and position can be derived inline
+  // without waiting for a second render from useLayoutEffect.
+  const immediatePosition = visible && effectiveBounds && cachedHeightRef.current > 0
+    ? computePosition(effectiveBounds, cachedHeightRef.current)
+    : null
+
   useLayoutEffect(() => {
     if (!visible || !effectiveBounds) return
     const el = popupRef.current
     if (!el) return
-    setPosition(computePosition(effectiveBounds, el.offsetHeight))
-  }, [visible, effectiveBounds, buildingTypes])
-
-  // Reset position when hidden so next open always recomputes fresh
-  useEffect(() => {
-    if (!visible) setPosition(null)
-  }, [visible])
+    const h = el.offsetHeight
+    cachedHeightRef.current = h
+    setPosition(computePosition(effectiveBounds, h))
+  }, [visible, effectiveBounds])
 
   const onDismissRef = useRef(onDismiss)
   onDismissRef.current = onDismiss
@@ -206,8 +212,10 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
   })()
 
   // When visible+positioned: normal display. Otherwise off-screen and non-interactive.
-  const style: React.CSSProperties = visible && position
-    ? { left: position.left, top: position.top, width: POPUP_WIDTH }
+  // Use immediatePosition (from cached height) on first render so popup appears in one frame.
+  const displayPosition = immediatePosition ?? position
+  const style: React.CSSProperties = visible && displayPosition
+    ? { left: displayPosition.left, top: displayPosition.top, width: POPUP_WIDTH }
     : { visibility: 'hidden', pointerEvents: 'none', position: 'fixed', top: -9999, left: -9999, width: POPUP_WIDTH }
 
   return (

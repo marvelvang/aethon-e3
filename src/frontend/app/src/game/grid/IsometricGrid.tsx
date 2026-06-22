@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import type { UiBuildingSlot, UiBuildingTypeInfo, UiState } from '@aethon/models'
 import type { BuildingType } from '../../presentation/buildingTypes'
 import BuildingPickerPopup from '../ui/BuildingPickerPopup'
@@ -190,7 +190,10 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
     resetView: handleResetView,
   }))
 
-  const buildableTypes = buildingTypes.filter((b) => b.isBuildable)
+  const buildableTypes = useMemo(
+    () => buildingTypes.filter((b) => b.isBuildable),
+    [buildingTypes],
+  )
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
