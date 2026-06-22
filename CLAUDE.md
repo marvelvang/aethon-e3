@@ -111,40 +111,36 @@ Den grep-Ausgabewert direkt in den Fragetext übernehmen – **niemals** aus dem
 Das Frontend wird automatisch auf Cloudflare Pages deployed. Projekt: **`aethon-e3`**
 
 - Produktion (main): `https://aethon-e3.pages.dev`
-- Branch-Previews: stabile Branch-Alias-URL (ändert sich pro Push nicht)
+- Branch-Previews: stabile Branch-Alias-URL — **ändert sich pro Push NICHT**, ist für den
+  gesamten Branch immer dieselbe. Bekannte URL für den aktuellen Branch:
+  `https://claude-game-building-graphic.aethon-e3.pages.dev`
 
 **Build-Nummer:** Das Frontend zeigt neben der Versionsnummer eine Build-Nummer an
 (`v0.3.8 #142`). Sie entspricht `git rev-list --count HEAD` und steigt mit jedem Commit.
-**Nach jedem Push die aktuelle Build-Nummer ausgeben:**
+
+**Ablauf nach jedem Push auf einen `claude/**`-Branch — PFLICHT, immer beide Infos sofort ausgeben:**
 ```bash
 git rev-list --count HEAD
 ```
-Format: `Build #<n>` — direkt nach dem Push im Chat ausgeben, damit der User im UI
-sofort vergleichen kann, ob er die neueste Version sieht.
+Direkt danach im Chat ausgeben:
+```
+Build #<n>
+Preview: [https://<branch-alias>.aethon-e3.pages.dev](https://<branch-alias>.aethon-e3.pages.dev)
+```
+Die URL ist stabil und sofort bekannt — **kein Warten auf den Workflow nötig**.
 
-**Wie die URL abgerufen wird:**
+**Branch-Alias-URL ermitteln (nur beim ersten Push auf einen neuen Branch):**
 Ein GitHub Actions Workflow (`.github/workflows/cloudflare-preview-url.yml`) läuft nach
 jedem Push auf `claude/**`-Branches automatisch. Er gibt die URL als
-`CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus.
+`CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus. Nur beim allerersten Deployment
+eines neuen Branches per MCP lesen:
+```
+mcp__github__actions_list → neuesten Run für diesen Branch finden
+mcp__github__get_job_logs → Log auf "CLOUDFLARE_PREVIEW_URL=" oder "Deployment alias URL:" prüfen
+```
+Danach ist die URL bekannt und wird für alle weiteren Pushes direkt ausgegeben.
 
-**Ablauf nach jedem Push auf einen `claude/**`-Branch:**
-1. Sofort nach dem Push: Build-Nummer ausgeben (`git rev-list --count HEAD`)
-2. Workflow-Run per MCP suchen und Log lesen:
-   ```
-   mcp__github__actions_list → neuesten Run für diesen Branch finden
-   mcp__github__get_job_logs → Log auf "CLOUDFLARE_PREVIEW_URL=" prüfen
-   ```
-3. Wenn URL im Log gefunden → als klickbaren Link ausgeben:
-   ```
-   Preview: [https://xxxx.aethon-e3.pages.dev](https://xxxx.aethon-e3.pages.dev) *(Build läuft noch ~1–2 Min)*
-   ```
-4. Wenn Workflow noch läuft (Log noch leer) → ausgeben:
-   ```
-   Deployment gestartet. Schreib "URL" und ich hole die Preview-URL sobald der Workflow fertig ist.
-   ```
-
-**Kurzbefehl "url":** Schreibt der User nur das Wort `url`, sofort Workflow-Log des
-letzten Runs für den aktuellen Branch per MCP lesen und die Preview-URL ausgeben.
+**Kurzbefehl "url":** Workflow-Log des letzten Runs per MCP lesen und die Preview-URL ausgeben.
 
 **Voraussetzung (einmalig durch den User im GitHub Repo einzurichten):**
 Repository Settings → Secrets → Actions → zwei Secrets:
