@@ -52,6 +52,12 @@ export class GridEngine {
       autoDensity: true,
     })
 
+    // Disable Pixi.js event system — we handle all input via InputController.
+    // Without this, Pixi.js hit-tests the entire scene graph on every touch event,
+    // which blocks the main thread for 300–800 ms on mobile.
+    this.app.stage.eventMode = 'none'
+    this.app.stage.interactiveChildren = false
+
     this.camera = new Camera(window.innerWidth, window.innerHeight)
     const gridVisualHeight = (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
     this.camera.setBoardCenter(

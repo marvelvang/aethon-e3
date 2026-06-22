@@ -199,7 +199,7 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <canvas
         ref={canvasRef}
-        style={{ display: 'block', width: '100%', height: '100%' }}
+        style={{ display: 'block', width: '100%', height: '100%', touchAction: 'none' }}
       />
       <BuildingPickerPopup
         buildingTypes={buildableTypes}
