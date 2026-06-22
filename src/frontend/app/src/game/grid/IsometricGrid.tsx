@@ -59,6 +59,15 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
     if (!canvasRef.current) return
 
     const engine = new GridEngine(canvasRef.current, {
+      onCellTouchDown: (cell, tileBounds) => {
+        if (!enabledRef.current) return
+        if (buildingsRef.current.some((b) => b.x === cell.col && b.y === cell.row)) return
+        if (pendingCellsRef.current.has(`${cell.col},${cell.row}`)) return
+        setPendingPlacement({ cell, tileBounds })
+      },
+      onCellTouchCancelled: () => {
+        setPendingPlacement(null)
+      },
       onCellClick: (cell, tileBounds) => {
         if (!enabledRef.current) return
         if (!cell) { onCellClickRef.current(null); return }
@@ -66,9 +75,12 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
         if (existing) {
           onCellClickRef.current(existing)
         } else {
+          // Popup already shown via onCellTouchDown; just ensure it stays open
           if (pendingCellsRef.current.has(`${cell.col},${cell.row}`)) return
           onCellClickRef.current(null)
-          setPendingPlacement({ cell, tileBounds: tileBounds! })
+          if (!pendingPlacementRef.current) {
+            setPendingPlacement({ cell, tileBounds: tileBounds! })
+          }
         }
       },
       onRotationChanged: (r) => {

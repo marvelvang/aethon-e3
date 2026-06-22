@@ -14,6 +14,10 @@ export interface InputHandlers {
   onSelectionDragUpdate: (x: number, y: number) => void
   onSelectionDragEnd: (x: number, y: number) => void
   onSelectionDragCancel: () => void
+  // Fires immediately on touchstart so the popup can open before finger lifts
+  onTouchTap?: (x: number, y: number) => void
+  // Fires when the touch is no longer a simple tap (pan started or long-press)
+  onTouchTapCancelled?: () => void
 }
 
 type MouseMode = 'idle' | 'pending-select' | 'selecting' | 'panning' | 'no-drag'
@@ -169,10 +173,14 @@ export class InputController {
     this.touchSelecting = false
     this.touchPanning = false
 
+    // Notify immediately so popup can open before finger lifts
+    this.handlers.onTouchTap?.(t.clientX, t.clientY)
+
     if (this.longPressTimer !== null) clearTimeout(this.longPressTimer)
     this.longPressTimer = setTimeout(() => {
       this.longPressTimer = null
       if (!this.touchMoved && !this.touchPanning) {
+        this.handlers.onTouchTapCancelled?.()
         const accepted = this.handlers.onSelectionDragStart(this.touchStartX, this.touchStartY)
         if (accepted) this.touchSelecting = true
       }
@@ -197,6 +205,7 @@ export class InputController {
           const cam = this.getCameraState()
           this.panState = { startX: this.touchStartX, startY: this.touchStartY, camX: cam.x, camY: cam.y }
           this.touchPanning = true
+          this.handlers.onTouchTapCancelled?.()
         }
       }
     }
