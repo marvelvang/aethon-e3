@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { execFileSync } from 'child_process'
+import { execFileSync, execSync } from 'child_process'
 import path from 'path'
 
 const renderBuildingPngs = {
@@ -11,8 +11,14 @@ const renderBuildingPngs = {
   },
 }
 
+const buildNumber = (() => {
+  try { return execSync('git rev-list --count HEAD', { encoding: 'utf8' }).trim() }
+  catch { return '0' }
+})()
+
 export default defineConfig({
   plugins: [react(), renderBuildingPngs],
+  define: { __BUILD_NUMBER__: JSON.stringify(buildNumber) },
   base: './',
   server: {
     fs: { allow: ['../../..'] },

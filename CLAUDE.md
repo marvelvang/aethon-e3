@@ -107,28 +107,38 @@ Den grep-Ausgabewert direkt in den Fragetext übernehmen – **niemals** aus dem
 - **Minor** (`0.x.0`): Echte neue Nutzerfunktionalität; Patch-Teil → 0
 - **Major** (`x.0.0`): Nur nach expliziter Absprache mit dem User, niemals eigenständig
 
-### 5. Cloudflare Pages Preview-URL nach jedem Push ausgeben
+### 5. Cloudflare Pages Preview-URL und Build-Nummer nach jedem Push ausgeben
 Das Frontend wird automatisch auf Cloudflare Pages deployed. Projekt: **`aethon-e3`**
 
 - Produktion (main): `https://aethon-e3.pages.dev`
-- Branch-Previews: hash-basierte URL, die Cloudflare bei jedem Deployment vergibt
+- Branch-Previews: stabile Branch-Alias-URL (ändert sich pro Push nicht)
+
+**Build-Nummer:** Das Frontend zeigt neben der Versionsnummer eine Build-Nummer an
+(`v0.3.8 #142`). Sie entspricht `git rev-list --count HEAD` und steigt mit jedem Commit.
+**Nach jedem Push die aktuelle Build-Nummer ausgeben:**
+```bash
+git rev-list --count HEAD
+```
+Format: `Build #<n>` — direkt nach dem Push im Chat ausgeben, damit der User im UI
+sofort vergleichen kann, ob er die neueste Version sieht.
 
 **Wie die URL abgerufen wird:**
 Ein GitHub Actions Workflow (`.github/workflows/cloudflare-preview-url.yml`) läuft nach
-jedem Push auf `claude/**`-Branches automatisch. Er pollt die Cloudflare API und gibt
-die URL als `CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus.
+jedem Push auf `claude/**`-Branches automatisch. Er gibt die URL als
+`CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus.
 
 **Ablauf nach jedem Push auf einen `claude/**`-Branch:**
-1. Sofort nach dem Push: Workflow-Run per MCP suchen und Log lesen:
+1. Sofort nach dem Push: Build-Nummer ausgeben (`git rev-list --count HEAD`)
+2. Workflow-Run per MCP suchen und Log lesen:
    ```
    mcp__github__actions_list → neuesten Run für diesen Branch finden
    mcp__github__get_job_logs → Log auf "CLOUDFLARE_PREVIEW_URL=" prüfen
    ```
-2. Wenn URL im Log gefunden → als klickbaren Link ausgeben:
+3. Wenn URL im Log gefunden → als klickbaren Link ausgeben:
    ```
    Preview: [https://xxxx.aethon-e3.pages.dev](https://xxxx.aethon-e3.pages.dev) *(Build läuft noch ~1–2 Min)*
    ```
-3. Wenn Workflow noch läuft (Log noch leer) → ausgeben:
+4. Wenn Workflow noch läuft (Log noch leer) → ausgeben:
    ```
    Deployment gestartet. Schreib "URL" und ich hole die Preview-URL sobald der Workflow fertig ist.
    ```
