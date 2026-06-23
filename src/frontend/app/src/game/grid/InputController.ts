@@ -247,6 +247,7 @@ export class InputController {
       // Cancel any single-touch in progress
       if (this.longPressTimer !== null) { clearTimeout(this.longPressTimer); this.longPressTimer = null }
       if (this.touchSelecting) { this.handlers.onSelectionDragCancel(); this.touchSelecting = false }
+      this.handlers.onTouchTapCancelled?.()
       this.touchMoved = true
       this.touchPanning = false
       const dx = e.touches[1].clientX - e.touches[0].clientX

@@ -211,17 +211,21 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
     )
   })()
 
-  // opacity+transform approach: element is always painted (opacity:0) so SVGs rasterize at mount.
-  // Positioning via transform only (no top/left changes) keeps rasterization cache valid.
+  // Stay at last real position when hidden (opacity:0) so the browser keeps the rasterization
+  // cache warm. translate(-9999px) would push it outside the browser's tile range and force
+  // a re-rasterize on every open. First open is still slow; subsequent opens reuse cache.
   const displayPosition = immediatePosition ?? position
   const isShown = visible && !!displayPosition
+  const lastRealPositionRef = useRef<{ left: number; top: number } | null>(null)
+  if (displayPosition) lastRealPositionRef.current = displayPosition
+  const renderPosition = displayPosition ?? lastRealPositionRef.current
   const style: React.CSSProperties = {
     top: 0,
     left: 0,
     width: POPUP_WIDTH,
     willChange: 'transform, opacity',
-    transform: isShown
-      ? `translate(${displayPosition!.left}px, ${displayPosition!.top}px)`
+    transform: renderPosition
+      ? `translate(${renderPosition.left}px, ${renderPosition.top}px)`
       : 'translate(-9999px, -9999px)',
     opacity: isShown ? 1 : 0,
     pointerEvents: isShown ? undefined : 'none',
