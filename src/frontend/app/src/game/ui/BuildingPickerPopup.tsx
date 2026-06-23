@@ -211,12 +211,21 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
     )
   })()
 
-  // When visible+positioned: normal display. Otherwise off-screen and non-interactive.
-  // Use immediatePosition (from cached height) on first render so popup appears in one frame.
+  // opacity+transform approach: element is always painted (opacity:0) so SVGs rasterize at mount.
+  // Positioning via transform only (no top/left changes) keeps rasterization cache valid.
   const displayPosition = immediatePosition ?? position
-  const style: React.CSSProperties = visible && displayPosition
-    ? { left: displayPosition.left, top: displayPosition.top, width: POPUP_WIDTH }
-    : { visibility: 'hidden', pointerEvents: 'none', position: 'fixed', top: -9999, left: -9999, width: POPUP_WIDTH }
+  const isShown = visible && !!displayPosition
+  const style: React.CSSProperties = {
+    top: 0,
+    left: 0,
+    width: POPUP_WIDTH,
+    willChange: 'transform, opacity',
+    transform: isShown
+      ? `translate(${displayPosition!.left}px, ${displayPosition!.top}px)`
+      : 'translate(-9999px, -9999px)',
+    opacity: isShown ? 1 : 0,
+    pointerEvents: isShown ? undefined : 'none',
+  }
 
   return (
     <>
@@ -270,8 +279,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
                 info.canAfford ? '' : 'picker-item--disabled',
               ].filter(Boolean).join(' ')}
             >
-              {/* <div className="picker-item-img" dangerouslySetInnerHTML={{ __html: meta.assetSvg }} /> */}
-              <div className="picker-item-img" style={{ background: meta.iconHex, borderRadius: 4 }} />
+              <div className="picker-item-img" dangerouslySetInnerHTML={{ __html: meta.assetSvg }} />
             </div>
           )
         })}
