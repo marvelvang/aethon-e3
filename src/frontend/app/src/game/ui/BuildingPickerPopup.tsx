@@ -270,7 +270,8 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
                 info.canAfford ? '' : 'picker-item--disabled',
               ].filter(Boolean).join(' ')}
             >
-              <div className="picker-item-img" dangerouslySetInnerHTML={{ __html: meta.assetSvg }} />
+              {/* <div className="picker-item-img" dangerouslySetInnerHTML={{ __html: meta.assetSvg }} /> */}
+              <div className="picker-item-img" style={{ background: meta.iconHex, borderRadius: 4 }} />
             </div>
           )
         })}
