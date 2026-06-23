@@ -58,6 +58,7 @@ export interface UiBuildingTypeInfo {
   industryProduction: number
   energyProduction: number
   housingContribution: number
+  researchProduction: number
   maintenancePopulationCost: number
   maintenanceIndustryCost: number
   maintenanceEnergyCost: number

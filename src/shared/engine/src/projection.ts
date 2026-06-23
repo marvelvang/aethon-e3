@@ -43,6 +43,7 @@ export function project(state: GameState): UiState {
       industryProduction:        d.industryProduction,
       energyProduction:          d.energyProduction,
       housingContribution:       d.housingContribution,
+      researchProduction:        d.researchProduction,
       maintenancePopulationCost: d.maintenancePopulationCost,
       maintenanceIndustryCost:   d.maintenanceIndustryCost,
       maintenanceEnergyCost:     d.maintenanceEnergyCost,
