@@ -211,25 +211,10 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
     )
   })()
 
-  // Stay at last real position when hidden (opacity:0) so the browser keeps the rasterization
-  // cache warm. translate(-9999px) would push it outside the browser's tile range and force
-  // a re-rasterize on every open. First open is still slow; subsequent opens reuse cache.
   const displayPosition = immediatePosition ?? position
-  const isShown = visible && !!displayPosition
-  const lastRealPositionRef = useRef<{ left: number; top: number } | null>(null)
-  if (displayPosition) lastRealPositionRef.current = displayPosition
-  const renderPosition = displayPosition ?? lastRealPositionRef.current
-  const style: React.CSSProperties = {
-    top: 0,
-    left: 0,
-    width: POPUP_WIDTH,
-    willChange: 'transform, opacity',
-    transform: renderPosition
-      ? `translate(${renderPosition.left}px, ${renderPosition.top}px)`
-      : 'translate(-9999px, -9999px)',
-    opacity: isShown ? 1 : 0,
-    pointerEvents: isShown ? undefined : 'none',
-  }
+  const style: React.CSSProperties = visible && displayPosition
+    ? { left: displayPosition.left, top: displayPosition.top, width: POPUP_WIDTH }
+    : { visibility: 'hidden', pointerEvents: 'none', position: 'fixed', top: -9999, left: -9999, width: POPUP_WIDTH }
 
   return (
     <>
@@ -283,7 +268,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
                 info.canAfford ? '' : 'picker-item--disabled',
               ].filter(Boolean).join(' ')}
             >
-              <div className="picker-item-img" dangerouslySetInnerHTML={{ __html: meta.assetSvg }} />
+              <img className="picker-item-img" src={meta.assetPath} alt="" />
             </div>
           )
         })}
