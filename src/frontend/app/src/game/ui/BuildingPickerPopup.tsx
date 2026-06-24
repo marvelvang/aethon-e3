@@ -202,13 +202,18 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
           const indShort = r !== null && Number(tooltipInfo.industryCost) > 0 && r.industry < tooltipInfo.industryCost
           const eneShort = r !== null && Number(tooltipInfo.energyCost) > 0 && r.energy < tooltipInfo.energyCost
           const CostItem = ({ label, value, short, color }: { label: string; value: number; short: boolean; color: string }) => (
-            <div className="picker-tooltip-cost-item">
-              <span className="picker-tooltip-cost-name" style={{ color, paddingLeft: short ? '1em' : undefined }}>{label}</span>
-              <div className="picker-tooltip-cost-value">
-                {short && <span className="picker-tooltip-cost-icon" style={{ color: SHORTAGE_COLOR }}>⚠</span>}
-                <span style={{ color: short ? SHORTAGE_COLOR : undefined }}>{value}</span>
+            short ? (
+              <div className="picker-tooltip-cost-item picker-tooltip-cost-item--short">
+                <span style={{ color, gridColumn: 2 }}>{label}</span>
+                <span className="picker-tooltip-cost-icon" style={{ color: SHORTAGE_COLOR }}>⚠</span>
+                <span style={{ color: SHORTAGE_COLOR }}>{value}</span>
               </div>
-            </div>
+            ) : (
+              <div className="picker-tooltip-cost-item">
+                <span style={{ color }}>{label}</span>
+                <span>{value}</span>
+              </div>
+            )
           )
           return (
             <div className="picker-tooltip-costs">

@@ -76,20 +76,15 @@
   gap: 1px;
 }
 
-.picker-tooltip-cost-name {
-  /* paddingLeft applied inline when short, to match icon width */
-}
-
-.picker-tooltip-cost-value {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+.picker-tooltip-cost-item--short {
+  display: grid;
+  grid-template-columns: 1em auto;
+  column-gap: 2px;
+  row-gap: 1px;
 }
 
 .picker-tooltip-cost-icon {
-  width: 1em;
   text-align: center;
-  flex-shrink: 0;
 }
 
 .picker-tooltip-research {
