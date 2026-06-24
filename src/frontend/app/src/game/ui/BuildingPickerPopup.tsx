@@ -203,19 +203,16 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
           const eneShort = r !== null && Number(tooltipInfo.energyCost) > 0 && r.energy < tooltipInfo.energyCost
           return (
             <div className="picker-tooltip-costs">
-              <span style={{ color: popShort ? SHORTAGE_COLOR : POPULATION_DEF.color }}>
-                {popShort && '⚠ '}{POPULATION_DEF.shortLabel} {tooltipInfo.populationCost}
-              </span>
-              {Number(tooltipInfo.industryCost) > 0 && (
-                <span style={{ color: indShort ? SHORTAGE_COLOR : RESOURCES_BY_KEY.industry.color }}>
-                  {indShort && '⚠ '}{RESOURCES_BY_KEY.industry.shortLabel} {tooltipInfo.industryCost}
-                </span>
-              )}
-              {Number(tooltipInfo.energyCost) > 0 && (
-                <span style={{ color: eneShort ? SHORTAGE_COLOR : RESOURCES_BY_KEY.energy.color }}>
-                  {eneShort && '⚠ '}{RESOURCES_BY_KEY.energy.shortLabel} {tooltipInfo.energyCost}
-                </span>
-              )}
+              <span style={{ color: POPULATION_DEF.color }}>{POPULATION_DEF.shortLabel}</span>
+              <span style={{ color: popShort ? SHORTAGE_COLOR : undefined }}>{popShort && '⚠ '}{tooltipInfo.populationCost}</span>
+              {Number(tooltipInfo.industryCost) > 0 && (<>
+                <span style={{ color: RESOURCES_BY_KEY.industry.color }}>{RESOURCES_BY_KEY.industry.shortLabel}</span>
+                <span style={{ color: indShort ? SHORTAGE_COLOR : undefined }}>{indShort && '⚠ '}{tooltipInfo.industryCost}</span>
+              </>)}
+              {Number(tooltipInfo.energyCost) > 0 && (<>
+                <span style={{ color: RESOURCES_BY_KEY.energy.color }}>{RESOURCES_BY_KEY.energy.shortLabel}</span>
+                <span style={{ color: eneShort ? SHORTAGE_COLOR : undefined }}>{eneShort && '⚠ '}{tooltipInfo.energyCost}</span>
+              </>)}
             </div>
           )
         })()}

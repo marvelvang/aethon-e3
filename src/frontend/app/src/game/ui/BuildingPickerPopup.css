@@ -65,8 +65,10 @@
 }
 
 .picker-tooltip-costs {
-  display: flex;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  row-gap: 2px;
   font-size: 10px;
 }
 
