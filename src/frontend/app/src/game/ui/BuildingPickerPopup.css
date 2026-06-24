@@ -65,11 +65,31 @@
 }
 
 .picker-tooltip-costs {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 8px;
-  row-gap: 2px;
+  display: flex;
+  gap: 8px;
   font-size: 10px;
+}
+
+.picker-tooltip-cost-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.picker-tooltip-cost-name {
+  /* paddingLeft applied inline when short, to match icon width */
+}
+
+.picker-tooltip-cost-value {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.picker-tooltip-cost-icon {
+  width: 1em;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .picker-tooltip-research {

@@ -201,18 +201,20 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
           const popShort = r !== null && r.freePopulation < tooltipInfo.populationCost
           const indShort = r !== null && Number(tooltipInfo.industryCost) > 0 && r.industry < tooltipInfo.industryCost
           const eneShort = r !== null && Number(tooltipInfo.energyCost) > 0 && r.energy < tooltipInfo.energyCost
+          const CostItem = ({ label, value, short, color }: { label: string; value: number; short: boolean; color: string }) => (
+            <div className="picker-tooltip-cost-item">
+              <span className="picker-tooltip-cost-name" style={{ color, paddingLeft: short ? '1em' : undefined }}>{label}</span>
+              <div className="picker-tooltip-cost-value">
+                {short && <span className="picker-tooltip-cost-icon" style={{ color: SHORTAGE_COLOR }}>⚠</span>}
+                <span style={{ color: short ? SHORTAGE_COLOR : undefined }}>{value}</span>
+              </div>
+            </div>
+          )
           return (
             <div className="picker-tooltip-costs">
-              <span style={{ color: POPULATION_DEF.color }}>{POPULATION_DEF.shortLabel}</span>
-              <span style={{ color: popShort ? SHORTAGE_COLOR : undefined }}>{popShort && '⚠ '}{tooltipInfo.populationCost}</span>
-              {Number(tooltipInfo.industryCost) > 0 && (<>
-                <span style={{ color: RESOURCES_BY_KEY.industry.color }}>{RESOURCES_BY_KEY.industry.shortLabel}</span>
-                <span style={{ color: indShort ? SHORTAGE_COLOR : undefined }}>{indShort && '⚠ '}{tooltipInfo.industryCost}</span>
-              </>)}
-              {Number(tooltipInfo.energyCost) > 0 && (<>
-                <span style={{ color: RESOURCES_BY_KEY.energy.color }}>{RESOURCES_BY_KEY.energy.shortLabel}</span>
-                <span style={{ color: eneShort ? SHORTAGE_COLOR : undefined }}>{eneShort && '⚠ '}{tooltipInfo.energyCost}</span>
-              </>)}
+              <CostItem label={POPULATION_DEF.shortLabel} value={tooltipInfo.populationCost} short={popShort} color={POPULATION_DEF.color} />
+              {Number(tooltipInfo.industryCost) > 0 && <CostItem label={RESOURCES_BY_KEY.industry.shortLabel} value={tooltipInfo.industryCost} short={indShort} color={RESOURCES_BY_KEY.industry.color} />}
+              {Number(tooltipInfo.energyCost) > 0 && <CostItem label={RESOURCES_BY_KEY.energy.shortLabel} value={tooltipInfo.energyCost} short={eneShort} color={RESOURCES_BY_KEY.energy.color} />}
             </div>
           )
         })()}
