@@ -25,10 +25,11 @@ interface Props {
   onCellClick: (building: UiBuildingSlot | null) => void
   selectedCell?: { col: number; row: number } | null
   onRotationChanged: (rotation: RotationStep) => void
+  resources: { freePopulation: number; industry: number; energy: number } | null
 }
 
 const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricGrid(
-  { buildings, buildingTypes, enabled, build, onCellClick, selectedCell, onRotationChanged },
+  { buildings, buildingTypes, enabled, build, onCellClick, selectedCell, onRotationChanged, resources },
   ref,
 ) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -217,6 +218,7 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
         buildingTypes={buildableTypes}
         visible={!!pendingPlacement || !!pendingMulti}
         tileBounds={pendingMulti?.tileBounds ?? pendingPlacement?.tileBounds ?? null}
+        resources={resources}
         onSelect={handlePickerSelect}
         onDismiss={handlePickerDismiss}
       />

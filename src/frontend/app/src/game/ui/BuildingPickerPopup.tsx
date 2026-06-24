@@ -10,6 +10,7 @@ interface Props {
   buildingTypes: UiBuildingTypeInfo[]
   tileBounds: TileBounds | null
   visible: boolean
+  resources: { freePopulation: number; industry: number; energy: number } | null
   onSelect: (type: BuildingType) => void
   onDismiss: () => void
 }
@@ -73,7 +74,9 @@ function computePosition(tileBounds: TileBounds, popupH: number) {
   return { top, left }
 }
 
-export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible, onSelect, onDismiss }: Props) {
+const SHORTAGE_COLOR = 'rgba(255, 200, 80, 0.9)'
+
+export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible, resources, onSelect, onDismiss }: Props) {
   const [hoveredType, setHoveredType] = useState<string | null>(null)
   const [focusedType, setFocusedType] = useState<string | null>(null)
   const [touchedType, setTouchedType] = useState<string | null>(null)
@@ -193,15 +196,29 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
         style={{ top: rect.top, left: tLeft, width: tooltipW }}
       >
         <span className="picker-tooltip-label">{tooltipMeta.label}</span>
-        <div className="picker-tooltip-costs">
-          <span style={{ color: POPULATION_DEF.color }}>{POPULATION_DEF.shortLabel} {tooltipInfo.populationCost}</span>
-          {Number(tooltipInfo.industryCost) > 0 && (
-            <span style={{ color: RESOURCES_BY_KEY.industry.color }}>{RESOURCES_BY_KEY.industry.shortLabel} {tooltipInfo.industryCost}</span>
-          )}
-          {Number(tooltipInfo.energyCost) > 0 && (
-            <span style={{ color: RESOURCES_BY_KEY.energy.color }}>{RESOURCES_BY_KEY.energy.shortLabel} {tooltipInfo.energyCost}</span>
-          )}
-        </div>
+        {(() => {
+          const r = resources
+          const popShort = r !== null && r.freePopulation < tooltipInfo.populationCost
+          const indShort = r !== null && Number(tooltipInfo.industryCost) > 0 && r.industry < tooltipInfo.industryCost
+          const eneShort = r !== null && Number(tooltipInfo.energyCost) > 0 && r.energy < tooltipInfo.energyCost
+          return (
+            <div className="picker-tooltip-costs">
+              <span style={{ color: popShort ? SHORTAGE_COLOR : POPULATION_DEF.color }}>
+                {popShort && '⚠ '}{POPULATION_DEF.shortLabel} {tooltipInfo.populationCost}
+              </span>
+              {Number(tooltipInfo.industryCost) > 0 && (
+                <span style={{ color: indShort ? SHORTAGE_COLOR : RESOURCES_BY_KEY.industry.color }}>
+                  {indShort && '⚠ '}{RESOURCES_BY_KEY.industry.shortLabel} {tooltipInfo.industryCost}
+                </span>
+              )}
+              {Number(tooltipInfo.energyCost) > 0 && (
+                <span style={{ color: eneShort ? SHORTAGE_COLOR : RESOURCES_BY_KEY.energy.color }}>
+                  {eneShort && '⚠ '}{RESOURCES_BY_KEY.energy.shortLabel} {tooltipInfo.energyCost}
+                </span>
+              )}
+            </div>
+          )
+        })()}
         {!tooltipInfo.researchUnlocked && tooltipInfo.requiredResearch && (
           <div className="picker-tooltip-research">
             🔒 {tooltipInfo.requiredResearch.map(r => `${RESEARCH_BRANCH_LABEL[r.branch]} Lvl ${r.level}`).join(' + ')}
