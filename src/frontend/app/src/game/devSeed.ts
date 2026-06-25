@@ -11,7 +11,7 @@ export type DevSeedName = 'default' | 'shortage'
  *   'shortage' — round 25, industry=50 / energy=40 so most buildings show ⚠,
  *                research Lvl 2 everywhere (all T2 buildings unlocked)
  */
-export const ACTIVE_DEV_SEED: DevSeedName | null = 'shortage'
+export const ACTIVE_DEV_SEED: DevSeedName | null = 'default'
 
 export function getDevSeed(): Omit<GameState, 'id'> | null {
   if (!ACTIVE_DEV_SEED) return null
