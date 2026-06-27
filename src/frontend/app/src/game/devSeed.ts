@@ -1,17 +1,19 @@
 // dev-only
 import type { GameState } from '@aethon/models'
+import { genesis } from '@aethon/engine'
 
-export type DevSeedName = 'default' | 'shortage'
+export type DevSeedName = 'bare' | 'default' | 'shortage'
 
 /**
  * Switch between dev seeds here. Set to null to start every new/reset game
  * with the normal empty genesis state.
  *
+ *   'bare'     — round 1, only Base, genesis resources (200 ind / 200 ene)
  *   'default'  — round 20, healthy economy, research Lvl 1 everywhere
  *   'shortage' — round 25, industry=50 / energy=40 so most buildings show ⚠,
  *                research Lvl 2 everywhere (all T2 buildings unlocked)
  */
-export const ACTIVE_DEV_SEED: DevSeedName | null = 'default'
+export const ACTIVE_DEV_SEED: DevSeedName | null = 'bare'
 
 export function getDevSeed(): Omit<GameState, 'id'> | null {
   if (!ACTIVE_DEV_SEED) return null
@@ -19,8 +21,17 @@ export function getDevSeed(): Omit<GameState, 'id'> | null {
 }
 
 const SEEDS: Record<DevSeedName, () => Omit<GameState, 'id'>> = {
+  bare: createBareSeed,
   default: createDefaultSeed,
   shortage: createShortageSeed,
+}
+
+/**
+ * Round 1, only Base — the genesis state.
+ * 200 ind / 200 ene / 100 pop → ready to place first buildings.
+ */
+function createBareSeed(): Omit<GameState, 'id'> {
+  return genesis()
 }
 
 /**
