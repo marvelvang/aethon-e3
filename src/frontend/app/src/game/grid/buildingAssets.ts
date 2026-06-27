@@ -6,6 +6,7 @@ export interface BuildingRenderConfig {
   anchorX: number
   anchorY: number
   scale: number
+  tileSize: 1 | 4 | 9
 }
 
 export async function loadBuildingTextures(): Promise<Map<BuildingType, BuildingRenderConfig>> {
@@ -18,6 +19,7 @@ export async function loadBuildingTextures(): Promise<Map<BuildingType, Building
           anchorX: 0.5,
           anchorY: meta.assetAnchorY,
           scale: meta.assetScale,
+          tileSize: meta.tileSize,
         }] as const
       })
   )

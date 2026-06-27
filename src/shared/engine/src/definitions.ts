@@ -1,6 +1,7 @@
 import type { BuildingType, ResearchBranch } from '@aethon/models'
 
 export interface BuildingDefinition {
+  tileSize: 1 | 4 | 9
   populationCost: number
   industryCost: number
   consumerGoodsProduction: number
@@ -20,6 +21,8 @@ export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
   Base:         def(0,  0,  100, 100, 150, 0,   100, 10, 15, 15),
   Housing:      def(50, 60, 0,   0,   20,  60,  0,   0,  0,  0),
   HousingT2:    def(75, 90, 0,   0,   40,  90,  0,   0,  0,  0,   0,  'Housing',  2),
+  HousingT3:    { ...def(200, 240, 0, 0, 80,  240, 0, 0,  0,  0,   0,  'Housing',  3), tileSize: 4 as const },
+  HousingT5:    { ...def(450, 540, 0, 0, 200, 540, 0, 0,  0,  0,   0,  'Housing',  5), tileSize: 9 as const },
   Consumer:     def(25, 15, 40,  0,   0,   15,  0,   7,  5,  5),
   ConsumerT2:   def(38, 23, 80,  0,   0,   23,  0,   11, 8,  8,   0,  'Consumer', 2),
   Industry:     def(40, 70, 10,  50,  0,   70,  0,   10, 7,  7),
@@ -46,6 +49,7 @@ function def(
   requiredLevel = 0,
 ): BuildingDefinition {
   return {
+    tileSize: 1,
     populationCost,
     industryCost,
     consumerGoodsProduction,

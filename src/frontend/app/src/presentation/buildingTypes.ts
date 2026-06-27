@@ -18,6 +18,8 @@ import researchT2SvgRaw   from '../assets/buildings/research_t2.svg?raw'
 import basePng         from '../assets/buildings/png/base.png'
 import housingPng      from '../assets/buildings/png/housing.png'
 import housingT2Png    from '../assets/buildings/png/housing_t2.png'
+import housingT3Png    from '../assets/buildings/png/housing_t3.png'
+import housingT5Png    from '../assets/buildings/png/housing_t5.png'
 import consumerPng     from '../assets/buildings/png/consumer.png'
 import consumerT2Png   from '../assets/buildings/png/consumer_t2.png'
 import industryPng     from '../assets/buildings/png/industry.png'
@@ -33,15 +35,17 @@ export interface BuildingMeta {
   label: string
   iconBgColor: number
   iconHex: string
-  assetSvg: string     // raw SVG string — use as <svg> inline in browser UI
-  assetPath: string    // PNG URL — use for Pixi.js texture loading
+  assetSvg: string | null  // raw SVG string for single-tile; null for composite buildings
+  assetPath: string        // PNG URL — use for Pixi.js texture loading
   assetAnchorY: number
   assetScale: number
+  tileSize: 1 | 4 | 9
   drawIcon: (g: PIXI.Graphics) => void
 }
 
 const ICON_ANCHOR_Y = 178 / 308
 const ICON_SCALE = 64 / 256
+const COMPOSITE_SCALE = 64 / 256  // same display scale — PNG is just wider/taller
 
 function drawStar(g: PIXI.Graphics, spikes: number, outerR: number, innerR: number): void {
   const step = Math.PI / spikes
@@ -65,6 +69,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: basePng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => drawStar(g, 5, 8, 3.5),
   },
   Housing: {
@@ -75,6 +80,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: housingPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawPolygon([-7, 2, 0, -7, 7, 2])
       g.drawRect(-5, 2, 10, 7)
@@ -88,10 +94,44 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: housingT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawPolygon([-8, 2, 0, -8, 8, 2])
       g.drawRect(-6, 2, 12, 8)
       g.drawCircle(6, -7, 2)
+    },
+  },
+  HousingT3: {
+    label: 'Wohnkomplex III',
+    iconBgColor: 0xFF7030,
+    iconHex: 'var(--color-housing)',
+    assetSvg: null,
+    assetPath: housingT3Png,
+    assetAnchorY: 316 / 456,
+    assetScale: COMPOSITE_SCALE,
+    tileSize: 4,
+    drawIcon: (g) => {
+      g.drawPolygon([-9, 2, 0, -9, 9, 2])
+      g.drawRect(-7, 2, 14, 9)
+      g.drawCircle(-4, -9, 2)
+      g.drawCircle(4, -9, 2)
+    },
+  },
+  HousingT5: {
+    label: 'Wohnkomplex V',
+    iconBgColor: 0xFF5010,
+    iconHex: 'var(--color-housing)',
+    assetSvg: null,
+    assetPath: housingT5Png,
+    assetAnchorY: 444 / 584,
+    assetScale: COMPOSITE_SCALE,
+    tileSize: 9,
+    drawIcon: (g) => {
+      g.drawPolygon([-10, 2, 0, -10, 10, 2])
+      g.drawRect(-8, 2, 16, 10)
+      g.drawCircle(-5, -10, 2)
+      g.drawCircle(0, -12, 2)
+      g.drawCircle(5, -10, 2)
     },
   },
   Consumer: {
@@ -102,6 +142,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: consumerPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawEllipse(0, -2, 6, 8)
       g.drawRect(-1.5, 5, 3, 4)
@@ -115,6 +156,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: consumerT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawEllipse(0, -2, 7, 9)
       g.drawRect(-2, 6, 4, 4)
@@ -129,6 +171,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: industryPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawRect(-8, -3, 4, 10)
       g.drawRect(-2, -8, 4, 15)
@@ -143,6 +186,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: industryT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawRect(-9, -4, 4, 11)
       g.drawRect(-3, -9, 4, 16)
@@ -158,6 +202,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: powerplantPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawPolygon([3, -9, -3, 0, 1, 0, -3, 9, 5, -1, 1, -1])
     },
@@ -170,6 +215,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: powerplantT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawPolygon([4, -10, -4, 0, 1, 0, -4, 10, 6, -1, 1, -1])
       g.drawCircle(6, -9, 2)
@@ -183,6 +229,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: researchPng,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawEllipse(0, -2, 5, 5)
       g.drawRect(-1.5, 3, 3, 6)
@@ -196,6 +243,7 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
     assetPath: researchT2Png,
     assetAnchorY: ICON_ANCHOR_Y,
     assetScale: ICON_SCALE,
+    tileSize: 1,
     drawIcon: (g) => {
       g.drawEllipse(0, -2, 6, 6)
       g.drawRect(-2, 4, 4, 6)

@@ -4,14 +4,14 @@ import { aggregateBuildings, calculateGains } from './gains.ts'
 
 const ALL_TYPES: BuildingType[] = [
   'Base',
-  'Housing', 'HousingT2',
+  'Housing', 'HousingT2', 'HousingT3', 'HousingT5',
   'Consumer', 'ConsumerT2',
   'Industry', 'IndustryT2',
   'PowerPlant', 'PowerPlantT2',
   'Research', 'ResearchT2',
 ]
 const BUILDABLE_TYPES = new Set<BuildingType>([
-  'Housing', 'HousingT2',
+  'Housing', 'HousingT2', 'HousingT3', 'HousingT5',
   'Consumer', 'ConsumerT2',
   'Industry', 'IndustryT2',
   'PowerPlant', 'PowerPlantT2',
@@ -36,6 +36,7 @@ export function project(state: GameState): UiState {
       || d.requiredResearch.every(r => state.researchProgress[r.branch].level >= r.level)
     return {
       type: t,
+      tileSize:                  d.tileSize,
       populationCost:            d.populationCost,
       industryCost:              d.industryCost,
       energyCost:                d.energyCost,

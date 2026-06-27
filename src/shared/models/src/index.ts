@@ -2,7 +2,7 @@ export const GRID_SIZE = 20
 
 export const BUILDING_TYPES = [
   'Base',
-  'Housing',    'HousingT2',
+  'Housing',    'HousingT2',  'HousingT3',  'HousingT5',
   'Consumer',   'ConsumerT2',
   'Industry',   'IndustryT2',
   'PowerPlant', 'PowerPlantT2',
@@ -51,6 +51,7 @@ export type UiBuildingSlot = Building
 
 export interface UiBuildingTypeInfo {
   type: BuildingType
+  tileSize: 1 | 4 | 9
   populationCost: number
   industryCost: number
   energyCost: number
