@@ -1,0 +1,33 @@
+.pwa-update {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(20, 16, 48, 0.95);
+  border: 1px solid rgba(107, 82, 232, 0.6);
+  border-radius: 10px;
+  color: #e0d8ff;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+.pwa-update button {
+  padding: 5px 12px;
+  background: #6b52e8;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.pwa-update button:hover {
+  background: #7d63ff;
+}

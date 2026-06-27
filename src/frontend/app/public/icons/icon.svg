@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#080812"/>
+
+  <!-- Main tower: top face -->
+  <polygon points="256,110 366,172 256,234 146,172" fill="#6b52e8"/>
+  <!-- Main tower: right face -->
+  <polygon points="366,172 366,310 256,372 256,234" fill="#3a2c9e"/>
+  <!-- Main tower: left face -->
+  <polygon points="146,172 146,310 256,372 256,234" fill="#4a39b8"/>
+
+  <!-- Left building: top face -->
+  <polygon points="152,300 212,268 212,300 152,332" fill="#3a2c9e"/>
+  <polygon points="152,300 212,268 256,290 196,322" fill="#5040cc"/>
+
+  <!-- Right building: top face -->
+  <polygon points="360,300 300,268 300,300 360,332" fill="#3a2c9e"/>
+  <polygon points="360,300 300,268 256,290 316,322" fill="#5040cc"/>
+
+  <!-- Accent glow on tower top -->
+  <ellipse cx="256" cy="172" rx="58" ry="24" fill="#a08eff" opacity="0.35"/>
+
+  <!-- Window lights on main tower right -->
+  <rect x="290" y="250" width="14" height="10" rx="2" fill="#c8baff" opacity="0.7"/>
+  <rect x="314" y="265" width="14" height="10" rx="2" fill="#c8baff" opacity="0.5"/>
+  <rect x="290" y="278" width="14" height="10" rx="2" fill="#c8baff" opacity="0.6"/>
+
+  <!-- Window lights on main tower left -->
+  <rect x="208" y="250" width="14" height="10" rx="2" fill="#c8baff" opacity="0.7"/>
+  <rect x="184" y="265" width="14" height="10" rx="2" fill="#c8baff" opacity="0.5"/>
+  <rect x="208" y="278" width="14" height="10" rx="2" fill="#c8baff" opacity="0.6"/>
+</svg>
