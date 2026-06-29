@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perry Rhodan – Operation Eastside</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      color: #c8d8e8;
+      font-family: 'Courier New', monospace;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #header {
+      background: #0a0e1a;
+      border-bottom: 1px solid #1a3050;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+
+    #header h1 {
+      font-size: 14px;
+      color: #4af;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    #header .turn-info {
+      font-size: 12px;
+      color: #89a;
+    }
+
+    #header .faction-badge {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+
+    #header .resources {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      margin-left: auto;
+    }
+
+    #header .res-item { color: #9bc; }
+    #header .res-item span { color: #ffe; font-weight: bold; }
+
+    #main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #galaxy-panel {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #galaxy-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    #sidebar {
+      width: 280px;
+      background: #050a12;
+      border-left: 1px solid #1a3050;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #sidebar-tabs {
+      display: flex;
+      border-bottom: 1px solid #1a3050;
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: #0a0e1a;
+      border: none;
+      border-right: 1px solid #1a3050;
+      color: #678;
+      padding: 8px 4px;
+      font-size: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .tab-btn:last-child { border-right: none; }
+    .tab-btn.active { background: #050a12; color: #4af; border-bottom: 2px solid #4af; }
+    .tab-btn:hover:not(.active) { color: #9bc; }
+
+    .tab-content {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .tab-content.active { display: block; }
+
+    .tab-content::-webkit-scrollbar { width: 4px; }
+    .tab-content::-webkit-scrollbar-track { background: #050a12; }
+    .tab-content::-webkit-scrollbar-thumb { background: #1a3050; }
+
+    .section-title {
+      font-size: 10px;
+      color: #4af;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #1a3050;
+    }
+
+    .info-block {
+      background: #0a0e1a;
+      border: 1px solid #1a3050;
+      border-radius: 3px;
+      padding: 8px;
+      margin-bottom: 8px;
+      font-size: 11px;
+    }
+
+    .info-block h3 {
+      color: #4af;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+      color: #89a;
+    }
+
+    .info-row span:last-child { color: #ffe; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      background: #0d1a2a;
+      border: 1px solid #2a5080;
+      color: #4af;
+      padding: 6px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+      border-radius: 3px;
+      margin-bottom: 6px;
+      transition: background 0.1s;
+    }
+
+    .btn:hover { background: #142030; }
+    .btn:disabled { color: #456; border-color: #1a3050; cursor: not-allowed; }
+    .btn.primary { background: #0a2040; border-color: #4af; }
+    .btn.primary:hover { background: #142a50; }
+    .btn.danger { border-color: #a44; color: #f88; }
+    .btn.danger:hover { background: #200a0a; }
+
+    .cost-tag {
+      float: right;
+      color: #fa8;
+      font-size: 10px;
+    }
+
+    .fleet-item {
+      background: #0a0e1a;
+      border: 1px solid #1a3050;
+      border-radius: 3px;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .fleet-item:hover { border-color: #2a5080; }
+    .fleet-item.selected { border-color: #4af; }
+    .fleet-item .fleet-name { color: #4af; font-size: 12px; margin-bottom: 3px; }
+    .fleet-item .fleet-ships { color: #89a; }
+
+    .planet-list-item {
+      background: #0a0e1a;
+      border: 1px solid #1a3050;
+      border-radius: 3px;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .planet-list-item:hover { border-color: #2a5080; }
+    .planet-list-item.selected { border-color: #4af; }
+    .planet-list-item .pname { color: #4af; }
+    .planet-list-item .powner { font-size: 10px; color: #678; }
+
+    .tech-item {
+      background: #0a0e1a;
+      border: 1px solid #1a3050;
+      border-radius: 3px;
+      padding: 8px;
+      margin-bottom: 6px;
+      font-size: 11px;
+    }
+
+    .tech-item.researching { border-color: #fa8; }
+    .tech-item.done { border-color: #4a8; opacity: 0.7; }
+    .tech-item h4 { color: #4af; margin-bottom: 4px; }
+    .tech-item p { color: #678; font-size: 10px; }
+
+    .progress-bar {
+      height: 4px;
+      background: #1a3050;
+      border-radius: 2px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: #4af;
+      transition: width 0.3s;
+    }
+
+    .log-entry {
+      font-size: 10px;
+      color: #678;
+      padding: 3px 0;
+      border-bottom: 1px solid #0d1420;
+      line-height: 1.4;
+    }
+
+    .log-entry.combat { color: #f84; }
+    .log-entry.good { color: #4a8; }
+    .log-entry.info { color: #4af; }
+
+    #footer {
+      background: #0a0e1a;
+      border-top: 1px solid #1a3050;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    #end-turn-btn {
+      background: #0a2040;
+      border: 1px solid #4af;
+      color: #4af;
+      padding: 8px 20px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-radius: 3px;
+    }
+
+    #end-turn-btn:hover { background: #142a50; }
+
+    #status-text {
+      font-size: 11px;
+      color: #678;
+      flex: 1;
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    #overlay.hidden { display: none; }
+
+    .overlay-box {
+      background: #0a0e1a;
+      border: 1px solid #4af;
+      border-radius: 6px;
+      padding: 32px;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .overlay-box h2 {
+      font-size: 22px;
+      color: #4af;
+      margin-bottom: 16px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .overlay-box p {
+      color: #89a;
+      font-size: 13px;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .faction-select {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .faction-card {
+      background: #050a12;
+      border: 1px solid #1a3050;
+      border-radius: 4px;
+      padding: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s;
+    }
+
+    .faction-card:hover { border-color: #2a5080; }
+    .faction-card.selected { border-color: #4af; }
+    .faction-card h3 { color: #4af; font-size: 12px; margin-bottom: 4px; }
+    .faction-card p { color: #678; font-size: 10px; line-height: 1.4; }
+
+    .diff-select {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      justify-content: center;
+    }
+
+    .diff-btn {
+      background: #050a12;
+      border: 1px solid #1a3050;
+      border-radius: 3px;
+      color: #89a;
+      padding: 6px 16px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 11px;
+    }
+
+    .diff-btn.selected { border-color: #4af; color: #4af; }
+
+    #combat-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 90;
+    }
+
+    #combat-overlay.hidden { display: none; }
+
+    .combat-box {
+      background: #0a0e1a;
+      border: 1px solid #a44;
+      border-radius: 6px;
+      padding: 24px 32px;
+      width: 480px;
+    }
+
+    .combat-box h2 {
+      color: #f88;
+      text-align: center;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+
+    .combat-sides {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .combat-side {
+      flex: 1;
+      background: #050a12;
+      border: 1px solid #1a3050;
+      border-radius: 4px;
+      padding: 12px;
+    }
+
+    .combat-side h3 { font-size: 11px; color: #4af; margin-bottom: 8px; }
+    .combat-side .hp-bar { height: 6px; background: #1a3050; border-radius: 3px; overflow: hidden; margin-top: 6px; }
+    .combat-side .hp-fill { height: 100%; background: #4a8; transition: width 0.5s; }
+    .combat-side .hp-fill.low { background: #a84; }
+    .combat-side .hp-fill.critical { background: #a44; }
+
+    .combat-log-box {
+      background: #050a12;
+      border: 1px solid #1a3050;
+      border-radius: 4px;
+      padding: 8px;
+      height: 120px;
+      overflow-y: auto;
+      font-size: 10px;
+      margin-bottom: 12px;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: #0a0e1a;
+      border: 1px solid #4af;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 11px;
+      color: #c8d8e8;
+      pointer-events: none;
+      z-index: 50;
+      min-width: 160px;
+    }
+
+    .tooltip h4 { color: #4af; margin-bottom: 4px; }
+    .tooltip p { color: #89a; font-size: 10px; }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <h1>Perry Rhodan – Operation Eastside</h1>
+    <span class="turn-info">Runde <span id="turn-num">1</span></span>
+    <span class="faction-badge" id="faction-badge">–</span>
+    <div class="resources">
+      <span class="res-item">Credits: <span id="res-credits">0</span></span>
+      <span class="res-item">Energie: <span id="res-energy">0</span></span>
+      <span class="res-item">Mineralien: <span id="res-minerals">0</span></span>
+      <span class="res-item">Systeme: <span id="res-systems">0</span>/20</span>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="galaxy-panel">
+      <canvas id="galaxy-canvas"></canvas>
+      <div class="tooltip hidden" id="tooltip"></div>
+    </div>
+
+    <div id="sidebar">
+      <div id="sidebar-tabs">
+        <button class="tab-btn active" data-tab="info">Info</button>
+        <button class="tab-btn" data-tab="colonies">Kolonien</button>
+        <button class="tab-btn" data-tab="fleets">Flotten</button>
+        <button class="tab-btn" data-tab="tech">Technik</button>
+        <button class="tab-btn" data-tab="log">Log</button>
+      </div>
+      <div class="tab-content active" id="tab-info"></div>
+      <div class="tab-content" id="tab-colonies"></div>
+      <div class="tab-content" id="tab-fleets"></div>
+      <div class="tab-content" id="tab-tech"></div>
+      <div class="tab-content" id="tab-log"></div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <button id="end-turn-btn">Runde beenden →</button>
+    <span id="status-text">Wähle ein Sternsystem oder eine Flotte.</span>
+  </div>
+
+  <div id="overlay">
+    <div class="overlay-box">
+      <h2>Operation Eastside</h2>
+      <p>Das Jahr 2326. Die Menschheit steht vor der größten Herausforderung ihrer Geschichte:<br>die Kolonisierung der Eastside – der anderen Seite der Galaxis.</p>
+      <div class="faction-select" id="faction-select">
+        <div class="faction-card selected" data-faction="terrans">
+          <h3>Terraner</h3>
+          <p>Ausgeglichene Fraktion. Starke Diplomatie, gute Kolonisierung.</p>
+        </div>
+        <div class="faction-card" data-faction="arkonides">
+          <h3>Arkoniden</h3>
+          <p>Fortschrittliche Technologie. Schnellere Forschung, aber weniger Ressourcen.</p>
+        </div>
+        <div class="faction-card" data-faction="blues">
+          <h3>Blaue</h3>
+          <p>Aggressive Fraktion. Starke Kampfschiffe, schwache Wirtschaft.</p>
+        </div>
+        <div class="faction-card" data-faction="springers">
+          <h3>Springer</h3>
+          <p>Händler-Fraktion. Hohe Ressourcengewinnung, schwache Militärmacht.</p>
+        </div>
+      </div>
+      <div class="diff-select">
+        <button class="diff-btn selected" data-diff="easy">Leicht</button>
+        <button class="diff-btn" data-diff="normal">Normal</button>
+        <button class="diff-btn" data-diff="hard">Schwer</button>
+      </div>
+      <button id="start-btn" class="btn primary" style="max-width:200px;margin:0 auto;">Spiel starten</button>
+    </div>
+  </div>
+
+  <div id="combat-overlay" class="hidden">
+    <div class="combat-box">
+      <h2>⚔ Raumkampf</h2>
+      <div class="combat-sides">
+        <div class="combat-side" id="combat-attacker">
+          <h3>Angreifer</h3>
+          <div id="ca-name"></div>
+          <div id="ca-ships"></div>
+          <div class="hp-bar"><div class="hp-fill" id="ca-hp" style="width:100%"></div></div>
+        </div>
+        <div class="combat-side" id="combat-defender">
+          <h3>Verteidiger</h3>
+          <div id="cd-name"></div>
+          <div id="cd-ships"></div>
+          <div class="hp-bar"><div class="hp-fill" id="cd-hp" style="width:100%"></div></div>
+        </div>
+      </div>
+      <div class="combat-log-box" id="combat-log"></div>
+      <button class="btn primary" id="combat-close-btn">Weiter</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
