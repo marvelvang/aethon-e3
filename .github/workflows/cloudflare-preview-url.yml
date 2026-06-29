@@ -26,6 +26,14 @@ jobs:
       - name: Build frontend
         run: bun run --filter @aethon/frontend build
 
+      - name: Build AI game (Perry Rhodan)
+        run: |
+          cd ai
+          bun install
+          bun run build
+          mkdir -p ../src/frontend/app/dist/ai
+          cp -r dist/* ../src/frontend/app/dist/ai/
+
       - name: Deploy to Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v3
