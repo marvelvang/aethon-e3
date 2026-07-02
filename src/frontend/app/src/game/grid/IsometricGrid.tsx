@@ -5,18 +5,6 @@ import BuildingPickerPopup from '../ui/BuildingPickerPopup'
 import { GridEngine, type TileBounds } from './GridEngine'
 import { getBuildOrder, getCellsInRect, type RotationStep } from './coordinates'
 
-function isCellOccupied(
-  buildings: UiBuildingSlot[],
-  tileSizes: Map<string, number>,
-  col: number,
-  row: number,
-): boolean {
-  return buildings.some(b => {
-    const size = tileSizes.get(b.type) ?? 1
-    return col >= b.x && col < b.x + size && row >= b.y && row < b.y + size
-  })
-}
-
 type PendingPlacement = { cell: { col: number; row: number }; tileBounds: TileBounds } | null
 type PendingMultiPlacement = {
   cells: { col: number; row: number }[]
@@ -51,8 +39,6 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
 
   const buildingsRef = useRef(buildings)
   buildingsRef.current = buildings
-  const buildingTypesRef = useRef(buildingTypes)
-  buildingTypesRef.current = buildingTypes
   const enabledRef = useRef(enabled)
   enabledRef.current = enabled
   const buildRef = useRef(build)
@@ -76,8 +62,7 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
     const engine = new GridEngine(canvasRef.current, {
       onCellTouchDown: (cell, tileBounds) => {
         if (!enabledRef.current) return
-        const tileSizes = new Map(buildingTypesRef.current.map(bt => [bt.type, Math.round(Math.sqrt(bt.tileSize))]))
-        if (isCellOccupied(buildingsRef.current, tileSizes, cell.col, cell.row)) return
+        if (buildingsRef.current.some((b) => b.x === cell.col && b.y === cell.row)) return
         if (pendingCellsRef.current.has(`${cell.col},${cell.row}`)) return
         setPendingPlacement({ cell, tileBounds })
       },
@@ -87,11 +72,7 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
       onCellClick: (cell, tileBounds) => {
         if (!enabledRef.current) return
         if (!cell) { onCellClickRef.current(null); return }
-        const tileSizes = new Map(buildingTypesRef.current.map(bt => [bt.type, Math.round(Math.sqrt(bt.tileSize))]))
-        const existing = buildingsRef.current.find((b) => {
-          const s = tileSizes.get(b.type) ?? 1
-          return cell.col >= b.x && cell.col < b.x + s && cell.row >= b.y && cell.row < b.y + s
-        })
+        const existing = buildingsRef.current.find((b) => b.x === cell.col && b.y === cell.row)
         if (existing) {
           onCellClickRef.current(existing)
         } else {
@@ -118,10 +99,9 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
       },
       onSelectionRect: (start, end, bounds) => {
         if (!enabledRef.current) return
-        const tileSizes = new Map(buildingTypesRef.current.map(bt => [bt.type, Math.round(Math.sqrt(bt.tileSize))]))
         const allCells = getCellsInRect(start.col, start.row, end.col, end.row)
         const freeCells = allCells.filter(
-          (cell) => !isCellOccupied(buildingsRef.current, tileSizes, cell.col, cell.row)
+          (cell) => !buildingsRef.current.some((b) => b.x === cell.col && b.y === cell.row)
             && !pendingCellsRef.current.has(`${cell.col},${cell.row}`)
         )
         if (freeCells.length === 0) return
@@ -176,8 +156,7 @@ const IsometricGrid = forwardRef<IsometricGridHandle, Props>(function IsometricG
       let working: UiBuildingSlot[] = buildingsRef.current.slice()
       try {
         for (const cell of cells) {
-          const tileSizes = new Map(buildingTypesRef.current.map(bt => [bt.type, Math.round(Math.sqrt(bt.tileSize))]))
-          if (isCellOccupied(working, tileSizes, cell.col, cell.row)) continue
+          if (working.some((b) => b.x === cell.col && b.y === cell.row)) continue
           try {
             const next = await buildRef.current(cell.col, cell.row, type)
             working = next.buildings

@@ -2,20 +2,18 @@
 import type { GameState } from '@aethon/models'
 import { genesis } from '@aethon/engine'
 
-export type DevSeedName = 'bare' | 'default' | 'shortage' | 'research_full'
+export type DevSeedName = 'bare' | 'default' | 'shortage'
 
 /**
  * Switch between dev seeds here. Set to null to start every new/reset game
  * with the normal empty genesis state.
  *
- *   'bare'          — round 1, only Base, genesis resources (200 ind / 200 ene)
- *   'default'       — round 20, healthy economy, research Lvl 1 everywhere
- *   'shortage'      — round 25, industry=50 / energy=40 so most buildings show ⚠,
- *                     research Lvl 2 everywhere (all T2 buildings unlocked)
- *   'research_full' — round 30, all research at Lvl 5, abundant resources;
- *                     all building types (including T3/T5 composites) unlocked
+ *   'bare'     — round 1, only Base, genesis resources (200 ind / 200 ene)
+ *   'default'  — round 20, healthy economy, research Lvl 1 everywhere
+ *   'shortage' — round 25, industry=50 / energy=40 so most buildings show ⚠,
+ *                research Lvl 2 everywhere (all T2 buildings unlocked)
  */
-export const ACTIVE_DEV_SEED: DevSeedName | null = 'research_full'
+export const ACTIVE_DEV_SEED: DevSeedName | null = 'bare'
 
 export function getDevSeed(): Omit<GameState, 'id'> | null {
   if (!ACTIVE_DEV_SEED) return null
@@ -26,7 +24,6 @@ const SEEDS: Record<DevSeedName, () => Omit<GameState, 'id'>> = {
   bare: createBareSeed,
   default: createDefaultSeed,
   shortage: createShortageSeed,
-  research_full: createResearchFullSeed,
 }
 
 /**
@@ -84,30 +81,6 @@ function createShortageSeed(): Omit<GameState, 'id'> {
       Energy:   { level: 2, investedPoints: 0 },
     },
     buildings: STANDARD_BUILDINGS,
-  }
-}
-
-/**
- * Round 30, all research at level 5 — all building types unlocked.
- * Abundant resources so any building type can be placed immediately.
- * Only Base placed; grid is empty to explore all options.
- */
-function createResearchFullSeed(): Omit<GameState, 'id'> {
-  return {
-    round: 30,
-    population: 500,
-    consumerGoods: 2000,
-    industry: 5000,
-    energy: 5000,
-    researchPoints: 200,
-    researchFocus: null,
-    researchProgress: {
-      Housing:  { level: 5, investedPoints: 0 },
-      Consumer: { level: 5, investedPoints: 0 },
-      Industry: { level: 5, investedPoints: 0 },
-      Energy:   { level: 5, investedPoints: 0 },
-    },
-    buildings: [{ x: 0, y: 0, type: 'Base', isNewlyBuilt: false }],
   }
 }
 
