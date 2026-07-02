@@ -1,22 +1,10 @@
-import { GRID_SIZE, type BuildingType, type GameResult, type GameState, type UiBuildingTypeInfo, type UiState } from '@aethon/models'
+import { BUILDING_TYPES, GRID_SIZE, type BuildingType, type GameResult, type GameState, type UiBuildingTypeInfo, type UiState } from '@aethon/models'
 import { BUILDING_DEFINITIONS } from './definitions.ts'
 import { aggregateBuildings, calculateGains } from './gains.ts'
 
-const ALL_TYPES: BuildingType[] = [
-  'Base',
-  'Housing', 'HousingT2',
-  'Consumer', 'ConsumerT2',
-  'Industry', 'IndustryT2',
-  'PowerPlant', 'PowerPlantT2',
-  'Research', 'ResearchT2',
-]
-const BUILDABLE_TYPES = new Set<BuildingType>([
-  'Housing', 'HousingT2',
-  'Consumer', 'ConsumerT2',
-  'Industry', 'IndustryT2',
-  'PowerPlant', 'PowerPlantT2',
-  'Research', 'ResearchT2',
-])
+const ALL_TYPES: readonly BuildingType[] = BUILDING_TYPES
+// Every type except the Base is manually buildable.
+const BUILDABLE_TYPES = new Set<BuildingType>(BUILDING_TYPES.filter(t => t !== 'Base'))
 
 export function project(state: GameState): UiState {
   const a    = aggregateBuildings(state.buildings)

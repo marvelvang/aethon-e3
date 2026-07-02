@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { UiBuildingTypeInfo } from '@aethon/models'
-import { BUILDING_META, type BuildingType } from '../../presentation/buildingTypes'
+import { BUILDING_FAMILIES, BUILDING_META, type BuildingType } from '../../presentation/buildingTypes'
 import { POPULATION_DEF, RESOURCES_BY_KEY } from '../../presentation/resources'
 import './BuildingPickerPopup.css'
 
@@ -80,6 +80,9 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
   const [hoveredType, setHoveredType] = useState<string | null>(null)
   const [focusedType, setFocusedType] = useState<string | null>(null)
   const [touchedType, setTouchedType] = useState<string | null>(null)
+  // Nested picker: null = category view (one entry per family, represented by
+  // its tier-1 building); a family key = tier view with that family's 5 tiers.
+  const [selectedFamily, setSelectedFamily] = useState<BuildingType | null>(null)
   const popupRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState<{ top: number; left: number } | null>(null)
   const touchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -109,10 +112,20 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
     const h = el.offsetHeight
     cachedHeightRef.current = h
     setPosition(computePosition(effectiveBounds, h))
-  }, [visible, effectiveBounds])
+  }, [visible, effectiveBounds, selectedFamily])
 
   const onDismissRef = useRef(onDismiss)
   onDismissRef.current = onDismiss
+
+  // Every close (dismiss or successful selection) restarts at the category view
+  useEffect(() => {
+    if (!visible) {
+      setSelectedFamily(null)
+      setHoveredType(null)
+      setFocusedType(null)
+      setTouchedType(null)
+    }
+  }, [visible])
 
   // Keyboard dismiss — only active when visible
   useEffect(() => {
@@ -177,6 +190,26 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
     touchWasLongRef.current = false
   }
 
+  // Items for the current view: family representatives (T1 buildings) in the
+  // category view, or the selected family's five tiers.
+  const isCategoryView = selectedFamily === null
+  const infoByType = new Map(buildingTypes.map(b => [b.type, b]))
+  const displayedInfos: UiBuildingTypeInfo[] = (
+    isCategoryView
+      ? BUILDING_FAMILIES.map(f => infoByType.get(f.key))
+      : (BUILDING_FAMILIES.find(f => f.key === selectedFamily)?.tiers ?? []).map(t => infoByType.get(t))
+  ).filter((i): i is UiBuildingTypeInfo => i !== undefined)
+
+  function handleItemSelect(info: UiBuildingTypeInfo): void {
+    if (isCategoryView) {
+      setHoveredType(null)
+      setTouchedType(null)
+      setSelectedFamily(info.type)
+      return
+    }
+    if (info.canAfford) onSelect(info.type as BuildingType)
+  }
+
   const tooltipType = touchedType ?? hoveredType ?? focusedType
   const tooltipInfo = tooltipType ? buildingTypes.find(b => b.type === tooltipType) : null
   const tooltipMeta = tooltipInfo ? BUILDING_META[tooltipInfo.type as BuildingType] : null
@@ -196,7 +229,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
         style={{ top: rect.top, left: tLeft, width: tooltipW }}
       >
         <span className="picker-tooltip-label">{tooltipMeta.label}</span>
-        {(() => {
+        {!isCategoryView && (() => {
           const r = resources
           const popShort = r !== null && r.freePopulation < tooltipInfo.populationCost
           const indShort = r !== null && Number(tooltipInfo.industryCost) > 0 && r.industry < tooltipInfo.industryCost
@@ -223,7 +256,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
             </div>
           )
         })()}
-        {!tooltipInfo.researchUnlocked && tooltipInfo.requiredResearch && (
+        {!isCategoryView && !tooltipInfo.researchUnlocked && tooltipInfo.requiredResearch && (
           <div className="picker-tooltip-research">
             🔒 {tooltipInfo.requiredResearch.map(r => `${RESEARCH_BRANCH_LABEL[r.branch]} Lvl ${r.level}`).join(' + ')}
           </div>
@@ -245,12 +278,15 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
         style={style}
         onContextMenu={e => e.preventDefault()}
       >
-        {buildingTypes.map((info, idx) => {
+        {displayedInfos.map((info, idx) => {
           const type = info.type as BuildingType
           const meta = BUILDING_META[type]
+          // Categories are always selectable (they open the tier view);
+          // tiers follow the canAfford gating.
+          const isSelectable = isCategoryView || info.canAfford
           const isActive =
             (hoveredType === info.type || focusedType === info.type || touchedType === info.type) &&
-            info.canAfford
+            isSelectable
           return (
             <div
               key={info.type}
@@ -258,7 +294,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
               tabIndex={idx === 0 ? 0 : -1}
               onClick={() => {
                 if (skipNextClickRef.current) { skipNextClickRef.current = false; return }
-                if (info.canAfford) onSelect(type)
+                handleItemSelect(info)
               }}
               onMouseEnter={() => setHoveredType(info.type)}
               onMouseLeave={() => setHoveredType(null)}
@@ -268,11 +304,11 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
               onTouchEnd={handleItemTouchEnd}
               onTouchMove={handleItemTouchMove}
               onKeyDown={e => {
-                if ((e.key === 'Enter' || e.key === ' ') && info.canAfford) {
+                if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault()
-                  onSelect(type)
+                  handleItemSelect(info)
                 }
-                const types = buildingTypes.map(b => b.type)
+                const types = displayedInfos.map(b => b.type)
                 const cur = types.indexOf(info.type)
                 if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
                   e.preventDefault()
@@ -286,7 +322,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
               className={[
                 'picker-item',
                 isActive ? 'picker-item--hover' : '',
-                info.canAfford ? '' : 'picker-item--disabled',
+                isSelectable ? '' : 'picker-item--disabled',
               ].filter(Boolean).join(' ')}
             >
               <img className="picker-item-img" src={meta.assetPath} alt="" />

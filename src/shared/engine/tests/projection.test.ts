@@ -11,7 +11,7 @@ describe('project', () => {
     expect(ui.housing).toBe(150)
     expect(ui.gameResult).toBe('None')
     expect(ui.buildings).toHaveLength(1)
-    expect(ui.buildingTypes).toHaveLength(11)
+    expect(ui.buildingTypes).toHaveLength(26)
     expect(ui.buildingTypes.find(t => t.type === 'Base')?.isBuildable).toBe(false)
     expect(ui.buildingTypes.find(t => t.type === 'Housing')?.isBuildable).toBe(true)
   })
@@ -48,6 +48,25 @@ describe('project', () => {
       expect(bt.researchUnlocked).toBe(false)
       expect(bt.canAfford).toBe(false)
     }
+  })
+
+  test('tier unlocks follow branch level; Research tiers need Industry AND Energy', () => {
+    const base = initial()
+    const s = {
+      ...base,
+      researchProgress: {
+        ...base.researchProgress,
+        Housing:  { level: 3 as const, investedPoints: 0 },
+        Industry: { level: 4 as const, investedPoints: 0 },
+        // Energy stays at level 1
+      },
+    }
+    const ui = project(s)
+    expect(ui.buildingTypes.find(t => t.type === 'HousingT3')?.researchUnlocked).toBe(true)
+    expect(ui.buildingTypes.find(t => t.type === 'HousingT4')?.researchUnlocked).toBe(false)
+    expect(ui.buildingTypes.find(t => t.type === 'IndustryT4')?.researchUnlocked).toBe(true)
+    // Research family needs BOTH branches at the level — Industry 4 alone is not enough
+    expect(ui.buildingTypes.find(t => t.type === 'ResearchT2')?.researchUnlocked).toBe(false)
   })
 
   test('research fields are forwarded into UiState', () => {
