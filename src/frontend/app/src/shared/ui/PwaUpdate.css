@@ -6,28 +6,32 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 16px;
-  background: rgba(20, 16, 48, 0.95);
-  border: 1px solid rgba(107, 82, 232, 0.6);
-  border-radius: 10px;
-  color: #e0d8ff;
-  font-size: 13px;
+  padding: 8px 12px;
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-body);
   white-space: nowrap;
   z-index: 9999;
-  backdrop-filter: blur(8px);
+  backdrop-filter: var(--glass-blur);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
 }
 
 .pwa-update button {
-  padding: 5px 12px;
-  background: #6b52e8;
-  border: none;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.12);
+  border: var(--glass-border);
   border-radius: 6px;
-  color: #fff;
-  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-body);
   cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
 
 .pwa-update button:hover {
-  background: #7d63ff;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
 }
