@@ -54,11 +54,7 @@ function BranchRow({ branch, progress, isFocused, onToggle, pointsPerRound }: Br
     >
       <div className={`research-radio${isFocused ? ' research-radio--active' : ''}`} />
 
-      <img
-        src={meta.assetPath}
-        alt={meta.label}
-        className="research-branch-img"
-      />
+      <div className="research-branch-img" dangerouslySetInnerHTML={{ __html: meta.assetSvg }} />
 
       <div className="research-branch-info">
         <div className="research-branch-header">

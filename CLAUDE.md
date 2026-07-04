@@ -46,23 +46,8 @@ Ablauf zu Beginn jeder Aufgabe (sofern Fetch nicht entfällt):
 2. Prüfen ob main ahead ist: `git log HEAD..origin/main --oneline`
 3. Wenn ja: `origin/main` in den aktuellen Branch mergen
 4. Merge-Konflikte analysieren, lösen – bei Unklarheiten erst rückfragen
-5. **Versionskonflikt prüfen**: Zuerst beide Versionen per grep lesen –
-   **Pflicht, niemals aus dem Gedächtnis:**
-   ```bash
-   grep "APP_VERSION" src/frontend/app/src/components/VersionDisplay.tsx
-   grep "APP_VERSION" src/backend/app/src/version.ts
-   ```
-   Dann mit den Werten aus `origin/main` vergleichen (Dateipfade siehe Regel 4).
-   Beide Versionen müssen **immer identisch** sein. Maßgeblich ist die höchste der
-   vier verglichenen Werte (je Branch und main für Frontend und Backend):
-   - Höchste der vier Versionen **strikt größer** als alle main-Versionen → kein Handlungsbedarf.
-   - Andernfalls → **sofort** per `AskUserQuestion` fragen, ob Patch oder Minor
-     (Mindest-Zielversion nennen, Option „Nein" entfällt).
-     Beispiele: Branch `0.0.17`, main `0.1.0` → Minimum `0.1.1`;
-     Branch `0.0.16`, main `0.0.16` → Minimum `0.0.17`.
-     Nach der Antwort: beide Dateien setzen, Frontend-Build, Commit, Push.
-     **Hinweis:** Hat dieser Schritt einen Bump ausgelöst, ist Branch strikt > main –
-     Regel 4 am Aufgabenende entfällt dann automatisch.
+5. **Versionscheck** gemäß Regel 4 ausführen. Hat dieser Schritt einen Bump ausgelöst,
+   ist Branch strikt > main – der Versionscheck am Aufgabenende entfällt automatisch.
 6. Erst dann mit der eigentlichen Aufgabe beginnen
 
 **Kurzbefehl „main":** Schreibt der User nur das Wort `main` (allein in einer Nachricht),
@@ -70,81 +55,92 @@ bedeutet das: sofort Regel 3 vollständig ausführen (fetch → merge → Konfli
 Versionskonflikt per Pflicht-grep prüfen und ggf. sofort beheben → push) – ohne weitere
 Aufgabe danach.
 
-### 4. Versionsnummern inkrementieren (am Aufgabenende aktiv fragen)
-Frontend- und Backend-Version werden **immer im Gleichtakt** auf dieselbe Versionsnummer
-gesetzt. Die maßgeblichen Stellen:
-- Frontend: `APP_VERSION` in `src/frontend/app/src/components/VersionDisplay.tsx`
-- Backend: `APP_VERSION` in `src/backend/app/src/version.ts`
+**Kurzbefehl „fbuild":** Schreibt der User nur das Wort `fbuild` (allein in einer Nachricht),
+bedeutet das: sofort einen vollständigen Frontend-Build ausführen (`bun --filter @aethon/frontend build`),
+alle Fehler analysieren und beheben, erneut bauen bis der Build fehlerfrei durchläuft,
+dann committen und pushen. Falls für den aktuellen Branch ein offener PR existiert, zusätzlich
+die CI-Fehler dort auslesen (via GitHub MCP Tools), analysieren und ebenfalls beheben –
+alles in einem Durchgang, ohne weitere Aufgabe danach.
 
-**Nie eigenständig** erhöhen – immer per `AskUserQuestion` fragen. Claude stellt die
-Frage proaktiv am Aufgabenende; die Entscheidung Patch oder Minor liegt ausnahmslos
-beim User.
-
-**Am Ende einer Aufgabe die Versionsfrage stellen – aber nur wenn nötig:**
-Pro Branch reicht ein einziges Increment über main hinaus.
-
-**PFLICHT – immer zuerst ausführen, kein Überspringen:**
+**Kurzbefehl „zbild":** Schreibt der User `zbild` gefolgt von einem Hinweis, welches Bild
+er sehen möchte (z.B. `zbild industry_t2` oder `zbild housing alt`), das passende SVG aus
+`src/frontend/app/public/assets/buildings/` ermitteln, mit cairosvg in ein PNG konvertieren
+(scale=2) und direkt per `SendUserFile` in den Chat schicken. Kein Download-Link, sondern
+die PNG-Datei selbst. Ablauf:
 ```bash
-grep "APP_VERSION" src/frontend/app/src/components/VersionDisplay.tsx
+python3 -c "import cairosvg; cairosvg.svg2png(url='<pfad>.svg', write_to='/tmp/zbild.png', scale=2)"
 ```
-Diesen Tool-Call **immer** ausführen – auch wenn die Version „bekannt" zu sein scheint.
-Den Ausgabewert direkt in den Fragetext übernehmen. Die Version im Fragetext **muss**
-aus diesem Tool-Call stammen – **niemals** aus dem Gedächtnis oder aus früheren
-Nachrichten im Chat. Kein `AskUserQuestion` zur Version ohne diesen grep davor.
+Dann `SendUserFile(["/tmp/zbild.png"])`. Mehrere Bilder gleichzeitig sind möglich.
 
-Dann Branch-Version mit `origin/main` vergleichen:
-- Branch-Version **strikt größer** als main → **Frage entfällt**, kein weiteres Increment nötig.
-- Branch-Version **gleich** main → Frage stellen mit Optionen **Patch** / **Minor**
-  (Option „Nein" entfällt, da Increment technisch notwendig ist; Mindest-Zielversion nennen).
-- **Major** niemals als Option anbieten – nur wenn der User es explizit von sich aus nennt.
+### 4. Versionsverwaltung
 
-Wenn der User Patch oder Minor wählt:
-1. `origin/main` frisch fetchen, falls noch nicht in dieser Aufgabe geschehen
-2. Alle vier Versionen lesen: Frontend und Backend jeweils im eigenen Branch und in
-   `origin/main`
-3. Als Basis die **höchste** der vier Versionen nehmen (eigene Versionen
-   müssen immer strikt größer als alle main-Versionen sein)
-4. Patch erhöht die letzte Stelle, Minor setzt Patch auf 0 und erhöht
-   die mittlere Stelle
-5. **Beide** Dateien auf die neue Version setzen und gemeinsam als eigenen
-   Commit einchecken und pushen
+**Versionsdateien** – beide immer im Gleichtakt auf dieselbe Nummer setzen:
+- `src/frontend/app/src/version.ts`
+- `src/backend/app/src/version.ts`
 
-Regel für semantische Versionierung (`MAJOR.MINOR.PATCH`):
-- **Patch** (`0.0.x`): Jede Korrektur oder Verbesserung ohne neue Funktion –
-  egal ob visuell (Farben, Layout, Abstände), Logik, Performance, Text oder sonstiges.
-- **Minor** (`0.x.0`): Ausschließlich bei echter neuer Funktionalität, die aus
-  Nutzersicht vorher nicht existiert hat. Patch-Teil auf 0 zurücksetzen.
-- **Major** (`x.0.0`): **Nur nach expliziter Absprache mit dem User**, niemals
-  eigenständig hochzählen.
+**Invariante:** Branch-Version muss immer **strikt größer** als die Version in `origin/main` sein.
 
-### 5. Cloudflare Pages Preview-URL nach jedem Push ausgeben
+**Wann prüfen:** nach dem Mergen von main (Schritt 5 in Regel 3) und nach commit + push am Aufgabenende. Pro Branch reicht ein einziges Increment über main hinaus – ist die Branch-Version bereits größer, entfällt die Prüfung am Aufgabenende.
+
+**Prüfablauf – Pflicht, niemals aus dem Gedächtnis:**
+```bash
+grep "APP_VERSION" src/frontend/app/src/version.ts
+grep "APP_VERSION" src/backend/app/src/version.ts
+```
+- Branch **strikt größer** als main → kein Handlungsbedarf.
+- Branch **gleich** main → sofort per `AskUserQuestion` fragen: **Patch** oder **Minor**?
+  Option „Nein" entfällt. Mindest-Zielversion im Fragetext nennen
+  (Beispiele: Branch `0.0.16`, main `0.0.16` → Minimum `0.0.17`;
+  Branch `0.0.17`, main `0.1.0` → Minimum `0.1.1`).
+
+**Nie eigenständig** erhöhen – Entscheidung liegt ausnahmslos beim User.
+Den grep-Ausgabewert direkt in den Fragetext übernehmen – **niemals** aus dem Gedächtnis.
+
+**Bei Patch/Minor-Wahl:**
+1. `origin/main` fetchen (falls noch nicht in dieser Aufgabe geschehen)
+2. Alle vier Versionen lesen (Frontend + Backend je Branch und main)
+3. Höchste der vier als Basis nehmen; Patch = letzte Stelle +1, Minor = mittlere +1 und Patch → 0
+4. Beide Dateien setzen, Frontend-Build, gemeinsam committen und pushen
+
+**Semantische Versionierung:**
+- **Patch** (`0.0.x`): Korrekturen und Verbesserungen ohne neue Funktion (visuell, Logik, Text…)
+- **Minor** (`0.x.0`): Echte neue Nutzerfunktionalität; Patch-Teil → 0
+- **Major** (`x.0.0`): Nur nach expliziter Absprache mit dem User, niemals eigenständig
+
+### 5. Cloudflare Pages Preview-URL und Build-Nummer nach jedem Push ausgeben
 Das Frontend wird automatisch auf Cloudflare Pages deployed. Projekt: **`aethon-e3`**
 
 - Produktion (main): `https://aethon-e3.pages.dev`
-- Branch-Previews: hash-basierte URL, die Cloudflare bei jedem Deployment vergibt
+- Branch-Previews: stabile Branch-Alias-URL — **ändert sich pro Push NICHT**, ist für den
+  gesamten Branch immer dieselbe. Bekannte URL für den aktuellen Branch:
+  `https://claude-game-building-graphic.aethon-e3.pages.dev`
 
-**Wie die URL abgerufen wird:**
+**Build-Nummer:** Das Frontend zeigt neben der Versionsnummer eine Build-Nummer an
+(`v0.3.8 #142`). Sie entspricht `git rev-list --count HEAD` und steigt mit jedem Commit.
+
+**Ablauf nach jedem Push auf einen `claude/**`-Branch — PFLICHT, immer beide Infos sofort ausgeben:**
+```bash
+git rev-list --count HEAD
+```
+Direkt danach im Chat ausgeben:
+```
+Build #<n>
+Preview: [https://<branch-alias>.aethon-e3.pages.dev](https://<branch-alias>.aethon-e3.pages.dev)
+```
+Die URL ist stabil und sofort bekannt — **kein Warten auf den Workflow nötig**.
+
+**Branch-Alias-URL ermitteln (nur beim ersten Push auf einen neuen Branch):**
 Ein GitHub Actions Workflow (`.github/workflows/cloudflare-preview-url.yml`) läuft nach
-jedem Push auf `claude/**`-Branches automatisch. Er pollt die Cloudflare API und gibt
-die URL als `CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus.
+jedem Push auf `claude/**`-Branches automatisch. Er gibt die URL als
+`CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus. Nur beim allerersten Deployment
+eines neuen Branches per MCP lesen:
+```
+mcp__github__actions_list → neuesten Run für diesen Branch finden
+mcp__github__get_job_logs → Log auf "CLOUDFLARE_PREVIEW_URL=" oder "Deployment alias URL:" prüfen
+```
+Danach ist die URL bekannt und wird für alle weiteren Pushes direkt ausgegeben.
 
-**Ablauf nach jedem Push auf einen `claude/**`-Branch:**
-1. Sofort nach dem Push: Workflow-Run per MCP suchen und Log lesen:
-   ```
-   mcp__github__actions_list → neuesten Run für diesen Branch finden
-   mcp__github__get_job_logs → Log auf "CLOUDFLARE_PREVIEW_URL=" prüfen
-   ```
-2. Wenn URL im Log gefunden → als klickbaren Link ausgeben:
-   ```
-   Preview: [https://xxxx.aethon-e3.pages.dev](https://xxxx.aethon-e3.pages.dev) *(Build läuft noch ~1–2 Min)*
-   ```
-3. Wenn Workflow noch läuft (Log noch leer) → ausgeben:
-   ```
-   Deployment gestartet. Schreib "URL" und ich hole die Preview-URL sobald der Workflow fertig ist.
-   ```
-
-**Kurzbefehl "url":** Schreibt der User nur das Wort `url`, sofort Workflow-Log des
-letzten Runs für den aktuellen Branch per MCP lesen und die Preview-URL ausgeben.
+**Kurzbefehl "url":** Workflow-Log des letzten Runs per MCP lesen und die Preview-URL ausgeben.
 
 **Voraussetzung (einmalig durch den User im GitHub Repo einzurichten):**
 Repository Settings → Secrets → Actions → zwei Secrets:
@@ -245,8 +241,8 @@ Reihenfolge am Aufgabenende:
 2. `git add` der geänderten Dateien
 3. `git commit` mit aussagekräftiger Message
 4. `git push -u origin <branch>`
-5. **Erst** `grep "APP_VERSION" src/frontend/app/src/components/VersionDisplay.tsx`
-   ausführen, Branch-Version mit `origin/main` vergleichen – **dann** nur bei
-   Branch = main per `AskUserQuestion` fragen (siehe Regel 4 – Pflichtgrep).
-   Falls ja: Frontend `APP_VERSION` + Backend `APP_VERSION` gemeinsam als eigener
-   Commit + push.
+5. Versionscheck gemäß Regel 4 ausführen.
+6. **SVG-Vorschau:** Falls die Aufgabe eine oder mehrere SVG-Dateien unter
+   `src/frontend/app/public/assets/buildings/` verändert hat, jede geänderte SVG
+   automatisch mit cairosvg (scale=2) in PNG umwandeln und per `SendUserFile` in den
+   Chat schicken – ohne dass der User danach fragen muss.

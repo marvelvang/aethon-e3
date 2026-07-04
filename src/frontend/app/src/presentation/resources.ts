@@ -32,5 +32,10 @@ export const HOUSING_DEF = {
   color: 'var(--color-housing)',
 } as const
 
+export const RESEARCH_DEF = {
+  label: 'Forschung',
+  color: 'var(--color-research)',
+} as const
+
 export type ResourceValue = UiState[ResourceKey]
 export type ResourceGain  = UiState[ResourceGainKey]

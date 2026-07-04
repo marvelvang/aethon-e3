@@ -1,5 +1,6 @@
 import { GRID_SIZE, type BuildingType, type GameState } from '@aethon/models'
 import { defFor } from './definitions.ts'
+import { aggregateBuildings } from './gains.ts'
 
 export class BuildError extends Error {}
 
@@ -19,9 +20,8 @@ export function placeBuilding(
 
   const d = defFor(type)
 
-  const bound = state.buildings
-    .filter(b => b.isNewlyBuilt)
-    .reduce((sum, b) => sum + defFor(b.type).populationCost, 0)
+  const a = aggregateBuildings(state.buildings)
+  const bound = a.newlyBuiltPopulationCost + a.maintenancePopulationCost
   const freePopulation = state.population - bound
 
   if (freePopulation < d.populationCost)

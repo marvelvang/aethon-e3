@@ -12,7 +12,7 @@ export async function loadBuildingTextures(): Promise<Map<BuildingType, Building
   const entries = await Promise.all(
     (Object.entries(BUILDING_META) as [BuildingType, typeof BUILDING_META[BuildingType]][])
       .map(async ([type, meta]) => {
-        const texture = await PIXI.Assets.load(meta.assetPath)
+        const texture = await PIXI.Texture.fromURL(meta.assetPath)
         return [type, {
           texture,
           anchorX: 0.5,

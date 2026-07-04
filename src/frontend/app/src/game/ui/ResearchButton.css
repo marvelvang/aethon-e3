@@ -149,9 +149,13 @@
 .research-branch-img {
   width: 40px;
   height: 40px;
-  object-fit: contain;
   flex-shrink: 0;
   opacity: 0.9;
+}
+.research-branch-img svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* ── Branch info (label + bar) ────────────────────────────────── */

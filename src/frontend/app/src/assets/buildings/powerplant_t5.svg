@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SolarCore II – Power Plant Tier 2 (Master SVG, 4× tile resolution)
+  Step 1: Foundation + Base Unit, pixel-identisch zu T1.
+  Schüsseln, Strahlen und Kugel folgen in späteren Schritten.
+
+  Base-Unit-Top-Ecken (SVG-Koordinaten): N(0,−36) E(88,8) S(0,52) W(−88,8)
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="-128 -178 256 308"
+     width="256" height="308">
+  <defs>
+
+    <!-- Foundation: kaltes Dunkelblau-Grau -->
+    <linearGradient id="fR" gradientUnits="userSpaceOnUse" x1="128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#2c3c54"/>
+      <stop offset="100%" stop-color="#141e30"/>
+    </linearGradient>
+    <linearGradient id="fL" gradientUnits="userSpaceOnUse" x1="-128" y1="40" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#0c1018"/>
+      <stop offset="100%" stop-color="#080c14"/>
+    </linearGradient>
+    <linearGradient id="fT" gradientUnits="userSpaceOnUse" x1="0" y1="-24" x2="0" y2="104">
+      <stop offset="0%"   stop-color="#3c5070"/>
+      <stop offset="100%" stop-color="#1e2e48"/>
+    </linearGradient>
+
+    <!-- Base Unit: helleres Stahlblau -->
+    <linearGradient id="bR" gradientUnits="userSpaceOnUse" x1="88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#4a6080"/>
+      <stop offset="60%"  stop-color="#304858"/>
+      <stop offset="100%" stop-color="#1e3048"/>
+    </linearGradient>
+    <linearGradient id="bL" gradientUnits="userSpaceOnUse" x1="-88" y1="4" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#182030"/>
+      <stop offset="100%" stop-color="#0a1018"/>
+    </linearGradient>
+    <linearGradient id="bT" gradientUnits="userSpaceOnUse" x1="0" y1="-72" x2="0" y2="16">
+      <stop offset="0%"   stop-color="#587090"/>
+      <stop offset="100%" stop-color="#3a5070"/>
+    </linearGradient>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="beamglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="sphereglow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Dritter Block -->
+    <linearGradient id="t3R" gradientUnits="userSpaceOnUse" x1="60" y1="-36" x2="0" y2="-36">
+      <stop offset="0%"   stop-color="#4a6080"/>
+      <stop offset="60%"  stop-color="#304858"/>
+      <stop offset="100%" stop-color="#1e3048"/>
+    </linearGradient>
+    <linearGradient id="t3L" gradientUnits="userSpaceOnUse" x1="-60" y1="-36" x2="0" y2="-36">
+      <stop offset="0%"   stop-color="#182030"/>
+      <stop offset="100%" stop-color="#0a1018"/>
+    </linearGradient>
+    <linearGradient id="t3T" gradientUnits="userSpaceOnUse" x1="0" y1="-94" x2="0" y2="-34">
+      <stop offset="0%"   stop-color="#587090"/>
+      <stop offset="100%" stop-color="#3a5070"/>
+    </linearGradient>
+
+    <!-- Schüssel: bläulich-grau -->
+    <radialGradient id="dishFaceR" cx="35%" cy="35%" r="70%">
+      <stop offset="0%"   stop-color="#7090c0"/>
+      <stop offset="60%"  stop-color="#3a5080"/>
+      <stop offset="100%" stop-color="#1a2840"/>
+    </radialGradient>
+    <radialGradient id="dishFaceL" cx="35%" cy="35%" r="70%">
+      <stop offset="0%"   stop-color="#304060"/>
+      <stop offset="100%" stop-color="#141e30"/>
+    </radialGradient>
+
+  </defs>
+
+  <!-- ══ FOUNDATION hz 0→24 (±128) ══ -->
+  <polygon points="-128,64 0,128 0,104 -128,40"  fill="url(#fL)" stroke="#1a2438" stroke-width="1.5"/>
+  <polygon points="128,64 0,128 0,104 128,40"    fill="url(#fR)" stroke="#2a3c58" stroke-width="1.5"/>
+  <polygon points="0,-24 128,40 0,104 -128,40"   fill="url(#fT)" stroke="#2a3c58" stroke-width="1.5"/>
+
+  <!-- ══ BASE UNIT hz 24→56 (±88) ══ -->
+  <g transform="translate(0, 36)">
+  <polygon points="-88,4 0,48 0,16 -88,-28"   fill="url(#bL)" stroke="#1a2a3a" stroke-width="1.5"/>
+  <polygon points="88,4 0,48 0,16 88,-28"     fill="url(#bR)" stroke="#3a5878" stroke-width="1.5"/>
+  <!-- Hintere Ecke (N) vor der Deckfläche -->
+  <circle cx="0" cy="-72" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.45"/>
+  <polygon points="0,-72 88,-28 0,16 -88,-28"  fill="url(#bT)" stroke="#3a5878" stroke-width="1.5"/>
+
+  <!-- Ventilation slots – rechte Fläche -->
+  <line x1="88"  y1="4"   x2="88"   y2="-28" stroke="#5080b0" stroke-width="2"   opacity="0.55"/>
+  <line x1="66"  y1="7"   x2="22"   y2="29"  stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="66"  y1="-1"  x2="22"   y2="21"  stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="66"  y1="-9"  x2="22"   y2="13"  stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Ventilation slots – linke Fläche (Schattenseite) -->
+  <line x1="-88" y1="4"   x2="-88"  y2="-28" stroke="#1a2840" stroke-width="2"   opacity="0.55"/>
+  <line x1="-66" y1="7"   x2="-22"  y2="29"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-66" y1="-1"  x2="-22"  y2="21"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-66" y1="-9"  x2="-22"  y2="13"  stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Ecknoten -->
+  <circle cx="88"  cy="-28" r="5" fill="#80b0e0" filter="url(#glow)"/>
+  <circle cx="-88" cy="-28" r="5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="16"  r="5" fill="#80b0e0" filter="url(#glow)"/>
+  </g>
+
+  <!-- ══ SCHÜSSELN AUF DEN VIER ECKEN DER BASE UNIT ══
+       Ecken (SVG-Koordinaten): N(0,−36) E(88,8) W(−88,8) S(0,52)
+       Masten: Startpunkt an Kugeloberfläche (r=5 ab Zentrum), kein Mask
+       Reihenfolge: N → E → W → S  (Painter's Algorithm) -->
+
+  <!-- ─── NORD-SCHÜSSEL  N(0,−36) ─── -->
+  <line x1="0" y1="-41" x2="0" y2="-59"
+        stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="0" cy="-59" rx="15" ry="7"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="0" cy="-59" rx="9" ry="4.5"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+
+  <!-- ─── OST-SCHÜSSEL  E(88,8) ─── -->
+  <line x1="85.3" y1="3.8" x2="75" y2="-12"
+        stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="75" cy="-12" rx="13" ry="6.5"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="75" cy="-12" rx="8" ry="4"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+
+  <!-- ─── WEST-SCHÜSSEL  W(−88,8)  (Schattenseite) ─── -->
+  <line x1="-85.3" y1="3.8" x2="-75" y2="-12"
+        stroke="#283048" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="-75" cy="-12" rx="13" ry="6.5"
+           fill="url(#dishFaceL)" stroke="#405070" stroke-width="1.5" opacity="0.85"/>
+  <ellipse cx="-75" cy="-12" rx="8" ry="4"
+           fill="#101826" stroke="#304060" stroke-width="1" opacity="0.85"/>
+
+  <!-- ─── SÜD-SCHÜSSEL  S(0,52)  (vorderste Ebene) ─── -->
+  <line x1="0" y1="47" x2="0" y2="31"
+        stroke="#4a6090" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="0" cy="31" rx="15" ry="7"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1.5"/>
+  <ellipse cx="0" cy="31" rx="9" ry="4.5"
+           fill="#1a2840" stroke="#4060a0" stroke-width="1"/>
+
+  <!-- ══ DRITTER BLOCK  rx=60 ry=30 h=28
+       Faktor 88/128 = 0.6875 → 88×0.6875 ≈ 60
+       Unterseite: N(0,−66) E(60,−36) W(−60,−36) S(0,−6)
+       Oberseite:  N(0,−94) E(60,−64) W(−60,−64) S(0,−34)  ══ -->
+
+  <!-- linke Fläche (Schattenseite) -->
+  <polygon points="-60,-36 0,-6 0,-34 -60,-64" fill="url(#t3L)" stroke="#1a2a3a" stroke-width="1.5"/>
+  <line x1="-60" y1="-64" x2="-60" y2="-36" stroke="#1a2840" stroke-width="2"   opacity="0.55"/>
+  <line x1="-45" y1="-46" x2="-15" y2="-31" stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+  <line x1="-45" y1="-40" x2="-15" y2="-25" stroke="#142030" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- rechte Fläche (Lichtseite) -->
+  <polygon points="60,-36 0,-6 0,-34 60,-64"  fill="url(#t3R)" stroke="#3a5878" stroke-width="1.5"/>
+  <line x1="60"  y1="-64" x2="60"  y2="-36" stroke="#5080b0" stroke-width="2"   opacity="0.55"/>
+  <line x1="45"  y1="-46" x2="15"  y2="-31" stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+  <line x1="45"  y1="-40" x2="15"  y2="-25" stroke="#3a6090" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- hintere N-Ecke (verdeckt von Deckfläche) -->
+  <circle cx="0" cy="-94" r="4" fill="#80b0e0" filter="url(#glow)" opacity="0.45"/>
+
+  <!-- Deckfläche -->
+  <polygon points="0,-94 60,-64 0,-34 -60,-64" fill="url(#t3T)" stroke="#3a5878" stroke-width="1.5"/>
+
+  <!-- Eckknoten oben -->
+  <circle cx="60"  cy="-64" r="4.5" fill="#80b0e0" filter="url(#glow)"/>
+  <circle cx="-60" cy="-64" r="4.5" fill="#80b0e0" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="0"   cy="-34" r="4.5" fill="#80b0e0" filter="url(#glow)"/>
+
+  <!-- ══ WELLENSTRAHLEN  (Schüsseln → Eckknoten dritter Block)
+       Doppelschicht: breiter Glow-Halo + dünner Kern
+       E/W-Schüssel → E/W-Ecke, S-Schüssel → S-Ecke  ══ -->
+
+  <!-- E-Strahl: (75,−12) → (60,−64), diagonal, S-Kurve rechts-links -->
+  <path d="M 75,-12 Q 82,-26 68,-38 Q 54,-52 60,-64"
+        stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
+  <path d="M 75,-12 Q 82,-26 68,-38 Q 54,-52 60,-64"
+        stroke="white" stroke-width="1.5" fill="none" opacity="0.80"/>
+
+  <!-- W-Strahl: (−75,−12) → (−60,−64), gespiegelt, Schattenseite schwächer -->
+  <path d="M -75,-12 Q -82,-26 -68,-38 Q -54,-52 -60,-64"
+        stroke="white" stroke-width="3.5" fill="none" opacity="0.10" filter="url(#beamglow)"/>
+  <path d="M -75,-12 Q -82,-26 -68,-38 Q -54,-52 -60,-64"
+        stroke="white" stroke-width="1.5" fill="none" opacity="0.60"/>
+
+  <!-- S-Strahl: (0,31) → (0,−34), fast senkrecht, zuletzt = vorderster -->
+  <path d="M 0,31 Q 8,12 0,-5 Q -8,-22 0,-34"
+        stroke="white" stroke-width="3.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
+  <path d="M 0,31 Q 8,12 0,-5 Q -8,-22 0,-34"
+        stroke="white" stroke-width="1.5" fill="none" opacity="0.85"/>
+
+  <!-- ══ MINI-SCHÜSSELN + MASTEN auf Block-3-Deckfläche
+       Skaliert 60/88≈0.682 von T1.
+       Mastrichtung identisch zu T1 (E/W diagonal, S senkrecht).
+       Schüsselmittelpunkte: E(51,−78) W(−51,−78) S(0,−48)  ══ -->
+
+  <!-- E-Mast: Kugeloberfläche (57.6,−67.8) → Schüssel (51,−78) -->
+  <line x1="57.6" y1="-67.8" x2="51" y2="-78"
+        stroke="#4a6090" stroke-width="1.7" stroke-linecap="round"/>
+  <ellipse cx="51" cy="-78" rx="9" ry="4.5"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1"/>
+  <ellipse cx="51" cy="-78" rx="5.5" ry="2.7"
+           fill="#1a2840" stroke="#4060a0" stroke-width="0.7"/>
+
+  <!-- W-Mast: (−57.6,−67.8) → (−51,−78) (Schattenseite) -->
+  <line x1="-57.6" y1="-67.8" x2="-51" y2="-78"
+        stroke="#283048" stroke-width="1.7" stroke-linecap="round"/>
+  <ellipse cx="-51" cy="-78" rx="9" ry="4.5"
+           fill="url(#dishFaceL)" stroke="#405070" stroke-width="1" opacity="0.85"/>
+  <ellipse cx="-51" cy="-78" rx="5.5" ry="2.7"
+           fill="#101826" stroke="#304060" stroke-width="0.7" opacity="0.85"/>
+
+  <!-- S-Mast: (0,−38.5) → (0,−48) senkrecht -->
+  <line x1="0" y1="-38.5" x2="0" y2="-48"
+        stroke="#4a6090" stroke-width="1.7" stroke-linecap="round"/>
+  <ellipse cx="0" cy="-48" rx="10" ry="5"
+           fill="url(#dishFaceR)" stroke="#6080b0" stroke-width="1"/>
+  <ellipse cx="0" cy="-48" rx="6" ry="3"
+           fill="#1a2840" stroke="#4060a0" stroke-width="0.7"/>
+
+  <!-- ══ MINI-WELLENSTRAHLEN senkrecht nach oben + je eine Kugel
+       Strahlenlänge je 40 px. Kugeln: E(51,−118) W(−51,−118) S(0,−88)  ══ -->
+
+  <!-- E-Strahl (51,−78) → (51,−118) + Kugel -->
+  <path d="M 51,-78 Q 57,-88 51,-98 Q 45,-108 51,-118"
+        stroke="white" stroke-width="2.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
+  <path d="M 51,-78 Q 57,-88 51,-98 Q 45,-108 51,-118"
+        stroke="white" stroke-width="1" fill="none" opacity="0.80"/>
+  <circle cx="51"  cy="-118" r="14"  fill="white" opacity="0.05" filter="url(#sphereglow)"/>
+  <circle cx="51"  cy="-118" r="10"  fill="white" opacity="0.10" filter="url(#glow)"/>
+  <circle cx="51"  cy="-118" r="7"   fill="white" opacity="0.88"/>
+  <circle cx="49"  cy="-121" r="3"   fill="white" opacity="0.95"/>
+  <circle cx="51"  cy="-118" r="3.5" fill="white"/>
+  <ellipse cx="51" cy="-118" rx="7" ry="2.5" fill="none" stroke="white" stroke-width="0.7" opacity="0.30"/>
+
+  <!-- W-Strahl (−51,−78) → (−51,−118) + Kugel (Schattenseite schwächer) -->
+  <path d="M -51,-78 Q -57,-88 -51,-98 Q -45,-108 -51,-118"
+        stroke="white" stroke-width="2.5" fill="none" opacity="0.10" filter="url(#beamglow)"/>
+  <path d="M -51,-78 Q -57,-88 -51,-98 Q -45,-108 -51,-118"
+        stroke="white" stroke-width="1" fill="none" opacity="0.60"/>
+  <circle cx="-51"  cy="-118" r="14"  fill="white" opacity="0.05" filter="url(#sphereglow)"/>
+  <circle cx="-51"  cy="-118" r="10"  fill="white" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="-51"  cy="-118" r="7"   fill="white" opacity="0.70"/>
+  <circle cx="-49"  cy="-121" r="3"   fill="white" opacity="0.80"/>
+  <circle cx="-51"  cy="-118" r="3.5" fill="white" opacity="0.80"/>
+  <ellipse cx="-51" cy="-118" rx="7" ry="2.5" fill="none" stroke="white" stroke-width="0.7" opacity="0.25"/>
+
+  <!-- S-Strahl (0,−48) → (0,−88) + Kugel, vorderster zuletzt -->
+  <path d="M 0,-48 Q 6,-58 0,-68 Q -6,-78 0,-88"
+        stroke="white" stroke-width="2.5" fill="none" opacity="0.15" filter="url(#beamglow)"/>
+  <path d="M 0,-48 Q 6,-58 0,-68 Q -6,-78 0,-88"
+        stroke="white" stroke-width="1" fill="none" opacity="0.85"/>
+  <circle cx="0"  cy="-88" r="14"  fill="white" opacity="0.05" filter="url(#sphereglow)"/>
+  <circle cx="0"  cy="-88" r="10"  fill="white" opacity="0.10" filter="url(#glow)"/>
+  <circle cx="0"  cy="-88" r="7"   fill="white" opacity="0.88"/>
+  <circle cx="-2" cy="-91" r="3"   fill="white" opacity="0.95"/>
+  <circle cx="0"  cy="-88" r="3.5" fill="white"/>
+  <ellipse cx="0" cy="-88" rx="7" ry="2.5" fill="none" stroke="white" stroke-width="0.7" opacity="0.30"/>
+
+
+  <g>
+    <text x="0" y="20" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="90" text-anchor="middle" dominant-baseline="middle" fill="none" stroke="#000000" stroke-width="5" stroke-linejoin="round">V</text>
+    <text x="0" y="20" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="90" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">V</text>
+  </g>
+</svg>

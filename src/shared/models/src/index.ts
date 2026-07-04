@@ -1,6 +1,13 @@
 export const GRID_SIZE = 20
 
-export const BUILDING_TYPES = ['Base', 'Housing', 'Consumer', 'Industry', 'PowerPlant', 'Research'] as const
+export const BUILDING_TYPES = [
+  'Base',
+  'Housing',    'HousingT2',    'HousingT3',    'HousingT4',    'HousingT5',
+  'Consumer',   'ConsumerT2',   'ConsumerT3',   'ConsumerT4',   'ConsumerT5',
+  'Industry',   'IndustryT2',   'IndustryT3',   'IndustryT4',   'IndustryT5',
+  'PowerPlant', 'PowerPlantT2', 'PowerPlantT3', 'PowerPlantT4', 'PowerPlantT5',
+  'Research',   'ResearchT2',   'ResearchT3',   'ResearchT4',   'ResearchT5',
+] as const
 export type BuildingType = (typeof BUILDING_TYPES)[number]
 
 export const GAME_RESULTS = ['None', 'Win', 'Loss'] as const
@@ -51,10 +58,11 @@ export interface UiBuildingTypeInfo {
   industryProduction: number
   energyProduction: number
   housingContribution: number
+  researchProduction: number
   maintenancePopulationCost: number
   maintenanceIndustryCost: number
   maintenanceEnergyCost: number
-  requiredResearch: { branch: ResearchBranch; level: number } | null
+  requiredResearch: { branch: ResearchBranch; level: number }[] | null
   researchUnlocked: boolean
   isBuildable: boolean
   canAfford: boolean
