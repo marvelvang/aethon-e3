@@ -202,8 +202,14 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
 
   function handleItemSelect(info: UiBuildingTypeInfo): void {
     if (isCategoryView) {
+      // Clear ALL tooltip sources. The tap that opens the tier view focuses
+      // the category item, and since category and first tier share the same
+      // React key the element stays focused across the view switch — without
+      // this the tooltip would pop up immediately (instead of only on
+      // hover / touch long-press).
       setHoveredType(null)
       setTouchedType(null)
+      setFocusedType(null)
       setSelectedFamily(info.type)
       return
     }
