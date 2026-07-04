@@ -1,19 +1,19 @@
 // dev-only
 import type { GameState } from '@aethon/models'
-import { genesis } from '@aethon/engine'
 
-export type DevSeedName = 'bare' | 'default' | 'shortage'
+export type DevSeedName = 'default' | 'shortage' | 'research_full'
 
 /**
  * Switch between dev seeds here. Set to null to start every new/reset game
- * with the normal empty genesis state.
+ * with the normal empty genesis state (round 1, only Base).
  *
- *   'bare'     — round 1, only Base, genesis resources (200 ind / 200 ene)
- *   'default'  — round 20, healthy economy, research Lvl 1 everywhere
- *   'shortage' — round 25, industry=50 / energy=40 so most buildings show ⚠,
- *                research Lvl 2 everywhere (all T2 buildings unlocked)
+ *   'default'       — round 20, healthy economy, research Lvl 1 everywhere
+ *   'shortage'      — round 25, industry=50 / energy=40 so most buildings show ⚠,
+ *                     research Lvl 2 everywhere (all T2 buildings unlocked)
+ *   'research_full' — round 30, all research at Lvl 5, abundant resources;
+ *                     every building tier (T1–T5) unlocked and affordable
  */
-export const ACTIVE_DEV_SEED: DevSeedName | null = 'bare'
+export const ACTIVE_DEV_SEED: DevSeedName | null = 'research_full'
 
 export function getDevSeed(): Omit<GameState, 'id'> | null {
   if (!ACTIVE_DEV_SEED) return null
@@ -21,17 +21,9 @@ export function getDevSeed(): Omit<GameState, 'id'> | null {
 }
 
 const SEEDS: Record<DevSeedName, () => Omit<GameState, 'id'>> = {
-  bare: createBareSeed,
   default: createDefaultSeed,
   shortage: createShortageSeed,
-}
-
-/**
- * Round 1, only Base — the genesis state.
- * 200 ind / 200 ene / 100 pop → ready to place first buildings.
- */
-function createBareSeed(): Omit<GameState, 'id'> {
-  return genesis()
+  research_full: createResearchFullSeed,
 }
 
 /**
@@ -81,6 +73,30 @@ function createShortageSeed(): Omit<GameState, 'id'> {
       Energy:   { level: 2, investedPoints: 0 },
     },
     buildings: STANDARD_BUILDINGS,
+  }
+}
+
+/**
+ * Round 30, all research branches at level 5 — every building tier unlocked.
+ * Abundant resources and population so any building (incl. T5) is affordable.
+ * Only the Base is placed; the grid is otherwise empty for building tests.
+ */
+function createResearchFullSeed(): Omit<GameState, 'id'> {
+  return {
+    round: 30,
+    population: 1000,
+    consumerGoods: 3000,
+    industry: 8000,
+    energy: 8000,
+    researchPoints: 200,
+    researchFocus: null,
+    researchProgress: {
+      Housing:  { level: 5, investedPoints: 0 },
+      Consumer: { level: 5, investedPoints: 0 },
+      Industry: { level: 5, investedPoints: 0 },
+      Energy:   { level: 5, investedPoints: 0 },
+    },
+    buildings: [{ x: 0, y: 0, type: 'Base', isNewlyBuilt: false }],
   }
 }
 
