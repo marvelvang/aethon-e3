@@ -244,7 +244,7 @@ export default function BuildingPickerPopup({ buildingTypes, tileBounds, visible
             ) : (
               <div className="picker-tooltip-cost-item">
                 <span style={{ color }}>{label}</span>
-                <span>{value}</span>
+                <span style={{ color }}>{value}</span>
               </div>
             )
           )
