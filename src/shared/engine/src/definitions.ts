@@ -46,6 +46,10 @@ export const BUILDING_DEFINITIONS: Record<BuildingType, BuildingDefinition> = {
   ResearchT3:   defR(70, 135, 115, 18, 12, 35, 70,  3),
   ResearchT4:   defR(105,205, 170, 27, 18, 52, 105, 4),
   ResearchT5:   defR(155,305, 255, 40, 27, 78, 155, 5),
+  // Ship infrastructure: no resource production yet — output (ship construction,
+  // orbital traffic) arrives with the ship system.
+  Shipyard:     def(40, 80, 0,   0,   0,   80,  0,   10, 8,  8),
+  Spaceport:    def(35, 70, 0,   0,   0,   60,  0,   8,  6,  6),
 }
 
 function def(

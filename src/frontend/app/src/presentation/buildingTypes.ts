@@ -28,6 +28,8 @@ import researchT2SvgRaw   from '../assets/buildings/research_t2.svg?raw'
 import researchT3SvgRaw   from '../assets/buildings/research_t3.svg?raw'
 import researchT4SvgRaw   from '../assets/buildings/research_t4.svg?raw'
 import researchT5SvgRaw   from '../assets/buildings/research_t5.svg?raw'
+import shipyardSvgRaw     from '../assets/buildings/shipyard.svg?raw'
+import spaceportSvgRaw    from '../assets/buildings/spaceport.svg?raw'
 
 // PNG URLs — for Pixi.js texture loading (generated at build time via render-building-pngs.py)
 import basePng         from '../assets/buildings/png/base.png'
@@ -56,6 +58,8 @@ import researchT2Png   from '../assets/buildings/png/research_t2.png'
 import researchT3Png   from '../assets/buildings/png/research_t3.png'
 import researchT4Png   from '../assets/buildings/png/research_t4.png'
 import researchT5Png   from '../assets/buildings/png/research_t5.png'
+import shipyardPng     from '../assets/buildings/png/shipyard.png'
+import spaceportPng    from '../assets/buildings/png/spaceport.png'
 
 export type { BuildingType }
 
@@ -143,6 +147,18 @@ const iconResearchHi = (g: PIXI.Graphics) => {
   g.drawRect(-2, 4, 4, 6)
   g.drawCircle(5, -7, 2)
 }
+// Shipyard: scaffold frame with hull under construction inside
+const iconShipyard = (g: PIXI.Graphics) => {
+  g.drawRect(-8, -8, 3, 16)
+  g.drawRect(5, -8, 3, 16)
+  g.drawRect(-8, -8, 16, 3)
+  g.drawPolygon([0, -2, -3, 7, 3, 7])
+}
+// Spaceport: landing pad with rocket
+const iconSpaceport = (g: PIXI.Graphics) => {
+  g.drawEllipse(0, 6, 8, 3)
+  g.drawPolygon([0, -9, -3.5, 3, 3.5, 3])
+}
 
 const HOUSING_HEX    = 'var(--color-housing)'
 const CONSUMER_HEX   = 'var(--color-consumer)'
@@ -177,6 +193,9 @@ export const BUILDING_META: Record<BuildingType, BuildingMeta> = {
   PowerPlantT4: meta('Kraftwerk IV',     0xCCDDFF, ENERGY_HEX,   powerplantT4SvgRaw, powerplantT4Png, iconPowerPlantHi),
   PowerPlantT5: meta('Kraftwerk V',      0xDDEEFF, ENERGY_HEX,   powerplantT5SvgRaw, powerplantT5Png, iconPowerPlantHi),
 
+  Shipyard:     meta('Werft',            0xFF5500, '#FF5500',    shipyardSvgRaw,     shipyardPng,     iconShipyard),
+  Spaceport:    meta('Raumhafen',        0xFFCC00, '#FFCC00',    spaceportSvgRaw,    spaceportPng,    iconSpaceport),
+
   Research:     meta('Forschung',        0x00BFD8, RESEARCH_HEX, researchSvgRaw,     researchPng,     iconResearch),
   ResearchT2:   meta('Forschung II',     0x00DDEE, RESEARCH_HEX, researchT2SvgRaw,   researchT2Png,   iconResearchHi),
   ResearchT3:   meta('Forschung III',    0x22E4F2, RESEARCH_HEX, researchT3SvgRaw,   researchT3Png,   iconResearchHi),
@@ -194,4 +213,7 @@ export const BUILDING_FAMILIES: { key: BuildingType; tiers: BuildingType[] }[] =
   { key: 'Industry',   tiers: ['Industry',   'IndustryT2',   'IndustryT3',   'IndustryT4',   'IndustryT5'] },
   { key: 'PowerPlant', tiers: ['PowerPlant', 'PowerPlantT2', 'PowerPlantT3', 'PowerPlantT4', 'PowerPlantT5'] },
   { key: 'Research',   tiers: ['Research',   'ResearchT2',   'ResearchT3',   'ResearchT4',   'ResearchT5'] },
+  // Ship infrastructure: single tier for now, higher tiers follow the design roadmap
+  { key: 'Shipyard',   tiers: ['Shipyard'] },
+  { key: 'Spaceport',  tiers: ['Spaceport'] },
 ]

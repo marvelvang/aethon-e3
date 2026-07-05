@@ -7,6 +7,8 @@ export const BUILDING_TYPES = [
   'Industry',   'IndustryT2',   'IndustryT3',   'IndustryT4',   'IndustryT5',
   'PowerPlant', 'PowerPlantT2', 'PowerPlantT3', 'PowerPlantT4', 'PowerPlantT5',
   'Research',   'ResearchT2',   'ResearchT3',   'ResearchT4',   'ResearchT5',
+  'Shipyard',
+  'Spaceport',
 ] as const
 export type BuildingType = (typeof BUILDING_TYPES)[number]
 
