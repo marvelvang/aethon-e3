@@ -123,6 +123,8 @@ Lore-Erklärung:
 
 ## 8. Ressourcen (noch offen, aber Richtung klar)
 
+> Inzwischen entschieden und umgesetzt: Bevölkerung, Wohnraum, Konsumgüter, Industrie, Energie, Forschung; Militär ist geplant. Siehe [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md).
+
 Optionen:
 
 ### Klassisch (nah am Original):
