@@ -119,3 +119,13 @@ Beim Bau werden Industrie und Energie sofort abgezogen. Das Gebäude erhält den
 - Basis auf Position (0,0)
 - alle Forschungszweige auf Stufe 1, kein Fokus
 - Grid-Größe: `GRID_SIZE` in `src/shared/models` (aktuell 20×20)
+
+## 9. Geplant (noch nicht im Code)
+
+Konzepte für die Planetenebene, die bewusst zurückgestellt wurden:
+
+- **Planetenqualität:** Planeten unterscheiden sich in der Stabilität bzw. Nutzbarkeit ihres Realitätszustands; das skaliert die Produktion (z. B. 100 % auf stabilen, deutlich weniger auf instabilen Planeten). Lore-Hintergrund siehe [Kernspielidee](26%2005%2002%20Kernspielidee.md), Abschnitt 7.
+- **Effizienzregler / Drosselung:** Produktion eines Gebäudes abhängig von Versorgung und Unterhalt bzw. vom Spieler drosselbar, statt nur „läuft voll“ oder Spielende bei negativer Industrie/Energie.
+- **Abriss:** Gebäude wieder entfernen können.
+
+Raumebene mit Militär: siehe Abschnitt 1 und [Vision](26%2005%2001%20Vision.md).
