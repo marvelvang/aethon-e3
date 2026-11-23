@@ -126,7 +126,7 @@ Ressourcenübersicht:
 
 •	Forschung
 
-•	Militär (geplant, noch nicht im Code)
+•	Militär (geplant für die Raumebene, noch nicht im Code)
 
 Ressourcen und Werte: [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md)
 

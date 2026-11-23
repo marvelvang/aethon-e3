@@ -17,7 +17,9 @@
 | Industrie | `industry` | Bestand | Basis, Industriewerk | Baukosten, laufende Wartung |
 | Energie | `energy` | Bestand | Basis, Kraftwerk | Baukosten, laufende Wartung |
 | Forschung | `researchPoints` | Punkte pro Runde, fließen in Forschungszweige | Forschungsgebäude | Schaltet Gebäudestufen T2–T5 frei |
-| Militär | – | **geplant, noch nicht im Code** | – | – |
+| Militär | – | **geplant für die Raumebene, noch nicht im Code** | – | – |
+
+Militär gehört zur späteren **Raumebene** (Raumschiffe, Raumkampf, Angriffe auf Planeten aus dem Orbit, siehe [Vision](26%2005%2001%20Vision.md)). Alle Regeln in diesem Dokument betreffen die **Planetenebene**.
 
 ## 2. Gebäude
 
