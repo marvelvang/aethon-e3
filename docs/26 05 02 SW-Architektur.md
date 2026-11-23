@@ -17,9 +17,7 @@ Die Kapitel 2.1–2.11 sind der ursprüngliche Entwurf für ein C#/.NET-Backend 
 
 Das Frontend spricht nur gegen das Interface `GameGateway` (`load`, `build`, `endRound`, `setResearchFocus`, `reset`). Beim Wechsel auf Multiplayer wird nur die Implementierung getauscht: Browser-Speicher raus, API-Aufrufe ans Backend rein. Die Typsicherheit kommt über Hono-RPC (`hc<AppType>`), nicht über OpenAPI.
 
-**Architekturentscheidung: kein ECS**
-
-Ein Entity Component System wurde geprüft und verworfen. Gründe: Performancevorteile spielen bei einem rundenbasierten, deterministischen Spiel keine Rolle, und die Spielobjekte unterscheiden sich vor allem in Datenwerten, nicht in frei kombinierbaren Fähigkeiten. Stattdessen: datengetriebene Typdefinitionen (z. B. `BUILDING_DEFINITIONS` in `src/shared/engine`) und leichte Komposition über Interfaces für querschnittliche Fähigkeiten (z. B. ein späteres `Combatant` für Kampf).
+**Architekturentscheidung: kein ECS**, siehe [Architekturentscheidung Domänenmodell statt ECS](26%2011%2023%20Architekturentscheidung%20Dom%C3%A4nenmodell%20statt%20ECS.md).
 
 **Abweichungen vom Entwurf unten**
 
