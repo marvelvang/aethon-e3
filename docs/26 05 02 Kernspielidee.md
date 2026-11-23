@@ -2,7 +2,7 @@
 
 ## 1. Zielsetzung
 
-Ziel ist ein spiritueller Nachfolger des Originals:
+Ziel ist ein spiritueller Nachfolger des Originals *Perry Rhodan: Operation Eastside*:
 - Gleicher Game Loop (2D-Grid, Gebäude, Produktion, Ressourcenfluss)
 - Spieler soll sich nach kurzer Zeit „zu Hause“ fühlen
 - Gleichzeitig neue Lore und eigenständige Welt

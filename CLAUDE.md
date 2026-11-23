@@ -147,6 +147,14 @@ Repository Settings → Secrets → Actions → zwei Secrets:
 - `CLOUDFLARE_API_TOKEN` – read-only API Token (Account / Cloudflare Pages / Read)
 - `CLOUDFLARE_ACCOUNT_ID` – Cloudflare Account ID
 
+## Dokumentation
+
+- Doku liegt ausschließlich in `docs/`. Konzeption und Dokumentation auf Deutsch.
+- Ins Repo gehört nur Dauerhaftes (Konzepte, Vision, Spielregeln, Architektur). Verlaufsinformationen wie To-Dos, Arbeitspläne oder Zwischenstände gehören nicht ins Repo.
+- Jedes Dokument ist alleinige Quelle für sein Thema; andere Dokumente verweisen darauf, statt Inhalte zu duplizieren.
+- Maßgeblich für Ressourcen, Gebäude und Regeln: `docs/26 11 22 Spielregeln Ist-Stand.md`. Bei Regeländerungen im Code dieses Dokument mitziehen.
+- Dokumente gezielt patchen statt komplett neu schreiben, damit keine Inhalte verloren gehen.
+
 ## Umgebungs-Setup (SessionStart-Hook)
 
 Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
