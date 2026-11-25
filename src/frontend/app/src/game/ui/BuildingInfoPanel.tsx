@@ -1,6 +1,6 @@
 import type { UiBuildingSlot, UiBuildingTypeInfo } from '@aethon/models'
 import { BUILDING_META, type BuildingType } from '../../presentation/buildingTypes'
-import { HOUSING_DEF, POPULATION_DEF, RESOURCES_BY_KEY } from '../../presentation/resources'
+import { HOUSING_DEF, POPULATION_DEF, RESEARCH_DEF, RESOURCES_BY_KEY } from '../../presentation/resources'
 import './BuildingInfoPanel.css'
 
 interface Props {
@@ -26,6 +26,8 @@ function productionRows(info: UiBuildingTypeInfo): InfoRow[] {
     rows.push({ label: r.energy.label, color: r.energy.color, value: Number(info.energyProduction), prefix: '+' })
   if (Number(info.housingContribution) > 0)
     rows.push({ label: HOUSING_DEF.label, color: HOUSING_DEF.color, value: Number(info.housingContribution), prefix: '+' })
+  if (Number(info.researchProduction) > 0)
+    rows.push({ label: RESEARCH_DEF.label, color: RESEARCH_DEF.color, value: Number(info.researchProduction), prefix: '+' })
   return rows
 }
 

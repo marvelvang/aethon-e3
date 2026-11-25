@@ -11,7 +11,7 @@ describe('project', () => {
     expect(ui.housing).toBe(150)
     expect(ui.gameResult).toBe('None')
     expect(ui.buildings).toHaveLength(1)
-    expect(ui.buildingTypes).toHaveLength(6)
+    expect(ui.buildingTypes).toHaveLength(26)
     expect(ui.buildingTypes.find(t => t.type === 'Base')?.isBuildable).toBe(false)
     expect(ui.buildingTypes.find(t => t.type === 'Housing')?.isBuildable).toBe(true)
   })
@@ -38,14 +38,35 @@ describe('project', () => {
   })
 
   test('researchUnlocked=false blocks canAfford when research requirement not met', () => {
-    // Temporarily set a required research level on Research building via a state
-    // where the branch level is 0 but the definition requires level 1.
-    // We test indirectly by checking that all current buildings (all requiredResearch=null)
-    // are researchUnlocked=true.
     const ui = project(initial())
-    for (const bt of ui.buildingTypes) {
+    // T1 buildings have no research requirement → always unlocked
+    for (const bt of ui.buildingTypes.filter(b => b.requiredResearch === null)) {
       expect(bt.researchUnlocked).toBe(true)
     }
+    // T2 buildings require branch level 2; initial level is 1 → locked
+    for (const bt of ui.buildingTypes.filter(b => b.requiredResearch !== null)) {
+      expect(bt.researchUnlocked).toBe(false)
+      expect(bt.canAfford).toBe(false)
+    }
+  })
+
+  test('tier unlocks follow branch level; Research tiers need Industry AND Energy', () => {
+    const base = initial()
+    const s = {
+      ...base,
+      researchProgress: {
+        ...base.researchProgress,
+        Housing:  { level: 3 as const, investedPoints: 0 },
+        Industry: { level: 4 as const, investedPoints: 0 },
+        // Energy stays at level 1
+      },
+    }
+    const ui = project(s)
+    expect(ui.buildingTypes.find(t => t.type === 'HousingT3')?.researchUnlocked).toBe(true)
+    expect(ui.buildingTypes.find(t => t.type === 'HousingT4')?.researchUnlocked).toBe(false)
+    expect(ui.buildingTypes.find(t => t.type === 'IndustryT4')?.researchUnlocked).toBe(true)
+    // Research family needs BOTH branches at the level — Industry 4 alone is not enough
+    expect(ui.buildingTypes.find(t => t.type === 'ResearchT2')?.researchUnlocked).toBe(false)
   })
 
   test('research fields are forwarded into UiState', () => {

@@ -42,7 +42,8 @@ describe('placeBuilding', () => {
   })
 
   test('newly-built tiles block free population for subsequent builds in the same round', () => {
-    let s = initial() // pop=100, Housing populationCost=50 → fits exactly two
+    // pop=110: Base maintenance=10 → 100 free; two Housing (50 each) = 100 → exactly two fit
+    let s = { ...initial(), population: 110 }
     s = placeBuilding(s, 5, 5, 'Housing')
     s = placeBuilding(s, 5, 6, 'Housing')
     expect(() => placeBuilding(s, 5, 7, 'Housing')).toThrow(/population/i)

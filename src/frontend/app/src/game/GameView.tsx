@@ -57,6 +57,7 @@ export default function GameView({ game }: GameViewProps) {
         onCellClick={setSelectedBuilding}
         selectedCell={selectedCell}
         onRotationChanged={setRotation}
+        resources={game.state ? { freePopulation: game.state.freePopulation, industry: game.state.industry, energy: game.state.energy } : null}
       />
       <BuildingInfoPanel
         building={selectedBuilding}

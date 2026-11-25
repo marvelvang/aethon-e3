@@ -13,6 +13,8 @@ export type TileBounds = { minX: number; maxX: number; minY: number; maxY: numbe
 
 export interface GridEngineCallbacks {
   onCellClick: (cell: { col: number; row: number } | null, tileBounds: TileBounds | null) => void
+  onCellTouchDown: (cell: { col: number; row: number }, tileBounds: TileBounds) => void
+  onCellTouchCancelled: () => void
   onRotationChanged: (rot: RotationStep) => void
   onResetView: () => void
   onSelectionRect: (start: { col: number; row: number }, end: { col: number; row: number }, bounds: TileBounds) => void
@@ -52,6 +54,12 @@ export class GridEngine {
       autoDensity: true,
     })
 
+    // Disable Pixi.js event system — we handle all input via InputController.
+    // Without this, Pixi.js hit-tests the entire scene graph on every touch event,
+    // which blocks the main thread for 300–800 ms on mobile.
+    this.app.stage.eventMode = 'none'
+    this.app.stage.interactiveChildren = false
+
     this.camera = new Camera(window.innerWidth, window.innerHeight)
     const gridVisualHeight = (GRID_SIZE - 1) * 2 * TILE_HALF_HEIGHT + TILE_HALF_HEIGHT * 2
     this.camera.setBoardCenter(
@@ -89,6 +97,21 @@ export class GridEngine {
         },
         onResetView: () => {
           this.callbacks.onResetView()
+        },
+        onTouchTap: (x, y) => {
+          const cell = this.toGridCell(x, y)
+          if (!cell) return
+          const top = tileTopVertex(cell.col, cell.row, this.camera.centerX, this.camera.offsetY, this.rotation)
+          const { scale, x: camX, y: camY } = this.camera.state
+          this.callbacks.onCellTouchDown(cell, {
+            minX: (top.x - TILE_HALF_WIDTH) * scale + camX,
+            maxX: (top.x + TILE_HALF_WIDTH) * scale + camX,
+            minY: top.y * scale + camY,
+            maxY: (top.y + TILE_HALF_HEIGHT * 2) * scale + camY,
+          })
+        },
+        onTouchTapCancelled: () => {
+          this.callbacks.onCellTouchCancelled()
         },
         onClick: (x, y) => {
           const cell = this.toGridCell(x, y)

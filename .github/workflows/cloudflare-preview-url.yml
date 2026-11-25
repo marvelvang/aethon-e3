@@ -14,6 +14,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -22,6 +24,9 @@ jobs:
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
+
+      - name: Install cairosvg (for PNG pre-rendering)
+        run: pip install cairosvg
 
       - name: Build frontend
         run: bun run --filter @aethon/frontend build
@@ -35,4 +40,4 @@ jobs:
           command: pages deploy src/frontend/app/dist --project-name=aethon-e3 --branch=${{ github.ref_name }}
 
       - name: Output preview URL
-        run: echo "CLOUDFLARE_PREVIEW_URL=${{ steps.deploy.outputs.deployment-url }}"
+        run: echo "CLOUDFLARE_PREVIEW_URL=${{ steps.deploy.outputs.pages-deployment-alias-url }}"

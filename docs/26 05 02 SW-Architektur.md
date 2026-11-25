@@ -2,6 +2,32 @@
 
 ---
 
+## 2.0 Ist-Stand (Nov. 2026)
+
+Die Kapitel 2.1–2.11 sind der ursprüngliche Entwurf für ein C#/.NET-Backend mit Entity Framework. Dieses Backend wurde gebaut und am 29.05.2026 nach TypeScript portiert (Commit `e542e62`); der C#-Code existiert nicht mehr. Die Prinzipien (Intents rein, UI-State raus, deterministische Simulation, GameState als Aggregate) gelten weiter, die EF-spezifischen Teile nicht.
+
+**Zwei Betriebsarten, eine Engine**
+
+| | Singleplayer (aktiv) | Multiplayer (vorbereitet, nicht aktiv) |
+|---|---|---|
+| Spiellogik | `@aethon/engine` läuft im Browser | dieselbe `@aethon/engine` läuft im Backend |
+| Spielstand | `localStorage` im Browser | PostgreSQL (Neon), Tabelle `games`, GameState als `jsonb` |
+| Zugriff im Frontend | `LocalGameGateway` | `RemoteGameGateway` (noch nicht gebaut) über `@aethon/api-client` |
+| Backend | keins | Hono auf Bun (`src/backend/app`), Drizzle (`src/backend/persistence`), Railway |
+
+Das Frontend spricht nur gegen das Interface `GameGateway` (`load`, `build`, `endRound`, `setResearchFocus`, `reset`). Beim Wechsel auf Multiplayer wird nur die Implementierung getauscht: Browser-Speicher raus, API-Aufrufe ans Backend rein. Die Typsicherheit kommt über Hono-RPC (`hc<AppType>`), nicht über OpenAPI.
+
+**Architekturentscheidung: kein ECS**, siehe [Architekturentscheidung Domänenmodell statt ECS](26%2011%2023%20Architekturentscheidung%20Dom%C3%A4nenmodell%20statt%20ECS.md).
+
+**Abweichungen vom Entwurf unten**
+
+- Statt Entities mit Change Tracking: reine Funktionen (`placeBuilding`, `simulateRound`, `project`), die einen GameState nehmen und einen neuen zurückgeben.
+- Statt relationaler Abbildung (3NF): der ganze GameState als ein JSON-Dokument.
+- Statt Controller/Application Services: Hono-Routen laden den State, rufen die Engine auf, speichern und liefern `project(state)` als UI-State.
+
+
+---
+
 ## 2.1 Ziel dieses Kapitels
 
 Dieses Kapitel beschreibt die technische Architektur des Backends für Version 1.
@@ -19,7 +45,7 @@ Es beschreibt **keine konkrete Datenstruktur**, sondern ausschließlich konzepti
 
 ## 2.2 Technologie-Stack
 
-Das Backend basiert auf:
+Das Backend basierte im Entwurf auf (heute siehe 2.0):
 
 - C# / .NET (ASP.NET)  
 - Entity Framework (ORM)  

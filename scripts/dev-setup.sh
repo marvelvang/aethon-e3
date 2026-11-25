@@ -28,3 +28,6 @@ if [ -e "$REPO_ROOT/src/frontend/src" ]; then
 fi
 
 echo "[setup] Dev environment ready."
+
+# Generate building PNGs from SVGs (Pixi textures, gitignored).
+python3 "$REPO_ROOT/scripts/render-building-pngs.py"

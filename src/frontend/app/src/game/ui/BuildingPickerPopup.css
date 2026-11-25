@@ -40,11 +40,15 @@
   width: 48px;
   height: 48px;
   object-fit: contain;
+  display: block;
 }
 
 .picker-tooltip {
   position: fixed;
   z-index: 201;
+  /* Base text color for cost values — without this they inherit the browser
+     default (black) and disappear on the dark background. */
+  color: #fff;
   background: rgba(10, 10, 10, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 7px;
@@ -65,6 +69,29 @@
 
 .picker-tooltip-costs {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   font-size: 10px;
+}
+
+.picker-tooltip-cost-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.picker-tooltip-cost-item--short {
+  display: grid;
+  grid-template-columns: 1em auto;
+  column-gap: 2px;
+  row-gap: 1px;
+}
+
+.picker-tooltip-cost-icon {
+  text-align: center;
+}
+
+.picker-tooltip-research {
+  font-size: 10px;
+  color: rgba(255, 200, 80, 0.85);
+  text-align: center;
 }
