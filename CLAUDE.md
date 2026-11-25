@@ -78,6 +78,8 @@ Dann `SendUserFile(["/tmp/zbild.png"])`. Mehrere Bilder gleichzeitig sind mögli
 - `src/frontend/app/src/version.ts`
 - `src/backend/app/src/version.ts`
 
+**Nur bei funktionalen Codeänderungen** (SemVer: Major/Minor/Patch). Reine Doku-/Konzeptänderungen ändern die Version nie und lösen keinen Versionscheck aus.
+
 **Invariante:** Branch-Version muss immer **strikt größer** als die Version in `origin/main` sein.
 
 **Wann prüfen:** nach dem Mergen von main (Schritt 5 in Regel 3) und nach commit + push am Aufgabenende. Pro Branch reicht ein einziges Increment über main hinaus – ist die Branch-Version bereits größer, entfällt die Prüfung am Aufgabenende.
@@ -146,6 +148,15 @@ Danach ist die URL bekannt und wird für alle weiteren Pushes direkt ausgegeben.
 Repository Settings → Secrets → Actions → zwei Secrets:
 - `CLOUDFLARE_API_TOKEN` – read-only API Token (Account / Cloudflare Pages / Read)
 - `CLOUDFLARE_ACCOUNT_ID` – Cloudflare Account ID
+
+## Dokumentation
+
+- Doku liegt ausschließlich in `docs/`. Konzeption und Dokumentation auf Deutsch.
+- Ins Repo gehört nur Dauerhaftes (Konzepte, Vision, Spielregeln, Architektur). Verlaufsinformationen wie To-Dos, Arbeitspläne oder Zwischenstände gehören nicht ins Repo.
+- Jedes Dokument ist alleinige Quelle für sein Thema; andere Dokumente verweisen darauf, statt Inhalte zu duplizieren.
+- Maßgeblich für Ressourcen, Gebäude und Regeln: `docs/26 11 22 Spielregeln Ist-Stand.md`. Bei Regeländerungen im Code dieses Dokument mitziehen.
+- Dokumente gezielt patchen statt komplett neu schreiben, damit keine Inhalte verloren gehen.
+- Doku-/Konzeptarbeit geht direkt auf `main`, ohne PR und ohne Versionserhöhung. PRs nur für Codeänderungen (siehe Git).
 
 ## Umgebungs-Setup (SessionStart-Hook)
 
@@ -230,7 +241,8 @@ bun test --filter @aethon/engine
 
 - Main-Branch: `main`
 - Feature-Branches: `claude/<beschreibung>` oder ähnlich
-- Niemals direkt auf `main` pushen
+- Codeänderungen: niemals direkt auf `main` pushen, immer über Feature-Branch und PR
+- Reine Doku-/Konzeptarbeit (nur `docs/`, `CLAUDE.md`, keine Softwareänderung): direkt auf `main` committen und pushen, kein PR, keine Versionserhöhung
 
 ### Committen und Pushen nach Implementierung
 Nach Abschluss jeder Implementierungsaufgabe direkt committen und pushen –

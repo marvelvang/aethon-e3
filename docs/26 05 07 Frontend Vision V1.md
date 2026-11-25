@@ -114,15 +114,21 @@ Oben links
 
 Ressourcenübersicht:
 
-•	Energie
+•	Bevölkerung (inkl. frei/gebunden)
 
-•	Bevölkerung
+•	Wohnraum
+
+•	Konsumgüter
 
 •	Industrie
 
+•	Energie
+
 •	Forschung
 
-•	Militär
+•	Militär (geplant für die Raumebene, noch nicht im Code)
+
+Ressourcen und Werte: [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md)
 
 Transparentes Overlay.
 

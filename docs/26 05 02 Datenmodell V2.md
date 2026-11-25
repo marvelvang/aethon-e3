@@ -1,3 +1,5 @@
+> **Historischer Stand V1 (Mai 2026).** Ressourcen, Gebäude und Werte haben sich seitdem erweitert (Energie, Forschung, Stufen T1–T5). Maßgeblich ist [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md).
+
 **Schritt 3 – Datenmodell (V1)**
 
 ---
