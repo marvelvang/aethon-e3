@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  PLACEHOLDER (spaceport) – Kopie von research.svg mit X-Overlay (Master SVG, 4× tile resolution)
+  PLACEHOLDER (spaceport) – Kopie von research.svg mit R-Overlay (Master SVG, 4× tile resolution)
 
   GEOMETRIE (local = innerhalb translate(0,36)):
   ─ Basisplatte-Diamant: N(0,−72) E(88,−28) S(0,16) W(−88,−28)
@@ -121,7 +121,7 @@
   </g>
 
   <g>
-    <text x="0" y="20" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="90" text-anchor="middle" dominant-baseline="middle" fill="none" stroke="#000000" stroke-width="5" stroke-linejoin="round">X</text>
-    <text x="0" y="20" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="90" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">X</text>
+    <text x="0" y="20" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="90" text-anchor="middle" dominant-baseline="middle" fill="none" stroke="#000000" stroke-width="5" stroke-linejoin="round">R</text>
+    <text x="0" y="20" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="90" text-anchor="middle" dominant-baseline="middle" fill="#ffffff">R</text>
   </g>
 </svg>
