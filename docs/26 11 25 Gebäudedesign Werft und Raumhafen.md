@@ -57,6 +57,7 @@ Jede neue Silhouette soll eine Grundform tragen, die sich von den anderen unters
 - **Werft** (`Shipyard`): baut später Raumschiffe. Schiffe sind der Enabler für Exploration, Raumkampf und Diplomatie (siehe [Vision](26%2005%2001%20Vision.md)).
 - **Raumhafen** (`Spaceport`): steht für Orbitalverkehr und Handel. Seine genaue Spielmechanik wird mit dem Schiffssystem festgelegt.
 - Bis das Schiffssystem steht, produzieren beide nichts und sind reine Kostengebäude.
+- **Freischaltung:** Die höheren Stufen **beider** Gebäude schaltet der Forschungszweig **Industrie** frei, wie im Originalspiel. Konsumgüter-Forschung spielt dafür keine Rolle. Die Stufe T1 ist ohne Forschung baubar.
 
 ### 3.2 Grundkonzepte
 
