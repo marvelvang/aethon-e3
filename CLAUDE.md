@@ -59,12 +59,12 @@ Aufgabe danach.
 bedeutet das: sofort einen vollständigen Frontend-Build ausführen (`bun --filter @aethon/frontend build`),
 alle Fehler analysieren und beheben, erneut bauen bis der Build fehlerfrei durchläuft,
 dann committen und pushen. Falls für den aktuellen Branch ein offener PR existiert, zusätzlich
-die CI-Fehler dort auslesen (via GitHub MCP Tools), analysieren und ebenfalls beheben –
+die CI-Fehler dort auslesen (via `gh api`), analysieren und ebenfalls beheben –
 alles in einem Durchgang, ohne weitere Aufgabe danach.
 
 **Kurzbefehl „zbild":** Schreibt der User `zbild` gefolgt von einem Hinweis, welches Bild
 er sehen möchte (z.B. `zbild industry_t2` oder `zbild housing alt`), das passende SVG aus
-`src/frontend/app/public/assets/buildings/` ermitteln, mit cairosvg in ein PNG konvertieren
+`src/frontend/app/src/assets/buildings/` ermitteln, mit cairosvg in ein PNG konvertieren
 (scale=2) und direkt per `SendUserFile` in den Chat schicken. Kein Download-Link, sondern
 die PNG-Datei selbst. Ablauf:
 ```bash
@@ -135,14 +135,15 @@ Die URL ist stabil und sofort bekannt — **kein Warten auf den Workflow nötig*
 Ein GitHub Actions Workflow (`.github/workflows/cloudflare-preview-url.yml`) läuft nach
 jedem Push auf `claude/**`-Branches automatisch. Er gibt die URL als
 `CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus. Nur beim allerersten Deployment
-eines neuen Branches per MCP lesen:
+eines neuen Branches per `gh api` (REST) lesen:
 ```
-mcp__github__actions_list → neuesten Run für diesen Branch finden
-mcp__github__get_job_logs → Log auf "CLOUDFLARE_PREVIEW_URL=" oder "Deployment alias URL:" prüfen
+gh api "repos/marvelvang/aethon-e3/actions/runs?branch=<branch>&per_page=1" → neuesten Run finden
+gh api repos/marvelvang/aethon-e3/actions/runs/<run_id>/jobs → Job-ID ermitteln
+gh api repos/marvelvang/aethon-e3/actions/jobs/<job_id>/logs → Log auf "CLOUDFLARE_PREVIEW_URL=" oder "Deployment alias URL:" prüfen
 ```
 Danach ist die URL bekannt und wird für alle weiteren Pushes direkt ausgegeben.
 
-**Kurzbefehl "url":** Workflow-Log des letzten Runs per MCP lesen und die Preview-URL ausgeben.
+**Kurzbefehl "url":** Workflow-Log des letzten Runs per `gh api` lesen und die Preview-URL ausgeben.
 
 **Voraussetzung (einmalig durch den User im GitHub Repo einzurichten):**
 Repository Settings → Secrets → Actions → zwei Secrets:
@@ -224,7 +225,7 @@ den Workspace-Paketen (Models, api-client mit Hono-RPC-Inferenz via type-only Im
 # Installation (Workspace-Root)
 bun install
 
-# Frontend-Build
+# Frontend-Build (braucht cairosvg für die Gebäude-PNGs; fehlt es: pip3 install cairosvg)
 bun --filter @aethon/frontend build
 
 # Frontend-Dev-Server
@@ -233,9 +234,16 @@ bun --filter @aethon/frontend dev
 # Backend-Dev-Server (braucht DATABASE_URL)
 DATABASE_URL=... bun --filter @aethon/backend dev
 
-# Engine-Tests
-bun test --filter @aethon/engine
+# Engine-Tests (aus dem Paketordner, `bun test --filter` findet keine Tests)
+cd src/shared/engine && bun test
 ```
+
+**Neuen Gebäudetyp anlegen – Checkliste:**
+1. `BUILDING_TYPES` in `src/shared/models/src/index.ts` (das Zod-Schema in `api-contract` zieht automatisch mit)
+2. `BUILDING_DEFINITIONS` in `src/shared/engine/src/definitions.ts`
+3. SVG in `src/frontend/app/src/assets/buildings/`, dazu in `presentation/buildingTypes.ts`: PNG-Import, `BUILDING_META`, ggf. Icon, `BUILDING_FAMILIES`
+4. Hart kodierte Gebäudeanzahl in `src/shared/engine/tests/projection.test.ts` anpassen
+5. `docs/26 11 22 Spielregeln Ist-Stand.md` nachziehen
 
 ## Git
 
@@ -255,6 +263,6 @@ Reihenfolge am Aufgabenende:
 4. `git push -u origin <branch>`
 5. Versionscheck gemäß Regel 4 ausführen.
 6. **SVG-Vorschau:** Falls die Aufgabe eine oder mehrere SVG-Dateien unter
-   `src/frontend/app/public/assets/buildings/` verändert hat, jede geänderte SVG
+   `src/frontend/app/src/assets/buildings/` verändert hat, jede geänderte SVG
    automatisch mit cairosvg (scale=2) in PNG umwandeln und per `SendUserFile` in den
    Chat schicken – ohne dass der User danach fragen muss.
