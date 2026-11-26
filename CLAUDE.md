@@ -199,8 +199,6 @@ src/
   frontend/  alles, was im Browser läuft
     app/           React + Vite + Pixi.js
     api-client/    Type-safe Hono-RPC-Client (`hc<AppType>`, type-only Backend-Import)
-    Dockerfile     Build- + Serve-Setup für Railway
-    railway.toml   Railway-Service-Config
 
   backend/   alles, was nur serverseitig läuft
     app/           Hono-App + Bun-Entry-Point
