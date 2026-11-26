@@ -2,7 +2,8 @@
 
 > Stand 22.11.2026, abgeleitet aus `src/shared/engine` und `src/shared/models`.
 > Dieses Dokument ist die **maßgebliche Referenz** für Ressourcen, Gebäude und Rundenablauf.
-> Die älteren Dokumente vom Mai 2026 ([Datenmodell V2](26%2005%2002%20Datenmodell%20V2.md), [V1 Simulation Rules](26%2005%2002%20V1%20Simulation%20Rules.md)) beschreiben den ersten Prototyp (4 Gebäudetypen, ohne Energie und Forschung) und gelten nur noch als Herleitung.
+> Die Struktur des Spielzustands beschreibt das [Datenmodell](26%2005%2002%20Datenmodell.md).
+> Das ältere Dokument [V1 Simulation Rules](26%2005%2002%20V1%20Simulation%20Rules.md) beschreibt den ersten Prototyp (4 Gebäudetypen, ohne Energie und Forschung) und gilt nur noch als Herleitung.
 > Bei Abweichungen gilt der Code bzw. dieses Dokument.
 
 ---
