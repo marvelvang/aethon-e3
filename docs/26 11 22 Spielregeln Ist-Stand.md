@@ -23,7 +23,7 @@ Militär gehört zur späteren **Raumebene** (Raumschiffe, Raumkampf, Angriffe a
 
 ## 2. Gebäude
 
-Sechs Gebäudefamilien, jede (außer der Basis) in fünf Stufen T1–T5. Stufen ab T2 werden über Forschung freigeschaltet.
+Acht Gebäudefamilien. Die fünf Produktionsfamilien haben je fünf Stufen T1–T5, Stufen ab T2 werden über Forschung freigeschaltet. Werft und Raumhafen haben bisher nur die Stufe T1.
 
 | Familie | Code | Anzeigename |
 |---|---|---|
@@ -33,6 +33,8 @@ Sechs Gebäudefamilien, jede (außer der Basis) in fünf Stufen T1–T5. Stufen 
 | Industrie | `Industry` … `IndustryT5` | Industriewerk I–V |
 | Energie | `PowerPlant` … `PowerPlantT5` | Kraftwerk I–V |
 | Forschung | `Research` … `ResearchT5` | Forschung I–V |
+| Werft | `Shipyard` | Werft (nur T1) |
+| Raumhafen | `Spaceport` | Raumhafen (nur T1) |
 
 ### Werte (aus `definitions.ts`)
 
@@ -66,8 +68,12 @@ Kosten und Wartung jeweils als Bevölkerung / Industrie / Energie.
 | ResearchT3 | 70 / 135 / 115 | +70 Forschung | 18 / 12 / 35 | Industry 3 + Energy 3 |
 | ResearchT4 | 105 / 205 / 170 | +105 Forschung | 27 / 18 / 52 | Industry 4 + Energy 4 |
 | ResearchT5 | 155 / 305 / 255 | +155 Forschung | 40 / 27 / 78 | Industry 5 + Energy 5 |
+| Shipyard | 40 / 80 / 80 | – | 10 / 8 / 8 | – |
+| Spaceport | 35 / 70 / 60 | – | 8 / 6 / 6 | – |
 
 Faustregel: Ab T2 steigen Kosten, Produktion und Wartung pro Stufe um etwa Faktor 1,5.
+
+Werft und Raumhafen sind vorerst reine Kostengebäude ohne Produktion; ihr Nutzen kommt mit dem Schiffssystem. Die Werte sind Schätzwerte ohne Balancing. Höhere Stufen beider Gebäude schaltet später der Zweig Industry frei. Design-Konzept: [Gebäudedesign Werft und Raumhafen](26%2011%2025%20Geb%C3%A4udedesign%20Werft%20und%20Raumhafen.md).
 
 ## 3. Bevölkerung: frei und gebunden
 
