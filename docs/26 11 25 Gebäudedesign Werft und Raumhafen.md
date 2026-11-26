@@ -26,7 +26,9 @@
 
 ### 1.3 Farbkodierung
 
-| Familie | Farben |
+Die Tabelle beschreibt die Farben der Gebäudegrafiken (SVG). Die Oberfläche (Ressourcenleiste, Bau-Menü, Icons) nutzt eigene Farben aus `src/frontend/app/src/styles/tokens.css` und `src/frontend/app/src/presentation/buildingTypes.ts`. Drei Familien weichen dort ab: Forschung ist in der Oberfläche Cyan, Basis Gold, Konsumgüter nur Grün.
+
+| Familie | Farben der Grafik |
 |---|---|
 | Basis | Cyan `#00d4ff` |
 | Wohnen | Orange/Amber `#E07030` / `#ffaa00` |
