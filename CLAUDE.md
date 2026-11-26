@@ -215,8 +215,8 @@ scripts/     Helfer (dev-setup, asset-rendering)
 | `@aethon/engine`      | Game-Logik                                                  | models |
 | `@aethon/api-contract`| Wire-Format-Schemas                                         | models |
 | `@aethon/frontend`    | React-SPA                                                   | models, engine, api-client |
-| `@aethon/api-client`  | RPC-Client                                                  | api-contract (+ type-only backend) |
-| `@aethon/backend`     | Hono-Server                                                 | engine, api-contract, persistence |
+| `@aethon/api-client`  | RPC-Client                                                  | backend (nur Typen, type-only Import) |
+| `@aethon/backend`     | Hono-Server                                                 | models, engine, api-contract, persistence |
 | `@aethon/persistence` | DB-Zugriff                                                  | models |
 
 **Single-Player-Lokal-Modus:** Frontend importiert `engine` direkt und hält den GameState
