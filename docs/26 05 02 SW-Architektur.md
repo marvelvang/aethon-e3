@@ -225,6 +225,7 @@ Das UI sendet ausschließlich Aktionen des Spielers:
 
 - Spiel starten  
 - Gebäude bauen (Position + Typ)  
+- Forschungsfokus setzen (Zweig)  
 - Runde beenden  
 
 Diese Requests enthalten:
