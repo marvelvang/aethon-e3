@@ -105,6 +105,9 @@ Beim Bau werden Industrie und Energie sofort abgezogen. Das Gebäude erhält den
 - Vier Zweige: `Housing`, `Consumer`, `Industry`, `Energy`, jeweils Stufe 1–5.
 - Kosten pro Stufenaufstieg: 500 → 1.000 → 2.000 → 4.000 Punkte (1→2, 2→3, 3→4, 4→5).
 - Mit Forschungsfokus fließen alle Punkte in den gewählten Zweig, ohne Fokus werden sie gleichmäßig auf alle vier verteilt.
+- Ohne Fokus erhält jeder Zweig ein Viertel der Punkte, abgerundet. Der Rest verfällt (z. B. 45 Punkte → je 11, 1 Punkt verfällt).
+- Punkte für einen Zweig auf Stufe 5 verfallen, auch wenn der Fokus auf ihm liegt. Sie gehen nicht an andere Zweige.
+- Überschüssige Punkte zählen für die nächste Stufe, ein Zweig kann in einer Runde auch mehrere Stufen aufsteigen. Beim Erreichen von Stufe 5 verfällt der Überschuss.
 - Stufe *n* eines Zweigs schaltet die Gebäudestufe T*n* der zugehörigen Familie frei (Energy → Kraftwerk).
 - Forschungsgebäude T*n* brauchen Industry **und** Energy auf Stufe *n*.
 
