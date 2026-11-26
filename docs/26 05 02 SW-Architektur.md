@@ -13,7 +13,10 @@ Die Kapitel 2.1–2.11 sind der ursprüngliche Entwurf für ein C#/.NET-Backend 
 | Spiellogik | `@aethon/engine` läuft im Browser | dieselbe `@aethon/engine` läuft im Backend |
 | Spielstand | `localStorage` im Browser | PostgreSQL (Neon), Tabelle `games`, GameState als `jsonb` |
 | Zugriff im Frontend | `LocalGameGateway` | `RemoteGameGateway` (noch nicht gebaut) über `@aethon/api-client` |
-| Backend | keins | Hono auf Bun (`src/backend/app`), Drizzle (`src/backend/persistence`), Railway |
+| Backend | keins | Hono auf Bun (`src/backend/app`), Drizzle (`src/backend/persistence`), Hosting noch offen |
+| Auslieferung | Cloudflare Pages, statische Seite (GitHub-Workflow „Cloudflare Deploy“) | Frontend wie Singleplayer |
+
+*Historie Hosting:* Von Mai bis Juli 2026 lief zusätzlich ein Railway-Projekt („Aethon-e3“, von Railway anfangs automatisch „optimistic-delight“ benannt): zuerst C#-Backend und Frontend, nach der Portierung nur noch das Frontend per Dockerfile mit nginx. Der letzte Railway-Deploy am 04.07.2026 schlug fehl, danach lief keiner mehr. Dockerfile und `railway.toml` wurden am 26.11.2026 entfernt.
 
 Das Frontend spricht nur gegen das Interface `GameGateway` (`load`, `build`, `endRound`, `setResearchFocus`, `reset`). Beim Wechsel auf Multiplayer wird nur die Implementierung getauscht: Browser-Speicher raus, API-Aufrufe ans Backend rein. Die Typsicherheit kommt über Hono-RPC (`hc<AppType>`), nicht über OpenAPI.
 
