@@ -13,7 +13,7 @@ if ! command -v bun >/dev/null 2>&1; then
 fi
 
 if [ ! -d "$REPO_ROOT/node_modules" ] \
-  || [ ! -d "$REPO_ROOT/src/frontend/node_modules" ]; then
+  || [ ! -d "$REPO_ROOT/src/frontend/app/node_modules" ]; then
   echo "[setup] Installing workspace dependencies via bun..."
   (cd "$REPO_ROOT" && bun install --silent)
   echo "[setup] Dependencies installed."
@@ -28,6 +28,13 @@ if [ -e "$REPO_ROOT/src/frontend/src" ]; then
 fi
 
 echo "[setup] Dev environment ready."
+
+# cairosvg is required to render the building PNGs (and thus for the frontend build).
+if ! python3 -c "import cairosvg" >/dev/null 2>&1; then
+  echo "[setup] Installing cairosvg..."
+  pip3 install --quiet cairosvg \
+    || echo "[setup] WARNING: cairosvg install failed – frontend build will fail."
+fi
 
 # Generate building PNGs from SVGs (Pixi textures, gitignored).
 python3 "$REPO_ROOT/scripts/render-building-pngs.py"

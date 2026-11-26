@@ -114,8 +114,9 @@ Das Frontend wird automatisch auf Cloudflare Pages deployed. Projekt: **`aethon-
 
 - Produktion (main): `https://aethon-e3.pages.dev`
 - Branch-Previews: stabile Branch-Alias-URL — **ändert sich pro Push NICHT**, ist für den
-  gesamten Branch immer dieselbe. Bekannte URL für den aktuellen Branch:
-  `https://claude-game-building-graphic.aethon-e3.pages.dev`
+  gesamten Branch immer dieselbe. Der Alias ist der Branchname in Kleinbuchstaben,
+  `/` und andere Sonderzeichen werden zu `-`, gekürzt auf 28 Zeichen. Beispiel:
+  `claude/space-game-roadmap-4mz3sw` → `https://claude-space-game-roadmap-4m.aethon-e3.pages.dev`
 
 **Build-Nummer:** Das Frontend zeigt neben der Versionsnummer eine Build-Nummer an
 (`v0.3.8 #142`). Sie entspricht `git rev-list --count HEAD` und steigt mit jedem Commit.
@@ -132,8 +133,9 @@ Preview: [https://<branch-alias>.aethon-e3.pages.dev](https://<branch-alias>.aet
 Die URL ist stabil und sofort bekannt — **kein Warten auf den Workflow nötig**.
 
 **Branch-Alias-URL ermitteln (nur beim ersten Push auf einen neuen Branch):**
-Ein GitHub Actions Workflow (`.github/workflows/cloudflare-preview-url.yml`) läuft nach
-jedem Push auf `claude/**`-Branches automatisch. Er gibt die URL als
+Der GitHub Actions Workflow „Cloudflare Deploy“ (`.github/workflows/cloudflare-preview-url.yml`)
+läuft nach jedem Push auf `claude/**`-Branches und `main` automatisch. Er baut das Frontend,
+deployt es per `wrangler pages deploy` und gibt die URL als
 `CLOUDFLARE_PREVIEW_URL=https://...` in den Job-Log aus. Nur beim allerersten Deployment
 eines neuen Branches per `gh api` (REST) lesen:
 ```
@@ -147,7 +149,8 @@ Danach ist die URL bekannt und wird für alle weiteren Pushes direkt ausgegeben.
 
 **Voraussetzung (einmalig durch den User im GitHub Repo einzurichten):**
 Repository Settings → Secrets → Actions → zwei Secrets:
-- `CLOUDFLARE_API_TOKEN` – read-only API Token (Account / Cloudflare Pages / Read)
+- `CLOUDFLARE_API_TOKEN` – API Token mit Schreibrecht (Account / Cloudflare Pages / Edit),
+  weil der Workflow selbst deployt. Ein read-only Token reicht nicht.
 - `CLOUDFLARE_ACCOUNT_ID` – Cloudflare Account ID
 
 ## Dokumentation
@@ -156,16 +159,23 @@ Repository Settings → Secrets → Actions → zwei Secrets:
 - Ins Repo gehört nur Dauerhaftes (Konzepte, Vision, Spielregeln, Architektur). Verlaufsinformationen wie To-Dos, Arbeitspläne oder Zwischenstände gehören nicht ins Repo.
 - Jedes Dokument ist alleinige Quelle für sein Thema; andere Dokumente verweisen darauf, statt Inhalte zu duplizieren.
 - Maßgeblich für Ressourcen, Gebäude und Regeln: `docs/26 11 22 Spielregeln Ist-Stand.md`. Bei Regeländerungen im Code dieses Dokument mitziehen.
+- Doku, die zu einer Codeänderung auf einem Feature-Branch gehört (vor allem Werte und Regeln im Spielregeln-Dokument), kommt **in denselben PR** wie der Code. So landen Werte und Regeln gemeinsam mit dem Code auf `main`. Reine Konzepte für Kommendes gehen weiterhin direkt auf `main`.
 - Dokumente gezielt patchen statt komplett neu schreiben, damit keine Inhalte verloren gehen.
-- Doku-/Konzeptarbeit geht direkt auf `main`, ohne PR und ohne Versionserhöhung. PRs nur für Codeänderungen (siehe Git).
+- Doku-/Konzeptarbeit geht direkt auf `main`, ohne PR und ohne Versionserhöhung. PRs nur für Codeänderungen (siehe Git). Ausnahme: Doku zu Code auf einem Feature-Branch (siehe oben).
 
 ## Umgebungs-Setup (SessionStart-Hook)
 
-Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
-`scripts/dev-setup.sh`. Das Skript führt idempotent `bun install` auf Workspace-Root
-aus (falls `node_modules` fehlt).
+Bei jeder neuen Claude Code Web-Sitzung, die im Repo-Ordner startet, läuft automatisch
+`.claude/settings.json` → `scripts/dev-setup.sh`. Das Skript ist idempotent: Es führt
+`bun install` auf Workspace-Root aus (falls `node_modules` fehlt), installiert bei Bedarf
+`cairosvg` und erzeugt die Gebäude-PNGs.
 
-**Manuell ausführen** (z.B. nach Checkout in neuer Shell):
+**Projekt-Threads:** Startet die Sitzung nicht im Repo-Ordner (z. B. Threads in
+Claude-Projekten mit Arbeitsverzeichnis `/home/user`), greift der Hook nicht. Ohne Setup
+scheitern die Engine-Tests („Cannot find module '@aethon/models'“) und der Frontend-Build.
+Dann vor Tests und Build einmal manuell ausführen.
+
+**Manuell ausführen** (z.B. nach Checkout in neuer Shell oder in Projekt-Threads):
 ```bash
 bash scripts/dev-setup.sh
 ```
@@ -189,8 +199,6 @@ src/
   frontend/  alles, was im Browser läuft
     app/           React + Vite + Pixi.js
     api-client/    Type-safe Hono-RPC-Client (`hc<AppType>`, type-only Backend-Import)
-    Dockerfile     Build- + Serve-Setup für Railway
-    railway.toml   Railway-Service-Config
 
   backend/   alles, was nur serverseitig läuft
     app/           Hono-App + Bun-Entry-Point
@@ -251,6 +259,7 @@ cd src/shared/engine && bun test
 - Feature-Branches: `claude/<beschreibung>` oder ähnlich
 - Codeänderungen: niemals direkt auf `main` pushen, immer über Feature-Branch und PR
 - Reine Doku-/Konzeptarbeit (nur `docs/`, `CLAUDE.md`, keine Softwareänderung): direkt auf `main` committen und pushen, kein PR, keine Versionserhöhung
+- Doku zu Code auf einem Feature-Branch: im selben PR wie der Code (siehe Abschnitt Dokumentation)
 
 ### Committen und Pushen nach Implementierung
 Nach Abschluss jeder Implementierungsaufgabe direkt committen und pushen –
