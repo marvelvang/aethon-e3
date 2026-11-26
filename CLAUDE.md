@@ -156,6 +156,7 @@ Repository Settings → Secrets → Actions → zwei Secrets:
 ## Dokumentation
 
 - Doku liegt ausschließlich in `docs/`. Konzeption und Dokumentation auf Deutsch.
+- Einstieg ist `docs/README.md` (Übersicht aller Dokumente). Neue Dokumente dort eintragen, historisch gewordene in den Abschnitt „Historisch“ verschieben.
 - Ins Repo gehört nur Dauerhaftes (Konzepte, Vision, Spielregeln, Architektur). Verlaufsinformationen wie To-Dos, Arbeitspläne oder Zwischenstände gehören nicht ins Repo.
 - Jedes Dokument ist alleinige Quelle für sein Thema; andere Dokumente verweisen darauf, statt Inhalte zu duplizieren.
 - Maßgeblich für Ressourcen, Gebäude und Regeln: `docs/26 11 22 Spielregeln Ist-Stand.md`. Bei Regeländerungen im Code dieses Dokument mitziehen.
