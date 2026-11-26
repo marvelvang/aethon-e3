@@ -38,7 +38,6 @@ function createDefaultSeed(): Omit<GameState, 'id'> {
     consumerGoods: 1200,
     industry: 3500,
     energy: 3000,
-    researchPoints: 60,
     researchFocus: null,
     researchProgress: {
       Housing:  { level: 1, investedPoints: 300 },
@@ -64,7 +63,6 @@ function createShortageSeed(): Omit<GameState, 'id'> {
     consumerGoods: 1500,
     industry: 50,
     energy: 40,
-    researchPoints: 120,
     researchFocus: null,
     researchProgress: {
       Housing:  { level: 2, investedPoints: 0 },
@@ -88,7 +86,6 @@ function createResearchFullSeed(): Omit<GameState, 'id'> {
     consumerGoods: 3000,
     industry: 8000,
     energy: 8000,
-    researchPoints: 200,
     researchFocus: null,
     researchProgress: {
       Housing:  { level: 5, investedPoints: 0 },

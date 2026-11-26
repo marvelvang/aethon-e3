@@ -50,11 +50,6 @@ describe('simulateRound – research', () => {
     return { ...s, ...overrides }
   }
 
-  test('researchPoints reflects per-round production', () => {
-    const after = simulateRound(withResearch())
-    expect(after.researchPoints).toBe(20)
-  })
-
   test('no focus: points split equally across all 4 branches', () => {
     const after = simulateRound(withResearch({ researchFocus: null }))
     // 20 / 4 = 5 per branch

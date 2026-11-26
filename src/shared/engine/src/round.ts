@@ -72,7 +72,6 @@ export function simulateRound(state: GameState): GameState {
     industry,
     energy,
     buildings,
-    researchPoints:   a.researchProduction,
     researchProgress,
   }
 }
