@@ -101,15 +101,16 @@ Die konkrete Formel ist variabel, das Prinzip bleibt stabil.
 
 Der State muss jederzeit gültig sein:
 
-- keine negativen Ressourcen  
+- Bestände wie Bevölkerung und Konsumgüter werden nicht negativ  
 - klare Ober- und Untergrenzen  
+- Industrie oder Energie unter 0 ist kein ungültiger Zustand, sondern beendet das Spiel als Niederlage (siehe [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md))  
 - deterministische Übergänge  
 
 ---
 
-## 10. Backend-Zentrierung
+## 10. Zentrale Engine
 
-Alle Spiellogik liegt im Backend:
+Alle Spiellogik liegt in der Engine (`@aethon/engine`). Sie läuft im Singleplayer im Browser und im Multiplayer im Backend, es ist in beiden Fällen derselbe Code (siehe [SW-Architektur](26%2005%2002%20SW-Architektur.md), Abschnitt 2.0):
 
 - keine Logik im UI  
 - keine verteilte Berechnung  

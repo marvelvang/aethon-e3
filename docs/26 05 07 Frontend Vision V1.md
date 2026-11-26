@@ -1,3 +1,5 @@
+> **Historischer Stand V1 (Mai 2026).** Die Oberfläche hat sich seitdem weiterentwickelt: Die Ansicht lässt sich in vier Stufen drehen, Rechtsklick verschiebt die Karte, gebaut wird per Klick oder Tippen auf ein freies Feld (oder durch Aufziehen eines Bereichs) über ein Baumenü, der Zoom hat zwei Darstellungsstufen (Gebäudegrafik, stark herausgezoomt Icons), und ein „Zustand“-Store wird nicht verwendet. Ressourcen und Gebäude: [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md).
+
 Frontend Vision V1
 
 **Status: ✅ V1 vollständig implementiert (Mai 2026)**
@@ -72,13 +74,13 @@ Implementiert: Mausdrag, Zoom (3 Stufen, kamerabasiert, LOD).
 
 Noch nicht: Rotation, vollständiger Planet, Kugelprojektion.
 
-Details zu Zoom-Architektur, LOD-Stufen und Rendering → `26_05_01_V1_UI_Zoom.md`
+Details zu Zoom-Architektur, LOD-Stufen und Rendering → [V1 UI, Zoom](26%2005%2001%20V1%20UI%2C%20Zoom.md)
 
  
 
 Technologiestack
 
-React + PixiJS. Technische Begründung, Asset-Strategie und Performance-Details → `26_05_01_V1_UI_Zoom.md`
+React + PixiJS. Technische Begründung, Asset-Strategie und Performance-Details → [V1 UI, Zoom](26%2005%2001%20V1%20UI%2C%20Zoom.md)
 
 Stack:
 
@@ -104,7 +106,7 @@ Layer-System
 
 3 Layer: Welt (PixiJS) / Welt-Overlays (teiltransparent) / HUD (React DOM).
 
-Details → `26_05_01_V1_UI_Zoom.md`
+Details → [V1 UI, Zoom](26%2005%2001%20V1%20UI%2C%20Zoom.md)
 
  
 

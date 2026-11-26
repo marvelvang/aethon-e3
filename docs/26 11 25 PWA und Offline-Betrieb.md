@@ -1,5 +1,7 @@
 # PWA und Offline-Betrieb
 
+> **Konzept, Umsetzung noch nicht in main.** Dieser Hinweis entfällt, sobald die PWA nach main gemergt ist.
+
 Aethon E3 wird als Progressive Web App (PWA) ausgeliefert. Ziel: Das Spiel lässt sich auf dem Handy wie eine App installieren, läuft im Singleplayer komplett offline und bekommt neue Versionen ohne App-Store.
 
 Grundlage ist `vite-plugin-pwa` (Workbox `generateSW`). Speicherung und Betriebsarten beschreibt die [Softwarearchitektur](26%2005%2002%20SW-Architektur.md) (Abschnitt 2.0).
