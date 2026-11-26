@@ -15,7 +15,7 @@ Grundlage ist `vite-plugin-pwa` (Workbox `generateSW`). Speicherung und Betriebs
 | Install-Button (`PwaInstall`) | eigener Button „App installieren“, erscheint nur, wenn der Browser `beforeinstallprompt` auslöst (Chrome, Edge, Android) |
 | Update-Hinweis (`PwaUpdate`) | Toast „Neue Version verfügbar“, Reload löst der Spieler aus |
 
-Beide UI-Elemente folgen dem Glass-Design-System (`src/styles/tokens.css`).
+Beide UI-Elemente folgen dem Glass-Design-System (`src/frontend/app/src/styles/tokens.css`).
 
 ## Entscheidungen
 
