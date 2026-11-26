@@ -165,11 +165,17 @@ Repository Settings → Secrets → Actions → zwei Secrets:
 
 ## Umgebungs-Setup (SessionStart-Hook)
 
-Bei jeder neuen Claude Code Web-Sitzung läuft automatisch `.claude/settings.json` →
-`scripts/dev-setup.sh`. Das Skript führt idempotent `bun install` auf Workspace-Root
-aus (falls `node_modules` fehlt).
+Bei jeder neuen Claude Code Web-Sitzung, die im Repo-Ordner startet, läuft automatisch
+`.claude/settings.json` → `scripts/dev-setup.sh`. Das Skript ist idempotent: Es führt
+`bun install` auf Workspace-Root aus (falls `node_modules` fehlt), installiert bei Bedarf
+`cairosvg` und erzeugt die Gebäude-PNGs.
 
-**Manuell ausführen** (z.B. nach Checkout in neuer Shell):
+**Projekt-Threads:** Startet die Sitzung nicht im Repo-Ordner (z. B. Threads in
+Claude-Projekten mit Arbeitsverzeichnis `/home/user`), greift der Hook nicht. Ohne Setup
+scheitern die Engine-Tests („Cannot find module '@aethon/models'“) und der Frontend-Build.
+Dann vor Tests und Build einmal manuell ausführen.
+
+**Manuell ausführen** (z.B. nach Checkout in neuer Shell oder in Projekt-Threads):
 ```bash
 bash scripts/dev-setup.sh
 ```
