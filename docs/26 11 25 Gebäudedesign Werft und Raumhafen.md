@@ -45,9 +45,9 @@ Jede neue Silhouette soll eine Grundform tragen, die sich von den anderen unters
 
 ## 2. Größen- und Stufenstruktur
 
-- Es gibt **fünf Forschungslevel (RL1–RL5)**. Auf jedem Level gibt es ein **1-Feld-Gebäude** je Familie (Stufe T1–T5).
-- Ab **RL3, RL4 und RL5** kommen zusätzlich **4-Feld-Gebäude** (2 × 2) mit deutlich mehr Gestaltungsraum dazu.
-- Auf **RL5** kommen zusätzlich **9-Feld-Gebäude** (3 × 3) dazu.
+- Jeder Forschungszweig hat **fünf Level** (Begriffe siehe [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md) §6). Auf jedem Level des zuständigen Zweigs gibt es ein **1-Feld-Gebäude** je Familie (Stufe T1–T5).
+- Ab **Level 3, 4 und 5** kommen zusätzlich **4-Feld-Gebäude** (2 × 2) mit deutlich mehr Gestaltungsraum dazu.
+- Auf **Level 5** kommen zusätzlich **9-Feld-Gebäude** (3 × 3) dazu.
 - Leitgedanke ist Realismus: Auch Riesenanlagen brauchen kleine Zulieferer. Deshalb bleiben die kleinen Gebäude auch auf hohen Leveln sinnvoll.
 
 > Mehrfeld-Gebäude setzen eine Mehrfeld-Mechanik im Grid voraus, die es im Code noch nicht gibt. Ein erster Versuch (HousingT3 2 × 2, HousingT5 3 × 3) wurde eingebaut und wieder zurückgenommen (Commits `4d3f9e1`, `eb1122d`).
@@ -81,38 +81,40 @@ Jede neue Silhouette soll eine Grundform tragen, die sich von den anderen unters
 
 ### 3.3 Zuordnung zu Forschungslevel und Größe
 
+Level meint das Forschungslevel im Zweig Industrie (siehe 3.2).
+
 **Werft**
 
 | Level | Felder | Konzept | Beschreibung |
 |---|---|---|---|
-| RL1 | 1 | ScaffoldYard | Gittergerüst-Turm, manuell, Orange-Akzente |
-| RL2 | 1 | AssemblyBot Hub | Block-Stil, ein mechanischer Arm auf dem Dach |
-| RL3 | 1 | MicroDock | zwei Mini-Türme mit Querträger, Vorgeschmack auf das Tor |
-| RL4 | 1 | PrecisionForge | schlanker Hochturm mit rotierendem Ring-Array |
-| RL5 | 1 | NanoAssembler | kompakt, überraschend viele Emitter und Ringe |
-| RL3 | 4 | OrbitSlipway | offener Trockendock-Rahmen (Dock-Ring), Teal-Grün |
-| RL4 | 4 | MagRail Slip | Diagonale über vier Felder, Elektrisch-Blau |
-| RL5 | 4 | CraneArray | drei parallele Ausleger mit Obertraverse |
-| RL5 | 9 | HeavyFab-Komplex | drei Trockendocks nebeneinander mit übergreifendem Kranträgersystem, Plasma-Rot + Schwerstahl |
+| 1 | 1 | ScaffoldYard | Gittergerüst-Turm, manuell, Orange-Akzente |
+| 2 | 1 | AssemblyBot Hub | Block-Stil, ein mechanischer Arm auf dem Dach |
+| 3 | 1 | MicroDock | zwei Mini-Türme mit Querträger, Vorgeschmack auf das Tor |
+| 4 | 1 | PrecisionForge | schlanker Hochturm mit rotierendem Ring-Array |
+| 5 | 1 | NanoAssembler | kompakt, überraschend viele Emitter und Ringe |
+| 3 | 4 | OrbitSlipway | offener Trockendock-Rahmen (Dock-Ring), Teal-Grün |
+| 4 | 4 | MagRail Slip | Diagonale über vier Felder, Elektrisch-Blau |
+| 5 | 4 | CraneArray | drei parallele Ausleger mit Obertraverse |
+| 5 | 9 | HeavyFab-Komplex | drei Trockendocks nebeneinander mit übergreifendem Kranträgersystem, Plasma-Rot + Schwerstahl |
 
 **Raumhafen**
 
 | Level | Felder | Konzept | Beschreibung |
 |---|---|---|---|
-| RL1 | 1 | ElevatedPad | Stelzenplattform, Amber-Baken |
-| RL2 | 1 | TransitBeacon | Turm mit rotierendem Leuchtring (Leuchtturm) |
-| RL3 | 1 | FreightHub | breiter flacher Block mit Ladebuchten |
-| RL4 | 1 | ApproachControl | Turm mit breitem Panoramakopf |
-| RL5 | 1 | NavSpire | schlanke Nadel mit Ringen |
-| RL3 | 4 | FreightTerminal | flacher breiter Komplex mit Andockschächten |
-| RL4 | 4 | DominalPort | große Kuppel |
-| RL5 | 4 | StarBazaar | Kuppel mit äußerem Kolonnadenring |
-| RL5 | 9 | TwinPylon Gate | das ikonische Tor |
+| 1 | 1 | ElevatedPad | Stelzenplattform, Amber-Baken |
+| 2 | 1 | TransitBeacon | Turm mit rotierendem Leuchtring (Leuchtturm) |
+| 3 | 1 | FreightHub | breiter flacher Block mit Ladebuchten |
+| 4 | 1 | ApproachControl | Turm mit breitem Panoramakopf |
+| 5 | 1 | NavSpire | schlanke Nadel mit Ringen |
+| 3 | 4 | FreightTerminal | flacher breiter Komplex mit Andockschächten |
+| 4 | 4 | DominalPort | große Kuppel |
+| 5 | 4 | StarBazaar | Kuppel mit äußerem Kolonnadenring |
+| 5 | 9 | TwinPylon Gate | das ikonische Tor |
 
 ### 3.4 Begründungen
 
 - **ScaffoldYard als erste Werft:** klein und improvisiert, passt zum Einstieg. Auch große Werften brauchen später solche Zulieferer.
-- **MagRail Slip als 4-Feld-Gebäude auf RL4:** Die Startschiene braucht Platz und ist Mittel- bis Hochtechnologie.
+- **MagRail Slip als 4-Feld-Gebäude auf Level 4:** Die Startschiene braucht Platz und ist Mittel- bis Hochtechnologie.
 - **HeavyFab als 9-Feld-Gebäude erweitert:** „Zwei Blöcke und zwei Ausleger“ wären für neun Felder zu dünn. Daher drei Trockendocks mit gemeinsamem Kranträgersystem.
 - **TwinPylon Gate als 9-Feld-Gebäude:** die stärkste, ikonischste Silhouette, sie braucht Platz.
 - **OrbitSlipway (offener Rahmen):** schließt eine Lücke im Formenvokabular. Turm, Block, Diagonale, Kuppel, Stelzen und Tor waren vergeben, ein offener Rahmen fehlte.

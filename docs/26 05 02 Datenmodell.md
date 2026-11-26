@@ -43,8 +43,8 @@ Wohnraum und Forschungspunkte pro Runde sind keine Felder, sondern werden aus de
 
 | Feld | Typ | Bedeutung |
 |---|---|---|
-| `level` | 1 bis 5 | aktuelle Stufe des Zweigs |
-| `investedPoints` | number | gesammelte Punkte auf dem Weg zur nächsten Stufe, auf Stufe 5 immer 0 |
+| `level` | 1 bis 5 | aktuelles Forschungslevel des Zweigs (Spielregeln §6) |
+| `investedPoints` | number | gesammelte Punkte auf dem Weg zum nächsten Level, auf Level 5 immer 0 |
 
 ### Aufzählungen
 
@@ -67,7 +67,7 @@ Wohnraum und Forschungspunkte pro Runde sind keine Felder, sondern werden aus de
 ## 4. Typdefinitionen (`@aethon/engine`, nicht gespeichert)
 
 - **`BUILDING_DEFINITIONS`** (`definitions.ts`): je Gebäudetyp eine `BuildingDefinition` mit Baukosten (Bevölkerung, Industrie, Energie), Produktion pro Runde (Konsumgüter, Industrie, Energie, Forschung), Wohnraumbeitrag, Wartung pro Runde (Bevölkerung, Industrie, Energie) und Forschungsvoraussetzung (Liste aus Zweig und Stufe oder keine).
-- **`RESEARCH_COSTS`** (`research-definitions.ts`): Punkte je Stufenaufstieg, je Zweig.
+- **`RESEARCH_COSTS`** (`research-definitions.ts`): Punkte je Levelaufstieg, je Zweig.
 
 Ein neuer Gebäudetyp oder eine neue Stufe ist eine neue Zeile in diesen Tabellen, keine neue Klasse. Die Werte selbst stehen in Spielregeln §2 und §6.
 

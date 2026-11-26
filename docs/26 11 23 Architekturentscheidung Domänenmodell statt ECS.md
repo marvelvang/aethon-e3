@@ -12,7 +12,7 @@
 
 | Fall | Lösung |
 |---|---|
-| Objekte unterscheiden sich in **Werten** (Gebäude, Tech-Stufen, später Raumschiffe) | datengetriebene Typdefinitionen: Typ = Datensatz in einer Tabelle, keine eigene Klasse |
+| Objekte unterscheiden sich in **Werten** (Gebäude, Stufen, später Raumschiffe) | datengetriebene Typdefinitionen: Typ = Datensatz in einer Tabelle, keine eigene Klasse |
 | Verschiedene Objektarten teilen eine **Fähigkeit** (heute absehbar nur Kampf) | leichte Komposition: ein gemeinsamer Baustein, den mehrere Domänenobjekte besitzen |
 | Vererbung | keine tiefen Hierarchien |
 
@@ -65,7 +65,7 @@ ECS ist zugleich Architekturmuster und Datenhaltung (Components meist spaltenwei
 | Objekt | Art der Variation | Lösung |
 |---|---|---|
 | Gebäude (Housing, Consumer, Industry, PowerPlant, Research, Base) | Werte | Eintrag in der Typtabelle |
-| Tech-Stufen eines Gebäudes (T2–T5) | Werte, Freischaltung, Asset | ebenfalls Einträge in der Typtabelle |
+| Stufen eines Gebäudes (T2–T5) | Werte, Freischaltung, Asset | ebenfalls Einträge in der Typtabelle |
 | Raumschiffe (später) | Werte | eigene Typtabelle nach demselben Muster |
 | Kampf: Raumschiff **und** Planet (später) | geteilte Fähigkeit über verschiedene Objektarten | leichte Komposition, siehe Abschnitt 5 |
 
@@ -78,7 +78,7 @@ Kampf ist damit die **einzige** absehbare Querschnittsfähigkeit. Raumschiff und
 Die Wertvariation ist bereits datengetrieben gelöst:
 
 - `src/shared/models/src/index.ts`: `BUILDING_TYPES` ist eine Liste von Typnamen, ein `Building` im `GameState` speichert nur Position, `type` und das Flag `isNewlyBuilt` (in der laufenden Runde gebaut, siehe [Datenmodell](26%2005%2002%20Datenmodell.md)). Der `GameState` ist ein schlichter Objektgraph (Ressourcen, `buildings[]`, Forschungsstand).
-- `src/shared/engine/src/definitions.ts`: `BUILDING_DEFINITIONS` ordnet jedem Typ einen Datensatz `BuildingDefinition` zu (Baukosten, Produktion, Wartung, benötigte Forschungsstufe). Tech-Stufen sind eigene Zeilen derselben Tabelle (`IndustryT2` …), keine Unterklassen.
+- `src/shared/engine/src/definitions.ts`: `BUILDING_DEFINITIONS` ordnet jedem Typ einen Datensatz `BuildingDefinition` zu (Baukosten, Produktion, Wartung, benötigtes Forschungslevel). Stufen sind eigene Zeilen derselben Tabelle (`IndustryT2` …), keine Unterklassen.
 - `src/shared/engine/src/research-definitions.ts`: Forschungskosten ebenfalls als Daten.
 - Die Spiellogik (`placeBuilding`, `simulateRound`, `project`) liest die Definitionen nach Typ nach und iteriert über den Objektgraphen. Typdefinitionen sind nicht Teil des `GameState` und werden nicht gespeichert.
 
