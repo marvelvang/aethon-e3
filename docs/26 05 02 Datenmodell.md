@@ -27,10 +27,9 @@
 | `energy` | number | Bestand Energie, kann negativ werden (Niederlage) |
 | `buildings` | `Building[]` | alle Gebäude auf dem Grid |
 | `researchFocus` | `ResearchBranch` oder `null` | gewählter Forschungszweig, `null` = kein Fokus |
-| `researchProgress` | je `ResearchBranch` ein `ResearchBranchProgress` | Forschungsstand aller vier Zweige |
-| `researchPoints` | number | Forschungspunkte der zuletzt simulierten Runde. Wird gespeichert, aber derzeit nirgends ausgewertet. |
+| `researchProgress` | je `ResearchBranch` ein `ResearchBranchProgress` | Forschungsstand aller vier Zweige, hier liegen die gesammelten Forschungspunkte |
 
-Wohnraum ist kein Feld, sondern wird aus den Gebäuden abgeleitet (Abschnitt 5). Startwerte: Spielregeln §8.
+Wohnraum und Forschungspunkte pro Runde sind keine Felder, sondern werden aus den Gebäuden abgeleitet (Abschnitt 5). Startwerte: Spielregeln §8.
 
 ### Building
 

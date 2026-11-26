@@ -36,7 +36,6 @@ export interface GameState {
   industry: number
   energy: number
   buildings: Building[]
-  researchPoints: number
   researchFocus: ResearchBranch | null
   researchProgress: Record<ResearchBranch, ResearchBranchProgress>
 }
