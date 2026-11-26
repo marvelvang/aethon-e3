@@ -77,7 +77,7 @@ Kampf ist damit die **einzige** absehbare Querschnittsfähigkeit. Raumschiff und
 
 Die Wertvariation ist bereits datengetrieben gelöst:
 
-- `src/shared/models/src/index.ts`: `BUILDING_TYPES` ist eine Liste von Typnamen, ein `Building` im `GameState` speichert nur Position und `type`. Der `GameState` ist ein schlichter Objektgraph (Ressourcen, `buildings[]`, Forschungsstand).
+- `src/shared/models/src/index.ts`: `BUILDING_TYPES` ist eine Liste von Typnamen, ein `Building` im `GameState` speichert nur Position, `type` und das Flag `isNewlyBuilt` (in der laufenden Runde gebaut, siehe [Datenmodell](26%2005%2002%20Datenmodell.md)). Der `GameState` ist ein schlichter Objektgraph (Ressourcen, `buildings[]`, Forschungsstand).
 - `src/shared/engine/src/definitions.ts`: `BUILDING_DEFINITIONS` ordnet jedem Typ einen Datensatz `BuildingDefinition` zu (Baukosten, Produktion, Wartung, benötigte Forschungsstufe). Tech-Stufen sind eigene Zeilen derselben Tabelle (`IndustryT2` …), keine Unterklassen.
 - `src/shared/engine/src/research-definitions.ts`: Forschungskosten ebenfalls als Daten.
 - Die Spiellogik (`placeBuilding`, `simulateRound`, `project`) liest die Definitionen nach Typ nach und iteriert über den Objektgraphen. Typdefinitionen sind nicht Teil des `GameState` und werden nicht gespeichert.
