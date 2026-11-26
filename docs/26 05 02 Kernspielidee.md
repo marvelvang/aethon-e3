@@ -31,15 +31,11 @@ Diese sind:
 
 ## 3. Was ist Aethon?
 
-Aethon ist:
+> **Aethon ist kein Ort im klassischen Raum, sondern ein phasenverschobener Realitätszustand desselben Universums.**
 
-> **kein klassischer Ort im Universum, sondern ein phasenverschobener Realitätszustand**
+Er basiert auf denselben physikalischen Grundprinzipien, weist jedoch veränderte Parameter auf, die bestimmte Prozesse ermöglichen, die in der ursprünglichen Realität praktisch unmöglich sind.
 
-Eigenschaften:
-- basiert auf denselben physikalischen Grundregeln
-- aber mit veränderten Parametern
-- nicht direkt zugänglich
-- nur über spezielle Transition Gates erreichbar
+Aethon ist nicht direkt zugänglich. Der Zugang erfolgt nur über künstlich erzeugte Transition Gates, die Materie nicht durch Raum bewegen, sondern in diesen Zustand überführen (siehe Abschnitt 4).
 
 ---
 
@@ -178,7 +174,7 @@ Optional:
 - Wie stark unterscheiden sich Regionen?
 
 ### Ressourcen:
-- Welche 2–3 Kernressourcen gibt es?
+- ~~Welche 2–3 Kernressourcen gibt es?~~ Entschieden, siehe [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md), Abschnitt 1.
 - Wie stark sind sie abstrahiert?
 
 ### Planetensystem:
@@ -214,13 +210,3 @@ Die E3 Initiative nutzt diese Eigenschaft, um:
 
 Das Gameplay bleibt vertraut,  
 aber die Welt dahinter ist neu.
-
----
-
-## 14. Was ist Aethon? (Kern-Definition)
-
-Aethon ist kein Ort im klassischen Raum, sondern ein phasenverschobener Realitätszustand desselben Universums.
-
-Er basiert auf denselben physikalischen Grundprinzipien, weist jedoch veränderte Parameter auf, die bestimmte Prozesse ermöglichen, die in der ursprünglichen Realität praktisch unmöglich sind.
-
-Der Zugang erfolgt über künstlich erzeugte Transition Gates, die Materie nicht durch Raum bewegen, sondern in diesen Zustand überführen.
