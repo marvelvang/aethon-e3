@@ -103,14 +103,14 @@ Beim Bau werden Industrie und Energie sofort abgezogen. Das Gebäude erhält den
 
 ## 6. Forschung
 
-- Vier Zweige: `Housing`, `Consumer`, `Industry`, `Energy`. Jeder Zweig hat ein eigenes **Forschungslevel** 1–5 (kurz Level, im Code `level`). Gebäude haben dagegen **Stufen** T1–T5.
-- Kosten pro Levelaufstieg: 500 → 1.000 → 2.000 → 4.000 Punkte (1→2, 2→3, 3→4, 4→5).
+- Vier Zweige: `Housing`, `Consumer`, `Industry`, `Energy`, jeder mit einer eigenen **Forschungsstufe** 1–5 (im Code `level`, in der Oberfläche „Lvl“).
+- Kosten pro Stufenaufstieg: 500 → 1.000 → 2.000 → 4.000 Punkte (1→2, 2→3, 3→4, 4→5).
 - Mit Forschungsfokus fließen alle Punkte in den gewählten Zweig, ohne Fokus werden sie gleichmäßig auf alle vier verteilt.
 - Ohne Fokus erhält jeder Zweig ein Viertel der Punkte, abgerundet. Der Rest verfällt (z. B. 45 Punkte → je 11, 1 Punkt verfällt).
-- Punkte für einen Zweig auf Level 5 verfallen, auch wenn der Fokus auf ihm liegt. Sie gehen nicht an andere Zweige.
-- Überschüssige Punkte zählen für das nächste Level, ein Zweig kann in einer Runde auch mehrere Level aufsteigen. Beim Erreichen von Level 5 verfällt der Überschuss.
-- Level *n* eines Zweigs schaltet die Stufe T*n* der zugehörigen Familie frei (Energy → Kraftwerk).
-- Forschungsgebäude T*n* brauchen Industry **und** Energy auf Level *n*.
+- Punkte für einen Zweig auf Stufe 5 verfallen, auch wenn der Fokus auf ihm liegt. Sie gehen nicht an andere Zweige.
+- Überschüssige Punkte zählen für die nächste Stufe, ein Zweig kann in einer Runde auch mehrere Stufen aufsteigen. Beim Erreichen von Stufe 5 verfällt der Überschuss.
+- Forschungsstufe und Gebäudestufe hängen 1:1 zusammen: Stufe *n* eines Zweigs schaltet alle Gebäude der Stufe T*n* frei, die an diesem Zweig hängen (Housing → Wohnen, Consumer → Konsumgüter, Industry → Industrie, Energy → Energie mit den Kraftwerken). Eine Stufe kann also mehrere Gebäude freischalten. Jeder Zweig startet auf Stufe 1, deshalb ist T1 ohne Forschung baubar.
+- Forschungsgebäude T*n* hängen an zwei Zweigen und brauchen Industry **und** Energy auf Stufe *n*.
 
 ## 7. Spielende
 
@@ -121,7 +121,7 @@ Beim Bau werden Industrie und Energie sofort abgezogen. Das Gebäude erhält den
 
 - Runde 1, Bevölkerung 100, Konsumgüter 0, Industrie 200, Energie 200
 - Basis auf Position (0,0)
-- alle Forschungszweige auf Level 1, kein Fokus
+- alle Forschungszweige auf Stufe 1, kein Fokus
 - Grid-Größe: `GRID_SIZE` in `src/shared/models` (aktuell 20×20)
 
 ## 9. Geplant (noch nicht im Code)

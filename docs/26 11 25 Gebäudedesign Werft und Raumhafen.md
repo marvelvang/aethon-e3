@@ -45,10 +45,10 @@ Jede neue Silhouette soll eine Grundform tragen, die sich von den anderen unters
 
 ## 2. Größen- und Stufenstruktur
 
-- Jeder Forschungszweig hat **fünf Level** (Begriffe siehe [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md) §6). Auf jedem Level des zuständigen Zweigs gibt es ein **1-Feld-Gebäude** je Familie (Stufe T1–T5).
-- Ab **Level 3, 4 und 5** kommen zusätzlich **4-Feld-Gebäude** (2 × 2) mit deutlich mehr Gestaltungsraum dazu.
-- Auf **Level 5** kommen zusätzlich **9-Feld-Gebäude** (3 × 3) dazu.
-- Leitgedanke ist Realismus: Auch Riesenanlagen brauchen kleine Zulieferer. Deshalb bleiben die kleinen Gebäude auch auf hohen Leveln sinnvoll.
+- Jeder Forschungszweig hat **fünf Stufen** (siehe [Spielregeln Ist-Stand](26%2011%2022%20Spielregeln%20Ist-Stand.md) §6). Auf jeder Stufe des zuständigen Zweigs gibt es ein **1-Feld-Gebäude** je Familie (Stufe T1–T5).
+- Ab **Stufe 3, 4 und 5** kommen zusätzlich **4-Feld-Gebäude** (2 × 2) mit deutlich mehr Gestaltungsraum dazu.
+- Auf **Stufe 5** kommen zusätzlich **9-Feld-Gebäude** (3 × 3) dazu.
+- Leitgedanke ist Realismus: Auch Riesenanlagen brauchen kleine Zulieferer. Deshalb bleiben die kleinen Gebäude auch auf hohen Stufen sinnvoll.
 
 > Mehrfeld-Gebäude setzen eine Mehrfeld-Mechanik im Grid voraus, die es im Code noch nicht gibt. Ein erster Versuch (HousingT3 2 × 2, HousingT5 3 × 3) wurde eingebaut und wieder zurückgenommen (Commits `4d3f9e1`, `eb1122d`).
 
@@ -79,13 +79,13 @@ Jede neue Silhouette soll eine Grundform tragen, die sich von den anderen unters
 | **ElevatedPad** | aufgeständerte Plattform auf Pfeilern, negativer Raum darunter | Beton-Grau `#70808A` + Lande-Amber `#FFCC00` |
 | **TwinPylon Gate** | zwei Pylone mit Energiefeld dazwischen, Tor-Form mit bilateraler Symmetrie | Tiefseeblau `#182040` + Violett-Blau `#7744FF` |
 
-### 3.3 Zuordnung zu Forschungslevel und Größe
+### 3.3 Zuordnung zu Forschungsstufe und Größe
 
-Level meint das Forschungslevel im Zweig Industrie (siehe 3.2).
+Stufe meint die Forschungsstufe im Zweig Industrie (siehe 3.2).
 
 **Werft**
 
-| Level | Felder | Konzept | Beschreibung |
+| Stufe | Felder | Konzept | Beschreibung |
 |---|---|---|---|
 | 1 | 1 | ScaffoldYard | Gittergerüst-Turm, manuell, Orange-Akzente |
 | 2 | 1 | AssemblyBot Hub | Block-Stil, ein mechanischer Arm auf dem Dach |
@@ -99,7 +99,7 @@ Level meint das Forschungslevel im Zweig Industrie (siehe 3.2).
 
 **Raumhafen**
 
-| Level | Felder | Konzept | Beschreibung |
+| Stufe | Felder | Konzept | Beschreibung |
 |---|---|---|---|
 | 1 | 1 | ElevatedPad | Stelzenplattform, Amber-Baken |
 | 2 | 1 | TransitBeacon | Turm mit rotierendem Leuchtring (Leuchtturm) |
@@ -114,7 +114,7 @@ Level meint das Forschungslevel im Zweig Industrie (siehe 3.2).
 ### 3.4 Begründungen
 
 - **ScaffoldYard als erste Werft:** klein und improvisiert, passt zum Einstieg. Auch große Werften brauchen später solche Zulieferer.
-- **MagRail Slip als 4-Feld-Gebäude auf Level 4:** Die Startschiene braucht Platz und ist Mittel- bis Hochtechnologie.
+- **MagRail Slip als 4-Feld-Gebäude auf Stufe 4:** Die Startschiene braucht Platz und ist Mittel- bis Hochtechnologie.
 - **HeavyFab als 9-Feld-Gebäude erweitert:** „Zwei Blöcke und zwei Ausleger“ wären für neun Felder zu dünn. Daher drei Trockendocks mit gemeinsamem Kranträgersystem.
 - **TwinPylon Gate als 9-Feld-Gebäude:** die stärkste, ikonischste Silhouette, sie braucht Platz.
 - **OrbitSlipway (offener Rahmen):** schließt eine Lücke im Formenvokabular. Turm, Block, Diagonale, Kuppel, Stelzen und Tor waren vergeben, ein offener Rahmen fehlte.
