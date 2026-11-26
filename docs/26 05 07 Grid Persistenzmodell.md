@@ -1,13 +1,6 @@
 # Grid-Persistenzmodell
 
-> **Ist-Stand (Nov. 2026):** Das Entity-Framework-Modell unten stammt aus dem C#/.NET-Backend, das am 29.05.2026 nach TypeScript portiert wurde.
-> Heute gilt:
-> - `GameState.buildings` ist eine Liste von Gebäuden mit `x`/`y` (siehe `src/shared/models`). Ein Runtime-2D-Array gibt es nicht mehr.
-> - Singleplayer: der ganze `GameState` liegt als JSON im `localStorage` des Browsers.
-> - Multiplayer (vorbereitet): Tabelle `games` mit dem `GameState` als `jsonb`-Spalte (Drizzle, `src/backend/persistence`).
-> - „Ein Gebäude pro Zelle“ prüft die Engine beim Bauen (`placeBuilding`), nicht die Datenbank.
->
-> Der Rest dieses Dokuments ist der historische Entwurf.
+> **Historischer Entwurf.** Das Entity-Framework-Modell unten stammt aus dem C#/.NET-Backend, das am 29.05.2026 nach TypeScript portiert wurde. Wie Grid und Spielstand heute abgebildet und gespeichert werden, beschreibt das [Datenmodell](26%2005%2002%20Datenmodell.md) (Abschnitte Grid und Persistenz).
 
 ## Fachliches Modell
 Der `GameState` enthält fachlich ein zweidimensionales Grid:
