@@ -2,6 +2,9 @@
 
 ## Workflow-Regeln (immer einhalten)
 
+Die Regeln beschreiben, was passieren soll, nicht mit welchem Werkzeug. Claude nutzt jeweils
+das Werkzeug, das die aktuelle Umgebung dafür anbietet (Claude-Code-Sitzung oder Projekt-Thread).
+
 ### 1. Direkt implementieren – Plan nur bei echtem Bedarf
 Standardmäßig direkt implementieren, kurz erklären, Diff spricht für sich.
 
@@ -65,12 +68,12 @@ alles in einem Durchgang, ohne weitere Aufgabe danach.
 **Kurzbefehl „zbild":** Schreibt der User `zbild` gefolgt von einem Hinweis, welches Bild
 er sehen möchte (z.B. `zbild industry_t2` oder `zbild housing alt`), das passende SVG aus
 `src/frontend/app/src/assets/buildings/` ermitteln, mit cairosvg in ein PNG konvertieren
-(scale=2) und direkt per `SendUserFile` in den Chat schicken. Kein Download-Link, sondern
-die PNG-Datei selbst. Ablauf:
+(scale=2) und die PNG-Datei selbst als Datei in den Chat schicken, keinen Download-Link. Ablauf:
 ```bash
 python3 -c "import cairosvg; cairosvg.svg2png(url='<pfad>.svg', write_to='/tmp/zbild.png', scale=2)"
 ```
-Dann `SendUserFile(["/tmp/zbild.png"])`. Mehrere Bilder gleichzeitig sind möglich.
+Dann die PNG-Datei in den Chat schicken. Mehrere Bilder gleichzeitig sind möglich. In Projekt-Threads
+den Zielpfad unter `/mnt/project-files/` wählen, nur von dort lassen sich Dateien anhängen.
 
 ### 4. Versionsverwaltung
 
@@ -90,7 +93,7 @@ grep "APP_VERSION" src/frontend/app/src/version.ts
 grep "APP_VERSION" src/backend/app/src/version.ts
 ```
 - Branch **strikt größer** als main → kein Handlungsbedarf.
-- Branch **gleich** main → sofort per `AskUserQuestion` fragen: **Patch** oder **Minor**?
+- Branch **gleich** main → sofort als Auswahlfrage mit Antwortknöpfen fragen: **Patch** oder **Minor**?
   Option „Nein" entfällt. Mindest-Zielversion im Fragetext nennen
   (Beispiele: Branch `0.0.16`, main `0.0.16` → Minimum `0.0.17`;
   Branch `0.0.17`, main `0.1.0` → Minimum `0.1.1`).
@@ -274,5 +277,5 @@ Reihenfolge am Aufgabenende:
 5. Versionscheck gemäß Regel 4 ausführen.
 6. **SVG-Vorschau:** Falls die Aufgabe eine oder mehrere SVG-Dateien unter
    `src/frontend/app/src/assets/buildings/` verändert hat, jede geänderte SVG
-   automatisch mit cairosvg (scale=2) in PNG umwandeln und per `SendUserFile` in den
-   Chat schicken – ohne dass der User danach fragen muss.
+   automatisch mit cairosvg (scale=2) in PNG umwandeln und als Datei in den Chat
+   schicken – ohne dass der User danach fragen muss.
